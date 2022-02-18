@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+<context:property-placeholder location="/config/*.properties" />
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+
+	<!-- 우리가 만든 필터 등록은 여기에 등록해야됨 <bean id="myFilter" class="com.kh.app.filter.MyFilter"></bean> -->
+
+
+	<!-- database -->
+
+
+	<!-- spring jdbc > dataSource -->
+
+
+
+	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
+
+		<property value="${spring.datasource.driverClassName}" name="driverClassName" />
+
+		<property value="${spring.datasource.url}" name="url" />
+
+		<property value="${spring.datasource.username}" name="username" />
+
+		<property value="${spring.datasource.password}" name="password" />
+
+	</bean>
+
+	<!-- commons-dbcp2 > dbcp -->
+
+
+
+	<bean class="org.apache.commons.dbcp2.BasicDataSource" id="dbcpSource">
+
+		<property value="${spring.datasource.driverClassName}" name="driverClassName" />
+
+		<property value="${spring.datasource.url}" name="url" />
+
+		<property value="${spring.datasource.username}" name="username" />
+
+		<property value="${spring.datasource.password}" name="password" />
+
+		<property value="20" name="maxTotal" />
+
+		<property value="10" name="maxIdle" />
+
+		<property value="3000" name="maxWaitMillis" />
+
+	</bean>
+
+	<!-- spring jdbc > jdbcTemplate -->
+
+
+
+	<bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
+
+		<property name="dataSource" ref="dataSource" />
+
+	</bean>
+
+	<!-- SqlSessionFactoryBean -->
+
+
+
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+
+		<property name="dataSource" ref="dbcpSource" />
+
+		<property value="classpath:/mybatis/mybatis-config.xml" name="configLocation" />
+
+		<property value="classpath:/mybatis/**/*-mapper.xml" name="mapperLocations" />
+
+	</bean>
+
+	<!-- SqlSessionTemplate -->
+
+
+
+	<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSessionTemplate">
+
+		<constructor-arg ref="sqlSessionFactory" index="0" />
+
+	</bean>
+
+	<!-- BCryptPasswordEncoder -->
+
+
+	<bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" id="passwordEncoder"> </bean>
+
+	<!-- file -->
+
+
+
+	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+
+		<property value="UTF-8" name="defaultEncoding" />
+
+		<property value="10000000" name="maxUploadSize" />
+
+		<property value="5000000" name="maxUploadSizePerFile" />
+
+	</bean>
+
+</beans>
