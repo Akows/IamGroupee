@@ -187,6 +187,25 @@
 		    <version>1.18.22</version>
 		    <scope>provided</scope>
 		</dependency>
+		
+		<!-- oracle wallet -->
+		<dependency>
+       		<groupId>com.oracle.database.security</groupId>
+    		<artifactId>oraclepki</artifactId>
+    		<version>21.4.0.0.1</version>
+		</dependency>
+       
+        <dependency>
+	    	<groupId>com.oracle.database.security</groupId>
+	    	<artifactId>osdt_cert</artifactId>
+	    	<version>21.4.0.0.1</version>
+    	</dependency>
+        
+        <dependency>
+    		<groupId>com.oracle.database.security</groupId>
+    		<artifactId>osdt_core</artifactId>
+    		<version>21.4.0.0.1</version>
+		</dependency>
 
 	</dependencies>
     <build>
