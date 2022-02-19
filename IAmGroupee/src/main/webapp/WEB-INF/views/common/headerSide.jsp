@@ -11,9 +11,9 @@
   <title>I am groupe Dashboard</title>
   
   <!-- Favicon -->
-  <link rel="shortcut icon" href="resources/img/svg/looo.png" type="image/x-icon">
+  <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
   <!-- Custom styles -->
-  <link rel="stylesheet" href="resources/css/style.min.css">
+  <link rel="stylesheet" href="${root}/resources/css/style.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
@@ -41,9 +41,6 @@
         <div class="sidebar-body">
             <ul class="sidebar-body-menu">
                 <li>
-                    <a class="active" href="http://127.0.0.1:8989/iag/main" style="font-size: 17px; font-weight: bolder;"><span class="icon home" aria-hidden="true"></span>I am groupe</a>
-                </li>
-                <li>
                     <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
                         <span class="icon document" aria-hidden="true"></span>Attendance
                         <span class="category__btn transparent-btn" title="Open list">
@@ -69,9 +66,21 @@
                         </span>
                     </a>
                     <ul class="cat-sub-menu">
-                        <li>
-                            <a href="categories.html">All categories</a>
-                        </li>
+                      <li>
+                          <a href="${root}/ea/signup">기안 신청</a>
+                      </li>
+                      <li>
+                          <a href="${root}/ea/signuplist">기안문서 조회</a>
+                      </li>
+                      <li>
+                          <a href="${root}/ea/apprlist">결재문서 조회</a>
+                      </li>
+                      <li>
+                          <a href="${root}/ea/reflist">참조문서 조회</a>
+                      </li>
+                      <li>
+                          <a href="${root}/ea/entirelist">전체문서 조회</a>
+                      </li>
                     </ul>
                 </li>
                 <li>
@@ -121,10 +130,10 @@
                   </a>
                   <ul class="cat-sub-menu">
                       <li>
-                          <a href="extention-01.html">Extentions-01</a>
+                          <a href="${root}/sch/schRegi">일정 등록</a>
                       </li>
                       <li>
-                          <a href="extention-02.html">Extentions-02</a>
+                          <a href="${root}/sch/mySch">내 캘린더</a>
                       </li>
                   </ul>
               </li>
@@ -138,10 +147,10 @@
                   </a>
                   <ul class="cat-sub-menu">
                       <li>
-                          <a href="extention-01.html">Extentions-01</a>
+                          <a href="${root}/prj/prjMain">내 프로젝트</a>
                       </li>
                       <li>
-                          <a href="extention-02.html">Extentions-02</a>
+                          <a href="${root}/prj/prjDept">부서별 프로젝트</a>
                       </li>
                   </ul>
               </li>
@@ -155,10 +164,10 @@
                   </a>
                   <ul class="cat-sub-menu">
                       <li>
-                          <a href="extention-01.html">Extentions-01</a>
+                          <a href="${root}/resv/resvMain">내 예약</a>
                       </li>
                       <li>
-                          <a href="extention-02.html">Extentions-02</a>
+                          <a href="${root}/resv/resvAsset">부서별 프로젝트</a>
                       </li>
                   </ul>
               </li>
@@ -190,6 +199,26 @@
               </li>
               <li>
                   <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
+                      <span class="icon paper" aria-hidden="true"></span>Board
+                      <span class="category__btn transparent-btn" title="Open list">
+                          <span class="sr-only">Open list</span>
+                          <span class="icon arrow-down" aria-hidden="true"></span>
+                      </span>
+                  </a>
+                  <ul class="cat-sub-menu" style="font-size: 20px; important!">
+                      <li>
+                          <a href="${root}/board/notice">공지사항</a>
+                      </li>
+                      <li>
+                          <a href="${root}/boarddeptBoard">부서 게시판</a>
+                      </li>
+                      <li>
+                          <a href="${root}/board/freeBoard">자유 게시판</a>
+                      </li>
+                  </ul>
+              </li>
+              <li>
+                  <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
                       <span class="icon paper" aria-hidden="true"></span>Management
                       <span class="category__btn transparent-btn" title="Open list">
                           <span class="sr-only">Open list</span>
@@ -210,13 +239,13 @@
                           <a href="${root}/admin/leave/main">연차</a>
                       </li>
                       <li>
-                          <a href="${root}/admin/leave/main">전자결재</a>
+                          <a href="${root}/admin/ea/main">전자결재</a>
                       </li>
                       <li>
-                          <a href="${root}/admin/leave/main">예약</a>
+                          <a href="${root}/admin/resv/main">예약</a>
                       </li>
                       <li>
-                          <a href=${root}/admin/leave/main">게시판</a>
+                          <a href="${root}/admin/board/main">게시판</a>
                       </li>
                   </ul>
               </li>
@@ -344,9 +373,9 @@
 	
 
 	<!-- Icons library -->
-	<script src="resources/plugins/feather.min.js"></script>
+	<script src="${root}/resources/plugins/feather.min.js"></script>
 	
 	<!-- Custom scripts -->
-	<script src="resources/js/script.js"></script>
+	<script src="${root}/resources/js/script.js"></script>
 </body>
 </html>

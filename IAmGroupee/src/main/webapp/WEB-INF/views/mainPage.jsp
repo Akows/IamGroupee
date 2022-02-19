@@ -9,21 +9,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>I am groupe Dashboard</title>
-</head>
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="${root}/resources/plugins/fontawesome-free/css/all.min.css">
-  <!-- SweetAlert2 -->
-  <link rel="stylesheet" href="${root}/resources/plugins/sweetalert2/sweetalert2.min.css">
-  <!-- Toastr -->
-  <link rel="stylesheet" href="${root}/resources/plugins/toastr/toastr.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
-  <!-- Custom styles -->
-  <link rel="stylesheet" href="${root}/resources/css/style.min.css">
   <!-- Favicon -->
   <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
+</head>
 <body>
 
     <%@ include file="common/headerSide.jsp" %>
@@ -185,20 +175,8 @@
     <%@ include file="common/footer.jsp" %>
   </div>
 </div>
-
-	<!-- Icons library -->
-	<script src="${root}/resources/plugins/feather.min.js"></script>
-	
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
-	<!-- jQuery -->
-	<script src="${root}/resources/plugins/jquery/jquery.min.js"></script>
-	<!-- Bootstrap 4 -->
-	<script src="${root}/resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- AdminLTE App -->
-	<script src="${root}/resources/dist/js/adminlte.min.js"></script>
-	<!-- AdminLTE for demo purposes -->
-	<script src="${root}/resources/dist/js/demo.js"></script>
 </body>
 
 </html>

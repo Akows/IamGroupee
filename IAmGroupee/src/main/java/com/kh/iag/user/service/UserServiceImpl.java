@@ -16,24 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private UserDao dao;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	@Override
-	public UserDto login(UserDto dto){
-		// DB에서 사원정보 조회
-		UserDto dbUser = dao.getUserByNo(dto);
-//		if (passwordEncoder.matches(dto.getPwd(), dbUser.getPwd())) {
-		if(dbUser.getPwd().equals(dto.getPwd())) {
-			//로그인 성공
-			return dbUser;
-		} else {
-			//로그인 실패
-			return null;
-		}
-	}
 
 }

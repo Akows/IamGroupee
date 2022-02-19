@@ -1,6 +1,7 @@
 package com.kh.iag.user.entity;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.Data;
 
@@ -30,6 +31,8 @@ public class UserDto {
 	private String boardRight;	
 	private String attendenceRight;	
 	private String salaryRight;	
+	private String sessionKey;	
+	private Timestamp sessionLimit;	
 }
 
 
