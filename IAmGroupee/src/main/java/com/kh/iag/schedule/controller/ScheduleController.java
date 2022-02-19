@@ -5,11 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("schedule")
+@RequestMapping("sch")
 public class ScheduleController {
 
-	@GetMapping("schMain")
+	// 내 캘린더 보여주기
+	@GetMapping("mySch")
 	public String schMain() {
-		return "schedule/schMain";
+		return "sch/mySch";
 	}
 }
