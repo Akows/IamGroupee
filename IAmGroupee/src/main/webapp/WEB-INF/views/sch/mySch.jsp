@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ScheduleMain Page</title>
+  <title>MySchedule Page</title>
   
   <c:set var="root" value="${pageContext.request.contextPath}"/>
   
@@ -130,15 +130,14 @@
             <article class="stat-cards-item">
               <div class="stat-cards-info">
                 <p class="stat-cards-info__num"></p>
-                  <pre>
-
-
-
-
-
-
-                    
-                  </pre>
+                  <table>
+                  	<thead>
+                  		<tr>일정</tr><br>
+                  		<tr>전체 일정</tr><br>
+                  		<tr>내가 등록한 일정</tr><br>
+                  		<tr>부서별 일정</tr>
+                  	</thead>
+                  </table>
               </div>
             </article>
           </div>
@@ -151,12 +150,8 @@
                 <p class="stat-cards-info__num"></p>
                 <pre>
 					
-					<div id='calendar'></div>
-
-
-
-
-                  
+					<div id='calendar'></div> 
+					          
                 </pre>
               </div>
             </article>
