@@ -29,9 +29,11 @@
         <p class="form-label" style="font-size: 17px;">Password</p>
         <input class="form-input" type="password" placeholder="Enter your password" required name="pwd">
       </label>
+      
+      <input type="checkbox"><i style="color: rgb(94, 94, 94); font-size: 14px; font-weight: 500;"> Save Number &nbsp; </i>
+      <input type="checkbox"><i style="color: rgb(94, 94, 94); font-size: 14px; font-weight: 500;"> Stay Signed in &nbsp; </i><br>
       <a class="link-info forget-link" href="##">Forgot your password?</a><br>
       <p style="color: red;">${msg}</p>
-      <br><br>
       <button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">Login</button>
     </form>
   </article>

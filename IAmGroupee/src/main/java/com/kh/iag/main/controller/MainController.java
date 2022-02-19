@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.kh.iag.login.service.LoginService;
 import com.kh.iag.user.entity.UserDto;
-import com.kh.iag.user.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MainController {
 	
 	@Autowired
-	private UserService service;
+	private LoginService service;
 	
 	// 로그인 화면
 	@GetMapping("login")
@@ -33,14 +33,17 @@ public class MainController {
 	public String home(UserDto dto, HttpSession session, HttpServletResponse response) throws Exception {
 		UserDto loginUser = service.login(dto);
 		
-		String cookieKey = Long.toString(loginUser.getUserNo());
-		String cookieValue = Long.toString(loginUser.getJobNo());
-		
+//		String cookieKey = Long.toString(loginUser.getUserNo());
+//		String cookieValue = Long.toString(loginUser.getJobNo());
 		if (loginUser != null) {
+			// 세션에 담기 전에 세션 초기화
+			if ( session.getAttribute("login") != null ){
+				session.removeAttribute("login"); 
+			}
 			//세션에 담기
 			session.setAttribute("loginUser",loginUser);
 			// 쿠키 생성
-			Cookie cookie = new Cookie(cookieKey, cookieValue);
+			Cookie cookie = new Cookie("loginCookie", session.getId());
 			cookie.setPath("/");
 			cookie.setMaxAge(60 * 60 * 24);
 			
@@ -58,9 +61,7 @@ public class MainController {
 		session.invalidate();
 		return "redirect:/login";
 	}
-	
-	
-
+	// 메인주소 입력 시
 	@GetMapping("main")
 	public String main(HttpSession session, HttpServletRequest req) {
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
@@ -71,6 +72,7 @@ public class MainController {
 			return "mainPage";
 		}
 	}
+	// 테스트용
 	@GetMapping("main2")
 	public String main2() {
 		
