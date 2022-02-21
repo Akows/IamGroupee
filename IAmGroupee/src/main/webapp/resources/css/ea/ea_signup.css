@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+
+.ea_wrapper {
+  width: 100%;
+  height: 85%;
+  position: relative;
+  overflow: scroll;
+}
+.ea_wrapper * {
+  box-sizing: border-box;
+}
+/* 전자결재 > 기안신청(양식선택) */
+.ea_signup_formselect_wrapper {
+  width: 90%;
+  height: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.ea_signup_formselect_title {
+  height: 10%;
+  width: 100%;
+  position: relative;
+}
+.ea_signup_formselect_title > span {
+  background: #4081e4;
+  color: #fff;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  position: absolute;
+  bottom: 0;
+}
+.ea_signup_formselect_contents {
+  height: 80%;
+  width: 100%;
+  border: 3px solid gainsboro;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+  position: relative;
+}
+.ea_signup_formselect_contents > div:nth-child(1),
+.ea_signup_formselect_contents > div:nth-child(2),
+.ea_signup_formselect_contents > div:nth-child(3) {
+  width: 30%;
+  height: 100%;
+  float: left;
+  transform: translate(5%, 10%);
+}
+.ea_signup_formselect_contents > div:nth-child(1) > div > span,
+.ea_signup_formselect_contents > div:nth-child(2) > div > span,
+.ea_signup_formselect_contents > div:nth-child(3) > div > span {
+  font-size: 20px;
+  font-weight: 700;
+}
+.ea_signup_formselect_contents > div:nth-child(1) > select,
+.ea_signup_formselect_contents > div:nth-child(2) > select {
+  width: 60%;
+}
+.ea_signup_formselect_contents > div:nth-child(3) {
+  width: 40%;
+}
+.ea_signup_formselect_contents > div:nth-child(3) > article {
+  width: 90%;
+  height: 65%;
+  background: #fff;
+  border: 1px solid #262626;
+  overflow: scroll;
+}
+.ea_signup_formselect_contents_btn {
+  height: 10%;
+  width: 100%;
+}
+.ea_signup_formselect_contents_btn input {
+  z-index: 1000;
+  position: absolute;
+  background: #4081e4;
+  color: #fff;
+  right: 0;
+  transform: translate(-50px, -80px);
+}
+/* 전자결재 > 기안신청(양식선택) */
+.ea_signup_write_wrapper {
+  width: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.ea_signup_write_title {
+  height: 65px;
+  width: 100%;
+  position: relative;
+}
+.ea_signup_write_title > span {
+  background: #4081e4;
+  color: #fff;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  position: absolute;
+  bottom: 0;
+}
+.ea_signup_write_contents {
+  width: 100%;
+  border: 3px solid gainsboro;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+  position: relative;
+}
+.ea_signup_write_contents > form > ul > li > a {
+  display: block;
+  padding: 10px;
+  font-weight: 600;
+  font-size: 15px;
+}
+.ea_signup_write_contents > form > ul > li > a > button {
+  border: 1px solid #4081e4;
+  background: #fff;
+  color: #4081e4;
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-bottom: 2.5px;
+  margin-left: 7px;
+  font-weight: 600;
+}
+.ea_signup_write_contents input {
+  background: #fff;
+}
+.ea_signup_write_contents > form > ul > li > :nth-child(2) {
+  margin-left: 10px;
+}
