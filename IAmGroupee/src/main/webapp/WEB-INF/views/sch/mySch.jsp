@@ -7,14 +7,16 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MySchedule Page</title>
+  <title>ScheduleMain Page</title>
   
   <c:set var="root" value="${pageContext.request.contextPath}"/>
   
   <!-- Favicon -->
-  <link rel="shortcut icon" href="../resources/img/svg/looo.png" type="image/x-icon">
+  <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
   <!-- Custom styles -->
-  <link rel="stylesheet" href="../resources/css/style.min.css">
+  <link rel="stylesheet" href="${root}/resources/css/style.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
   <link href='${root}/resources/css/schedule/core_main.css' rel='stylesheet' />
   <link href='${root}/resources/css/schedule/daygrid_main.css' rel='stylesheet' />
   <script src='${root}/resources/js/schedule/core_main.js'></script>
@@ -130,14 +132,15 @@
             <article class="stat-cards-item">
               <div class="stat-cards-info">
                 <p class="stat-cards-info__num"></p>
-                  <table>
-                  	<thead>
-                  		<tr>일정</tr><br>
-                  		<tr>전체 일정</tr><br>
-                  		<tr>내가 등록한 일정</tr><br>
-                  		<tr>부서별 일정</tr>
-                  	</thead>
-                  </table>
+                  <pre>
+
+
+
+
+
+
+                    
+                  </pre>
               </div>
             </article>
           </div>
@@ -150,8 +153,12 @@
                 <p class="stat-cards-info__num"></p>
                 <pre>
 					
-					<div id='calendar'></div> 
-					          
+					<div id='calendar'></div>
+
+
+
+
+                  
                 </pre>
               </div>
             </article>
@@ -171,9 +178,6 @@
     <%@ include file="/WEB-INF/views/common/footer.jsp" %>
   </div>
 </div>
-
-<!-- Icons library -->
-<script src="../resources/plugins/feather.min.js"></script>
 
 <!-- Custom scripts -->
 <script src="../resources/js/script.js"></script>
