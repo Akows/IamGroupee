@@ -32,10 +32,11 @@
             <article class="stat-cards-item">
               <div class="stat-cards-info">
                 <p class="stat-cards-info__num">사원 연차 관리</p>
+                <a href="${root}/admin/leave/usAlvAD">링크</a>
                   <pre>
 
 
-
+		
 
 
 
@@ -47,6 +48,7 @@
             <article class="stat-cards-item">
               <div class="stat-cards-info">
                 <p class="stat-cards-info__num">휴가 발생 관리</p>
+                <a href="${root}/admin/leave/lvModiAD">링크</a>
                   <pre>
 
 
@@ -67,6 +69,7 @@
             <article class="stat-cards-item">
               <div class="stat-cards-info">
                 <p class="stat-cards-info__num">연차 및 휴가 정보 게시판 관리</p>
+                <a href="${root}/admin/leave/lvInfoAD">링크</a>
                   <pre>
 
 
@@ -82,6 +85,7 @@
             <article class="stat-cards-item">
               <div class="stat-cards-info">
                 <p class="stat-cards-info__num">연차 사용 촉구서 관리</p>
+                <a href="${root}/admin/leave/alvIntendAD">링크</a>
                   <pre>
 
 
@@ -101,6 +105,10 @@
   </div>
 </div>
 
+
+	<!-- Custom scripts -->
+	<script src="${root}/resources/js/script.js"></script>
+
 <script type="text/javascript">
 	let today = new Date();
 	let year = today.getFullYear(); 
@@ -110,8 +118,6 @@
 	document.getElementById("currentDate").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
 </script>
 
-	<!-- Custom scripts -->
-	<script src="${root}/resources/js/script.js"></script>
 </body>
 
 </html>

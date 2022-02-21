@@ -30,16 +30,64 @@
         <br>
         
         <div class="row stat-cards">
-          <div class="col-md-6 col-xl-12">
-            <article class="stat-cards-item">
-              <div class="stat-cards-info">
-                <p class="stat-cards-info__num">사원 정보 / 연차 개수</p>
-                <button type="button" class="btn btn-block btn-info">Info</button>
-                  <pre>
-
-
-                  </pre>
-              </div>
+          <div class="col-md-6 col-xl-12" style="width: 20%; height: 150px;">
+            <article class="stat-cards-item" style="text-align: center; margin: auto;">
+              	<div class="border-right" style="width: 20%; height: 100%; float: left;">
+              		<span>
+              		프사
+              		</span>
+              		<span>
+              		이름정보
+              		</span>
+              	</div>
+              	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
+              		<span>
+              		발생연차
+              		</span> <br>
+              		<span>
+              		num
+              		</span>
+              	</div>
+              	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
+              		<span>
+              		발생월차
+              		</span> <br>
+              		<span>
+              		num
+              		</span>
+              	</div>
+              	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
+              		<span>
+              		조정연차
+              		</span> <br>
+              		<span>
+              		num
+              		</span>
+              	</div>
+              	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
+              		<span>
+              		총연차
+              		</span> <br>
+              		<span>
+              		num
+              		</span>
+              	</div>
+              	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
+              		<span>
+              		사용연차
+              		</span> <br>
+              		<span>
+              		num
+              		</span>
+              	</div>
+              	<div style="width: 13%; height: 100%; float: left; margin-left: 4px;">
+              		<span>
+              		남은연차
+              		</span> <br>
+              		<span>
+              		num
+              		</span>
+              	</div>          
             </article>
           </div>
         </div>
@@ -54,8 +102,8 @@
 			</div>
         	<div style="width: 45%; height: 100%; float: left;"></div>
         	<div style="width: 30%; height: 100%; float: left; text-align: right;">
-        		<input type="button" value="연차 신청" style="background-color: rgb(0, 88, 232); margin-right: 6px; font-weight: bold; color: white;">
-        		<input type="button" value="휴가 신청" style="background-color: rgb(0, 88, 232); font-weight: bold; color: white;">
+        		<input type="button" value="연차 신청" style="background-color: rgb(14, 104, 225); margin-right: 6px; font-weight: bold; color: white;">
+        		<input type="button" value="휴가 신청" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white;">
         	</div>
         </div>
        
@@ -65,9 +113,10 @@
 			</div>
         </div>
         
-        <div class="row stat-cards">
+        <div class="row stat-cards" style="height: 30%;">
           <div class="col-md-6 col-xl-12">
             <article class="stat-cards-item">
+            
               <div class="stat-cards-info">
                 <table class="table">
 				  <thead>
@@ -85,20 +134,10 @@
 				      <td>Otto</td>
 				      <td>@mdo</td>
 				    </tr>
-				    <tr>
-				      <th scope="row">2</th>
-				      <td>Jacob</td>
-				      <td>Thornton</td>
-				      <td>@fat</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">3</th>
-				      <td colspan="2">Larry the Bird</td>
-				      <td>@twitter</td>
-				    </tr>
 				  </tbody>
 				</table>
               </div>
+              
             </article>
           </div>
         </div>
@@ -111,17 +150,32 @@
 			</div>
         </div>
         
-        <div class="row stat-cards">
+        <div class="row stat-cards" style="height: 30%;">
           <div class="col-md-6 col-xl-12">
             <article class="stat-cards-item">
+            
               <div class="stat-cards-info">
-                <p class="stat-cards-info__num">생성내역목록</p>
-                  <pre>
-
-
-
-                  </pre>
+                <table class="table">
+				  <thead>
+				    <tr>
+				      <th scope="col">#</th>
+				      <th scope="col">First</th>
+				      <th scope="col">Last</th>
+				      <th scope="col">Handle</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <th scope="row">1</th>
+				      <td>Mark</td>
+				      <td>Otto</td>
+				      <td>@mdo</td>
+				    </tr>
+				  </tbody>
+				</table>
               </div>
+              
+            
             </article>
           </div>
         </div>
@@ -129,8 +183,6 @@
     </main>
 
     <%@ include file="/WEB-INF/views/common/footer.jsp" %>
-  </div>
-</div>
 
 <script type="text/javascript">
 	let today = new Date();

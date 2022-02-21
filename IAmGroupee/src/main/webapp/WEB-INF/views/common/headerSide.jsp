@@ -9,7 +9,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>I am groupe Dashboard</title>
-  
+  <!-- Theme style -->
+  <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
   <!-- Favicon -->
   <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
   <!-- Custom styles -->
@@ -25,13 +26,12 @@
   <aside class="sidebar">
     <div class="sidebar-start">
         <div class="sidebar-head">
-            <a href="http://127.0.0.1:8989/iag/main" class="logo-wrapper" title="Home">
+            <a href="${root}/main" class="logo-wrapper" title="Home">
                 <span class="sr-only">Home</span>
                 <span class="icon logo" aria-hidden="true"></span>
                 <div class="logo-text">
                     <span class="logo-title"></span>
                 </div>
-
             </a>
             <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
                 <span class="sr-only">Toggle menu</span>
@@ -50,15 +50,18 @@
                     </a>
                     <ul class="cat-sub-menu">
                         <li>
-                            <a href="posts.html">All Posts</a>
+                            <a href="${root}/attend/attendmain">근태 관리</a>
                         </li>
                         <li>
-                            <a href="new-post.html">Add new post</a>
+                            <a href="${root}/attend/attendview">근로 현황 조회</a>
+                        </li>
+                        <li>
+                            <a href="${root}/attend/attendmanage">근로 현황 관리</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a class="show-cat-btn" href="##" style="font-size: 15px; font-weight: bolder;">
+                    <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
                         <span class="icon folder" aria-hidden="true"></span>Electronic Approval
                         <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -93,10 +96,7 @@
                     </a>
                     <ul class="cat-sub-menu">
                         <li>
-                            <a href="media-01.html">Media-01</a>
-                        </li>
-                        <li>
-                            <a href="media-02.html">Media-02</a>
+                            <a href="${root}/ps/viewuser">임직원 상세보기</a>
                         </li>
                     </ul>
                 </li>
@@ -110,10 +110,10 @@
                     </a>
                     <ul class="cat-sub-menu">
                         <li>
-                            <a href="pages.html">All pages</a>
+                            <a href="${root}/sal/salmain">급여 메인</a>
                         </li>
                         <li>
-                            <a href="new-page.html">Add new page</a>
+                            <a href="${root}/sal/salview">급여 조회</a>
                         </li>
                     </ul>
                 </li>
@@ -167,7 +167,7 @@
                           <a href="${root}/resv/resvMain">내 예약</a>
                       </li>
                       <li>
-                          <a href="${root}/resv/resvAsset">부서별 프로젝트</a>
+                          <a href="${root}/resv/resvAsset">자산별 예약현황</a>
                       </li>
                   </ul>
               </li>
@@ -181,19 +181,16 @@
                   </a>
                   <ul class="cat-sub-menu" style="font-size: 20px; important!">
                       <li>
-                          <a href="${root}/leave/leaveMain">연차</a>
+                          <a href="${root}/leave/leaveMain">연차 메인</a>
                       </li>
                       <li>
-                          <a href="extention-02.html">연차 사용대장</a>
+                          <a href="${root}/leave/lvUsedList">연차 및 휴무 사용대장</a>
                       </li>
                       <li>
-                          <a href="extention-02.html">휴가 사용대장</a>
+                          <a href="${root}/leave/lvInfo">휴무 정보</a>
                       </li>
                       <li>
-                          <a href="extention-02.html">휴무 정보 게시판</a>
-                      </li>
-                      <li>
-                          <a href="extention-02.html">연차 정산</a>
+                          <a href="${root}/leave/alvCal">연차 정산</a>
                       </li>
                   </ul>
               </li>
@@ -227,13 +224,13 @@
                   </a>
                   <ul class="cat-sub-menu">
                       <li>
-                          <a href="${root}/admin/leave/main">인사</a>
+                          <a href="${root}/admin/ps/main">인사</a>
                       </li>
                       <li>
-                          <a href="${root}/admin/leave/main">근태</a>
+                          <a href="${root}/admin/attend/main">근태</a>
                       </li>
                       <li>
-                          <a href="${root}/admin/leave/main">급여</a>
+                          <a href="${root}/admin/sal/main">급여</a>
                       </li>
                       <li>
                           <a href="${root}/admin/leave/main">연차</a>
@@ -259,10 +256,10 @@
                   </a>
                   <ul class="cat-sub-menu">
                       <li>
-                          <a href="users-01.html">Users-01</a>
+                          <a href="${root}/my/addrbook">주소록</a>
                       </li>
                       <li>
-                          <a href="users-02.html">Users-02</a>
+                          <a href="${root}/my/modiuser">개인정보 수정</a>
                       </li>
                   </ul>
               </li>

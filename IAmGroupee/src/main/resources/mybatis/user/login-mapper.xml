@@ -4,10 +4,21 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="login">
-  	
+  
     <select id="getUserByNo" parameterType="user" resultType="user">
     	SELECT * FROM IAG_USER 
     	WHERE USER_NO = #{userNo}
+    </select>
+    
+    <update id="savedLoginCookie">
+    	UPDATE IAG_USER SET
+    	SESSIONKEY = #{sessionKey}, SESSIONLIMIT = #{sessionLimit}
+    	WHERE USER_NO = #{userNo}
+    </update>
+    
+    <select id="checkUserBySsKey" resultType="user">
+    	SELECT * FROM IAG_USER 
+    	WHERE SESSIONKEY = #{sessionKey} AND SESSIONLIMIT > SYSDATE
     </select>
     
   </mapper>

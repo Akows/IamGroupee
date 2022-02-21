@@ -26,32 +26,44 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/admin/leave/**"/>  <!-- http://127.0.0.1:8989/iag/admin/각자 맡은 도메인/~~~~ -->
+			<beans:bean class="com.kh.iag.interceptor.LeaveInterceptor"></beans:bean>
+		</interceptor>
+		<interceptor>
+			<mapping path="/admin/ea/**"/>
+			<beans:bean class="com.kh.iag.interceptor.EaInterceptor"></beans:bean>
+		</interceptor>
+		<interceptor>
+			<mapping path="/admin/personnel/**"/>
 			<beans:bean class="com.kh.iag.interceptor.UserInterceptor"></beans:bean>
 		</interceptor>
 		<interceptor>
-			<mapping path="/admin/ea/**"/>  <!-- http://127.0.0.1:8989/iag/admin/각자 맡은 도메인/~~~~ -->
-			<beans:bean class="com.kh.iag.interceptor.UserInterceptor"></beans:bean>
+			<mapping path="/admin/salary/**"/>
+			<beans:bean class="com.kh.iag.interceptor.SalInterceptor"></beans:bean>
 		</interceptor>
 		<interceptor>
-			<mapping path="/admin/personnel/**"/>  <!-- http://127.0.0.1:8989/iag/admin/각자 맡은 도메인/~~~~ -->
-			<beans:bean class="com.kh.iag.interceptor.UserInterceptor"></beans:bean>
+			<mapping path="/admin/attendance/**"/>
+			<beans:bean class="com.kh.iag.interceptor.AttInterceptor"></beans:bean>
 		</interceptor>
 		<interceptor>
-			<mapping path="/admin/salary/**"/>  <!-- http://127.0.0.1:8989/iag/admin/각자 맡은 도메인/~~~~ -->
-			<beans:bean class="com.kh.iag.interceptor.UserInterceptor"></beans:bean>
+			<mapping path="/admin/reservations/**"/>
+			<beans:bean class="com.kh.iag.interceptor.ResvInterceptor"></beans:bean>
 		</interceptor>
 		<interceptor>
-			<mapping path="/admin/attendance/**"/>  <!-- http://127.0.0.1:8989/iag/admin/각자 맡은 도메인/~~~~ -->
-			<beans:bean class="com.kh.iag.interceptor.UserInterceptor"></beans:bean>
+			<mapping path="/admin/board/**"/>
+			<beans:bean class="com.kh.iag.interceptor.BoardInterceptor"></beans:bean>
 		</interceptor>
+		
 		<interceptor>
-			<mapping path="/admin/reservations/**"/>  <!-- http://127.0.0.1:8989/iag/admin/각자 맡은 도메인/~~~~ -->
-			<beans:bean class="com.kh.iag.interceptor.UserInterceptor"></beans:bean>
+			<mapping path="/**/**/**/*"/>
+			<exclude-mapping path="/login"/>	
+			<beans:bean class="com.kh.iag.interceptor.LoginInterceptor"/>		
 		</interceptor>
+		
 		<interceptor>
-			<mapping path="/admin/board/**"/>  <!-- http://127.0.0.1:8989/iag/admin/각자 맡은 도메인/~~~~ -->
-			<beans:bean class="com.kh.iag.interceptor.UserInterceptor"></beans:bean>
+			<mapping path="/login"/>	
+			<beans:bean class="com.kh.iag.interceptor.CookieInterceptor"/>		
 		</interceptor>
+		
 	</interceptors>
 	
 	
