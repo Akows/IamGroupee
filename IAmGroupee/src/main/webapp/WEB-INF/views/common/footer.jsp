@@ -8,6 +8,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>I am groupe Dashboard</title>
+  <link href='${root}/resources/css/schedule/core_main.css' rel='stylesheet' />
+  <link href='${root}/resources/css/schedule/daygrid_main.css' rel='stylesheet' />
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -35,6 +37,9 @@
     </ul>
   </div>
 </footer>
+  <script src='${root}/resources/js/schedule/core_main.js'></script>
+  <script src='${root}/resources/js/schedule/interaction_main.js'></script>
+  <script src='${root}/resources/js/schedule/daygrid_main.js'></script>
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
 	<!-- Icons library -->

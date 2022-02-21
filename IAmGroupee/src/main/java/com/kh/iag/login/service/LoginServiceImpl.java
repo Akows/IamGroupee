@@ -1,5 +1,7 @@
 package com.kh.iag.login.service;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class LoginServiceImpl implements LoginService {
 	@Override // 로그인
 	public UserDto login(UserDto dto) throws Exception{
 		UserDto dbUser = dao.getUserByNo(dto);
+
 //		if (passwordEncoder.matches(dto.getPwd(), dbUser.getPwd())) {  추후에 암호화로 돌릴 예정
 		if(dbUser.getPwd().equals(dto.getPwd())) {
 			// 세션아이디와 유효시간 DB에 저장
@@ -32,6 +35,16 @@ public class LoginServiceImpl implements LoginService {
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public int savedLoginCookie(long userNo, String sessionId, Date sessionLimit) throws Exception {
+		return dao.savedLoginCookie(userNo, sessionId, sessionLimit);
+	}
+
+	@Override
+	public UserDto checkUserBySsKey(String sessionKey) throws Exception {
+		return dao.checkUserBySsKey(sessionKey);
 	}
 	
 }

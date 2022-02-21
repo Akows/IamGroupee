@@ -14,20 +14,29 @@ import com.kh.iag.user.entity.UserDto;
 @Controller
 @RequestMapping("leave")
 public class LeaveController {
-
-	@GetMapping("leaveMain")
-	public String leaveMain(HttpServletRequest request, HttpServletResponse response) {
-		UserDto loginUser = (UserDto) request.getSession().getAttribute("loginUser");
-		String cookieKey = Long.toString(loginUser.getUserNo());
-		String cookieValue = Long.toString(loginUser.getJobNo());
-		
-		Cookie cookie = new Cookie(cookieKey, cookieValue);
-		cookie.setPath("/");
-		// 쿠키 삭제
-		cookie.setMaxAge(0);
-
-		response.addCookie(cookie);
-		
+//============================= 사용자, 관리자 메뉴 =============================	
+	@GetMapping("leaveMain")  // 연차 메인
+	public String leaveMain(HttpServletRequest request, HttpServletResponse response) {		
 		return "leave/leaveMain";
 	}
+	
+	@GetMapping("lvUsedList") // 연차 및 휴가 사용대장
+	public String lvUsedList() {
+		return "leave/lvUsedList";
+	}
+	
+	@GetMapping("alvCal") // 연차 정산
+	public String alvCal() {
+		return "leave/alvCal";
+	}
+
+//============================= 사용자 메뉴 =============================	
+	@GetMapping("lvInfo") // 사용자 휴무 정보 게시글
+	public String lvInfo() {
+		return "leave/leaveInfo";
+	}
+
+	
+	
+	
 }
