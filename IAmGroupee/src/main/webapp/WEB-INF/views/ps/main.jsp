@@ -1,0 +1,24 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>인사관리 메인페이지</title>
+</head>
+<body>
+ 	<%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
+
+    <!-- ! Main -->
+    <main class="main users chart-page" id="skip-target">
+     <div class="container">
+       
+      </div>
+    </main>
+
+    <%@ include file="/WEB-INF/views/common/footer.jsp" %>
+
+	<!-- Custom scripts -->
+	<script src="${root}/resources/js/script.js"></script>
+	</body>
+</html>
