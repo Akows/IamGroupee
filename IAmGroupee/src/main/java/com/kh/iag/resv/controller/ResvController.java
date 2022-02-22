@@ -6,8 +6,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kh.iag.resv.entity.ResvDto;
 import com.kh.iag.user.entity.UserDto;
 
 @Controller
@@ -27,6 +29,12 @@ public class ResvController {
 
 		response.addCookie(cookie);
 		
+		return "resv/resvMain";
+	}
+	
+	//예약하기
+	@PostMapping("resvMain")
+	public String resvMain(ResvDto resv) {
 		return "resv/resvMain";
 	}
 	
