@@ -17,11 +17,14 @@
   <link rel="stylesheet" href="${root}/resources/css/style.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
-  <link href='${root}/resources/css/schedule/core_main.css' rel='stylesheet' />
-  <link href='${root}/resources/css/schedule/daygrid_main.css' rel='stylesheet' />
-  <script src='${root}/resources/js/schedule/core_main.js'></script>
-  <script src='${root}/resources/js/schedule/interaction_main.js'></script>
-  <script src='${root}/resources/js/schedule/daygrid_main.js'></script>
+  <!-- FullCalendar -->
+  <link href='${root}/resources/css/sch/core_main.css' rel='stylesheet' />
+  <link href='${root}/resources/css/sch/daygrid_main.css' rel='stylesheet' />
+  <script src='${root}/resources/js/sch/core_main.js'></script>
+  <script src='${root}/resources/js/sch/interaction_main.js'></script>
+  <script src='${root}/resources/js/sch/daygrid_main.js'></script>
+  <script src='${root}/resources/js/sch/ko.js'></script>
+  
   <script>
 
 	  document.addEventListener('DOMContentLoaded', function() {
@@ -34,6 +37,7 @@
 	        center: 'title',
 	        right: 'dayGridMonth,dayGridWeek,dayGridDay'
 	      },
+	      locale: 'ko',
 	      defaultDate: '2020-02-12',
 	      navLinks: true, // can click day/week names to navigate views
 	      editable: true,
@@ -128,20 +132,24 @@
       
         <div class="row stat-cards">
         
-          <div class="col-md-6 col-xl-2">
+          <div class="col-md-6 col-xl-2" style="height: 300px;">
             <article class="stat-cards-item">
-              <div class="stat-cards-info">
-                <p class="stat-cards-info__num"></p>
-                  <pre>
-
-
-
-
-
-
-                    
-                  </pre>
-              </div>
+             <div id="schdule-info" style="position: relative; right: 5px;">
+             		<p style="color: gray; font-weight: bold; font-size: large;">일정</p>
+				<br><br>
+					<div id="all-sch" style="position: relative; left: 25px; font-weight: bold;">
+						<input type="radio" name="" id="" style="width: 20px; height: 20px; position: relative; left: 10px; top: 5px;"> 전체 일정
+					</div>
+				<br><br>
+					<div id="my-sch" style="position: relative; left: 25px; font-weight: bold;">
+						<input type="radio" name="" id="" style="width: 20px; height: 20px; position: relative; left: 10px; top: 5px;"> 내가 등록한 일정
+					</div>
+				<br><br>
+					<div id="detp-sch" style="position: relative; left: 25px; font-weight: bold;">
+						<input type="radio" name="" id="" style="width: 20px; height: 20px; position: relative; left: 10px; top: 5px;"> 부서별 일정
+					</div>
+				<br><br>
+             </div>
             </article>
           </div>
           
@@ -152,13 +160,9 @@
               <div class="stat-cards-info">
                 <p class="stat-cards-info__num"></p>
                 <pre>
-					
+
 					<div id='calendar'></div>
 
-
-
-
-                  
                 </pre>
               </div>
             </article>
