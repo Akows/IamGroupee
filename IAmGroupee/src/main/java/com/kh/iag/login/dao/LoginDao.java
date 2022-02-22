@@ -8,7 +8,7 @@ public interface LoginDao {
 
 	UserDto getUserByNo(UserDto dto) throws Exception;
 
-	int savedLoginCookie(long userNo, String sessionId, Date sessionLimit) throws Exception;
+	int savedLoginCookie(String userNo, String sessionId, Date sessionLimit) throws Exception;
 
 	UserDto checkUserBySsKey(String sessionKey) throws Exception;
 	

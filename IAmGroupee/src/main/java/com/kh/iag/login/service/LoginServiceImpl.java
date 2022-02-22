@@ -38,7 +38,7 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public int savedLoginCookie(long userNo, String sessionId, Date sessionLimit) throws Exception {
+	public int savedLoginCookie(String userNo, String sessionId, Date sessionLimit) throws Exception {
 		return dao.savedLoginCookie(userNo, sessionId, sessionLimit);
 	}
 

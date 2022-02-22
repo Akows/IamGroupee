@@ -27,7 +27,7 @@ public class LoginDaoImpl implements LoginDao {
 	}
 
 	@Override // 사용자 db에 세션쿠키정보 넣기
-	public int savedLoginCookie(long userNo, String sessionId, Date sessionLimit) throws Exception {
+	public int savedLoginCookie(String userNo, String sessionId, Date sessionLimit) throws Exception {
 		
 		Map<String, Object> cookieInfo = new HashMap<String, Object>();
 		cookieInfo.put("userNo", userNo);

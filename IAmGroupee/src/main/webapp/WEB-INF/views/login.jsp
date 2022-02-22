@@ -78,8 +78,7 @@
 		}
 	</script>
 
-	<!-- Chart library -->
-	<script src="${root}/resources/plugins/chart.min.js"></script>
+
 	<!-- Icons library -->
 	<script src="${root}/resources/plugins/feather.min.js"></script>
 	<!-- Custom scripts -->
