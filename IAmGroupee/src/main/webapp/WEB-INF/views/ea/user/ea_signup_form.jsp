@@ -9,11 +9,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>전자결재 > 기안신청(양식선택)</title>
   <!-- Favicon -->
-  <link rel="shortcut icon" href="../resources/img/svg/looo.png" type="image/x-icon">
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/svg/looo.png" type="image/x-icon">
   <!-- Custom styles -->
-  <link rel="stylesheet" href="../resources/css/style.min.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.min.css">
 
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ea/ea_signup.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ea/user/ea_signup.css">
 </head>
 
 <body>
@@ -22,7 +22,7 @@
   <div class="ea_wrapper">
     <div class="ea_signup_formselect_wrapper">
       <div class="ea_signup_formselect_title">
-        <span>양식 선택</span>
+        <span>기안신청 (양식선택)</span>
       </div>
       <div class="ea_signup_formselect_contents">
         <div>
@@ -128,6 +128,8 @@
             </table>
           </article>
         </div>
+        <span id="arrow1">=></span>
+        <span id="arrow2">=></span>
       </div>
       <div class="ea_signup_formselect_contents_btn">
         <form action="write" method="GET">
@@ -137,16 +139,12 @@
       </div>
     </div>
   </div>
-		
-
-
-
 
   <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <!-- Icons library -->
-<script src="../resources/plugins/feather.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/plugins/feather.min.js"></script>
 
 <!-- Custom scripts -->
-<script src="../resources/js/script.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
 </body>
 </html>

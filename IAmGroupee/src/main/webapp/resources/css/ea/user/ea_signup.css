@@ -82,13 +82,24 @@
   right: 0;
   transform: translate(-50px, -80px);
 }
+#arrow1,
+#arrow2 {
+  position: absolute;
+  top: 45%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  font-size: 50px;
+  font-weight: 900;
+}
+#arrow2 {
+  left: 55%;
+}
 /* 전자결재 > 기안신청(양식선택) */
 .ea_signup_write_wrapper {
   width: 90%;
   position: absolute;
-  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
 }
 .ea_signup_write_title {
   height: 65px;
@@ -112,26 +123,95 @@
   border-radius: 10px;
   border-top-left-radius: 0;
   position: relative;
+  float: left;
 }
 .ea_signup_write_contents > form > ul > li > a {
   display: block;
   padding: 10px;
+  padding-top: 25px;
   font-weight: 600;
   font-size: 15px;
 }
-.ea_signup_write_contents > form > ul > li > a > button {
+.ea_signup_write_contents > form > ul > li > a > span {
   border: 1px solid #4081e4;
   background: #fff;
   color: #4081e4;
   padding-left: 3px;
   padding-right: 3px;
-  padding-bottom: 2.5px;
   margin-left: 7px;
   font-weight: 600;
+  cursor: pointer;
 }
 .ea_signup_write_contents input {
   background: #fff;
 }
 .ea_signup_write_contents > form > ul > li > :nth-child(2) {
   margin-left: 10px;
+}
+.ea_signup_write_contents > form > a,
+.ea_signup_write_contents > form > input {
+  margin: 10px;
+  background: #4081e4;
+  color: #fff;
+  float: right;
+}
+#layer1 {
+  display: none;
+  width: 400px;
+  height: 400px;
+  background: #fff;
+  border: 2px solid #4081e4;
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  z-index: 1000;
+}
+#layer1 > ul:nth-child(1) {
+  width: 50%;
+  float: left;
+}
+#layer1 > ul > li {
+  padding-bottom: 10px;
+  font-weight: 700;
+}
+#layer1 input {
+  color: #4081e4;
+  margin: 10px;
+  float: right;
+}
+#layer_bg {
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  z-index: 10;
+}
+#layer2 {
+  display: none;
+  width: 300px;
+  height: 400px;
+  background: #fff;
+  border: 2px solid #4081e4;
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  z-index: 1000;
+}
+#layer2 > ul > li {
+  padding-bottom: 10px;
+  font-weight: 700;
+}
+#layer2 input {
+  color: #4081e4;
+  margin: 10px;
+  float: right;
 }
