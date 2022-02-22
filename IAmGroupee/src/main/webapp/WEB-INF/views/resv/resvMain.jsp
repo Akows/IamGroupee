@@ -48,7 +48,7 @@
 						<h3 class="card-title">Reservation</h3>
 					  </div>
 
-					<form>
+					<form action="" method="post">
 					  <div class="card-body">
 					  		<div class="form-group">
 		                        <label>예약할 자산</label>
@@ -78,19 +78,10 @@
 						</div>
 						<!-- /.form group -->
 		
-						<!-- Date and time range -->
-						<div class="form-group">
-						  <label>Date range button:</label>
-		
-						  <div class="input-group">
-							<button type="button" class="btn btn-default float-right" id="daterange-btn">
-							  <i class="far fa-calendar-alt"></i> Date range picker
-							  <i class="fas fa-caret-down"></i>
-							</button>
-						  </div>
-						</div>
-						<!-- /.form group -->
 					  </div>
+						  <div class="card-footer justify-content-between">
+							<input type="submit" value="예약하기" class="btn btn-primary">
+						 </div>
 					</form>
 					</div>
 	            </div> <!-- /.col -->
@@ -171,24 +162,7 @@
 	        format: 'MM/DD/YYYY hh:mm A'
 	      }
 	    })
-	    //Date range as a button
-	    $('#daterange-btn').daterangepicker(
-	      {
-	        ranges   : {
-	          'Today'       : [moment(), moment()],
-	          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-	          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
-	          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-	          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
-	          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-	        },
-	        startDate: moment().subtract(29, 'days'),
-	        endDate  : moment()
-	      },
-	      function (start, end) {
-	        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-	      }
-        )
+	 
 	  })  
 	</script>
 
