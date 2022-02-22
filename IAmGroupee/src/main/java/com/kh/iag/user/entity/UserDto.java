@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class UserDto {
-	private long userNo;
+	private String userNo;
 	private long positionNo;
 	private long departmentNo;
 	private long jobNo;

@@ -16,7 +16,6 @@
 		<typeAlias type="com.kh.iag.leave.entity.LeaveDto" alias="leave"/>
 		<typeAlias type="com.kh.iag.leave.entity.LvUsedListDto" alias="lvList"/>
 		<typeAlias type="com.kh.iag.leave.entity.LvInfoDto" alias="lvInfo"/>
-		<!-- 
 		<typeAlias type="com.kh.iag.user.entity.AttendanceDto" alias="attendance"/>
 		<typeAlias type="com.kh.iag.user.entity.SalaryDto" alias="salary"/>
 		<typeAlias type="com.kh.iag.ea.entity.DocsDto" alias="eadocs"/>
@@ -26,6 +25,5 @@
 	    <typeAlias type="com.kh.iag.resv.entity.ResvDto" alias="resv"/>
 	    <typeAlias type="com.kh.iag.sch.entity.schDto" alias="sch"/>
 		<typeAlias type="com.kh.iag.board.entity.boardDto" alias="board"/>
-		-->
 	</typeAliases>
 </configuration>
