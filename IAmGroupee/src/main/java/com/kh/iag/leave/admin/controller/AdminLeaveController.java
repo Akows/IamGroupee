@@ -28,6 +28,10 @@ public class AdminLeaveController {
 	public String lvInfoAD() {
 		return "leave/lvAdmin/lvInfoAD";
 	}
+	@GetMapping("lvInfoWriteAD") // 휴무 정보 게시글 작성
+	public String lvInfoWriteAD() {
+		return "leave/lvAdmin/lvInfoWriteAD";
+	}
 	
 	@GetMapping("alvIntendAD") // 연차 사용 촉구서 (JSP없음)
 	public String alvIntendAD() {
