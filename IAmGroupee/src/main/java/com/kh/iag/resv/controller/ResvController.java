@@ -19,7 +19,7 @@ public class ResvController {
 	@GetMapping("resvMain")
 	public String resvMain(HttpServletRequest request, HttpServletResponse response) {
 		UserDto loginUser = (UserDto) request.getSession().getAttribute("loginUser");
-		String cookieKey = Long.toString(loginUser.getUserNo());
+		String cookieKey = loginUser.getUserNo();
 		String cookieValue = Long.toString(loginUser.getJobNo());
 		
 		Cookie cookie = new Cookie(cookieKey, cookieValue);
@@ -42,18 +42,8 @@ public class ResvController {
 		
 	//부서별프로젝트
 	@GetMapping("resvAsset")
-		public String resvAsset(HttpServletRequest request, HttpServletResponse response) {
-		UserDto loginUser = (UserDto) request.getSession().getAttribute("loginUser");
-		String cookieKey = Long.toString(loginUser.getUserNo());
-		String cookieValue = Long.toString(loginUser.getJobNo());
-		
-		Cookie cookie = new Cookie(cookieKey, cookieValue);
-		cookie.setPath("/");
-		// 쿠키 삭제
-		cookie.setMaxAge(0);
-		
-		response.addCookie(cookie);
-		
+		public String resvAsset() {
+
 		return "resv/resvAsset";
 	}
 	
