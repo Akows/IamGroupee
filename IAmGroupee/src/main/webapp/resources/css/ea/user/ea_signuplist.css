@@ -10,19 +10,19 @@
   box-sizing: border-box;
 }
 /* 전자결재 > 기안문서조회 (리스트) */
-.ea_signuplist_list_wrapper {
+.ea_signuplist_wrapper {
   width: 90%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.ea_signuplist_list_title {
+.ea_signuplist_title {
   height: 65px;
   width: 100%;
   position: relative;
 }
-.ea_signuplist_list_title > span {
+.ea_signuplist_title > span {
   background: #4081e4;
   color: #fff;
   padding: 10px;
@@ -124,5 +124,100 @@
 .ea_signuplist_list_contents > form > table > thead > tr > th > ul.active {
   display: block;
 }
-
 /* 전자결재 > 기안문서조회 (상세조회) */
+.ea_signuplist_detail_contents {
+  width: 100%;
+  border: 3px solid gainsboro;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+  position: relative;
+  float: left;
+}
+.ea_signuplist_detail_contents > div:nth-child(1) > table {
+  font-style: italic;
+  float: left;
+  margin: 20px;
+}
+.ea_signuplist_detail_contents > div:nth-child(2) > table {
+  float: right;
+  margin: 20px;
+  width: 300px;
+  height: 100px;
+  text-align: center;
+}
+.ea_signuplist_detail_contents > div:nth-child(2) > table > * > * > * {
+  border: 1px solid #262626;
+  background: #fff;
+}
+.ea_signuplist_detail_contents > div:nth-child(2) th {
+  background: gray;
+}
+.ea_signuplist_detail_contents > div:nth-child(3) {
+  float: left;
+  width: 100%;
+  height: 500px;
+  background: #fff;
+  border-top: 1px solid gainsboro;
+  padding: 20px;
+  overflow: scroll;
+}
+.ea_signuplist_detail_contents > div:nth-child(4) {
+  float: right;
+  margin: 20px;
+  padding: 8px;
+  background: #4081e4;
+  color: #fff;
+  border-radius: 5px;
+}
+/* 전자결재 > 기안문서조회 (반려문서 수정) */
+.ea_signuplist_wrapper_rejected {
+  width: 90%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.ea_signuplist_rejected_contents {
+  width: 100%;
+  border: 3px solid gainsboro;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+  position: relative;
+  float: left;
+}
+.ea_signuplist_rejected_contents > form > div:nth-child(1) > table {
+  font-style: italic;
+  float: left;
+  margin: 20px;
+}
+.ea_signuplist_rejected_contents > form > div:nth-child(1) input {
+  background: #fff;
+}
+.ea_signuplist_rejected_contents > form > div:nth-child(2) > table {
+  float: right;
+  margin: 20px;
+  width: 300px;
+  height: 100px;
+  text-align: center;
+}
+.ea_signuplist_rejected_contents > form > div:nth-child(2) > table > * > * > * {
+  border: 1px solid #262626;
+  background: #fff;
+}
+.ea_signuplist_rejected_contents > form > div:nth-child(2) th {
+  background: gray;
+}
+.ea_signuplist_rejected_contents > form > div:nth-child(3) {
+  float: left;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid gainsboro;
+}
+.ea_signuplist_rejected_contents > form > div:nth-child(4) a {
+  float: right;
+  margin: 20px;
+  margin-left: 0;
+  padding: 8px;
+  background: #4081e4;
+  color: #fff;
+  border-radius: 5px;
+}
