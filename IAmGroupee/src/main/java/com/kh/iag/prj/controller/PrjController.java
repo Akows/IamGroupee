@@ -21,7 +21,7 @@ public class PrjController {
 	public String prjMain(HttpServletRequest request, HttpServletResponse response) {
 		UserDto loginUser = (UserDto) request.getSession().getAttribute("loginUser");
 		String cookieKey = loginUser.getUserNo();
-		String cookieValue = loginUser.getJobNo();
+		String cookieValue = Long.toString(loginUser.getJobNo());
 		
 		Cookie cookie = new Cookie(cookieKey, cookieValue);
 		cookie.setPath("/");
@@ -45,17 +45,7 @@ public class PrjController {
 	
 	//부서별프로젝트
 	@GetMapping("prjDept")
-	public String prjDept(HttpServletRequest request, HttpServletResponse response) {
-		UserDto loginUser = (UserDto) request.getSession().getAttribute("loginUser");
-		String cookieKey = Long.toString(loginUser.getUserNo());
-		String cookieValue = Long.toString(loginUser.getJobNo());
-		
-		Cookie cookie = new Cookie(cookieKey, cookieValue);
-		cookie.setPath("/");
-		// 쿠키 삭제
-		cookie.setMaxAge(0);
-
-		response.addCookie(cookie);
+	public String prjDept() {
 		
 		return "prj/prjDept";
 	}
