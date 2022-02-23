@@ -60,9 +60,11 @@
 	                  </thead>
 	                  <tbody>
 	                    <tr style="background-color: rgba(214, 222, 236, 0.43)">
-	                      <td> <a href="${root}/leave/leaveMain">000</a> </td>
+	                      <td> <a href="${root}/leave/lvInfoDetail">000</a> </td>
 	                      <td>John Doe</td>
-	                      <td>11-7-2014</td>
+	                      <td><button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-xl">
+                  제목입니다
+                </button></td>
 	                      <td><span class="tag tag-success">Approved</span></td>
 	                      <td><span class="tag tag-success">Approved</span></td>
 	                    </tr>
@@ -147,6 +149,11 @@
 
 	document.getElementById("currentDate").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
 	document.getElementById("currentDate2").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
+
+	
+	$(function() {
+		
+	}
 </script>
 
 	<!-- Custom scripts -->

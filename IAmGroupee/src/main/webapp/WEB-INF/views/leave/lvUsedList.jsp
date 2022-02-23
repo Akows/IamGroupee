@@ -7,89 +7,22 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AlvUsedList</title>
+  <title>LvUsedList</title>
   
   <!-- Favicon -->
   <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="${root}/resources/css/style.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
-  <link href='${root}/resources/css/schedule/core_main.css' rel='stylesheet' />
-  <link href='${root}/resources/css/schedule/daygrid_main.css' rel='stylesheet' />
-  <script src='${root}/resources/js/schedule/core_main.js'></script>
-  <script src='${root}/resources/js/schedule/interaction_main.js'></script>
-  <script src='${root}/resources/js/schedule/daygrid_main.js'></script>
-  <style>
-	
-	  body {
-	    margin: 40px 10px;
-	    padding: 0;
-	    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-	    font-size: 14px;
-	  }
-	
-	  #calendar {
-	    max-width: 900px;
-	    margin: 0 auto;
-	  }
-	
-	</style>
-</head>
-
-<body>
-
-    <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
-
-    <!-- ! Main -->
-    <main class="main users chart-page" id="skip-target">
-    
-     <div class="container">
-      
-        <div class="row stat-cards">
-        
-          <div class="col-md-6 col-xl-4">
-            <article class="stat-cards-item">
-              <div class="stat-cards-info">
-                <p class="stat-cards-info__num"></p>
-                  <table>
-                  	<thead>
-                  		<tr>일정</tr><br>
-                  		<tr>전체 일정</tr><br>
-                  		<tr>내가 등록한 일정</tr><br>
-                  		<tr>부서별 일정</tr>
-                  	</thead>
-                  </table>
-              </div>
-            </article>
-          </div>
-          
-          
-          
-          <div class="col-md-6 col-xl-8">
-            <article class="stat-cards-item">
-              <div class="stat-cards-info">
-                <p class="stat-cards-info__num"></p>
-                <pre>
-					
-					<div id='calendar'></div> 
-					          
-                </pre>
-              </div>
-            </article>
-          </div>
-          
-        </div>
-        
-        <div class="row">
-        
-        
-        </div>
-        
-      </div>
-      
-    </main>
-
-    <%@ include file="/WEB-INF/views/common/footer.jsp" %>
-    
+  <!-- FullCalendar -->
+  <link href='${root}/resources/css/sch/core_main.css' rel='stylesheet' />
+  <link href='${root}/resources/css/sch/daygrid_main.css' rel='stylesheet' />
+  <script src='${root}/resources/js/sch/core_main.js'></script>
+  <script src='${root}/resources/js/sch/interaction_main.js'></script>
+  <script src='${root}/resources/js/sch/daygrid_main.js'></script>
+  <script src='${root}/resources/js/sch/ko.js'></script>
+  
   <script>
 
 	  document.addEventListener('DOMContentLoaded', function() {
@@ -102,6 +35,7 @@
 	        center: 'title',
 	        right: 'dayGridMonth,dayGridWeek,dayGridDay'
 	      },
+	      locale: 'ko',
 	      defaultDate: '2020-02-12',
 	      navLinks: true, // can click day/week names to navigate views
 	      editable: true,
@@ -168,6 +102,75 @@
 	  });
 	
   </script>
+  <style>
+	
+	  body {
+	    margin: 40px 10px;
+	    padding: 0;
+	    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+	    font-size: 14px;
+	  }
+	
+	  #calendar {
+	    max-width: 900px;
+	    margin: 0 auto;
+	  }
+	
+	</style>
+</head>
+
+<body>
+
+    <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
+
+    <!-- ! Main -->
+    <main class="main users chart-page" id="skip-target">
+    
+     <div class="container">
+      
+        <div class="row stat-cards">
+        
+          <div class="col-md-6 col-xl-4">
+            <article class="stat-cards-item">
+              <div class="stat-cards-info">
+                <p class="stat-cards-info__num"></p>
+                  <table>
+                  	<thead>
+                  		<tr>연차</tr><br>
+                  		<tr>휴가</tr><br>
+                  	</thead>
+                  </table>
+              </div>
+            </article>
+          </div>
+          
+          
+          
+          <div class="col-md-6 col-xl-8">
+            <article class="stat-cards-item">
+              <div class="stat-cards-info">
+                <p class="stat-cards-info__num"></p>
+                <pre>
+
+					<div id='calendar'></div>
+
+                </pre>
+              </div>
+            </article>
+          </div>
+          
+        </div>
+        
+        <div class="row">
+        
+        </div>
+        
+      </div>
+      
+    </main>
+
+    <%@ include file="/WEB-INF/views/common/footer.jsp" %>
+
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
 </body>

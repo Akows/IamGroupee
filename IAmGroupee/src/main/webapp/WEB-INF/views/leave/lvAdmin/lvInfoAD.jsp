@@ -34,8 +34,13 @@
 		        		box-shadow: inset 0 -3px 0   rgb(14, 104, 225); line-height: 60px;">휴무 정보</h1>
 					</div>
 		        	<div style="width: 57.5%; height: 100%; float: left; margin: auto; margin-bottom: 0px;">
-		                <div class="input-group-prepend" style="margin-top: 24px; margin-left: 78%">
-	                	<input type="button" value="글쓰기" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 6px;">
+		                <div class="input-group-prepend" style="margin-top: 24px; margin-left: 73%">
+	                	<a href="${root}/admin/leave/lvInfoWriteAD">
+	                	  <input type="button" value="글쓰기" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 6px; float: left;">
+	                	</a>
+	                	<a href="${root}/admin/leave/lvInfoWriteAD">
+	                	  <input type="button" value="수정" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 6px; float: left;">
+	                	</a>
 		                    <select class="form-select" aria-label="Default select example">
 							  <option selected>전체</option>
 							  <option value="1">연차</option>
