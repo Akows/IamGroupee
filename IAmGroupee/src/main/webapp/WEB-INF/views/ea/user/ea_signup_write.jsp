@@ -32,12 +32,13 @@
           <ul>
             <li>
               <a>👩‍🌾&ensp;결재자 선택 <span id="modal1" onclick="layer1_open();">+</span></a>
+              <!-- 결재자 선택창에서 선택완료시 인풋히든에 사원번호 밸류 집어넣음 -->
               <input type="text" name="approver1" id="approver1" value="" readonly required>
-              <!-- 결재자 선택창에서 선택완료시 인풋히든에 사원번호 밸류 집어넣음 -->
               <input type="hidden" name="">
+              <!-- 결재자 선택창에서 선택완료시 인풋히든에 사원번호 밸류 집어넣음 -->
               <input type="text" name="approver2" id="approver2" value="" readonly required>
-              <!-- 결재자 선택창에서 선택완료시 인풋히든에 사원번호 밸류 집어넣음 -->
               <input type="hidden" name="">
+              <label>&ensp;✿전결 가능 문서 체크&ensp;<input type="checkbox" name="arbit" value="checked"></label>
             </li>
             <li>
               <a>👨‍👩‍👧‍👦&ensp;참조자 선택 <span id="modal2" onclick="layer2_open();">+</span></a>

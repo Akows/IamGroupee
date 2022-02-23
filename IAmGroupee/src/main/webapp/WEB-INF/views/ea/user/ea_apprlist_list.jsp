@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>전자결재 > 기안문서조회 (리스트)</title>
+  <title>전자결재 > 결재문서조회 (리스트)</title>
   <!-- Favicon -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/svg/looo.png" type="image/x-icon">
   <!-- Custom styles -->
@@ -24,7 +24,7 @@
   <div class="ea_wrapper">
     <div class="ea_signuplist_wrapper">
       <div class="ea_signuplist_title">
-        <span>기안문서조회 (리스트)</span>
+        <span>결재문서조회 (리스트)</span>
       </div>
       <div class="ea_signuplist_list_contents">
         <!-- 제목 누르면 그냥 문서번호만 보내서 처리 -->
