@@ -43,7 +43,6 @@
 
 		<div class="row stat-cards">
 
-		
           <div class="col-md-6 col-xl-3">
             <article class="stat-cards-item">
               <div class="stat-cards-icon primary">

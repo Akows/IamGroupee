@@ -78,7 +78,7 @@
                 <p class="stat-cards-info__title">진단서 등 첨부파일이 존재할 경우 반드시 첨부할 것</p>
                 <hr>
                 
-                <form action="">
+                <form action="attendmodify" method="post">
                 
 	                <input type="text" placeholder="내용작성하여 제출">
 	                <br>
@@ -87,7 +87,9 @@
 	                
 	                <hr>
 	                
-	                <button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">Submit</button>
+	                <input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="수정요청">
+	                
+	                <button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="수정요청"></button>
                 
                 </form>
                 

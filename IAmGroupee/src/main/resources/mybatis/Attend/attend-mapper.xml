@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="attend">
+  
+  	<select id="attendmainscreen">
+  		SELECT A.ATTEND_DATE, A.WORK_NUMOFDATE, M.ATTEND_MOD_NUM, W.TOTAL_WORK_TIME
+		FROM ATTENDANCE A
+		INNER JOIN ATTENDANCEMODIFY M 
+		ON(A.ATTEND_NUM = M.ATTEND_NUM)
+		INNER JOIN WORKTIME W
+		ON(M.ATTEND_NUM = W.ATTEND_NUM)
+  	</select>
+    
+  </mapper>
