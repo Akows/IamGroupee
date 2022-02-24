@@ -1,0 +1,79 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+
+.ea_wrapper {
+  width: 100%;
+  height: 85%;
+  position: relative;
+  overflow: scroll;
+}
+.ea_wrapper * {
+  box-sizing: border-box;
+}
+/* 전자결재 > 기본설정 / 양식관리 화면 */
+.ea_settings_wrapper {
+  width: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.ea_settings_title {
+  width: 100%;
+}
+.ea_settings_title > ul > li.active {
+  background: #4081e4;
+  color: #fff;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  float: left;
+}
+.ea_settings_title > ul > li {
+  color: #4081e4;
+  border: 2px solid #4081e4;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  float: left;
+}
+.ea_settings_list_contents {
+  width: 100%;
+  border: 3px solid gainsboro;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+  position: relative;
+  float: left;
+}
+/* 기본설정 */
+.ea_settings_list_contents > div:nth-child(1) table {
+  width: 60%;
+  text-align: center;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.ea_settings_list_contents > div:nth-child(1) table thead {
+  background: #064db8;
+  color: #fff;
+  border: 1px solid gainsboro;
+  font-size: 14px;
+  border-radius: 5px;
+}
+.ea_settings_list_contents > div:nth-child(1) table tbody tr td {
+  background: #fff;
+  font-size: 13px;
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+}
+.ea_settings_list_contents > div:nth-child(1) table tbody tr td:first-child {
+  width: 20%;
+}
+.ea_settings_list_contents > div:nth-child(1) table tbody tr:last-child td {
+  border: none;
+  text-align: left;
+}
+/* 양식관리 */

@@ -13,7 +13,7 @@
   <!-- Custom styles -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.min.css">
 
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ea/user/ea_signuplist.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ea/user/ea_apprlist.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
@@ -22,13 +22,13 @@
   <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 
   <div class="ea_wrapper">
-    <div class="ea_signuplist_wrapper">
-      <div class="ea_signuplist_title">
+    <div class="ea_apprlist_wrapper">
+      <div class="ea_apprlist_title">
         <span>결재문서조회 (리스트)</span>
       </div>
-      <div class="ea_signuplist_list_contents">
+      <div class="ea_apprlist_list_contents">
         <!-- 제목 누르면 그냥 문서번호만 보내서 처리 -->
-        <form action="signuplist/detail" method="GET" name="reuqestForm">
+        <form action="apprlist/detail" method="POST" name="reuqestForm">
         <input type="search" name="" id="" placeholder="문서 제목을 입력하세요.">
         <table>
           <thead>
@@ -62,8 +62,7 @@
                 <ul>
                   <li><a href="#">1차 결재</a></li>
                   <li><a href="#">2차 결재</a></li>
-                  <li><a href="#">반려</a></li>
-                  <li><a href="#">승인</a></li>
+                  <li><a href="#">결재 완료</a></li>
                 </ul>
               </th>
             </tr>
@@ -89,10 +88,10 @@
             <tr>
               <td>3</td>
               <td>비품구매서</td>
-              <td><a href="javascript:reuqestForm.submit()"     class="ea_title">반려문서</a></td>
+              <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
               <td>2022-01-01</td>
               <td>2022-01-07</td>
-              <td>반려</td>
+              <td>1차 결재</td>
             </tr>
             <tr>
                 <td>4</td>
@@ -100,7 +99,7 @@
                 <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
                 <td>2022-01-01</td>
                 <td>2022-01-07</td>
-                <td>승인</td>
+                <td>2차 결재</td>
               </tr>
               <tr>
                 <td>5</td>
@@ -124,7 +123,7 @@
                 <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
                 <td>2022-01-01</td>
                 <td>2022-01-07</td>
-                <td>반려</td>
+                <td>1차 결재</td>
               </tr>
               <tr>
                 <td>8</td>
@@ -132,7 +131,7 @@
                 <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
                 <td>2022-01-01</td>
                 <td>2022-01-07</td>
-                <td>승인</td>
+                <td>2차 결재</td>
               </tr>
               <tr>
                 <td>9</td>
@@ -176,7 +175,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
 
 <script>
-  $('.ea_signuplist_list_contents > form > table > thead > tr > th > span').click(function() {
+  $('.ea_apprlist_list_contents > form > table > thead > tr > th > span').click(function() {
     $(this).siblings("ul").toggleClass('active');
   });
 

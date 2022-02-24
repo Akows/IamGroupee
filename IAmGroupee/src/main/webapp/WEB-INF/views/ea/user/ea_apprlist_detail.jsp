@@ -7,13 +7,13 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>전자결재 > 기안문서조회 (문서상세)</title>
+  <title>전자결재 > 결재문서조회 (문서상세)</title>
   <!-- Favicon -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/svg/looo.png" type="image/x-icon">
   <!-- Custom styles -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.min.css">
 
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ea/user/ea_signuplist.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ea/user/ea_apprlist.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
@@ -22,11 +22,12 @@
   <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 
   <div class="ea_wrapper">
-    <div class="ea_signuplist_wrapper">
-      <div class="ea_signuplist_title">
-        <span>기안문서조회 (문서상세)</span>
+    <div class="ea_apprlist_wrapper">
+      <div class="ea_apprlist_title">
+        <span>결재문서조회 (문서상세)</span>
       </div>
-      <div class="ea_signuplist_detail_contents">
+      <div class="ea_apprlist_detail_contents">
+        <form action="process" method="POST" name="reuqestForm">
         <!-- 문서 좌상단 문서 정보 -->
         <div>
             <table>
@@ -80,8 +81,12 @@
                 </tr>
                 <tr>
                     <td>🐶</td>
-                    <td>🐧</td>
-                    <td>🦁</td>
+                    <!-- 자신의 결재 자리에 결재 처리 버튼, 결재 처리 선택시 도장모양 처리상태 들어갈 span 활성화 -->
+                    <td>
+                        <a onclick="layer_open();">결재처리</a>
+                        <span id="stamp"></span>
+                    </td>
+                    <td></td>
                 </tr>
             </table>
         </div>
@@ -108,11 +113,30 @@
             <!-- 텍스트 에디터 저장된 html 코드 -->
         </div>
         <div>
-            <a href="/iag/ea/signuplist">목록으로</a>
+            <a href="javascript:reuqestForm.submit()" onclick="return ea_appr_submit();">결재 진행</a>
+            <a href="/iag/ea/apprlist">목록으로</a>
         </div>
       </div>
+      </form>
     </div>
   </div>
+
+  <!-- layer -->
+  <div id="layer">
+    <h2>결재처리 선택</h2>
+    <label><input type="radio" name="processType" value="1" onclick="reasonInActive();">승인</label>
+    <label><input type="radio" name="processType" value="2" onclick="reasonActive();">반려</label>
+    <label><input type="radio" name="processType" value="3" onclick="reasonActive();">협의요청</label>
+    <!-- 전결 문서 아닐시 비활성화 -->
+    <label><input type="radio" name="processType" value="4" onclick="reasonInActive();">전결</label>
+    <textarea name="reason" id="reason" rows="10" placeholder="사유를 작성해주세요."></textarea>
+    <div class="btn">
+        <input type="button" value="확인" onclick="ea_process_select();">
+        <input type="button" value="취소" onclick="layer_close();">
+    </div>
+  </div>
+  <div id="layer_bg"></div>
+  <input type="hidden" name="" value="">
 
   <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <!-- Icons library -->
@@ -121,5 +145,66 @@
 <!-- Custom scripts -->
 <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
 
+<script>
+    function layer_open() {
+      document.getElementById('layer').style.display = 'block';
+      document.getElementById('layer_bg').style.display = 'block';
+    }
+    function layer_close() {
+      document.getElementById('layer').style.display = 'none';
+      document.getElementById('layer_bg').style.display = 'none';
+    }
+    function reasonActive() {
+        $("#reason").addClass('active');
+    }
+    function reasonInActive() {
+        $("#reason").removeClass('active');
+    }
+    function ea_appr_submit() {
+        if(confirm('결재를 진행하시겠습니까?')) {
+        return true;
+        } else {
+        return false;
+        }
+    }
+    function ea_process_select() {
+        // 체크된 결재 처리 사항과 사유의 value값 저장
+        let pn = $("input:radio[name=processType]:checked").val();
+        let pr = $("textarea[name=reason]").val();
+
+        // 이미 추가됐을수도 있으니 input태그 지워줌
+        $("form > input:last").remove();
+        $("form > input:last").remove();
+
+        // 결재 처리 value 넘길 input:hidden 태그 form안에 생성
+        $("<input>", {
+            type : "hidden",
+            name : "processType",
+            value : pn
+        }).appendTo("form[name=reuqestForm]");
+        $("<input>", {
+            type : "hidden",
+            name : "processReason",
+            value : pr
+        }).appendTo("form[name=reuqestForm]");
+
+        // 결재처리 버튼 지우고 처리 상태로 바꿔줌
+        $("a[onclick^=l]").remove();
+        if(pn == 1) {
+            $("#stamp").text('승인');
+        } else if(pn == 2) {
+            $("#stamp").text('반려');
+        } else if(pn == 3) {
+            $("#stamp").text('협요');
+        } else if(pn == 4) {
+            $("#stamp").text('전결');
+        }
+        $("#stamp").css("display", "inline");
+
+        // 창 닫기
+        document.getElementById('layer').style.display = 'none';
+        document.getElementById('layer_bg').style.display = 'none';
+    }
+</script>
 </body>
 </html>
