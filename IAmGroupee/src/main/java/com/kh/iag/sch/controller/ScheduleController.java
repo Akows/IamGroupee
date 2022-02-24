@@ -14,4 +14,10 @@ public class ScheduleController {
 	public String schMain() {
 		return "sch/mySch";
 	}
+	
+	// 캘린더 예제 페이지
+	@GetMapping("calendar")
+	public String calendar() {
+		return "sch/calendar";
+	}
 }

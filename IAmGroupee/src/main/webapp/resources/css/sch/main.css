@@ -228,7 +228,8 @@ body {
 }
 
 select.filter {
-  width: 500px !important;
+  width: 200px !important;
+  height: 50px !important;
 }
 
 .popover {
