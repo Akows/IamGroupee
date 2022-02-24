@@ -28,7 +28,7 @@
             <article class="stat-cards-item">
               <div class="stat-cards-info">
                 <p class="stat-cards-info__num">공지</p>
-                <!-- <pre>
+                 <pre>
 
 
 
@@ -37,53 +37,6 @@
 
                   
                 </pre>
-                -->
-                <div class="card card-primary card-outline card-outline-tabs">
-	              <div class="card-header p-0 border-bottom-0">
-	                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-	                  <li class="nav-item">
-	                    <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Home</a>
-	                  </li>
-	                  <li class="nav-item">
-	                    <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Profile</a>
-	                  </li>
-	                  <li class="nav-item">
-	                    <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Messages</a>
-	                  </li>
-	                  <li class="nav-item">
-	                    <a class="nav-link" id="custom-tabs-four-settings-tab" data-toggle="pill" href="#custom-tabs-four-settings" role="tab" aria-controls="custom-tabs-four-settings" aria-selected="false">Settings</a>
-	                  </li>
-	                </ul>
-	              </div>
-	              <div class="card-body">
-	                <div class="tab-content" id="custom-tabs-four-tabContent">
-	                  <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
-	                     Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. 
-	                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; 
-	                     Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, 
-	                     elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
-	                  </div>
-	                  <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
-	                     Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. 
-	                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; 
-	                     Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, 
-	                     elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
-	                  </div>
-	                  <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
-	                     Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. 
-	                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; 
-	                     Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, 
-	                     elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
-	                  </div>
-	                  <div class="tab-pane fade" id="custom-tabs-four-settings" role="tabpanel" aria-labelledby="custom-tabs-four-settings-tab">
-	                     Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. 
-	                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; 
-	                     Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, 
-	                     elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
-	                  </div>
-	                </div>
-	              </div>
-	            </div>
               </div>
             </article>
           </div>
