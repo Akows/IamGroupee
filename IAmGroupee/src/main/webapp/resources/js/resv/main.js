@@ -290,6 +290,7 @@ function calDateWhenResize(event) {
   }
 
   return newDates;
+
 }
 
 function calDateWhenDragnDrop(event) {
@@ -324,4 +325,7 @@ function calDateWhenDragnDrop(event) {
   }
 
   return newDates;
+  
+  
 }
+
