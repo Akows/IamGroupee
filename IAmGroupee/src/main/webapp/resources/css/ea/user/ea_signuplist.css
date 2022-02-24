@@ -13,9 +13,8 @@
 .ea_signuplist_wrapper {
   width: 90%;
   position: absolute;
-  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%);
 }
 .ea_signuplist_title {
   height: 65px;
@@ -114,12 +113,24 @@
   top: 100%;
 }
 .ea_signuplist_list_contents > form > table > thead > tr > th > ul > li {
-  font-size: 15px;
+  font-size: 14px;
   padding: 5px;
   font-weight: lighter;
 }
 .ea_signuplist_list_contents > form > table > thead > tr > th > ul > li > a {
   display: block;
+}
+.ea_signuplist_list_contents
+  > form
+  > table
+  > thead
+  > tr
+  > th
+  > ul
+  > li
+  > a:hover {
+  color: #fff;
+  background: #89b0eb;
 }
 .ea_signuplist_list_contents > form > table > thead > tr > th > ul.active {
   display: block;

@@ -15,7 +15,7 @@ public class EaInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		UserDto loginUser = (UserDto) request.getSession().getAttribute("loginUser");
-		System.out.println(loginUser.getLeaveRight());
+		System.out.println(loginUser.getPaymentRight());
 		// 해당 도메인에 권한이 있는 지 체크
 		if ("Y".equals(loginUser.getPaymentRight())) {
 			 return true;
@@ -23,6 +23,5 @@ public class EaInterceptor extends HandlerInterceptorAdapter {
 			response.sendRedirect("/iag/main2");
 			return false;
 		}
-		
 	}
 }

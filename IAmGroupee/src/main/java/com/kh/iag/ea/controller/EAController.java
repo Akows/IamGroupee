@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(value = "/ea")
@@ -48,6 +49,17 @@ public class EAController {
 	// 결재문서조회 (리스트)
 	@GetMapping(value = "/apprlist")
 	public String apprlist() {
+		return "ea/user/ea_apprlist_list";
+	}
+	// 결재문서조회 (상세조회)
+	@PostMapping(value = "/apprlist/detail")
+	public String apprlistDetail() {
+		return "ea/user/ea_apprlist_detail";
+	}
+	// 결재문서조회 (결재진행)
+	@PostMapping(value = "/apprlist/process")
+	public String apprlisApprved(String process) {
+		System.out.println(process);
 		return "ea/user/ea_apprlist_list";
 	}
 }

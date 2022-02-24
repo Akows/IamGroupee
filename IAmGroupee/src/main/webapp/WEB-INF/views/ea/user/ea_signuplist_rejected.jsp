@@ -56,7 +56,7 @@
                     </tr>
                     <tr>
                         <th>진행 단계 : </th>
-                        <td>반려</td>
+                        <td colspan="2">반려(사유 : 너무 비싸잉~~~~~~~)</td>
                     </tr>
                     <tr>
                         <th>보안 등급 : </th>
@@ -78,18 +78,14 @@
                         <td>HQ</td>
                     </tr>
                     <tr>
-                        <td>
-                            일병 이종훈<br>
-                            <span>🐶</span>
-                        </td>
-                        <td>
-                            중사 이종훈<br>
-                            <span>🐧</span>
-                        </td>
-                        <td>
-                            대위 이종훈<br>
-                            <span>🦁</span>
-                        </td>
+                        <td>일병 이종훈</td>
+                        <td>중사 이종훈</td>
+                        <td>대위 이종훈</td>
+                    </tr>
+                    <tr>
+                        <td>🐶</td>
+                        <td>🐧</td>
+                        <td>🦁</td>
                     </tr>
                 </table>
             </div>
