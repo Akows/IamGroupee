@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -308,18 +309,22 @@
 	</script>
 
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
-	
+
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
-	
-	<!-- FullCalendar -->
-	<link href='${root}/resources/css/sch/core_main.css' rel='stylesheet' />
-	<link href='${root}/resources/css/sch/daygrid_main.css' rel='stylesheet' />
-	<script src='${root}/resources/js/sch/core_main.js'></script>
-	<script src='${root}/resources/js/sch/interaction_main.js'></script>
-	<script src='${root}/resources/js/sch/daygrid_main.js'></script>
-	<script src='${root}/resources/js/sch/ko.js'></script>  
 
+
+	<!-- FullCalendar js -->
+	<script src='${root}/resources/js/sch/moment.min.js'></script>
+	<script src='${root}/resources/js/sch/fullcalendar.min.js'></script>
+	<script src='${root}/resources/js/sch/ko.js'></script>
+	<script src='${root}/resources/js/resv/main.js'></script>
+	
+	<link rel='stylesheet' href='${root}/resources/css/sch/fullcalendar.min.css' />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel='stylesheet' href='${root}/resources/css/sch/main.css' />
+	
 	<!-- InputMask -->
 	<script src="${root}/resources/plugins/moment/moment.min.js"></script>
 	<script src="${root}/resources/plugins/inputmask/jquery.inputmask.min.js"></script>
@@ -329,7 +334,6 @@
 	<!-- Select2 -->
 	<script src="${root}/resources/plugins/select2/js/select2.full.min.js"></script>
 	<link rel="stylesheet" href="${root}/resources/plugins/select2/css/select2.min.css">
-	
 	
 </body>
 </html>

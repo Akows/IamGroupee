@@ -197,13 +197,16 @@
 <!-- Custom scripts -->
 <script src="${root}/resources/js/script.js"></script>
 
-<!-- fullCalendar -->
-<link href='${root}/resources/css/sch/core_main.css' rel='stylesheet' />
-<link href='${root}/resources/css/sch/daygrid_main.css' rel='stylesheet' />
-<script src='${root}/resources/js/sch/core_main.js'></script>
-<script src='${root}/resources/js/sch/interaction_main.js'></script>
-<script src='${root}/resources/js/sch/daygrid_main.js'></script>
-<script src='${root}/resources/js/sch/ko.js'></script>  
+<!-- FullCalendar js -->
+<script src='${root}/resources/js/sch/moment.min.js'></script>
+<script src='${root}/resources/js/sch/fullcalendar.min.js'></script>
+<script src='${root}/resources/js/sch/ko.js'></script>
+<script src='${root}/resources/js/resv/main.js'></script>
+
+<link rel='stylesheet' href='${root}/resources/css/sch/fullcalendar.min.css' />
+<link rel='stylesheet' href='${root}/resources/css/sch/main.css' />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 
 
