@@ -8,5 +8,23 @@
     <select id="getlvInfoList" resultType="lvInfo">
     	SELECT * FROM LV_BOARD
     </select>
+  
+    <select id="getAlvList" resultType="lvList">
+    	SELECT * FROM USAGE_LV UL
+    	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
+    	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'ALV%'	AND UL.LV_END &lt; SYSDATE
+    </select>
+  
+    <select id="getLvList" resultType="lvList">
+    	SELECT * FROM USAGE_LV UL
+    	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
+    	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'LV%' AND UL.LV_END &lt; SYSDATE
+    </select>
+  
+    <select id="getAlvRowCnt" resultType="int">
+    	SELECT COUNT(*) FROM USAGE_LV UL
+    	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
+    	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'LV%' AND UL.LV_END &lt; SYSDATE
+    </select>
     
   </mapper>
