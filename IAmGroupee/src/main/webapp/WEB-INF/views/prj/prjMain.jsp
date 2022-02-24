@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,14 +19,15 @@
 
 	<%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 	 
-	<main class="container">
+	<main class="main container">
 		<section class="content-header">
         		<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<button class="btn-primary btn-lg" data-toggle="modal" data-target="#createPrj">
+							<button class="btn-primary btn" data-toggle="modal" data-target="#createPrj">
 								프로젝트 생성
 							</button>
+							
 						</div>
 						
 						<div class="modal fade" id="createPrj">
@@ -118,34 +120,75 @@
 					<section class="col-lg-7 connectedSortable">
 						<div class="card">
 							<div class="card-header">
-								<h3 class="card-title"> My Project List</h3>	
+								<h3 class="card-title"> My Project List</h3>
+								<form action="simple-results.html">
+									<div class="input-group">
+										<input type="search" class="form-control form-control-lg" placeholder="Type your keywords here">
+										<div class="input-group-append">
+											<button type="submit" class="btn btn-lg btn-default">
+												<i class="fa fa-search"></i>
+											</button>
+										</div>
+									</div>
+								</form>	
 							</div>
 							
+							<a href="#"> 
+								<div class="card-body">
+									<div class="info-box bg-primary">
+										<span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
+						  
+										<div class="info-box-content">
+										  <span class="info-box-text">IAMGROUPE</span>
+										  <span class="info-box-number">%%부</span>
+						  
+										  <div class="progress">
+											<div class="progress-bar" style="width: 70%"></div>
+										  </div>
+										  <span class="progress-description">
+											70% Increase in 30 Days
+										  </span>
+										</div><!-- /.info-box-content -->
+									</div>
+								</div> 
+							</a>
+
 							<div class="card-body">
-								<div class="info-box mb-3 bg-lighst">
-									<div class="info-box-content">IAMGROUPE</div>
-								</div>
+									<div class="info-box bg-lightblue">
+										<span class="info-box-icon"><i class="far fa-bookmark"></i></span>
+						  
+										<div class="info-box-content">
+										  <span class="info-box-text">IAMGROUPE</span>
+										  <span class="info-box-number">##부</span>
+						  
+										  <div class="progress">
+											<div class="progress-bar" style="width: 70%"></div>
+										  </div>
+										  <span class="progress-description">
+											70% Increase in 30 Days
+										  </span>
+										</div><!-- /.info-box-content -->
+									</div>
 							</div> 
+
 							<div class="card-body">
-								<div class="info-box mb-3 bg-lighst">
-									<div class="info-box-content">IAMGROUPE</div>
+								<div class="info-box bg-info">
+									<span class="info-box-icon"><i class="far fa-clock"></i></span>
+					  
+									<div class="info-box-content">
+									  <span class="info-box-text">IAMGROUPE</span>
+									  <span class="info-box-number">@@부</span>
+					  
+									  <div class="progress">
+										<div class="progress-bar" style="width: 70%"></div>
+									  </div>
+									  <span class="progress-description">
+										70% Increase in 30 Days
+									  </span>
+									</div><!-- /.info-box-content -->
 								</div>
-							</div>
-							<div class="card-body">
-								<div class="info-box mb-3 bg-lighst">
-									<div class="info-box-content">IAMGROUPE</div>
-								</div>
-							</div>
-							<div class="card-body">
-								<div class="info-box mb-3 bg-lighst">
-									<div class="info-box-content">IAMGROUPE</div>
-								</div>
-							</div>
-							<div class="card-body">
-								<div class="info-box mb-3 bg-lighst">
-									<div class="info-box-content">IAMGROUPE</div>
-								</div>
-							</div>
+						</div> 
+
 						</div> <!-- /.card -->
 					</section>  <!-- /. left row -->
 				
@@ -229,97 +272,25 @@
 			$('.select2').select2()
 		})
 
-		document.addEventListener('DOMContentLoaded', function() {
-			var calendarEl = document.getElementById('calendar');
-		
-			var calendar = new FullCalendar.Calendar(calendarEl, {
-				plugins: [ 'interaction', 'dayGrid' ],
-				header: {
-					left: 'prev,next',
-					center: 'title',
-					right: 'dayGridMonth,dayGridWeek,dayGridDay'
-				},
-				locale: 'ko',
-				defaultDate: '2020-02-12',
-				navLinks: true, // can click day/week names to navigate views
-				editable: true,
-				eventLimit: true, // allow "more" link when too many events
-				events: [
-					{
-					title: 'All Day Event',
-					start: '2020-02-01'
-					},
-					{
-					title: 'Long Event',
-					start: '2020-02-07',
-					end: '2020-02-10'
-					},
-					{
-					groupId: 999,
-					title: 'Repeating Event',
-					start: '2020-02-09T16:00:00'
-					},
-					{
-					groupId: 999,
-					title: 'Repeating Event',
-					start: '2020-02-16T16:00:00'
-					},
-					{
-					title: 'Conference',
-					start: '2020-02-11',
-					end: '2020-02-13'
-					},
-					{
-					title: 'Meeting',
-					start: '2020-02-12T10:30:00',
-					end: '2020-02-12T12:30:00'
-					},
-					{
-					title: 'Lunch',
-					start: '2020-02-12T12:00:00'
-					},
-					{
-					title: 'Meeting',
-					start: '2020-02-12T14:30:00'
-					},
-					{
-					title: 'Happy Hour',
-					start: '2020-02-12T17:30:00'
-					},
-					{
-					title: 'Dinner',
-					start: '2020-02-12T20:00:00'
-					},
-					{
-					title: 'Birthday Party',
-					start: '2020-02-13T07:00:00'
-					},
-					{
-					title: 'Click for Google',
-					url: 'http://google.com/',
-					start: '2020-02-28'
-					}
-				]
-			});
-	
-	    	calendar.render();
-	    });
-
 	</script>
 
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
-	
+
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
-	
-	<!-- FullCalendar -->
-	<link href='${root}/resources/css/sch/core_main.css' rel='stylesheet' />
-	<link href='${root}/resources/css/sch/daygrid_main.css' rel='stylesheet' />
-	<script src='${root}/resources/js/sch/core_main.js'></script>
-	<script src='${root}/resources/js/sch/interaction_main.js'></script>
-	<script src='${root}/resources/js/sch/daygrid_main.js'></script>
-	<script src='${root}/resources/js/sch/ko.js'></script>  
 
+
+	<!-- FullCalendar js -->
+	<script src='${root}/resources/js/sch/moment.min.js'></script>
+	<script src='${root}/resources/js/sch/fullcalendar.min.js'></script>
+	<script src='${root}/resources/js/sch/ko.js'></script>
+	<script src='${root}/resources/js/resv/main.js'></script>
+	
+	<link rel='stylesheet' href='${root}/resources/css/sch/fullcalendar.min.css' />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel='stylesheet' href='${root}/resources/css/sch/main.css' />
+	
 	<!-- InputMask -->
 	<script src="${root}/resources/plugins/moment/moment.min.js"></script>
 	<script src="${root}/resources/plugins/inputmask/jquery.inputmask.min.js"></script>
@@ -329,7 +300,6 @@
 	<!-- Select2 -->
 	<script src="${root}/resources/plugins/select2/js/select2.full.min.js"></script>
 	<link rel="stylesheet" href="${root}/resources/plugins/select2/css/select2.min.css">
-	
 	
 </body>
 </html>
