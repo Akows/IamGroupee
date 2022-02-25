@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="schedule">
+	
+	<select id="showSchedule" resultType ="sch">
+   		SELECT
+   			SCH_TITLE,SCH_START,SCH_END,SCH_WITH,SCH_CONTENT
+   		FROM
+   			CALENDAR
+   		ORDER BY
+   			SCH_NUM
+   		DESC
+   	</select>
+   	
+   	<insert id="addSchedule" parameterType="sch">
+    	INSERT INTO
+    		CALENDAR(SCH_TITLE,SCH_START,SCH_END,SCH_WITH,SCH_CONTENT)
+    	VALUES
+    		(#{schTitle},#{schStart},#{schEnd},#{schWith},#{schContent})
+   	</insert>
+	
+</mapper>
