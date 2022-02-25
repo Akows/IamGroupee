@@ -18,7 +18,9 @@
 	
 	<%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 	  
-	<main class="main container">
+	<main class="main">
+	<div class="container">
+
 		<section class="content-header">
 	      <div class="container-fluid">
 	        <div class="row mb-2">
@@ -50,60 +52,12 @@
 	    
 	    <section class="content">
 			<div class="container-fluid">
-
 				<div class="row">
+					
 					<section class="col-lg-8 connectedSortable">
 						<div class="card">
 							<div class="card-header">
 								<h3 class="card-title"> Project List</h3>
-							</div>
-
-							<div class="card-body row">
-								<div class="col-lg-6">
-									<a href="http://127.0.0.1:8989/iag/prj/prjDetail">
-										<div class="info-box bg-lightblue">
-											<span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
-								
-											<div class="info-box-content">
-												<span class="info-box-text">IAMGROUPE</span>
-												<span class="info-box-number">%%부</span>
-								
-												<div class="progress">
-												<div class="progress-bar" style="width: 70%"></div>
-												</div>
-												<span class="progress-description">
-												70% Increase in 30 Days
-												</span>
-											</div><!-- /.info-box-content -->
-										</div>
-									</a>
-								</div>
-								<div class="col-lg-6">
-									<div class="info-box bg-lightblue">
-										<span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
-							
-										<div class="info-box-content">
-											<span class="info-box-text">IAMGROUPE</span>
-											<span class="info-box-number">%%부</span>
-							
-											<div class="progress">
-											<div class="progress-bar" style="width: 70%"></div>
-											</div>
-											<span class="progress-description">
-											70% Increase in 30 Days
-											</span>
-										</div><!-- /.info-box-content -->
-									</div>
-								</div> 
-
-							</div>	
-								
-						</div>
-					</section>
-
-					<section class="col-lg-4 connectedSortable">
-						<div class="card">
-							<div class="card-header">
 								<form action="simple-results.html">
 									<div class="input-group">
 										<input type="search" class="form-control form-control-lg" placeholder="Type your keywords here">
@@ -115,62 +69,107 @@
 									</div>
 								</form>	
 							</div>
-
+		
 							<div class="card-body p-0">
-								<table class="table table-striped">
+								<table class="table table-striped projects">
 									<thead>
 										<tr>
-											<th>프로젝트명</th>
-											<th>Progress</th>
-											<th style="width: 40px">Label</th>
+											<th style="width: 30%">
+												Project Name
+											</th>
+											<th style="width: 20%">
+												Dept
+											</th>
+											<th>
+												Project Progress
+											</th>
+											<th style="width: 10%" class="text-center">
+												Status
+											</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<td>Update software</td>
 											<td>
-												<div class="progress progress-xs">
-												<div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-												</div>
+												<a>
+													IAMGROUPE
+												</a>
+												<br/>
+												<small>
+													Created 2020.03.03
+												</small>
 											</td>
-											<td><span class="badge bg-danger">55%</span></td>
+											<td>
+												<ul class="list-inline">
+													<li class="list-inline-item">@@부</li>
+													<li class="list-inline-item">##부</li>
+												</ul>
+											</td>
+											<td class="project_progress">
+												<div class="progress progress-sm">
+													<div class="progress-bar bg-green" role="progressbar" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100" style="width: 57%">
+													</div>
+												</div>
+												<small>
+													57% Complete
+												</small>
+											</td>
+											<td class="project-state">
+												<span class="badge badge-success">Success</span>
+											</td>
 										</tr>
 										<tr>
-											<td>Clean database</td>
 											<td>
-												<div class="progress progress-xs">
-												<div class="progress-bar bg-warning" style="width: 70%"></div>
-												</div>
+												<a>
+													IAMGROUPE
+												</a>
+												<br/>
+												<small>
+													Created 2020.03.03
+												</small>
 											</td>
-											<td><span class="badge bg-warning">70%</span></td>
-										</tr>
-										<tr>
-											<td>Cron job running</td>
 											<td>
-												<div class="progress progress-xs progress-striped active">
-												<div class="progress-bar bg-primary" style="width: 30%"></div>
-												</div>
+												<ul class="list-inline">
+													<li class="list-inline-item">@@부</li>
+													<li class="list-inline-item">##부</li>
+												</ul>
 											</td>
-											<td><span class="badge bg-primary">30%</span></td>
-										</tr>
-										<tr>
-											<td>Fix and squish bugs</td>
-											<td>
-												<div class="progress progress-xs progress-striped active">
-												<div class="progress-bar bg-success" style="width: 90%"></div>
+											<td class="project_progress">
+												<div class="progress progress-sm">
+													<div class="progress-bar bg-green" role="progressbar" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100" style="width: 57%">
+													</div>
 												</div>
+												<small>
+													57% Complete
+												</small>
 											</td>
-										<td><span class="badge bg-success">90%</span></td>
+											<td class="project-state">
+												<span class="badge badge-success">Success</span>
+											</td>
 										</tr>
+										
 									</tbody>
 								</table>
-							</div><!-- /.card-body -->
+							</div>
 						</div>
-					</section>  <!-- /. left row -->
-				</div>
+					</section>
 
-			</div>	
+					<section class="col-lg-4 connectedSortable">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title"> card-title</h3>
+							</div>
+							<div class="card-body">
+								asd
+							</div> 
+						</div>
+					</section>
+
+				</div>
+			</div>
 		</section>
+
+	</div>	
     </main>
 	  
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>

@@ -19,7 +19,9 @@
 
 	<%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 	 
-	<main class="main container">
+	<main class="main">
+	<div class="container">
+		
 		<section class="content-header">
         		<div class="container-fluid">
 					<div class="row mb-2">
@@ -114,8 +116,8 @@
 		
 		<section class="content">
 			<div class="container-fluid">
-
 				<div class="row">
+
 					<section class="col-lg-7 connectedSortable">
 						<div class="card">
 							<div class="card-header">
@@ -246,9 +248,11 @@
 							</div>
 						</div> <!-- /.card -->
 					</section> <!-- /.col -->
+					
 				</div> <!-- /.row -->
 			</div> <!-- /.container-fluid -->
 		</section> <!-- /.content-body -->
+	</div>
 	</main>    
 
 

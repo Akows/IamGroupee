@@ -23,7 +23,7 @@
         		<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<button class="btn-primary btn" data-toggle="modal" data-target="#createPrj">
+							<button class="btn-primary btn-lg">
 								page name
 							</button>
 						</div>
@@ -53,7 +53,13 @@
 					</section>  <!-- /. left row -->
 				
 					<section class="col-lg-5 connectedSortable">
-						
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title"> card-title</h3>
+							</div>
+							<div class="card-body">
+							</div> 
+						</div>
 					</section>
 				</div> <!-- /.row -->
 				
