@@ -75,21 +75,19 @@
               <div class="stat-cards-info">
                 <p class="stat-cards-info__num">근무상황 수정요청</p>
                 <p class="stat-cards-info__title">천재지변/긴급한 용무 등으로 정상출근 처리가 필요한 경우 요청</p>
-                <p class="stat-cards-info__title">진단서 등 첨부파일이 존재할 경우 반드시 첨부할 것</p>
+                <p class="stat-cards-info__title">사유서 혹은 진단서 등 관련 서류 양식에 맞추어 반드시 자료 첨부할 것!</p>
                 <hr>
                 
-                <form action="attendmodify" method="post">
+                <form action="attendmodify" method="post" enctype="multipart/form-data">
                 
-	                <input type="text" placeholder="내용작성하여 제출">
+	                <input type="text" placeholder="내용작성하여 제출" name="mod_reason">
 	                <br>
 	                <br>
-	                <input type="file">
+	                <input type="file" name="file" multiple="multiple" accept=".jpg,.png">
 	                
 	                <hr>
 	                
 	                <input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="수정요청">
-	                
-	                <button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="수정요청"></button>
                 
                 </form>
                 

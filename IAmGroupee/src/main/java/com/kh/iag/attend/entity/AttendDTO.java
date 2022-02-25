@@ -10,5 +10,5 @@ public class AttendDTO
 	private String attend_date;
 	private String normal_check;
 	private String irregular_reason;
-	private String work_numofdate;
+	private String work_numofdate;	
 }

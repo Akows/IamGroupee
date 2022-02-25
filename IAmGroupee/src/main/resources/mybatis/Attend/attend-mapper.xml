@@ -13,5 +13,40 @@
 		INNER JOIN WORKTIME W
 		ON(M.ATTEND_NUM = W.ATTEND_NUM)
   	</select>
-    
+  	
+ 	<select id="getreq" resultType="int">
+ 		SELECT SEQ_ATTENDANCEMODIFY.NEXTVAL
+ 		FROM DUAL
+  	</select>
+ 
+  	<insert id="modreq" parameterType="attendancemod">
+  		INSERT INTO ATTENDANCEMODIFY
+  		(
+  			ATTEND_MOD_NUM,
+			USER_NO,
+			REQ_DATE,
+			MOD_REASON,
+			ATTACH_FILE,
+			APPROVE_STATE
+  		)
+  		VALUES
+  		(
+  			#{attend_mod_num},
+  			1,
+  			SYSDATE,
+  			#{mod_reason},
+  			0,
+  			'처리중'
+  		)
+  	</insert>
+  	
+  	<update id="modfilereq" parameterType="attendancemod">
+  		UPDATE ATTENDANCEMODIFY
+   		SET ATTACH_FILE = #{attach_file}
+   		WHERE ATTACH_FILE = 0
+  	</update>
+  	
+  	
+  	
+  	
   </mapper>
