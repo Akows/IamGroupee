@@ -26,15 +26,10 @@ public class PersonnelController {
 		return "ps/deptmanage";
 	}
 	
-//	직무 관리
-	@GetMapping("/jobmanage")
+//	직무/직위 관리
+	@GetMapping("/jobposimanage")
 	public String jobmanage(){
-		return "ps/jobmanage";
+		return "ps/jobposimanage";
 	}
 	
-//	직위 관리
-	@GetMapping("/posimanage")
-	public String posimanage(){
-		return "ps/posimanage";
-	}
 }

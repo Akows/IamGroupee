@@ -17,7 +17,7 @@
        <hr>
        <br>
        <div class="row">
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-6 col-6">
             <!-- small card -->
             <div class="small-box bg-info">
               <div class="inner">
@@ -29,12 +29,12 @@
                 <i class="fas fa-user-plus"></i>
               </div>
               <a href="${root}/admin/ps/userlist" class="small-box-footer">
-                관리 페이지 <i class="fas fa-arrow-circle-right"></i>
+                관리 페이지로 이동 <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-6 col-6">
             <!-- small card -->
             <div class="small-box bg-success">
               <div class="inner">
@@ -43,44 +43,27 @@
                 <p>7개 부서</p>
               </div>
               <div class="icon">
-                <i class="oi oi-flag"></i>
+                <i class="fas fa-chart-pie"></i>
               </div>
               <a href="${root}/admin/ps/deptmanage" class="small-box-footer">
-                관리 페이지 <i class="fas fa-arrow-circle-right"></i>
+                관리 페이지로 이동 <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>
           </div>
            <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small card -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3>직무 관리</h3>
-
-                <p>7개 직무</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-chart-pie"></i>
-              </div>
-              <a href="${root}/admin/ps/jobmanage" class="small-box-footer">
-                관리 페이지 <i class="fas fa-arrow-circle-right"></i>
-              </a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-6 col-6">
             <!-- small card -->
             <div class="small-box bg-primary">
               <div class="inner">
-                <h3>직위 관리</h3>
+                <h3>직무/직위 관리</h3>
 
                 <p>3가지 직위</p>
               </div>
               <div class="icon">
                 <i class="far fa-flag"></i>
               </div>
-              <a href="${root}/admin/ps/posimanage" class="small-box-footer">
-                관리 페이지 <i class="fas fa-arrow-circle-right"></i>
+              <a href="${root}/admin/ps/jobposimanage" class="small-box-footer">
+                관리 페이지로 이동 <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>
           </div>
