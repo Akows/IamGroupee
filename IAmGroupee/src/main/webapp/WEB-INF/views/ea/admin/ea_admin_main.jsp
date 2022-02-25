@@ -27,6 +27,8 @@
         <ul>
             <li class="active"><a href="#">기본설정</a></li>
             <li><a href="#">양식관리</a></li>
+            <li><a href="#">전체문서</a></li>
+            <li><a href="#">삭제문서</a></li>
         </ul>
       </div>
       <div class="ea_settings_list_contents">
@@ -50,13 +52,10 @@
                     <select name="gradeA" id="gradeA">
                       <!-- 직위 테이블에서 가져온 직위 데이터 넣기 -->
                       <!-- 직급은 변동이 가능하니.. default값이 있어야..? 그렇다면 직급 추가나 수정시에 문서열람등급 테이블도 디폴트 값으로 바꿔줘야 할 듯..? 테이블에 저장된 값이 처음에 체크된 상태로 -->
-                      <option value="1">1등급(임원)</option>
-                      <option value="2">2등급(부장)</option>
-                      <option value="3">3등급(차장)</option>
-                      <option value="4">4등급(과장)</option>
-                      <option value="5">5등급(대리)</option>
-                      <option value="6">6등급(주임/사원)</option>
-                    </select> 
+                      <c:forEach items="${positionValues}" var="pv">
+	                      <option value="pv.positionLevel">${pv.positionLevel}등급(${pv.positionName})</option>
+                      </c:forEach>
+                    </select>
                     이상 기본 열람</td>
                   </tr>
                   <tr>
@@ -65,12 +64,9 @@
                       <select name="gradeB" id="gradeB">
                         <!-- 직위 테이블에서 가져온 직위 데이터 넣기 -->
                         <!-- 직급은 변동이 가능하니.. default값이 있어야..? 그렇다면 직급 추가나 수정시에 문서열람등급 테이블도 디폴트 값으로 바꿔줘야 할 듯..? 테이블에 저장된 값이 처음에 체크된 상태로 -->
-                        <option value="1">1등급(임원)</option>
-                        <option value="2">2등급(부장)</option>
-                        <option value="3">3등급(차장)</option>
-                        <option value="4">4등급(과장)</option>
-                        <option value="5">5등급(대리)</option>
-                        <option value="6">6등급(주임/사원)</option>
+                        <c:forEach items="${positionValues}" var="pv">
+	                      <option value="pv.positionLevel">${pv.positionLevel}등급(${pv.positionName})</option>
+                        </c:forEach>
                       </select>
                       이상 기본 열람</td>
                     </tr>
@@ -107,27 +103,31 @@
                 <tr>
                   <td>부서 설정</td>
                   <td id="wrapD">
-                    <select name="formatD" id="formatD">
+                    <select name="formatD" id="formatD"  onchange="changeFormatD();">
                       <option value="1">부서 번호</option>
                       <option value="2">부서 이름</option>
                     </select>
                     <span>&emsp;&emsp;->&emsp;&emsp;ex)&emsp;</span>
+                    <span id="valueD"></span>
                   </td>
                 </tr>
                 <tr>
                   <td>양식 설정</td>
                   <td id="wrapF">
-                    <select name="formatF" id="formatF" onchange="">
+                    <select name="formatF" id="formatF" onchange="changeFormatF();">
                       <option value="1">양식 번호</option>
                       <option value="2">양식 이름</option>
                     </select>
                     <span>&emsp;&emsp;->&emsp;&emsp;ex)&emsp;</span>
+                    <span id="valueF"></span>
                   </td>
                 </tr>
                 <tr>
                   <td>포맷 확인</td>
                   <td id="wrapA">
-
+                    <span></span>
+                    <span></span>
+                    <span></span>
                   </td>
                 </tr>
                 <tr>
@@ -142,9 +142,123 @@
 
         <!---------------------- 양식관리 탭 ---------------------->
         <div>
-          <form action="" method="">
-
+          <form action="editform" method="GET">
+            <!-- category -->
+            <div>
+              <div><span>🗂 카테고리</span></div>
+              <select name="category" size="15">
+                <option value="밸류가지고오기">카테고리 1</option>
+                <option value="밸류가지고오기">카테고리 2</option>
+                <option value="밸류가지고오기">카테고리 3</option>
+                <option value="밸류가지고오기">카테고리 4</option>
+                <option value="밸류가지고오기">카테고리 5</option>
+                <option value="밸류가지고오기">카테고리 6</option>
+              </select>
+              <div>
+                <span id="categoryM">-</span>
+                <span id="categoryP">+</span>
+              </div>
+            </div>
+            <!-- form -->
+            <div>
+              <div><span>🧾 양식</span></div>
+              <select name="category" size="15">
+                <option value="밸류가지고오기">양식 1</option>
+                <option value="밸류가지고오기">양식 2</option>
+                <option value="밸류가지고오기">양식 3</option>
+                <option value="밸류가지고오기">양식 4</option>
+                <option value="밸류가지고오기">양식 5</option>
+                <option value="밸류가지고오기">양식 6</option>
+              </select>
+              <div>
+                <span id="formM">-</span>
+                <span id="formP">+</span>
+              </div>
+            </div>
+            <!-- preview -->
+            <div>
+              <div><span>🔍 양식 미리보기</span></div>
+              <article>
+                <!-- DB에 저장한 양식 하단에 불러오기 -->
+            <h1>이종훈</h1>
+            <table border="1">
+              <tr>
+                <td>이종훈이종훈이종훈이종훈이종훈이종훈이종훈이종훈이종훈이종훈이종훈</td>
+                <td>이종훈</td>
+                <td>이종훈</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>가</td>
+                <td>나</td>
+                <td>다</td>
+              </tr>
+              <tr>
+                <td>가</td>
+                <td>나</td>
+                <td>다</td>
+              </tr>
+              <tr>
+                <td>가</td>
+                <td>나</td>
+                <td>다</td>
+              </tr>
+              <tr>
+                <td>가</td>
+                <td>나</td>
+                <td>다</td>
+              </tr>
+              <tr>
+                <td>가</td>
+                <td>나</td>
+                <td>다</td>
+              </tr>
+              <tr>
+                <td>가</td>
+                <td>나</td>
+                <td>다</td>
+              </tr>
+              <tr>
+                <td>가</td>
+                <td>나</td>
+                <td>다</td>
+              </tr>
+              <tr>
+                <td>가</td>
+                <td>나</td>
+                <td>다</td>
+              </tr>
+              <tr>
+                <td>가</td>
+                <td>나</td>
+                <td>다</td>
+              </tr>
+              <tr>
+                <td>가</td>
+                <td>나</td>
+                <td>다</td>
+              </tr>
+              <tr>
+                <td>가</td>
+                <td>나</td>
+                <td>다</td>
+              </tr>
+              <tr>
+                <td>가</td>
+                <td>나</td>
+                <td>다</td>
+              </tr>
+            </table>
+              </article>
+            </div>
             
+            <span id="arrow1">=></span>
+            <span id="arrow2">=></span>
+            <input type="submit" value="양식 수정하기" id="editFormBtn">
           </form>
         </div>
 
@@ -179,9 +293,52 @@
 
         // 문서 번호 포맷
         function changeFormatY() {
+          let today = new Date();
+          let year = (today.getYear()-100).toString();
+          let year1 = today.getFullYear().toString();
+          let month = (today.getMonth() + 1) > 9 ? (today.getMonth() + 1).toString() : "0" + (today.getMonth() + 1).toString();
+          let month1 = (today.getMonth() + 1).toString();
+          let date = (today.getDate() > 9) ? today.getDate().toString() : "0" + today.getDate().toString();
+          let date1 = today.getDate().toString();
+          const todayFormat1 = year + month + date;
+          const todayFormat2 = year + month1 + date1;
+          const todayFormat3 = year1 + month + date;
+          const todayFormat4 = year1 + month1 + date1;
+
           let y = $('#formatY').val();
-          if(y == 1)
-            $('#valueY').html("220224");
+          if(y == 1) {
+            $('#valueY').html(todayFormat1);
+            $('#wrapA > span:nth-child(1)').html(todayFormat1 + "-");
+          } else if(y == 2) {
+            $('#valueY').html(todayFormat2);
+            $('#wrapA > span:nth-child(1)').html(todayFormat2 + "-");
+          } else if(y == 3) {
+            $('#valueY').html(todayFormat3);
+            $('#wrapA > span:nth-child(1)').html(todayFormat3 + "-");
+          } else if(y == 4) {
+            $('#valueY').html(todayFormat4);
+            $('#wrapA > span:nth-child(1)').html(todayFormat4 + "-");
+          }
+        };
+        function changeFormatD() {
+          let d = $('#formatD').val();
+          if(d == 1) {
+            $('#valueD').html("01");
+            $('#wrapA > span:nth-child(2)').html("01-");
+          } else if(d == 2) {
+            $('#valueD').html("인사");
+            $('#wrapA > span:nth-child(2)').html("인사-");
+          }
+        };
+        function changeFormatF() {
+          let d = $('#formatF').val();
+          if(d == 1) {
+            $('#valueF').html("0001");
+            $('#wrapA > span:nth-child(3)').html("0001-1");
+          } else if(d == 2) {
+            $('#valueF').html("비품구매서");
+            $('#wrapA > span:nth-child(3)').html("비품구매서-1");
+          }
         };
     </script>
 

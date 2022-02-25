@@ -20,6 +20,9 @@
 .ea_settings_title {
   width: 100%;
 }
+.ea_settings_title ul {
+  margin-top: 20px;
+}
 .ea_settings_title > ul > li.active {
   background: #4081e4;
   color: #fff;
@@ -76,4 +79,118 @@
   border: none;
   text-align: left;
 }
+.ea_settings_list_contents > div:nth-child(1) input[type="submit"] {
+  color: #fff;
+  background: #4081e4;
+  float: right;
+  margin: 20px;
+}
 /* 양식관리 */
+.ea_settings_list_contents > div:nth-child(2) > form > div:nth-child(1),
+.ea_settings_list_contents > div:nth-child(2) > form > div:nth-child(2),
+.ea_settings_list_contents > div:nth-child(2) > form > div:nth-child(3) {
+  width: 30%;
+  float: left;
+  padding: 20px;
+}
+.ea_settings_list_contents > div:nth-child(2) > form > div:nth-child(3) {
+  width: 40%;
+}
+.ea_settings_list_contents
+  > div:nth-child(2)
+  > form
+  > div:nth-child(1)
+  > select,
+.ea_settings_list_contents
+  > div:nth-child(2)
+  > form
+  > div:nth-child(2)
+  > select {
+  width: 70%;
+}
+.ea_settings_list_contents
+  > div:nth-child(2)
+  > form
+  > div:nth-child(3)
+  > article {
+  width: 90%;
+  background: #fff;
+  border: 1px solid #262626;
+  overflow: scroll;
+  height: 332px;
+}
+span[id$="M"] {
+  color: #064db8;
+  background: #fff;
+  font-size: 20px;
+  padding: 7px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  font-weight: 900;
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+}
+span[id$="P"] {
+  color: #fff;
+  background: #064db8;
+  font-size: 20px;
+  padding: 5px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  font-weight: 700;
+  border-radius: 5px;
+}
+#arrow1,
+#arrow2 {
+  position: absolute;
+  top: 45%;
+  left: 25%;
+  transform: translate(-30%, -50%);
+  font-size: 50px;
+  font-weight: 900;
+}
+#arrow2 {
+  left: 55%;
+}
+#editFormBtn {
+  color: #fff;
+  background: #4081e4;
+  float: right;
+  margin: 20px;
+}
+/* 양식 수정 페이지 */
+.ea_settings_editForm_wrapper {
+  width: 90%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+.ea_settings_editForm_contents {
+  width: 100%;
+  border: 3px solid gainsboro;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+  position: relative;
+  float: left;
+}
+.ea_settings_editForm_contents > form > div {
+  margin: 10px;
+}
+.ea_settings_editForm_contents > form > div > span {
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px;
+}
+.ea_settings_editForm_contents > form > div:nth-child(1) > input,
+.ea_settings_editForm_contents > form > div:nth-child(2) > input {
+  background: #fff;
+}
+.ea_settings_editForm_contents > form > div:last-child > a {
+  float: right;
+  margin: 20px;
+  color: #fff;
+  background: #4081e4;
+  padding: 10px;
+  border-radius: 5px;
+  margin-left: 0;
+}

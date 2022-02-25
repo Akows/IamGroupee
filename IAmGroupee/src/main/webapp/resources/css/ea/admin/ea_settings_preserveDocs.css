@@ -1,0 +1,11 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+
+.ea_wrapper {
+  width: 100%;
+  height: 85%;
+  position: relative;
+  overflow: scroll;
+}
+.ea_wrapper * {
+  box-sizing: border-box;
+}
