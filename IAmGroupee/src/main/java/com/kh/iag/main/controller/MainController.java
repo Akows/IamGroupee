@@ -45,6 +45,20 @@ public class MainController {
 				//세션에 담기
 				session.setAttribute("loginUser",loginUser);
 				
+//				============연차 발생
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				String[] checkedValues = checkedVo.getChecked();
 				if(checkedValues != null) {
 					String checkedValue = "";

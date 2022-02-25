@@ -54,7 +54,7 @@
 		</interceptor>
 		
 		<interceptor>
-			<mapping path="/**/**/**/*"/>
+			<mapping path="/**/*"/>
 			<exclude-mapping path="/login"/>	
 			<beans:bean class="com.kh.iag.interceptor.LoginInterceptor"/>		
 		</interceptor>
