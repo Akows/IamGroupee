@@ -12,7 +12,7 @@
 	<link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
 	<!-- adminLTE CDN -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
-	
+
 </head>
 <body>
 	
@@ -23,7 +23,20 @@
 	      <div class="container-fluid">
 	        <div class="row mb-2">
 	          <div class="col-sm-6">
-	            <h1>부서별 프로젝트</h1>
+					<form action="" method="post">
+						<button class="btn-primary btn-lg" type="submit" name="dept" value="@">
+							@@부
+						</button>
+						<button class="btn-primary btn-lg" type="submit" name="dept" value="#">
+							##부
+						</button>
+						<button class="btn-primary btn-lg" type="submit" name="dept" value="$">
+							$$부
+						</button>
+						<button class="btn-primary btn-lg" type="submit" name="dept" value="%">
+							%%부
+						</button>
+					</form>
 	          </div>
 	          <div class="col-sm-6">
 	            <ol class="breadcrumb float-sm-right">
@@ -35,70 +48,136 @@
 	      </div><!-- /.container-fluid -->
 	    </section>
 	    
-	    <section class="connectedSortable">
-            	<div class="card">
-                	<div class="card-header">
-                    	<h3 class="card-title">Project List</h3>	
-                	</div>
-                	
-              		<div class="card card-primary card-outline card-outline-tabs">
-	              <div class="card-header p-0 border-bottom-0">
-	                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-	                  <li class="nav-item">
-	                    <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">&&부</a>
-	                  </li>
-	                  <li class="nav-item">
-	                    <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">##부</a>
-	                  </li>
-	                  <li class="nav-item">
-	                    <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">@@부</a>
-	                  </li>
-	                  <li class="nav-item">
-	                    <a class="nav-link" id="custom-tabs-four-settings-tab" data-toggle="pill" href="#custom-tabs-four-settings" role="tab" aria-controls="custom-tabs-four-settings" aria-selected="false">$$부</a>
-	                  </li>
-	                </ul>
-	              </div>
-	              <div class="card-body">
-	                <div class="tab-content" id="custom-tabs-four-tabContent">
-	                  <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
-	                    <div class="card-body">
-                		<div class="info-box mb-3 bg-lighst">
-                			<div class="info-box-content">IAMGROUPE</div>
-                		</div>
-              		</div> 
-              		<div class="card-body">
-                		<div class="info-box mb-3 bg-lighst">
-                			<div class="info-box-content">IAMGROUPE</div>
-                		</div>
-              		</div>
-              		<div class="card-body">
-                		<div class="info-box mb-3 bg-lighst">
-                			<div class="info-box-content">IAMGROUPE</div>
-                		</div>
-              		</div>
-              		<div class="card-body">
-                		<div class="info-box mb-3 bg-lighst">
-                			<div class="info-box-content">IAMGROUPE</div>
-                		</div>
-              		</div>
-              		<div class="card-body">
-                		<div class="info-box mb-3 bg-lighst">
-                			<div class="info-box-content">IAMGROUPE</div>
-                		</div>
-              		</div>
-	                  </div>
+	    <section class="content">
+			<div class="container-fluid">
 
-	                </div>
-	              </div>
-	            </div>
-				</div> <!-- /.card -->
-			</section>
+				<div class="row">
+					<section class="col-lg-8 connectedSortable">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title"> Project List</h3>
+							</div>
+
+							<div class="card-body row">
+								<div class="col-lg-6">
+									<a href="http://127.0.0.1:8989/iag/prj/prjDetail">
+										<div class="info-box bg-lightblue">
+											<span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
+								
+											<div class="info-box-content">
+												<span class="info-box-text">IAMGROUPE</span>
+												<span class="info-box-number">%%부</span>
+								
+												<div class="progress">
+												<div class="progress-bar" style="width: 70%"></div>
+												</div>
+												<span class="progress-description">
+												70% Increase in 30 Days
+												</span>
+											</div><!-- /.info-box-content -->
+										</div>
+									</a>
+								</div>
+								<div class="col-lg-6">
+									<div class="info-box bg-lightblue">
+										<span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
+							
+										<div class="info-box-content">
+											<span class="info-box-text">IAMGROUPE</span>
+											<span class="info-box-number">%%부</span>
+							
+											<div class="progress">
+											<div class="progress-bar" style="width: 70%"></div>
+											</div>
+											<span class="progress-description">
+											70% Increase in 30 Days
+											</span>
+										</div><!-- /.info-box-content -->
+									</div>
+								</div> 
+
+							</div>	
+								
+						</div>
+					</section>
+
+					<section class="col-lg-4 connectedSortable">
+						<div class="card">
+							<div class="card-header">
+								<form action="simple-results.html">
+									<div class="input-group">
+										<input type="search" class="form-control form-control-lg" placeholder="Type your keywords here">
+										<div class="input-group-append">
+											<button type="submit" class="btn btn-lg btn-default">
+												<i class="fa fa-search"></i>
+											</button>
+										</div>
+									</div>
+								</form>	
+							</div>
+
+							<div class="card-body p-0">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th>프로젝트명</th>
+											<th>Progress</th>
+											<th style="width: 40px">Label</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Update software</td>
+											<td>
+												<div class="progress progress-xs">
+												<div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+												</div>
+											</td>
+											<td><span class="badge bg-danger">55%</span></td>
+										</tr>
+										<tr>
+											<td>Clean database</td>
+											<td>
+												<div class="progress progress-xs">
+												<div class="progress-bar bg-warning" style="width: 70%"></div>
+												</div>
+											</td>
+											<td><span class="badge bg-warning">70%</span></td>
+										</tr>
+										<tr>
+											<td>Cron job running</td>
+											<td>
+												<div class="progress progress-xs progress-striped active">
+												<div class="progress-bar bg-primary" style="width: 30%"></div>
+												</div>
+											</td>
+											<td><span class="badge bg-primary">30%</span></td>
+										</tr>
+										<tr>
+											<td>Fix and squish bugs</td>
+											<td>
+												<div class="progress progress-xs progress-striped active">
+												<div class="progress-bar bg-success" style="width: 90%"></div>
+												</div>
+											</td>
+										<td><span class="badge bg-success">90%</span></td>
+										</tr>
+									</tbody>
+								</table>
+							</div><!-- /.card-body -->
+						</div>
+					</section>  <!-- /. left row -->
+				</div>
+
+			</div>	
+		</section>
     </main>
 	  
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
+
 	
 </body>
 </html>

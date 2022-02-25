@@ -24,10 +24,9 @@
         		<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<button class="btn-primary btn" data-toggle="modal" data-target="#createPrj">
+							<button class="btn-primary btn-lg" data-toggle="modal" data-target="#createPrj">
 								프로젝트 생성
 							</button>
-							
 						</div>
 						
 						<div class="modal fade" id="createPrj">
@@ -133,7 +132,7 @@
 								</form>	
 							</div>
 							
-							<a href="#"> 
+							<a href="http://127.0.0.1:8989/iag/prj/prjDetail">
 								<div class="card-body">
 									<div class="info-box bg-primary">
 										<span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>

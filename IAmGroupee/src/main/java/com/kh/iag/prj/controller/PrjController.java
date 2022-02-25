@@ -39,7 +39,11 @@ public class PrjController {
 		return "prj/prjMain";
 	}
 	
-	
+	//프로젝트 상세보기
+	@GetMapping("prjDetail")
+	public String prjDetail() {
+		return "prj/prjDetail";
+	}
 	
 	//////////////////////////////////////////////////////////////////////////////////
 	
