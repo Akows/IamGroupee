@@ -2,12 +2,12 @@ var eventModal = $('#eventModal');
 
 var modalTitle = $('.modal-title');
 var editAllDay = $('#edit-allDay');
-var editTitle = $('#edit-title');
-var editStart = $('#edit-start');
-var editEnd = $('#edit-end');
-var editType = $('#edit-type');
+var editTitle = $('#schTitle');
+var editStart = $('#schStart');
+var editEnd = $('#schEnd');
+var editType = $('#schWith');
 var editColor = $('#edit-color');
-var editDesc = $('#edit-desc');
+var editDesc = $('#schContent');
 
 var addBtnContainer = $('.modalBtnContainer-addEvent');
 var modifyBtnContainer = $('.modalBtnContainer-modifyEvent');
@@ -38,7 +38,8 @@ var newEvent = function (start, end, eventType) {
     //새로운 일정 저장버튼 클릭
     $('#save-event').unbind();
     $('#save-event').on('click', function () {
-
+		var scheduleData = JSON.stringify($('form#scheduleData').serializeObject());
+		
         var eventData = {
             _id: eventId,
             title: editTitle.val(),
@@ -82,14 +83,14 @@ var newEvent = function (start, end, eventType) {
         //새로운 일정 저장
         $.ajax({
             type: "get",
-            url: "",
-            data: {
-                //.....
-            },
-            success: function (response) {
-                //DB연동시 중복이벤트 방지를 위한
-                //$('#calendar').fullCalendar('removeEvents');
-                //$('#calendar').fullCalendar('refetchEvents');
+            url: "addSchedule",
+            data: scheduleData,
+            datatype: "json",
+            contentType : "application/json; charset=UTF-8",
+            success: function (data) {
+	
+                $('#calendar').fullCalendar('removeEvents');
+                $('#calendar').fullCalendar('refetchEvents');
             }
         });
     });

@@ -12,6 +12,8 @@
   <c:set var="root" value="${pageContext.request.contextPath}"/>
 
   <!-- FullCalendar -->
+  <link rel="shortcut icon" href="${root}/resources/img/sch/favicon.ico">
+  
   <link rel='stylesheet' href='${root}/resources/css/sch/fullcalendar.min.css' />
   <link rel='stylesheet' href='${root}/resources/css/sch/bootstrap.min.css' />
   <link rel='stylesheet' href='${root}/resources/css/sch/select2.min.css' />
@@ -55,7 +57,7 @@
                         <h4 class="modal-title"></h4>
                     </div>
                     <div class="modal-body">
-
+					<form action="get" id="scheduleData"> <!-- form #schduleData -->
                         <div class="row">
                             <div class="col-xs-12">
                                 <label class="col-xs-4" for="edit-allDay">하루종일</label>
@@ -66,30 +68,30 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <label class="col-xs-4" for="edit-title">일정명</label>
-                                <input class="inputModal" type="text" name="edit-title" id="edit-title"
+                                <input class="inputModal" type="text" name="schTitle" id="schTitle"
                                     required="required" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
                                 <label class="col-xs-4" for="edit-start">시작</label>
-                                <input class="inputModal" type="text" name="edit-start" id="edit-start" />
+                                <input class="inputModal" type="text" name="schStart" id="schStart" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
                                 <label class="col-xs-4" for="edit-end">끝</label>
-                                <input class="inputModal" type="text" name="edit-end" id="edit-end" />
+                                <input class="inputModal" type="text" name="schEnd" id="schEnd" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
-                                <label class="col-xs-4" for="edit-type">구분</label>
-                                <select class="inputModal" type="text" name="edit-type" id="edit-type">
-                                    <option value="카테고리1">카테고리1</option>
-                                    <option value="카테고리2">카테고리2</option>
-                                    <option value="카테고리3">카테고리3</option>
-                                    <option value="카테고리4">카테고리4</option>
+                                <label class="col-xs-4" for="edit-type">참석자</label>
+                                <select class="inputModal" type="text" name="schWith" id="schWith">
+                                    <option value="카테고리1">김사원</option>
+                                    <option value="카테고리2">이대리</option>
+                                    <option value="카테고리3">박과장</option>
+                                    <option value="카테고리4">최부장</option>
                                 </select>
                             </div>
                         </div>
@@ -112,11 +114,12 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <label class="col-xs-4" for="edit-desc">설명</label>
-                                <textarea rows="4" cols="50" class="inputModal" name="edit-desc"
-                                    id="edit-desc"></textarea>
+                                <textarea rows="4" cols="50" class="inputModal" name="schContent"
+                                    id="schContent"></textarea>
                             </div>
                         </div>
-                    </div>
+                      </form>
+                    </div>                
                     <div class="modal-footer modalBtnContainer-addEvent">
                         <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
                         <button type="button" class="btn btn-primary" id="save-event">저장</button>
@@ -129,7 +132,6 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-     
         <!-- /.filter panel -->
     </div>
     <!-- /.container -->

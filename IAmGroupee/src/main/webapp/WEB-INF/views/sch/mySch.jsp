@@ -41,30 +41,30 @@
         <div class="row stat-cards">
         
           <!-- 일정 선택 div -->
-          <div class="col-md-6 col-xl-2" style="height: 600px;">
+          <div class="col-md-6 col-xl-2" style="height: 750px;">
             <article class="stat-cards-item">
-             <div id="schdule-info" style="position: relative; right: 5px;">
+             <div id="schdule-info" style="position: relative; bottom: 60px">
              		<p style="color: gray; font-weight: bold; font-size: large;">일정</p>
 				<br><br>
-					<div id="all-sch" style="position: relative; left: 25px; font-size:1.4em;  font-weight: bold;">
-						<input type="radio" name="" id="" style="width: 20px; height: 20px; position: relative; left: 10px; top: 5px;"> 전체 일정
+					<div id="all-sch" style="position: relative; font-size:1.4em;  font-weight: bold;">
+						<input type="radio" name="" id="" style="width: 15px; height: 15px; position: relative; left: 10px; top: 3px;"> 전체 일정
 					</div>
 				<br><br>
-					<div id="my-sch" style="position: relative; left: 25px; font-size:1.4em; font-weight: bold;">
-						<input type="radio" name="" id="" style="width: 20px; height: 20px; position: relative; left: 10px; top: 5px;"> 내가 등록한 일정
+					<div id="my-sch" style="position: relative; font-size:1.4em; font-weight: bold;">
+						<input type="radio" name="" id="" style="width: 15px; height: 15px; position: relative; left: 10px; top: 3px;"> 내가 등록한 일정
 					</div>
 				<br><br>
-					<div id="detp-sch" style="position: relative; left: 25px; font-size:1.4em;  font-weight: bold;">
-						<input type="radio" name="" id="" style="width: 20px; height: 20px; position: relative; left: 10px; top: 5px;"> 부서별 일정
+					<div id="detp-sch" style="position: relative; font-size:1.4em;  font-weight: bold;">
+						<input type="radio" name="" id="" style="width: 15px; height: 15px; position: relative; left: 10px; top: 3px;"> 부서별 일정
 					</div>
 				<br><br>
 				<hr style="width: 190px; left: 10px;">
-				<br><br>
+				<br>
 					<!-- 필터별 선택 -->
 					<p style="color: gray; font-weight: bold; font-size: large;">구분</p>
 				<br><br>
-					<div class="input-group">
-						<label for="calendar_view" style="font-size:1.4em;  font-weight: bold;">구분별</label>
+					<div class="input-group" style=" left: 10px;">
+						<label for="calendar_view" style="font-size:1.4em;  font-weight: bold; right: 30px;">참석자</label>
                         <select class="filter" id="type_filter" multiple="multiple">
                             <option value="카테고리1">카테고리1</option>
                             <option value="카테고리2">카테고리2</option>
@@ -73,16 +73,16 @@
                         </select>
                     </div>
                  <br><br>
-                 <div class="col-lg-6">
-                    <label for="calendar_view" style="font-size:1.4em;  font-weight: bold;">등록자별</label>
-                    <div class="input-group">
-                        <label class="checkbox-inline" style="font-size:1.4em;  font-weight: bold;">
-                        <input class='filter' type="checkbox" value="정연" checked style="">기본 캘린더</label>
+                 <div class="col-lg-6" style="">
+                    <label for="calendar_view" style="font-size:1.4em;  font-weight: bold;">캘린더</label>
+                    <div class="input-group" style="width: 100px;">
+                        <label class="checkbox-inline" style="font-size:1.4em;  font-weight: bold;"><br>
+                        <input class='filter' type="checkbox" value="정연" checked>기본 캘린더</label>
                         
-                        <label class="checkbox-inline" style="font-size:1.4em;  font-weight: bold;">
+                        <label class="checkbox-inline" style="font-size:1.4em;  font-weight: bold;"><br>
                         <input class='filter' type="checkbox" value="다현" checked>부서 캘린더</label>
                         
-                        <label class="checkbox-inline" style="font-size:1.4em;  font-weight: bold;">
+                        <label class="checkbox-inline" style="font-size:1.4em;  font-weight: bold;"><br>
                         <input class='filter' type="checkbox" value="사나" checked>전사 캘린더</label>
                     </div>
                 </div>
@@ -91,10 +91,10 @@
           </div> <!-- /일정 선택 div -->
         
           <!-- Fullcalendar 페이지 -->
-          <div class="col-md-7 col-xl-8" style="height: 1000px">
+          <div class="col-md-7 col-xl-8" style="height: 750px">
             <article class="stat-cards-item">
 		      
-	          <iframe src="${root}/sch/calendar" height="100%" width="100%" scrolling="no"></iframe>
+	          <iframe src="${root}/sch/schedule" height="100%" width="100%" scrolling="no"></iframe>
 				    
             </article>
           </div><!-- /Fullcalendar 페이지 -->
