@@ -5,10 +5,6 @@
   
   <mapper namespace="leave">
   
-    <select id="getlvInfoList" resultType="lvInfo">
-    	SELECT * FROM LV_BOARD
-    </select>
-  
     <select id="getAlvList" resultType="lvList">
     	SELECT * FROM USAGE_LV UL
     	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
@@ -26,5 +22,40 @@
     	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
     	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'LV%' AND UL.LV_END &lt; SYSDATE
     </select>
+  
+    <select id="getLvTypeList" resultType="leave">
+    	SELECT * FROM LEAVE
+    	WHERE LV_CODE LIKE 'LV%'
+    </select>
+    
+    <select id="checkExist" resultType="leave">
+    	SELECT * FROM LEAVE
+    	WHERE LV_CODE = #{lvCode}
+    </select>
+    
+    <insert id="addLvType" parameterType="leave">
+    	 INSERT INTO LEAVE
+         VALUES
+         (
+         	#{lvCode},
+         	#{lvName},
+         	#{lvPaid},
+         	0,
+         	0,
+         	#{lvContent}
+         )
+    </insert>
+    
+    <delete id="delLvType" parameterType="string">
+    	DELETE LEAVE
+    	WHERE LV_CODE = #{lvCode}
+    </delete>
+    
+    <select id="getLvInfoList" resultType="lvInfo">
+    	SELECT * FROM LV_BOARD
+    	WHERE LVB_DEL = 'N'
+    </select>
+    
+    
     
   </mapper>

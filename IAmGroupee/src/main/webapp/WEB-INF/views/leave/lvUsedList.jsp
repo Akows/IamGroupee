@@ -156,9 +156,9 @@
             initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
             googleCalendarApiKey: 'AIzaSyDYMx36O77hSRC2wnwmpzWJ6M2BJ_F8fek',
 			headerToolbar : { // 헤더에 표시할 툴 바
-				start : 'prev next',
+				start : 'today',
 				center : 'title',
-				end : 'today'
+				end : 'prev next'
 			},
 			titleFormat : function(date) {
 				return date.date.year + '년 ' + (parseInt(date.date.month) + 1) + '월';

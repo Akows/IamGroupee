@@ -1,20 +1,18 @@
 package com.kh.iag.leave.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kh.iag.leave.entity.LvInfoDto;
 import com.kh.iag.leave.entity.LvUsedListDto;
-import com.kh.iag.leave.entity.PageVo;
 import com.kh.iag.leave.service.LeaveService;
 import com.kh.iag.user.entity.UserDto;
 
@@ -24,20 +22,20 @@ public class LeaveController {
 	
 	@Autowired
 	private LeaveService service;
-	
 //============================= 사용자, 관리자 메뉴 =============================	
 	@GetMapping("leaveMain")  // 연차 메인
-	public String leaveMain() {		
+	public String leaveMain(HttpSession session, HttpServletRequest request) {	
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		
+		String enrollDate = String.valueOf(loginUser.getEnrollDate());
+		LocalDate now = LocalDate.now();
+		int year = now.getYear();
+		String startDate = String.valueOf(year) + "-" + enrollDate.substring(5);
+		
+		session.setAttribute("startDate", startDate);
+		
 		return "leave/leaveMain";
 	}
-//	@GetMapping("leaveMain")  // 테스트
-//	public String leaveMain() {		
-//		return "leave/test2";
-//	}
-//	@GetMapping("ts")  //테스트
-//	public String leaveMains() {		
-//		return "leave/test";
-//	}
 	
 //	@GetMapping(value = {"/lvUsedList/{page}", "list"} , Model model, @PathVariable(required = false) String page)) // 연차 및 휴가 사용대장
 	@GetMapping("lvUsedList")
@@ -89,13 +87,15 @@ public class LeaveController {
 
 //============================= 사용자 메뉴 =============================	
 	@GetMapping("lvInfo") // 사용자 휴무 정보 게시글
-	public String lvInfo() {
+	public String lvInfo(HttpServletRequest request) throws Exception {
 		
-//		service.getLeaveList();
+		List<LvInfoDto> lvInfoList = service.getLvInfoList();
 		
+		request.setAttribute("lvInfoList", lvInfoList);
 		
 		return "leave/leaveInfo";
 	}
+	
 	@GetMapping("lvInfoDetail") // 사용자 휴무 정보 상세페이지
 	public String lvInfoDetail() {
 		
