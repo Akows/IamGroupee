@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="ea">
+	<!-- 기본설정 데이터 -->
+	<select id="defaultSettings" resultType="com.kh.iag.ea.entity.SettingsDto">
+		SELECT A.SEC_GRADE SECGRADEA,
+				A.SEC_MIN SECMINA,
+				B.SEC_GRADE SECGRADEB,
+				B.SEC_MIN SECMINB,
+				F.FORMAT_NO,
+				F.FORMAT_YEAR,
+				F.FORMAT_DEPT,
+				F.FORMAT_FORM
+		FROM EA_SEC_A A, EA_SEC_B B, EA_FORMAT F
+	</select>
+	<!-- 직위 데이터 -->
+	<select id="positionValues" resultType="com.kh.iag.ea.entity.PositionDto">
+		SELECT * FROM POSITION ORDER BY POSITION_LEVEL
+	</select>
+</mapper>

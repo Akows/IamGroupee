@@ -46,9 +46,8 @@
 .ea_signup_formselect_contents > div:nth-child(2),
 .ea_signup_formselect_contents > div:nth-child(3) {
   width: 30%;
-  height: 100%;
   float: left;
-  transform: translate(5%, 10%);
+  padding: 20px;
 }
 .ea_signup_formselect_contents > div:nth-child(1) > div > span,
 .ea_signup_formselect_contents > div:nth-child(2) > div > span,
@@ -58,14 +57,14 @@
 }
 .ea_signup_formselect_contents > div:nth-child(1) > select,
 .ea_signup_formselect_contents > div:nth-child(2) > select {
-  width: 60%;
+  width: 70%;
 }
 .ea_signup_formselect_contents > div:nth-child(3) {
   width: 40%;
 }
 .ea_signup_formselect_contents > div:nth-child(3) > article {
   width: 90%;
-  height: 65%;
+  height: 332px;
   background: #fff;
   border: 1px solid #262626;
   overflow: scroll;
@@ -87,7 +86,7 @@
   position: absolute;
   top: 45%;
   left: 25%;
-  transform: translate(-50%, -50%);
+  transform: translate(-30%, -75%);
   font-size: 50px;
   font-weight: 900;
 }
