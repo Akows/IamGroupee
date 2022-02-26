@@ -28,7 +28,7 @@
                             <div class="input-group input-group-lg">
                                 <input type="search" class="form-control form-control-lg" placeholder="사번/이름으로 검색">
                                 <div class="input-group-append">
-                                    <button type="submit" class="btn btn-lg btn-default bg-primary">
+                                    <button type="submit" class="btn btn-lg btn-default bg-primary" onclick="">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
@@ -60,5 +60,8 @@
     <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 	<!-- Custom scripts -->
+	<script type="text/javascript">
+		
+	</script>
 </body>
 </html>
