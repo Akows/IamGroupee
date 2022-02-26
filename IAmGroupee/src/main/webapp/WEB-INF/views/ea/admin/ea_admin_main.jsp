@@ -34,7 +34,7 @@
       <div class="ea_settings_list_contents">
         <!---------------------- 기본설정 탭 ---------------------->
         <div>
-          <form action="" method="">
+          <form action="" method="GET">
             <table>
               <thead>
                 <tr>
@@ -49,11 +49,18 @@
                 <tr>
                   <td>A등급</td>
                   <td>최종 승인 후 직위 
-                    <select name="gradeA" id="gradeA">
+                    <select name="secMinA" id="gradeA">
                       <!-- 직위 테이블에서 가져온 직위 데이터 넣기 -->
                       <!-- 직급은 변동이 가능하니.. default값이 있어야..? 그렇다면 직급 추가나 수정시에 문서열람등급 테이블도 디폴트 값으로 바꿔줘야 할 듯..? 테이블에 저장된 값이 처음에 체크된 상태로 -->
                       <c:forEach items="${positionValues}" var="pv">
-	                      <option value="pv.positionLevel">${pv.positionLevel}등급(${pv.positionName})</option>
+                      	<c:choose >
+                      		<c:when test="${pv.positionLevel eq defaultSettings.secMinA}">
+		                      <option value="${pv.positionLevel}" selected="selected">${pv.positionLevel}등급(${pv.positionName})</option>
+                      		</c:when>
+                      		<c:otherwise>
+                      		  <option value="${pv.positionLevel}">${pv.positionLevel}등급(${pv.positionName})</option>
+                      		</c:otherwise>
+                      	</c:choose>
                       </c:forEach>
                     </select>
                     이상 기본 열람</td>
@@ -61,11 +68,18 @@
                   <tr>
                     <td>B등급</td>
                     <td>최종 승인 후 직위 
-                      <select name="gradeB" id="gradeB">
+                      <select name="secMinB" id="gradeB">
                         <!-- 직위 테이블에서 가져온 직위 데이터 넣기 -->
                         <!-- 직급은 변동이 가능하니.. default값이 있어야..? 그렇다면 직급 추가나 수정시에 문서열람등급 테이블도 디폴트 값으로 바꿔줘야 할 듯..? 테이블에 저장된 값이 처음에 체크된 상태로 -->
                         <c:forEach items="${positionValues}" var="pv">
-	                      <option value="pv.positionLevel">${pv.positionLevel}등급(${pv.positionName})</option>
+                      	  <c:choose >
+                      		<c:when test="${pv.positionLevel eq defaultSettings.secMinB}">
+		                      <option value="${pv.positionLevel}" selected="selected">${pv.positionLevel}등급(${pv.positionName})</option>
+                      		</c:when>
+                      		<c:otherwise>
+                      		  <option value="${pv.positionLevel}">${pv.positionLevel}등급(${pv.positionName})</option>
+                      		</c:otherwise>
+                      	  </c:choose>
                         </c:forEach>
                       </select>
                       이상 기본 열람</td>
@@ -90,11 +104,11 @@
                 <tr>
                   <td>연도 설정</td>
                   <td id="wrapY">
-                    <select name="formatY" id="formatY" onchange="changeFormatY();">
-                      <option value="1">YYMMDD</option>
-                      <option value="2">YYMD</option>
-                      <option value="3">YYYYMMDD</option>
-                      <option value="4">YYYYMD</option>
+                    <select name="formatYear" id="formatY" onchange="changeFormatY();">
+                      <option value="YYMMDD">YYMMDD</option>
+                      <option value="YYMD">YYMD</option>
+                      <option value="YYYYMMDD">YYYYMMDD</option>
+                      <option value="YYYYMD">YYYYMD</option>
                     </select>
                     <span>&emsp;&emsp;->&emsp;&emsp;ex)&emsp;</span>
                     <span id="valueY"></span>
@@ -103,9 +117,9 @@
                 <tr>
                   <td>부서 설정</td>
                   <td id="wrapD">
-                    <select name="formatD" id="formatD"  onchange="changeFormatD();">
-                      <option value="1">부서 번호</option>
-                      <option value="2">부서 이름</option>
+                    <select name="formatDept" id="formatD"  onchange="changeFormatD();">
+                      <option value="부서번호">부서 번호</option>
+                      <option value="부서이름">부서 이름</option>
                     </select>
                     <span>&emsp;&emsp;->&emsp;&emsp;ex)&emsp;</span>
                     <span id="valueD"></span>
@@ -114,9 +128,9 @@
                 <tr>
                   <td>양식 설정</td>
                   <td id="wrapF">
-                    <select name="formatF" id="formatF" onchange="changeFormatF();">
-                      <option value="1">양식 번호</option>
-                      <option value="2">양식 이름</option>
+                    <select name="formatForm" id="formatF" onchange="changeFormatF();">
+                      <option value="양식번호">양식 번호</option>
+                      <option value="양식이름">양식 이름</option>
                     </select>
                     <span>&emsp;&emsp;->&emsp;&emsp;ex)&emsp;</span>
                     <span id="valueF"></span>
@@ -146,13 +160,10 @@
             <!-- category -->
             <div>
               <div><span>🗂 카테고리</span></div>
-              <select name="category" size="15">
-                <option value="밸류가지고오기">카테고리 1</option>
-                <option value="밸류가지고오기">카테고리 2</option>
-                <option value="밸류가지고오기">카테고리 3</option>
-                <option value="밸류가지고오기">카테고리 4</option>
-                <option value="밸류가지고오기">카테고리 5</option>
-                <option value="밸류가지고오기">카테고리 6</option>
+              <select name="categoryNo" size="15">
+	              <c:forEach items="${categoryValues}" var="cv">
+	                <option value="${cv.categoryNo}">${cv.categoryName}</option>
+	              </c:forEach>
               </select>
               <div>
                 <span id="categoryM">-</span>
@@ -162,13 +173,10 @@
             <!-- form -->
             <div>
               <div><span>🧾 양식</span></div>
-              <select name="category" size="15">
-                <option value="밸류가지고오기">양식 1</option>
-                <option value="밸류가지고오기">양식 2</option>
-                <option value="밸류가지고오기">양식 3</option>
-                <option value="밸류가지고오기">양식 4</option>
-                <option value="밸류가지고오기">양식 5</option>
-                <option value="밸류가지고오기">양식 6</option>
+              <select name="formNo" size="15">
+                <c:forEach items="${formValues}" var="fv">
+                  <option class="${fv.categoryNo}" value="${fv.formNo}">${fv.formTitle}</option>
+                </c:forEach>
               </select>
               <div>
                 <span id="formM">-</span>
@@ -290,56 +298,108 @@
             tabCont.css('display', 'none');
             tabCont.eq(index).css('display', 'block');
         })
+        // 문서 번호 포맷 디폴트값 들어가게
+        let today = new Date();
+        let year = (today.getYear()-100).toString();
+        let year1 = today.getFullYear().toString();
+        let month = (today.getMonth() + 1) > 9 ? (today.getMonth() + 1).toString() : "0" + (today.getMonth() + 1).toString();
+        let month1 = (today.getMonth() + 1).toString();
+        let date = (today.getDate() > 9) ? today.getDate().toString() : "0" + today.getDate().toString();
+        let date1 = today.getDate().toString();
+        const todayFormat1 = year + month + date;
+        const todayFormat2 = year + month1 + date1;
+        const todayFormat3 = year1 + month + date;
+        const todayFormat4 = year1 + month1 + date1;
 
+        $("#formatY > option[value=<c:out value='${defaultSettings.formatYear}'/>]").attr('selected', 'selected');
+        $("#formatD > option[value=<c:out value='${defaultSettings.formatDept}'/>]").attr('selected', 'selected');
+        $("#formatF > option[value=<c:out value='${defaultSettings.formatForm}'/>]").attr('selected', 'selected');
+
+        if("<c:out value='${defaultSettings.formatYear}'/>" == 'YYMMDD') {
+          $('#valueY').html(todayFormat1);
+          $('#wrapA > span:nth-child(1)').html(todayFormat1 + "-");
+        } else if("<c:out value='${defaultSettings.formatYear}'/>" == 'YYMD') {
+          $('#valueY').html(todayFormat2);
+          $('#wrapA > span:nth-child(1)').html(todayFormat2 + "-");
+        } else if("<c:out value='${defaultSettings.formatYear}'/>" == 'YYYYMMDD') {
+          $('#valueY').html(todayFormat3);
+          $('#wrapA > span:nth-child(1)').html(todayFormat3 + "-");
+        } else if("<c:out value='${defaultSettings.formatYear}'/>" == 'YYYYMD') {
+          $('#valueY').html(todayFormat4);
+          $('#wrapA > span:nth-child(1)').html(todayFormat4 + "-");
+        }
+
+        if("<c:out value='${defaultSettings.formatDept}'/>" == '부서번호') {
+          $('#valueD').html('01');
+          $('#wrapA > span:nth-child(2)').html("01-");
+        } else if("<c:out value='${defaultSettings.formatDept}'/>" == '부서이름') {
+          $('#valueD').html('인사');
+          $('#wrapA > span:nth-child(2)').html("인사-");
+        } 
+
+        if("<c:out value='${defaultSettings.formatForm}'/>" == '양식번호') {
+          $('#valueF').html('0001');
+          $('#wrapA > span:nth-child(3)').html("0001-1");
+        } else if("<c:out value='${defaultSettings.formatForm}'/>" == '양식이름') {
+          $('#valueF').html('비품구매서');
+          $('#wrapA > span:nth-child(3)').html("비품구매서-1");
+        } 
+        
         // 문서 번호 포맷
         function changeFormatY() {
-          let today = new Date();
-          let year = (today.getYear()-100).toString();
-          let year1 = today.getFullYear().toString();
-          let month = (today.getMonth() + 1) > 9 ? (today.getMonth() + 1).toString() : "0" + (today.getMonth() + 1).toString();
-          let month1 = (today.getMonth() + 1).toString();
-          let date = (today.getDate() > 9) ? today.getDate().toString() : "0" + today.getDate().toString();
-          let date1 = today.getDate().toString();
-          const todayFormat1 = year + month + date;
-          const todayFormat2 = year + month1 + date1;
-          const todayFormat3 = year1 + month + date;
-          const todayFormat4 = year1 + month1 + date1;
-
+          
           let y = $('#formatY').val();
-          if(y == 1) {
+          if(y == 'YYMMDD') {
             $('#valueY').html(todayFormat1);
             $('#wrapA > span:nth-child(1)').html(todayFormat1 + "-");
-          } else if(y == 2) {
+          } else if(y == 'YYMD') {
             $('#valueY').html(todayFormat2);
             $('#wrapA > span:nth-child(1)').html(todayFormat2 + "-");
-          } else if(y == 3) {
+          } else if(y == 'YYYYMMDD') {
             $('#valueY').html(todayFormat3);
             $('#wrapA > span:nth-child(1)').html(todayFormat3 + "-");
-          } else if(y == 4) {
+          } else if(y == 'YYYYMD') {
             $('#valueY').html(todayFormat4);
             $('#wrapA > span:nth-child(1)').html(todayFormat4 + "-");
           }
         };
         function changeFormatD() {
           let d = $('#formatD').val();
-          if(d == 1) {
+          if(d == '부서번호') {
             $('#valueD').html("01");
             $('#wrapA > span:nth-child(2)').html("01-");
-          } else if(d == 2) {
+          } else if(d == '부서이름') {
             $('#valueD').html("인사");
             $('#wrapA > span:nth-child(2)').html("인사-");
           }
         };
         function changeFormatF() {
           let d = $('#formatF').val();
-          if(d == 1) {
+          if(d == '양식번호') {
             $('#valueF').html("0001");
             $('#wrapA > span:nth-child(3)').html("0001-1");
-          } else if(d == 2) {
+          } else if(d == '양식이름') {
             $('#valueF').html("비품구매서");
             $('#wrapA > span:nth-child(3)').html("비품구매서-1");
           }
         };
+
+        // 양식 카테고리 클릭시(선택시) 카테고리에 포함된 양식 불러오기
+        $('select[name=categoryNo] > option').click(function() {
+          let cn = $(this).val();
+          let arr = document.getElementsByClassName(cn);
+          $(`".${cn}"`).toggleClass('active');
+          // for (let i = 0; i < arr.length; i++) {
+          //   arr[i].classList.toggle('active');
+          // }
+        });
+
+        // - , + 버튼으로 카테고리, 양식 추가
+
+
+        // 양식 클릭시(선택시) 미리보기에 내용 출력
+
+
     </script>
 
 </body>

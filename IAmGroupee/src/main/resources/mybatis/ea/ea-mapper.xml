@@ -6,11 +6,8 @@
 <mapper namespace="ea">
 	<!-- 기본설정 데이터 -->
 	<select id="defaultSettings" resultType="com.kh.iag.ea.entity.SettingsDto">
-		SELECT A.SEC_GRADE SECGRADEA,
-				A.SEC_MIN SECMINA,
-				B.SEC_GRADE SECGRADEB,
+		SELECT A.SEC_MIN SECMINA,
 				B.SEC_MIN SECMINB,
-				F.FORMAT_NO,
 				F.FORMAT_YEAR,
 				F.FORMAT_DEPT,
 				F.FORMAT_FORM
@@ -19,5 +16,28 @@
 	<!-- 직위 데이터 -->
 	<select id="positionValues" resultType="com.kh.iag.ea.entity.PositionDto">
 		SELECT * FROM POSITION ORDER BY POSITION_LEVEL
+	</select>
+	
+	<!-- 문서 설정 업데이트 -->
+	<update id="updateSettings1" parameterType="com.kh.iag.ea.entity.SettingsDto">
+		UPDATE EA_SEC_A SET SEC_MIN = ${secMinA} WHERE SEC_GRADE = 'A'
+	</update>
+	<update id="updateSettings2" parameterType="com.kh.iag.ea.entity.SettingsDto">
+		UPDATE EA_SEC_B SET SEC_MIN = ${secMinB} WHERE SEC_GRADE = 'B'
+	</update>
+	<update id="updateSettings3" parameterType="com.kh.iag.ea.entity.SettingsDto">
+		UPDATE EA_FORMAT SET FORMAT_YEAR = #{formatYear}, FORMAT_DEPT = #{formatDept}, FORMAT_FORM = #{formatForm} WHERE FORMAT_NO = 1
+	</update>
+	
+	<!--카테고리 데이터 -->
+	<select id="categoryValues" resultType="com.kh.iag.ea.entity.CategoryDto">
+		SELECT * FROM EA_CATEGORY ORDER BY CATEGORY_NO
+	</select>
+	
+	<!-- 양식 데이터 -->
+	<select id="formValues" resultType="eaform">
+		SELECT * 
+		FROM EA_FORM F 
+		JOIN EA_CATEGORY C ON(F.CATEGORY_NO = C.CATEGORY_NO)
 	</select>
 </mapper>

@@ -194,3 +194,10 @@ span[id$="P"] {
   border-radius: 5px;
   margin-left: 0;
 }
+/* 기능구현 */
+select[name="formNo"] > option {
+  display: none;
+}
+select[name="formNo"] > option.active {
+  display: block;
+}
