@@ -18,7 +18,9 @@
 
 	<%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 	  
-	<main class="main container">
+	<main class="main">
+	<div class="container">
+		
 		<section class="content-header">
 				<div class="container-fluid">
 					<div class="row mb-2">
@@ -104,6 +106,7 @@
 				</div>  <!-- /.row -->
 	        </div> <!-- /.container-fluid -->
 	    </section>
+	</div>
 	</main>
 	
 	

@@ -19,15 +19,16 @@
 
 	<%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 	 
-	<main class="main container">
+	<main class="main">
+	<div class="container">
+		
 		<section class="content-header">
         		<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<button class="btn-primary btn" data-toggle="modal" data-target="#createPrj">
+							<button class="btn-primary btn-lg" data-toggle="modal" data-target="#createPrj">
 								프로젝트 생성
 							</button>
-							
 						</div>
 						
 						<div class="modal fade" id="createPrj">
@@ -115,8 +116,8 @@
 		
 		<section class="content">
 			<div class="container-fluid">
-
 				<div class="row">
+
 					<section class="col-lg-7 connectedSortable">
 						<div class="card">
 							<div class="card-header">
@@ -133,7 +134,7 @@
 								</form>	
 							</div>
 							
-							<a href="#"> 
+							<a href="http://127.0.0.1:8989/iag/prj/prjDetail">
 								<div class="card-body">
 									<div class="info-box bg-primary">
 										<span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
@@ -247,9 +248,11 @@
 							</div>
 						</div> <!-- /.card -->
 					</section> <!-- /.col -->
+					
 				</div> <!-- /.row -->
 			</div> <!-- /.container-fluid -->
 		</section> <!-- /.content-body -->
+	</div>
 	</main>    
 
 
