@@ -7,6 +7,8 @@ import com.kh.iag.leave.entity.LvInfoDto;
 import com.kh.iag.leave.entity.LvUsedListDto;
 
 public interface LeaveService {
+	
+	List<LvUsedListDto> getAllUsage(String userNo) throws Exception;
 
 	List<LvUsedListDto> getAlvList(String userNo) throws Exception;
 
@@ -23,6 +25,18 @@ public interface LeaveService {
 	LeaveDto checkExist(LeaveDto leaveDto) throws Exception;
 
 	List<LvInfoDto> getLvInfoList() throws Exception;
+
+	LvInfoDto lvInfoDetail(int lvbNo) throws Exception;
+
+	int lvbEnroll(LvInfoDto lvInfoDto) throws Exception;
+
+	int getThisLvbNo(String title) throws Exception;
+
+	LvInfoDto getThisLvbData(String lvbTitle) throws Exception;
+
+	int lvbUpdate(LvInfoDto lvInfoDto) throws Exception;
+
+	int lvbDelete(LvInfoDto lvInfoDto) throws Exception;
 
 
 }

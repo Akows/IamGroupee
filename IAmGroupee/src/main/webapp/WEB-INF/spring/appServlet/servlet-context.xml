@@ -33,7 +33,7 @@
 			<beans:bean class="com.kh.iag.interceptor.EaInterceptor"></beans:bean>
 		</interceptor>
 		<interceptor>
-			<mapping path="/admin/personnel/**"/>
+			<mapping path="/admin/ps/**"/>
 			<beans:bean class="com.kh.iag.interceptor.UserInterceptor"></beans:bean>
 		</interceptor>
 		<interceptor>

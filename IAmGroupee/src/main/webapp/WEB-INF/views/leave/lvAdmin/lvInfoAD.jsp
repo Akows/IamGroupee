@@ -34,19 +34,10 @@
 		        		box-shadow: inset 0 -3px 0   rgb(14, 104, 225); line-height: 60px;">휴무 정보</h1>
 					</div>
 		        	<div style="width: 57.5%; height: 100%; float: left; margin: auto; margin-bottom: 0px;">
-		                <div class="input-group-prepend" style="margin-top: 24px; margin-left: 73%">
+		                <div class="input-group-prepend" style="margin-top: 24px; margin-left: 90%">
 	                	<a href="${root}/admin/leave/lvInfoWriteAD">
-	                	  <input type="button" value="글쓰기" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 6px; float: left;">
+	                	  <input type="button" value="글쓰기" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 10px; float: left;">
 	                	</a>
-	                	<a href="${root}/admin/leave/lvInfoWriteAD">
-	                	  <input type="button" value="수정" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 6px; float: left;">
-	                	</a>
-		                    <select class="form-select" aria-label="Default select example">
-							  <option selected>전체</option>
-							  <option value="1">연차</option>
-							  <option value="2">휴가</option>
-							  <option value="3">기타</option>
-							</select>
 		                </div>
 					</div>
 		          </div>
@@ -58,79 +49,27 @@
 	                  <thead>
 	                    <tr>
 	                      <th>글번호</th>
-	                      <th>카테고리</th>
 	                      <th>제목</th>
 	                      <th>작성자</th>
 	                      <th>작성일자</th>
 	                    </tr>
 	                  </thead>
 	                  <tbody>
-	                    <tr style="background-color: rgba(214, 222, 236, 0.43)">
-	                      <td> <a href="${root}/leave/leaveMain">000</a> </td>
-	                      <td>John Doe</td>
-	                      <td>11-7-2014</td>
-	                      <td><span class="tag tag-success">Approved</span></td>
-	                      <td><span class="tag tag-success">Approved</span></td>
-	                    </tr>
-	                    <tr style="background-color: rgba(214, 222, 236, 0.43)">
-	                      <td> <a href="${root}/leave/leaveMain">000</a> </td>
-	                      <td>John Doe</td>
-	                      <td>11-7-2014</td>
-	                      <td><span class="tag tag-success">Approved</span></td>
-	                      <td><span class="tag tag-success">Approved</span></td>
-	                    </tr>
+	                  <c:forEach items="${lvInfoList}" var="lil">
 	                    <tr>
-	                      <td> <a href="${root}/leave/leaveMain">183</a> </td>
-	                      <td>John Doe</td>
-	                      <td>11-7-2014</td>
-	                      <td><span class="tag tag-success">Approved</span></td>
-	                      <td><span class="tag tag-success">Approved</span></td>
+	                      <td><a href="${root}/leave/lvInfoDetail/${lil.lvbNo}">${lil.lvbNo}</a></td>
+	                      <td><a href="${root}/leave/lvInfoDetail/${lil.lvbNo}">${lil.lvbTitle}</a></td>
+	                      <td><a href="${root}/leave/lvInfoDetail/${lil.lvbNo}">${lil.lvbWriter}</a></td>
+	                      <td><a href="${root}/leave/lvInfoDetail/${lil.lvbNo}">${lil.lvbDate}</a></td>
 	                    </tr>
-	                    <tr>
-	                      <td> <a href="${root}/leave/leaveMain">183</a> </td>
-	                      <td>John Doe</td>
-	                      <td>11-7-2014</td>
-	                      <td><span class="tag tag-success">Approved</span></td>
-	                      <td><span class="tag tag-success">Approved</span></td>
-	                    </tr>
-	                    <tr>
-	                      <td> <a href="${root}/leave/leaveMain">183</a> </td>
-	                      <td>John Doe</td>
-	                      <td>11-7-2014</td>
-	                      <td><span class="tag tag-success">Approved</span></td>
-	                      <td><span class="tag tag-success">Approved</span></td>
-	                    </tr>
-	                    <tr>
-	                      <td> <a href="${root}/leave/leaveMain">183</a> </td>
-	                      <td>John Doe</td>
-	                      <td>11-7-2014</td>
-	                      <td><span class="tag tag-success">Approved</span></td>
-	                      <td><span class="tag tag-success">Approved</span></td>
-	                    </tr>
-	                    <tr>
-	                      <td> <a href="${root}/leave/leaveMain">183</a> </td>
-	                      <td>John Doe</td>
-	                      <td>11-7-2014</td>
-	                      <td><span class="tag tag-success">Approved</span></td>
-	                      <td><span class="tag tag-success">Approved</span></td>
-	                    </tr>
+	                  </c:forEach>
 	                  </tbody>
 	                </table>
 	              </div>
-				  <!-- 페이징 -->
-				  
-				  <div class="card-footer clearfix" style="width: 88%; margin: auto; margin-top: 10px">
+				  <div class="card-footer clearfix" style="width: 88%; margin: auto; margin-top: 5px">
 	                <ul class="pagination pagination-m m-2" style="padding-left: 40%; color: black;">
-	                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225); font-weight: bold;">&laquo;</a></li>&nbsp;
-	                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225);">1</a></li>
-	                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225);">2</a></li>
-	                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225);">3</a></li>
-	                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225);">4</a></li>
-	                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225);">5</a></li>&nbsp;
-	                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225); font-weight: bold;">&raquo;</a></li>
 	                </ul>
                   </div>
-                  
               </div>
             </article>
             

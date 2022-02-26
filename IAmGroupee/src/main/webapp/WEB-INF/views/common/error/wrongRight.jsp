@@ -18,37 +18,11 @@
 <body class="hold-transition lockscreen">
 
     <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
-	<h1>추후 작업 예정</h1>
-	<!-- Automatic element centering -->
 	<div class="lockscreen-wrapper">
-		<div class="lockscreen-logo" style="font-size: 40px">
-			<a href="${root}/main"><b>I am groupe</b></a> <br> <p style="text-align: center; font-size: 18px; margin-top: 14px;"><b>해당 관리자만</b> 볼 수 있는 페이지입니다.</p>
+		<div class="lockscreen-logo" style="font-size: 50px">
+			<a href="${root}/main"><b>I am groupe</b></a> <br> <p style="text-align: center; font-size: 28px; margin-top: 24px;">해당 관리자만</p><p style="text-align: center; font-size: 28px; margin-top: 10px;">볼 수 있는 페이지입니다.</p>
 		</div>
-		
-		<!-- START LOCK SCREEN ITEM -->
-		<div class="lockscreen-item" style="margin-top: 50px;">
-			<!-- lockscreen image -->
-			<div class="lockscreen-image">
-				<img src="${root}/resources/img/svg/looo.png" alt="User Image">
-			</div>
-			<!-- /.lockscreen-image -->
-
-			<!-- lockscreen credentials (contains the form) -->
-			<form class="lockscreen-credentials">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="관리자이름 직급" >
-
-					<div class="input-group-append">
-						<button type="button" class="btn">
-						</button>
-					</div>
-				</div>
-			</form>
-			<!-- /.lockscreen credentials -->
-
-		</div>
-		<!-- /.lockscreen-item -->
-		<div class="help-block text-center" style="margin-top: 50px;">Enter your password to
+		<div class="help-block text-center" style="margin-top: 40px;">Enter your password to
 			retrieve your session</div>
 		<div class="text-center"style="margin-top: 10px;">
 			<a href="login.html">Or sign in as a different user</a>

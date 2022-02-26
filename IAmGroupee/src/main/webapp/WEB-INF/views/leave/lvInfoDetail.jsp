@@ -26,36 +26,29 @@
           <div class="col-md-6 col-xl-12" style="height: 90%;">
             <article class="stat-cards-item">
             
-            	<div class="card card-primary card-outline" style="width: 100%">
-
-		            <div class="card-body p-0">
-		              <div class="mailbox-read-info">
-		                <h5 style="margin-bottom: 3px;">제목</h5>
-		                <h6>작성자
-		                  <span class="mailbox-read-time float-right">작성날짜</span></h6>
-		              </div>
-		              <!-- /.mailbox-controls -->
-		              <div class="mailbox-read-message" style="text-align: center; width: 90%; margin: auto; margin-bottom: 10px;">
-		                <p>
-		                Skateboard artisan letterpress before they sold out High Life messenger bag. Bitters chambray
-	                    leggings listicle, drinking vinegar chillwave synth. Fanny pack hoodie American Apparel twee. American
-	                    Apparel PBR listicle, salvia aesthetic occupy sustainable Neutra kogi. Organic synth Tumblr viral
-	                    plaid, shabby chic single-origin coffee Etsy 3 wolf moon slow-carb Schlitz roof party tousled squid
-	                    vinyl. Readymade next level literally trust fund. Distillery master cleanse migas, Vice sriracha
-	                    flannel chambray chia cronut.
-		                </p>
-		              </div>
-		            </div>
-		          </div>
+	            	<div class="card card-primary card-outline" style="width: 100%; margin-top: 20px;">
+	
+			            <div class="card-body p-0">
+			              <div class="mailbox-read-info" style="margin-left: 10px; margin-right: 10px;">
+			                <h2 style="margin-bottom: 15px;" id="lvbTitle">${lvInfoDetail.lvbTitle}</h2>
+			                <h6>${lvInfoDetail.lvbWriter}
+			                  <span class="mailbox-read-time float-right" style="font-size: 16px;">${lvInfoDetail.lvbDate}</span></h6>
+			              </div>
+			              <div class="mailbox-read-message" style="text-align: center; width: 90%; margin: auto; margin-bottom: 10px;">
+			                <p>
+			                	${lvInfoDetail.lvbContent}
+			                </p>
+			              </div>
+			            </div>
+			        </div>
 		            
 		            <div style="height: 30px; width: 100%; margin-left: 90px;">
-			           <div class="input-group-prepend" style="margin-left: 90%">
-			              <a href="${root}/admin/leave/lvInfoWriteAD">
-			                <input type="button" value="삭제" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 10px; float: left;">
-			              </a>
-			              <a href="${root}/admin/leave/lvInfoWriteAD">
-			                <input type="button" value="수정" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 6px; float: left;">
-			              </a>
+			           <div class="input-group-prepend" style="margin-left: 87%">
+						  <form id="lvbModDel" method="post">
+			                <input type="button" onclick="modLvb();" value="수정" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 10px; float: left;">
+			                <input type="button" onclick="delLvb();" value="삭제" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 10px; float: left;">
+			                <input type="button" value="목록" onclick="history.go(-1);" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 6px; float: left;">
+						  </form>
 			           </div>
 			        </div>
              
@@ -66,9 +59,34 @@
     </main>
 
     <%@ include file="/WEB-INF/views/common/footer.jsp" %>
+    
+    <script type="text/javascript">
+		var modLvb = function(){
+			var lvbTitle = document.getElementById("lvbTitle").innerHTML;
+			var form =  $('#lvbModDel')[0]; 
+			var obj;
+		    obj = document.createElement('input');
+		    obj.setAttribute('type', 'hidden');
+		    obj.setAttribute('name', 'lvbTitle');
+		    obj.setAttribute('value', lvbTitle);
+			form.appendChild(obj);
+			form.action="${root}/admin/leave/lvbModify";
+			form.submit();
+		};
+		var delLvb = function(){
+			var form2 =  $('#lvbModDel')[0];
+			var obj2;
+		    obj2 = document.createElement('input');
+		    obj2.setAttribute('type', 'hidden');
+		    obj2.setAttribute('name', 'lvbNo');
+		    obj2.setAttribute('value', '${lvInfoDetail.lvbNo}');
+			form2.appendChild(obj2);
+			form2.action ="${root}/admin/leave/lvbDelete";
+			form2.submit();
+		};
+    </script>
 
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
 </body>
-
 </html>
