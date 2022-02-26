@@ -13,7 +13,7 @@
     <main class="main users chart-page" id="skip-target">
      <div class="container">
      	<br>
-       <h1>직무 관리</h1>
+       <h1>직무/직위 관리</h1>
        <hr>
        <br>
 
