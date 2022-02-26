@@ -5,5 +5,10 @@ import lombok.Data;
 @Data
 public class FormDto {
 	
-	private String ex;
+	private int formNo;
+	private String formTitle;
+	private String formContent;
+	private int formYears;
+	private int categoryNo;
+	private String categoryName;
 }
