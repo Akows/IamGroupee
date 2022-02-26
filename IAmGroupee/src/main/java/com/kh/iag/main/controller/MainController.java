@@ -180,8 +180,8 @@ public class MainController {
 	}
 	
 	
-	// 테스트용
-	@GetMapping("main2")
+	// 관리자 권한이 없을 시
+	@GetMapping("wrongRight")
 	public String main2() {
 		
 		return "common/error/wrongRight";

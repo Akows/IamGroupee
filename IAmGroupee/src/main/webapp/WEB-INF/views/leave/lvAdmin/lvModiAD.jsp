@@ -24,7 +24,7 @@
      
         <div class="row stat-cards">
           <div class="col-md-6 col-xl-6">
-            <article class="stat-cards-item" style="margin-bottom: 205px;">
+            <article class="stat-cards-item" style="margin-bottom: 200px; margin-top: 65px;">
               <div class="stat-cards-info" style="width: 100%">
 			      <div id="letter" style="margin-bottom: 30px;">
 			          <h4 style="color: rgb(94, 94, 94); font-weight: 600;">휴가 항목 발생</h4>
@@ -32,20 +32,25 @@
 				  <form action="${root}/admin/leave/lvAddAD" method="post">
 				  <table class="table" style="text-align: center; width: 100%; font-weight: bolder;">
 				      <tr>
-				         <td style="border-right: 1px solid lightgray; margin: auto;">휴가 코드</td>
-				         <td><input class="form-control" type="text" placeholder="LV_00" name="lvCode" style="border: 1px solid lightgray;"></td>
+				         <td>휴가 코드</td>
+				         <td><input type="text" placeholder="LV_00" name="lvCode" style="border: 1px solid lightgray; width: 100%;"></td>
 				      </tr>
 				      <tr>
-				         <td style="border-right: 1px solid lightgray;">휴가명</td>
-				         <td><input class="form-control" type="text" placeholder="휴가명을 입력하세요." name="lvName" style="border: 1px solid lightgray;"></td>
+				         <td>휴가명</td>
+				         <td><input type="text" placeholder="휴가명을 입력하세요." name="lvName" style="border: 1px solid lightgray; width: 100%;"></td>
 				      </tr>
 				      <tr>
-				         <td style="border-right: 1px solid lightgray;">유급 여부</td>
-				         <td><input class="form-control" type="text" placeholder="Y/N" name="lvPaid" style="border: 1px solid lightgray;"></td>
+				         <td>유급 여부</td>
+				         <td>
+	                        <select name="lvPaid" style="border: 1px solid lightgray; width: 100%;">
+	                          <option name="lvPaid" value="Y">Y</option>
+	                          <option name="lvPaid" value="N">N</option>
+	                        </select>
+                      	</td>
 				      </tr>
 				      <tr>
-				         <td style="border-right: 1px solid lightgray;">세부 내용</td>
-				         <td><input class="form-control" type="text" placeholder="세부 내용을 입력하세요" name="lvContent" style="border: 1px solid lightgray;"></td>
+				         <td>세부 내용</td>
+				         <td><input type="text" placeholder="세부 내용을 입력하세요" name="lvContent" style="border: 1px solid lightgray; width: 100%;"></td>
 				      </tr>
 			      </table>
 			      <!-- 휴가코드명 중복 시 띄우는 모달창 -->
@@ -74,7 +79,7 @@
             </article>
           </div>
           <div class="col-md-6 col-xl-6">
-            <article class="stat-cards-item" style="margin-bottom: 205px;">
+            <article class="stat-cards-item" style="margin-bottom: 200px; margin-top: 65px;">
               <div class="stat-cards-info" style="width: 100%">
 			      <div id="letter" style="margin-bottom: 20px;">
 			          <h4 style="color: rgb(94, 94, 94); font-weight: 600;">휴가 목록</h4>

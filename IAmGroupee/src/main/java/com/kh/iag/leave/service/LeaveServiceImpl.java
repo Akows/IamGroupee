@@ -15,6 +15,11 @@ public class LeaveServiceImpl implements LeaveService {
 	
 	@Autowired
 	private LeaveDao dao;
+	
+	@Override // 메인 사용내역
+	public List<LvUsedListDto> getAllUsage(String userNo) throws Exception {
+		return dao.getAllUsage(userNo);
+	}
 
 	@Override // 연차 사용대장
 	public List<LvUsedListDto> getAlvList(String userNo) throws Exception {
@@ -54,6 +59,36 @@ public class LeaveServiceImpl implements LeaveService {
 	@Override // 게시글목록 불러오기
 	public List<LvInfoDto> getLvInfoList() throws Exception {
 		return dao.getLvInfoList();
+	}
+
+	@Override // 게시글 상세페이지 불러오기
+	public LvInfoDto lvInfoDetail(int lvbNo) throws Exception {
+		return dao.lvInfoDetail(lvbNo);
+	}
+
+	@Override // 작성한 게시글 디비에 등록
+	public int lvbEnroll(LvInfoDto lvInfoDto) throws Exception {
+		return dao.lvbEnroll(lvInfoDto);
+	}
+
+	@Override // 등록한 게시글의 글번호 가져오기
+	public int getThisLvbNo(String title) throws Exception {
+		return dao.getThisLvbNo(title);
+	}
+
+	@Override // 수정하려는 게시글의 데이터가져오기
+	public LvInfoDto getThisLvbData(String lvbTitle) throws Exception {
+		return dao.getThisLvbData(lvbTitle);
+	}
+
+	@Override // 수정된 내용 디비에 업데이트
+	public int lvbUpdate(LvInfoDto lvInfoDto) throws Exception {
+		return dao.lvbUpdate(lvInfoDto);
+	}
+
+	@Override // 게시글 삭제
+	public int lvbDelete(LvInfoDto lvInfoDto) throws Exception {
+		return dao.lvbDelete(lvInfoDto);
 	}
 
 	

@@ -5,6 +5,14 @@
   
   <mapper namespace="leave">
   
+    <select id="getAllUsage" resultType="lvList">
+    	SELECT UL.*, L.LV_NAME, IU.NAME, D.DEPARTMENT_NAME FROM LEAVE L
+    	JOIN USAGE_LV UL ON (L.LV_CODE = UL.LV_CODE)
+    	JOIN IAG_USER IU ON (UL.USER_NO = IU.USER_NO)
+    	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
+    	WHERE IU.USER_NO = #{userNo} AND UL.LV_END &lt; SYSDATE
+    </select>
+  
     <select id="getAlvList" resultType="lvList">
     	SELECT * FROM USAGE_LV UL
     	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
@@ -55,6 +63,60 @@
     	SELECT * FROM LV_BOARD
     	WHERE LVB_DEL = 'N'
     </select>
+    
+    <select id="lvInfoDetail" resultType="lvInfo">
+    	SELECT * FROM LV_BOARD
+    	WHERE LVB_NO = #{lvbNo}
+    </select>
+    
+    <insert id="lvbEnroll" parameterType="lvInfo">
+    	 INSERT INTO LV_BOARD
+         VALUES
+         (
+         	SEQ_LV_BOARD.NEXTVAL,
+         	#{lvbTitle},
+         	DEFAULT,
+         	#{lvbContent},
+         	DEFAULT,
+         	SYSDATE
+         )
+    </insert>
+    
+    <select id="getThisLvbNo" resultType="int">
+    	SELECT LVB_NO FROM LV_BOARD
+    	WHERE LVB_TITLE = #{lvbTitle}
+    </select>
+    
+    <select id="getThisLvbData" resultType="lvInfo">
+    	SELECT * FROM LV_BOARD
+    	WHERE LVB_TITLE = #{lvbTitle}
+    </select>
+    
+    <update id="lvbUpdate" parameterType="lvInfo">
+    	UPDATE LV_BOARD SET
+    	LVB_TITLE = #{lvbTitle}, LVB_CONTENT = #{lvbContent}, LVB_DATE = SYSDATE
+    	WHERE LVB_NO = #{lvbNo}
+    </update>
+    
+    <update id="lvbDelete" parameterType="lvInfo">
+    	UPDATE LV_BOARD SET
+    	LVB_DEL = 'Y'
+    	WHERE LVB_NO = #{lvbNo}
+    </update>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

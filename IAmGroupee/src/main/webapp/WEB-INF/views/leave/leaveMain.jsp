@@ -117,27 +117,32 @@
           <div class="col-md-6 col-xl-12">
             <article class="stat-cards-item">
             
-              <div class="stat-cards-info">
-                <table class="table">
+              <div class="stat-cards-info" style="width: 100%">
+                <table class="table" style="width: 100%">
 				  <thead>
 				    <tr>
-				      <th scope="col">#</th>
-				      <th scope="col">First</th>
-				      <th scope="col">Last</th>
-				      <th scope="col">Handle</th>
+				      <th scope="col">이름</th>
+				      <th scope="col">부서명</th>
+				      <th scope="col">휴가명</th>
+				      <th scope="col">사용 기간</th>
+				      <th scope="col">사용 연차</th>
+				      <th scope="col">사유</th>
 				    </tr>
 				  </thead>
 				  <tbody>
+				  <c:forEach items="${allUsedList}" var="allUsedList">
 				    <tr>
-				      <th scope="row">1</th>
-				      <td>Mark</td>
-				      <td>Otto</td>
-				      <td>@mdo</td>
+				      <th scope="row" style="width: 15%">${allUsedList.name}</th>
+				      <td style="width: 15%">${allUsedList.departmentName}</td>
+				      <td style="width: 12%">${allUsedList.lvName}</td>
+				      <td style="width: 25%">${allUsedList.during}</td>
+				      <td style="width: 13%">${allUsedList.reduceAlv}</td>
+				      <td style="width: 20%">${allUsedList.lvReason}</td>
 				    </tr>
+				  </c:forEach>
 				  </tbody>
 				</table>
               </div>
-              
             </article>
           </div>
         </div>

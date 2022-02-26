@@ -8,7 +8,9 @@ import lombok.Data;
 public class LvUsedListDto {
 	private int usageAlvNo;
 	private String userNo;
+	private String name;
 	private String docNo;
+	private String departmentName;
 	private String lvCode;
 	private String lvName;
 	private String lvAppli;
@@ -16,5 +18,6 @@ public class LvUsedListDto {
 	private Date lvEnd;
 	private String during;
 	private String lvReason;
-	private float alvReduce;
+	private Object reduceAlv;
+	private float alvTotalReduce;
 }

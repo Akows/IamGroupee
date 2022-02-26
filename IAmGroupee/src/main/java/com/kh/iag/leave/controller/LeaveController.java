@@ -1,6 +1,8 @@
 package com.kh.iag.leave.controller;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.iag.leave.entity.LvInfoDto;
@@ -24,7 +27,7 @@ public class LeaveController {
 	private LeaveService service;
 //============================= 사용자, 관리자 메뉴 =============================	
 	@GetMapping("leaveMain")  // 연차 메인
-	public String leaveMain(HttpSession session, HttpServletRequest request) {	
+	public String leaveMain(HttpSession session, HttpServletRequest request) throws Exception {	
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
 		
 		String enrollDate = String.valueOf(loginUser.getEnrollDate());
@@ -32,7 +35,19 @@ public class LeaveController {
 		int year = now.getYear();
 		String startDate = String.valueOf(year) + "-" + enrollDate.substring(5);
 		
+		String userNo = loginUser.getUserNo();
+		
+		List<LvUsedListDto> allUsedList =  service.getAllUsage(userNo);
+		for (LvUsedListDto allUsedLv : allUsedList) {
+			Date startLv = allUsedLv.getLvStart();
+			Date endLv = allUsedLv.getLvStart();
+			String duringLv = startLv + " ~ " + endLv;
+			allUsedLv.setDuring(duringLv);
+		}
+		
+		
 		session.setAttribute("startDate", startDate);
+		request.setAttribute("allUsedList", allUsedList);
 		
 		return "leave/leaveMain";
 	}
@@ -96,10 +111,14 @@ public class LeaveController {
 		return "leave/leaveInfo";
 	}
 	
-	@GetMapping("lvInfoDetail") // 사용자 휴무 정보 상세페이지
-	public String lvInfoDetail() {
+	@GetMapping("lvInfoDetail/{no}")
+	public String lvInfoDetail(@PathVariable int no, HttpServletRequest request) throws Exception {
 		
-//		service.getLeaveList();
+		int lvbNo = Integer.valueOf(no);
+		
+		LvInfoDto lvInfoDetail = service.lvInfoDetail(lvbNo);
+		
+		request.setAttribute("lvInfoDetail", lvInfoDetail);
 		
 		
 		return "leave/lvInfoDetail";
