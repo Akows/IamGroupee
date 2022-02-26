@@ -29,21 +29,21 @@ public class ScheduleController {
 	@GetMapping("schedule")
 	public String schedule(Model model) throws Exception {
 		
-		model.addAttribute("showSchedule", ScheduleService.showSchedule());
+//		model.addAttribute("showSchedule", ScheduleService.showSchedule());
 		
 		return "sch/schedule";
 	}
 	
 	// 스케줄 추가하기
-	@ResponseBody
-	@RequestMapping(value = "/addSchedule", method = RequestMethod.GET)
-	public Map<Object,Object> addSchedule(@RequestBody SchDto dto) throws Exception {
-		
-		Map<Object,Object>map = new HashMap<Object,Object>();
-
-		ScheduleService scheduleService = new ScheduleService();
-		scheduleService.addSchedule(dto);
-
-		return map;
-	}
+//	@ResponseBody
+//	@RequestMapping(value = "/addSchedule", method = RequestMethod.GET)
+//	public Map<Object,Object> addSchedule(@RequestBody SchDto dto) throws Exception {
+//		
+//		Map<Object,Object>map = new HashMap<Object,Object>();
+//
+//		ScheduleService scheduleService = new ScheduleService();
+//		scheduleService.addSchedule(dto);
+//
+//		return map;
+//	}
 }

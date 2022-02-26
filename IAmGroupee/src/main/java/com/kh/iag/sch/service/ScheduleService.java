@@ -13,9 +13,9 @@ import com.kh.iag.sch.entity.SchDto;
 public class ScheduleService {
 
 	@Inject
-	private static ScheduleDao dao;
+	private ScheduleDao dao;
 	
-	public static List<SchDto> showSchedule() throws Exception {
+	public List<SchDto> showSchedule() throws Exception {
 		
 		return dao.showSchedule();
 	}
