@@ -27,8 +27,50 @@
         
         <br>
         
+        <div class="row stat-cards" style="margin-bottom: 15px;">
+          <div class="col-md-6 col-xl-4">
+            <article class="stat-cards-item">
+              <div class="stat-cards-info">
+                <p class="stat-cards-info__num">휴가 발생 관리</p>
+                <a href="${root}/admin/leave/lvModiAD">링크</a>
+                  <pre>
+
+
+                  </pre>
+              </div>
+            </article>
+          </div>
+
+          <div class="col-md-6 col-xl-4">
+            <article class="stat-cards-item">
+              <div class="stat-cards-info">
+                <p class="stat-cards-info__num">연차 및 휴가 정보 게시판 관리</p>
+                <a href="${root}/leave/lvInfo">링크</a>
+                  <pre>
+
+
+                  </pre>
+              </div>
+            </article>
+          </div>
+          
+          <div class="col-md-6 col-xl-4">
+            <article class="stat-cards-item">
+              <div class="stat-cards-info">
+                <p class="stat-cards-info__num">연차 사용 촉구서 관리</p>
+                <a href="${root}/admin/leave/alvIntendAD">링크</a>
+                  <pre>
+
+
+                  </pre>
+              </div>
+            </article>
+          </div>
+          
+        </div>
+        
         <div class="row stat-cards">
-          <div class="col-md-6 col-xl-6">
+          <div class="col-md-6 col-xl-12">
             <article class="stat-cards-item">
               <div class="stat-cards-info">
                 <p class="stat-cards-info__num">사원 연차 관리</p>
@@ -37,59 +79,6 @@
 
 
 		
-
-
-
-                  </pre>
-              </div>
-            </article>
-          </div>
-          <div class="col-md-6 col-xl-6">
-            <article class="stat-cards-item">
-              <div class="stat-cards-info">
-                <p class="stat-cards-info__num">휴가 발생 관리</p>
-                <a href="${root}/admin/leave/lvModiAD">링크</a>
-                  <pre>
-
-
-
-
-
-
-                  </pre>
-              </div>
-            </article>
-          </div>
-        </div>
-        <div>
-        	<pre></pre>
-        </div>
-        <div class="row stat-cards">
-          <div class="col-md-6 col-xl-6">
-            <article class="stat-cards-item">
-              <div class="stat-cards-info">
-                <p class="stat-cards-info__num">연차 및 휴가 정보 게시판 관리</p>
-                <a href="${root}/admin/leave/lvInfoAD">링크</a>
-                  <pre>
-
-
-
-
-
-
-                  </pre>
-              </div>
-            </article>
-          </div>
-          <div class="col-md-6 col-xl-6">
-            <article class="stat-cards-item">
-              <div class="stat-cards-info">
-                <p class="stat-cards-info__num">연차 사용 촉구서 관리</p>
-                <a href="${root}/admin/leave/alvIntendAD">링크</a>
-                  <pre>
-
-
-
 
 
 

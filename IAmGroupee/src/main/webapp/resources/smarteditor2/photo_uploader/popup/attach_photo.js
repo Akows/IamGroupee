@@ -79,7 +79,7 @@
 	 * @desc oFileUploader의 upload함수를 호출함. 
 	 */
 	function generalUpload(){
-		oFileUploader.upload();
+		/*oFileUploader.upload();*/
 	}
 	
     /** 
@@ -554,7 +554,7 @@
   		} else {
   			$Element("pop_container").hide();
   			$Element("pop_container2").show();
-  			callFileUploader();
+  			/*callFileUploader();*/
   		}
   		fnUploadImage = $Fn(uploadImage,this);
   		$Fn(closeWindow,this).attach(welBtnCancel.$value(), "click");

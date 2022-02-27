@@ -103,7 +103,7 @@
         	<div style="width: 45%; height: 100%; float: left;"></div>
         	<div style="width: 30%; height: 100%; float: left; text-align: right;">
         		<input type="button" value="연차 신청" style="background-color: rgb(14, 104, 225); margin-right: 6px; font-weight: bold; color: white;">
-        		<input type="button" value="휴가 신청" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white;">
+        		<input type="button" onclick="location.href='${root}/ea/signup'" value="휴가 신청" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white;">
         	</div>
         </div>
        
@@ -132,7 +132,7 @@
 				  <tbody>
 				  <c:forEach items="${allUsedList}" var="allUsedList">
 				    <tr>
-				      <th scope="row" style="width: 15%">${allUsedList.name}</th>
+				      <td style="width: 15%">${allUsedList.name}</td>
 				      <td style="width: 15%">${allUsedList.departmentName}</td>
 				      <td style="width: 12%">${allUsedList.lvName}</td>
 				      <td style="width: 25%">${allUsedList.during}</td>

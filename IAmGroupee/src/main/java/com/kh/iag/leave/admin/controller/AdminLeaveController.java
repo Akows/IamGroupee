@@ -67,27 +67,20 @@ public class AdminLeaveController {
 		return "redirect:/leave/lvAdmin/lvModiAD";
 	}
 	
-	@GetMapping("lvInfoAD") // 휴무 정보 게시글
-	public String lvInfoAD(HttpServletRequest request) throws Exception {
-		List<LvInfoDto> lvInfoList = service.getLvInfoList();
-		
-		request.setAttribute("lvInfoList", lvInfoList);
-		
-		return "leave/lvAdmin/lvInfoAD";
-	}
 	@GetMapping("lvInfoWriteAD") // 휴무 정보 게시글 작성 페이지
 	public String lvInfoWriteAD() {
 		return "leave/lvAdmin/lvInfoWriteAD";
 	}
 	
 	@PostMapping("lvbEnroll") // 작성한 글 디비에 저장
-	public String lvbEnroll(LvInfoDto lvInfoDto) throws Exception {
-		String title = lvInfoDto.getLvbTitle();
-		lvInfoDto.setLvbContent(lvInfoDto.getLvbContent().replaceAll("\n", "").replaceAll("\t", "").replaceAll("\r", "").replaceAll("'", "&apos;"));
+	public String lvbEnroll(@RequestParam String lvbTitle, String lvbContent) throws Exception {
+		LvInfoDto lvInfoDto = new LvInfoDto();
+		lvInfoDto.setLvbTitle(lvbTitle);
+		lvInfoDto.setLvbContent(lvbContent.replaceAll("\n", "").replaceAll("\t", "").replaceAll("\r", "").replaceAll("'", "&apos;"));
 		// 글 등록하기
 		int result = service.lvbEnroll(lvInfoDto);
 		// 등록한 게시글의 번호 알아오기
-		int thisLvbNo = service.getThisLvbNo(title);
+		int thisLvbNo = service.getThisLvbNo(lvbTitle);
 		
 		return "redirect:/leave/lvInfoDetail/" + String.valueOf(thisLvbNo);
 	}

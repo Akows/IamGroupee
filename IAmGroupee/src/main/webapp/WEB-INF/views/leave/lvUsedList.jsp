@@ -63,7 +63,7 @@
 				                    <tr>
 				                      <td>${alv.lvName}</td>
 				                      <td>${alv.during}</td>
-				                      <td>${alv.alvReduce}</td>
+				                      <td>${alv.reduceAlv}</td>
 				                      <td>${alv.lvReason}</td>
 				                    </tr>
 				                  </c:forEach>

@@ -33,6 +33,19 @@
 		        		<h1 style="width: 160px; color: rgb(94, 94, 94); font-weight: 600;
 		        		box-shadow: inset 0 -3px 0   rgb(14, 104, 225); line-height: 60px;">휴무 정보</h1>
 					</div>
+					<%
+					String leaveRight = (String)session.getAttribute("leaveRight");
+						if(leaveRight.equals("Y")){
+					%>
+		                <div class="input-group-prepend" style="height: 30px; width: 100%; float: left; margin-left: 83%;">
+	                	<a href="${root}/admin/leave/lvInfoWriteAD">
+	                	  <input type="button" value="글쓰기" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 10px; float: left;">
+	                	</a>
+		                </div>
+					<%
+						}
+					%>
+					
 		          </div>
                 
 	              <br><br>
