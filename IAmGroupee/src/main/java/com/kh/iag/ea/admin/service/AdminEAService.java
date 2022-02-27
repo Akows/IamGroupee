@@ -22,5 +22,17 @@ public interface AdminEAService {
 	List<CategoryDto> categoryValues() throws Exception;
 
 	List<FormDto> formValues() throws Exception;
+
+	int insertFormCategory() throws Exception;
+
+	CategoryDto selecLatestFormCategory() throws Exception;
+
+	int deleteFormCategory(String categoryNo) throws Exception;
+
+	int insertForm(String categoryNo) throws Exception;
+
+	FormDto selecLatestForm() throws Exception;
+
+	int deleteForm(String formNo) throws Exception;
 	
 }

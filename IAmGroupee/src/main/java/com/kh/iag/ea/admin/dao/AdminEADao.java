@@ -23,4 +23,16 @@ public interface AdminEADao {
 
 	List<FormDto> formValues() throws Exception;
 
+	int insertFormCategory() throws Exception;
+
+	CategoryDto selectLatestFormCategory() throws Exception;
+
+	int deleteFormCategory(String categoryNo) throws Exception;
+
+	int insertForm(String categoryNo) throws Exception;
+
+	FormDto selecLatestForm() throws Exception;
+
+	int deleteForm(String formNo) throws Exception;
+
 }

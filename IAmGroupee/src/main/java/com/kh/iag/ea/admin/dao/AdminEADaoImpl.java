@@ -52,4 +52,34 @@ public class AdminEADaoImpl implements AdminEADao {
 		return sqlSession.selectList("ea.formValues");
 	}
 
+	@Override
+	public int insertFormCategory() throws Exception {
+		return sqlSession.insert("ea.insertFormCategory");
+	}
+
+	@Override
+	public CategoryDto selectLatestFormCategory() throws Exception {
+		return sqlSession.selectOne("ea.selectLatestFormCategory");
+	}
+
+	@Override
+	public int deleteFormCategory(String categoryNo) throws Exception {
+		return sqlSession.delete("ea.deleteFormCategory", categoryNo);
+	}
+
+	@Override
+	public int insertForm(String categoryNo) throws Exception {
+		return sqlSession.insert("ea.insertForm", categoryNo);
+	}
+
+	@Override
+	public FormDto selecLatestForm() throws Exception {
+		return sqlSession.selectOne("ea.selecLatestForm");
+	}
+
+	@Override
+	public int deleteForm(String formNo) throws Exception {
+		return sqlSession.delete("ea.deleteForm", formNo);
+	}
+
 }

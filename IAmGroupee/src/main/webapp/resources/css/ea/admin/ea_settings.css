@@ -129,6 +129,7 @@ span[id$="M"] {
   font-weight: 900;
   border: 1px solid gainsboro;
   border-radius: 5px;
+  cursor: pointer;
 }
 span[id$="P"] {
   color: #fff;
@@ -139,6 +140,7 @@ span[id$="P"] {
   padding-bottom: 0px;
   font-weight: 700;
   border-radius: 5px;
+  cursor: pointer;
 }
 #arrow1,
 #arrow2 {
@@ -198,6 +200,12 @@ span[id$="P"] {
 select[name="formNo"] > option {
   display: none;
 }
-select[name="formNo"] > option.active {
+select[name="formNo"] > option.activeForm {
+  display: block;
+}
+#formContents > div {
+  display: none;
+}
+#formContents > div.activeContent {
   display: block;
 }

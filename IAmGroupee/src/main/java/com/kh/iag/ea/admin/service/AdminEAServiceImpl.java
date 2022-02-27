@@ -52,4 +52,34 @@ public class AdminEAServiceImpl implements AdminEAService {
 		return dao.formValues();
 	}
 
+	@Override
+	public int insertFormCategory() throws Exception {
+		return dao.insertFormCategory();
+	}
+
+	@Override
+	public CategoryDto selecLatestFormCategory() throws Exception {
+		return dao.selectLatestFormCategory();
+	}
+
+	@Override
+	public int deleteFormCategory(String categoryNo) throws Exception {
+		return dao.deleteFormCategory(categoryNo);
+	}
+
+	@Override
+	public int insertForm(String categoryNo) throws Exception {
+		return dao.insertForm(categoryNo);
+	}
+
+	@Override
+	public FormDto selecLatestForm() throws Exception {
+		return dao.selecLatestForm();
+	}
+
+	@Override
+	public int deleteForm(String formNo) throws Exception {
+		return dao.deleteForm(formNo);
+	}
+
 }
