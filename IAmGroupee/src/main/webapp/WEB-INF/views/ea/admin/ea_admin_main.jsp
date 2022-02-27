@@ -162,12 +162,12 @@
               <div><span>🗂 카테고리</span></div>
               <select name="categoryNo" size="15">
 	              <c:forEach items="${categoryValues}" var="cv">
-	                <option value="${cv.categoryNo}">${cv.categoryName}</option>
+	                <option value="${cv.categoryNo}" onclick="seletedCategory(this);" ondblclick="updateCategoryName(this);">${cv.categoryName}</option>
 	              </c:forEach>
               </select>
               <div>
-                <span id="categoryM">-</span>
-                <span id="categoryP">+</span>
+                <span id="categoryM" onclick="categoryMinus();">-</span>
+                <span id="categoryP" onclick="categoryPlus();">+</span>
               </div>
             </div>
             <!-- form -->
@@ -175,92 +175,22 @@
               <div><span>🧾 양식</span></div>
               <select name="formNo" size="15">
                 <c:forEach items="${formValues}" var="fv">
-                  <option class="${fv.categoryNo}" value="${fv.formNo}">${fv.formTitle}</option>
+                  <option class="${fv.categoryNo}" value="${fv.formNo}" onclick="selectedForm(this);">${fv.formTitle}</option>
                 </c:forEach>
               </select>
               <div>
-                <span id="formM">-</span>
-                <span id="formP">+</span>
+                <span id="formM" onclick="formMinus();">-</span>
+                <span id="formP" onclick="formPlus();">+</span>
               </div>
             </div>
             <!-- preview -->
             <div>
               <div><span>🔍 양식 미리보기</span></div>
-              <article>
+              <article id="formContents">
                 <!-- DB에 저장한 양식 하단에 불러오기 -->
-            <h1>이종훈</h1>
-            <table border="1">
-              <tr>
-                <td>이종훈이종훈이종훈이종훈이종훈이종훈이종훈이종훈이종훈이종훈이종훈</td>
-                <td>이종훈</td>
-                <td>이종훈</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-              </tr>
-              <tr>
-                <td>가</td>
-                <td>나</td>
-                <td>다</td>
-              </tr>
-              <tr>
-                <td>가</td>
-                <td>나</td>
-                <td>다</td>
-              </tr>
-              <tr>
-                <td>가</td>
-                <td>나</td>
-                <td>다</td>
-              </tr>
-              <tr>
-                <td>가</td>
-                <td>나</td>
-                <td>다</td>
-              </tr>
-              <tr>
-                <td>가</td>
-                <td>나</td>
-                <td>다</td>
-              </tr>
-              <tr>
-                <td>가</td>
-                <td>나</td>
-                <td>다</td>
-              </tr>
-              <tr>
-                <td>가</td>
-                <td>나</td>
-                <td>다</td>
-              </tr>
-              <tr>
-                <td>가</td>
-                <td>나</td>
-                <td>다</td>
-              </tr>
-              <tr>
-                <td>가</td>
-                <td>나</td>
-                <td>다</td>
-              </tr>
-              <tr>
-                <td>가</td>
-                <td>나</td>
-                <td>다</td>
-              </tr>
-              <tr>
-                <td>가</td>
-                <td>나</td>
-                <td>다</td>
-              </tr>
-              <tr>
-                <td>가</td>
-                <td>나</td>
-                <td>다</td>
-              </tr>
-            </table>
+                <c:forEach items="${formValues}" var="fv">
+                	<div id="${fv.formNo}">${fv.formContent}</div>
+                </c:forEach>
               </article>
             </div>
             
@@ -385,19 +315,118 @@
         };
 
         // 양식 카테고리 클릭시(선택시) 카테고리에 포함된 양식 불러오기
-        $('select[name=categoryNo] > option').click(function() {
-          let cn = $(this).val();
+        function seletedCategory(e) {
+          $('select[name=categoryNo] > option').removeAttr('selected');
+          $(e).attr('selected', 'selected');
+          let cn = $(e).val();
           let arr = document.getElementsByClassName(cn);
-          $(`".${cn}"`).toggleClass('active');
-          // for (let i = 0; i < arr.length; i++) {
-          //   arr[i].classList.toggle('active');
-          // }
-        });
-
-        // - , + 버튼으로 카테고리, 양식 추가
-
+          $('select[name=formNo] > option').removeClass('activeForm');
+          for (let i = 0; i < arr.length; i++) {
+            arr[i].classList.add('activeForm');
+          }
+        };
 
         // 양식 클릭시(선택시) 미리보기에 내용 출력
+        function selectedForm(e) {
+          $('select[name=formNo] > option').removeAttr('selected');
+          $(e).attr('selected', 'selected');
+          let fn = $(e).val();
+          let value = document.getElementById(fn);
+          $('#formContents > div').removeClass('activeContent');
+          value.classList.add('activeContent');
+        };
+
+        // - , + 버튼으로 카테고리, 양식 추가/삭제
+        function categoryPlus() {
+          $.ajax({
+            url : "${root}/admin/ea/insertCategory",
+            method : "GET",
+            success : function(result) {
+              $("<option>", {
+                  value : result,
+                  onclick : "seletedCategory(this);"
+              }).text('새로운 카테고리')
+              .appendTo("select[name=categoryNo]");
+            },
+            error : function(e) {
+              console.log(e);
+            }
+          });
+        };
+        function categoryMinus() {
+          if(confirm('선택하신 카테고리를 삭제하시겠습니까?(삭제시 하위 문서양식까지 모두 삭제됩니다 ^^;;)')) {
+            $.ajax({
+              url : "${root}/admin/ea/deleteCategory",
+              method : "GET",
+              data : {
+                categoryNo : $('select[name="categoryNo"] > option[selected="selected"]').val()
+              },
+              success : function(result) {
+                $('select[name="categoryNo"] > option[selected="selected"]').remove();
+              },
+              error : function(e) {
+                console.log(e);
+              }
+            });
+          } else {
+            return false;
+          }
+        };
+        function formPlus() {
+          $.ajax({
+            url : "${root}/admin/ea/insertForm",
+            method : "GET",
+            data : {
+              categoryNo : $('select[name="categoryNo"] > option[selected="selected"]').val()
+            },
+            success : function(result) {
+              $("<option>", {
+                  value : result,
+                  class : $('select[name="categoryNo"] > option[selected="selected"]').val(),
+                  onclick : "selectedForm(this);"
+              }).addClass('activeForm')
+              .text('새로운 양식')
+              .appendTo("select[name=formNo]");
+
+              $("<div>", {
+                  id : result
+              }).text('&lt;h1 style="text-align:center"&gt;새로운 양식&lt;/h1&gt;').appendTo("#formContents");
+            },
+            error : function(e) {
+              console.log(e);
+            }
+          });
+        };
+        function formMinus() {
+          if(confirm('선택하신 양식을 삭제하시겠습니까?')) {
+            $.ajax({
+              url : "${root}/admin/ea/deleteForm",
+              method : "GET",
+              data : {
+                formNo : $('select[name="formNo"] > option[selected="selected"]').val()
+              },
+              success : function(result) {
+                $('select[name="formNo"] > option[selected="selected"]').remove();
+              },
+              error : function(e) {
+                console.log(e);
+              }
+            });
+          } else {
+            return false;
+          }
+        };
+
+        // 카테고리, 양식 제목 더블클릭시 이름 변경
+        // 더블클릭하면 태그속성 input:text같이 값을 입력할 수 있는 걸로 변경 replaceWith / replaceTag
+        // or 더블클릭하면 모달띄어서 이름 변경할수 있는 창 하는게 편할듯
+        function updateCategoryName(e) {
+          $(e).replaceWith
+        };
+
+
+
+
 
 
     </script>
