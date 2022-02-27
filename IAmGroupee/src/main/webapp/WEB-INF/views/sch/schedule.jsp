@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   
   <link rel='stylesheet' href='${root}/resources/css/sch/main.css' />
+
 </head>
 
 <body>
@@ -69,7 +70,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <label class="col-xs-4" for="edit-allDay">하루종일</label>
-                                <input class='allDayNewEvent' id="edit-allDay" type="checkbox"></label>
+                                <input class='allDayNewEvent' id="edit-allDay" type="checkbox">
                             </div>
                         </div>
 

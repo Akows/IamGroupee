@@ -109,9 +109,9 @@ var calendar = $('#calendar').fullCalendar({
       type: "get",
       url: "data.json",
       data: {
-        // 화면이 바뀌면 Date 객체인 start, end 가 들어옴
-        //startDate : moment(start).format('YYYY-MM-DD'),
-        //endDate   : moment(end).format('YYYY-MM-DD')
+		      // 화면이 바뀌면 Date 객체인 start, end 가 들어옴
+		      startDate : moment(start).format('YYYY-MM-DD'),
+		      endDate   : moment(end).format('YYYY-MM-DD')
       },
       success: function (response) {
         var fixedDate = response.map(function (array) {
@@ -140,7 +140,7 @@ var calendar = $('#calendar').fullCalendar({
     //리사이즈한 일정 업데이트
     $.ajax({
       type: "get",
-      url: "",
+      url: "schedule",
       data: {
         //id: event._id,
         //....
@@ -175,7 +175,7 @@ var calendar = $('#calendar').fullCalendar({
     //드롭한 일정 업데이트
     $.ajax({
       type: "get",
-      url: "",
+      url: "schedule",
       data: {
         //...
       },
