@@ -32,4 +32,10 @@ public class PersonnelController {
 		return "ps/jobposimanage";
 	}
 	
+//  임직원 추가
+	@GetMapping("/userenroll")
+	public String userenroll() {
+		return "ps/userenroll";
+	}
+	
 }
