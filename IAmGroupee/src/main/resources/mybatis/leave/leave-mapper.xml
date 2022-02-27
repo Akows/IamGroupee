@@ -84,12 +84,12 @@
     
     <select id="getThisLvbNo" resultType="int">
     	SELECT LVB_NO FROM LV_BOARD
-    	WHERE LVB_TITLE = #{lvbTitle}
+    	WHERE LVB_TITLE = #{lvbTitle} AND  LVB_DEL = 'N'
     </select>
     
     <select id="getThisLvbData" resultType="lvInfo">
     	SELECT * FROM LV_BOARD
-    	WHERE LVB_TITLE = #{lvbTitle}
+    	WHERE LVB_TITLE = #{lvbTitle} AND  LVB_DEL = 'N'
     </select>
     
     <update id="lvbUpdate" parameterType="lvInfo">

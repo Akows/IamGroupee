@@ -26,7 +26,7 @@
           <div class="col-md-6 col-xl-12" style="height: 90%;">
             <article class="stat-cards-item">
             
-	            	<div class="card card-primary card-outline" style="width: 100%; margin-top: 20px;">
+	            	<div class="card card-primary card-outline" style="width: 90%; margin-top: 20px; margin: auto;">
 	
 			            <div class="card-body p-0">
 			              <div class="mailbox-read-info" style="margin-left: 10px; margin-right: 10px;">
@@ -41,17 +41,32 @@
 			              </div>
 			            </div>
 			        </div>
-		            
+					<%
+					String leaveRight = (String)session.getAttribute("leaveRight");
+						if(leaveRight.equals("Y")){
+					%>
 		            <div style="height: 30px; width: 100%; margin-left: 90px;">
-			           <div class="input-group-prepend" style="margin-left: 87%">
+			           <div class="input-group-prepend" style="margin-left: 82%; margin-top: 10px;">
 						  <form id="lvbModDel" method="post">
 			                <input type="button" onclick="modLvb();" value="수정" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 10px; float: left;">
 			                <input type="button" onclick="delLvb();" value="삭제" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 10px; float: left;">
-			                <input type="button" value="목록" onclick="history.go(-1);" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 6px; float: left;">
+			                <input type="button" value="목록" onclick="goList();" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 6px; float: left;">
 						  </form>
 			           </div>
 			        </div>
-             
+					<%
+						} else {
+					%>
+		            <div style="height: 30px; width: 100%; margin-left: 90px;">
+			           <div class="input-group-prepend" style="margin-left: 91%; margin-top: 10px;">
+						  <form id="lvbModDel" method="post">
+			                <input type="button" value="목록" onclick="goList();" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 6px; float: left;">
+						  </form>
+			           </div>
+			        </div>
+					<%
+						}
+					%>
             </article>
           </div>
         </div>
@@ -83,6 +98,12 @@
 			form2.appendChild(obj2);
 			form2.action ="${root}/admin/leave/lvbDelete";
 			form2.submit();
+		};
+		var goList = function(){
+			var form3 =  $('#lvbModDel')[0];
+			form3.action ="${root}/leave/lvInfo";
+			form3.method = "get";
+			form3.submit();
 		};
     </script>
 

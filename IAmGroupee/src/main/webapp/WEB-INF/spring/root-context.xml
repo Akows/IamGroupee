@@ -84,9 +84,6 @@
 	<bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" id="passwordEncoder"> </bean>
 
 	<!-- file -->
-
-
-
 	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
 
 		<property value="UTF-8" name="defaultEncoding" />

@@ -169,6 +169,13 @@
 		    <artifactId>commons-fileupload</artifactId>
 		    <version>1.4</version>
 		</dependency>
+		
+		<!-- apache-fileupload -->
+		<dependency>
+		   <groupId>com.liferay</groupId>
+		   <artifactId>org.apache.commons.fileupload</artifactId>
+		   <version>1.2.2.LIFERAY-PATCHED-1</version>
+	    </dependency>
 
 		
 		<!-- commons-io -->

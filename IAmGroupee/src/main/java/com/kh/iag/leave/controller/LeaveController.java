@@ -57,7 +57,6 @@ public class LeaveController {
 	public String lvUsedList(HttpSession session, HttpServletRequest request) throws Exception {
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
 		String userNo = loginUser.getUserNo();
-		
 //		if (page == null) {
 //			return "redirect:leave/lvUsedList/1";
 //
@@ -102,22 +101,27 @@ public class LeaveController {
 
 //============================= 사용자 메뉴 =============================	
 	@GetMapping("lvInfo") // 사용자 휴무 정보 게시글
-	public String lvInfo(HttpServletRequest request) throws Exception {
-		
+	public String lvInfo(HttpServletRequest request, HttpSession session) throws Exception {
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		String leaveRight = loginUser.getLeaveRight();
 		List<LvInfoDto> lvInfoList = service.getLvInfoList();
 		
+		session.setAttribute("leaveRight", leaveRight);
 		request.setAttribute("lvInfoList", lvInfoList);
 		
 		return "leave/leaveInfo";
 	}
 	
 	@GetMapping("lvInfoDetail/{no}")
-	public String lvInfoDetail(@PathVariable int no, HttpServletRequest request) throws Exception {
+	public String lvInfoDetail(@PathVariable int no, HttpServletRequest request, HttpSession session) throws Exception {
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		String leaveRight = loginUser.getLeaveRight();
 		
 		int lvbNo = Integer.valueOf(no);
 		
 		LvInfoDto lvInfoDetail = service.lvInfoDetail(lvbNo);
-		
+
+		session.setAttribute("leaveRight", leaveRight);
 		request.setAttribute("lvInfoDetail", lvInfoDetail);
 		
 		
