@@ -10,9 +10,7 @@
 	<link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
-	<!-- jsGrid -->
-	<link rel="stylesheet" href="${root}/resources/plugins/jsgrid/jsgrid.min.css">
-	<link rel="stylesheet" href="${root}/resources/plugins/jsgrid/jsgrid-theme.min.css">
+	
 
 </head>
 <body>
@@ -24,7 +22,7 @@
         		<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1>예약 자산 관리</h1>
+							<h1>예약 자산</h1>
 						</div>
 						
 						<div class="col-sm-6">
@@ -42,31 +40,95 @@
 				
 				<div class="card">
 					<div class="card-header">
-						<h3 class="card-title">
-							<button class="btn-primary btn" id="btnAdd" type="button" onclick="AddClick()">Add User</button>
-						</h3>	
-						<div class="card-tools">
-							<form action="simple-results.html">
-								<div class="input-group">
-									<input type="search" class="form-control form-control-lg" placeholder="Type your keywords here">
-									<div class="input-group-append">
-										<button type="submit" class="btn btn-lg btn-default">
-											<i class="fa fa-search"></i>
-										</button>
-									</div>
-								</div>
-							</form>	
-						</div>
+						<h3 class="card-title">회의실 목록 관리</h3>	
 					</div>
 
 					<div class="card-body">
-						<div id="jsGrid"></div>
+						<div id="jsGrid1"></div>
+					</div>
+				</div>
+		
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">비품 목록 관리</h3>	
+					</div>
+
+					<div class="card-body">
+						<div id="jsGrid2"></div>
 					</div> 
 				</div>
-				
+
 			</div> <!-- /.container-fluid -->
 		</section> <!-- /.content-body -->
 	</main>    
+
+	<script>
+		$(function () {
+			$("#jsGrid1").jsGrid({
+				width: "100%",
+				
+				inserting: true,
+				editing: true,
+				sorting: true,
+				paging: true,
+				autoload: true,
+				deleteConfirm: "선택한 자산을 정말 삭제하시겠습니까?",
+				
+				fields: [
+					{ name: "roomName", type: "text", width: 150 },
+					{ name: "activateYn", type: "checkbox",title: "활성화", width: 50 },
+					{ name: "createDate", type: "date", width: 150 },
+					{ name: "modDate", type: "date", width: 150 },
+					{ type: "control" , width:"15%"}
+				],
+
+				controller: {
+					loadData: function(filter) {
+					var d = $.Deferred();
+					$.ajax({
+						url: "/admin/resv",
+						type: "GET",
+						data: {
+						name : "${rList.roomName}",
+						activateYn : "${rList.activateYn}",
+						createDate : "${rList.createDate}",
+						modDate : "${rList.modDate}}"
+						},
+						dataType: "json"
+					}).done(function(response) {
+						//조회 데이터 셋팅
+						d.resolve(response.rList);
+					});
+					return d.promise();
+					}
+				}
+
+			});
+
+			$("#jsGrid2").jsGrid({
+					width: "100%",
+			
+					inserting: true,
+					editing: true,
+					sorting: true,
+					paging: true,
+					autoload: true,
+					deleteConfirm: "선택한 자산을 정말 삭제하시겠습니까?",
+			
+					fields: [
+						{ name: "assetName", type: "text", width: 150 },
+						{ name: "activateYn", type: "checkbox",title: "활성화", width: 50 },
+						{ name: "createDate", type: "date", width: 150 },
+						{ name: "modDate", type: "date", width: 150 },
+						{ type: "control" , width:"15%"}
+					],
+
+					data: db.asset,
+			});
+	
+		});
+
+	</script>
 
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
@@ -74,9 +136,11 @@
 	<script src="${root}/resources/js/script.js"></script>
 
 	<!-- jsGrid -->
-	<script src="${root}/resources/plugins/jsgrid/demos/db.js"></script>
+	<link rel="stylesheet" href="${root}/resources/plugins/jsgrid/jsgrid.min.css">
+	<link rel="stylesheet" href="${root}/resources/plugins/jsgrid/jsgrid-theme.min.css">
+	
 	<script src="${root}/resources/plugins/jsgrid/jsgrid.min.js"></script>
-	<script src="${root}/resources/js/resv/addEvents.js"></script>
+	<script src="${root}/resources/js/resv/jsGrid.js"></script>
 
 </body>
 </html>
