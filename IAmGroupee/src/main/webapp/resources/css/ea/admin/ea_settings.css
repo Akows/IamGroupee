@@ -118,6 +118,7 @@
   border: 1px solid #262626;
   overflow: scroll;
   height: 332px;
+  padding: 10px;
 }
 span[id$="M"] {
   color: #064db8;
@@ -208,4 +209,55 @@ select[name="formNo"] > option.activeForm {
 }
 #formContents > div.activeContent {
   display: block;
+}
+div[id$="Layer"] {
+  display: none;
+  width: 400px;
+  background: #fff;
+  border: 2px solid #4081e4;
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+div[id$="Layer"] > div:nth-child(1) {
+  background: #064db8;
+  color: #fff;
+  border-radius: 8px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  text-align: center;
+  font-weight: 600;
+}
+div[id$="Layer"] > div:nth-child(2) {
+  padding: 15px;
+  text-align: center;
+}
+div[id$="Layer"] > div:nth-child(2) > input {
+  background: #fff;
+  border: 10px solid #262626;
+}
+div[id$="Layer"] > div:nth-child(3) {
+  padding: 10px;
+  text-align: right;
+}
+div[id$="Layer"] > div:nth-child(3) > a {
+  color: #fff;
+  background: #4081e4;
+  padding: 5px;
+  font-size: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#layer_bg {
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  z-index: 10;
 }

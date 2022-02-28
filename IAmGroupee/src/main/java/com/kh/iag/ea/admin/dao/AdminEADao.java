@@ -9,6 +9,14 @@ import com.kh.iag.ea.entity.SettingsDto;
 
 public interface AdminEADao {
 
+	SettingsDto checkInitialSettings() throws Exception;
+
+	int insertInitialSettings1(SettingsDto dto);
+
+	int insertInitialSettings2(SettingsDto dto);
+
+	int insertInitialSettings3(SettingsDto dto);
+	
 	SettingsDto defaultSettings() throws Exception;
 
 	List<PositionDto> positionValues() throws Exception;
@@ -34,5 +42,14 @@ public interface AdminEADao {
 	FormDto selecLatestForm() throws Exception;
 
 	int deleteForm(String formNo) throws Exception;
+
+	int updateCategoryName(CategoryDto dto) throws Exception;
+
+	int updateFormName(FormDto dto) throws Exception;
+
+	FormDto formValue(FormDto dto) throws Exception;
+
+	int editForm(FormDto dto) throws Exception;
+
 
 }

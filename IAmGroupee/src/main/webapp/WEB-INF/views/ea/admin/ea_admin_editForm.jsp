@@ -30,42 +30,51 @@
         </ul>
       </div>
       <div class="ea_settings_editForm_contents">
-        <form action="" method="POST">
+        <form action="" method="POST" name="reuqestForm">
             <!-- category -->
             <div>
                 <span>🗂&ensp;카테고리 :</span>
-                <select name="category" id="">
+                <select name="categoryNo">
                     <!-- db 카테고리 불러오기 -->
-                    <option value="">카테고리1</option>
-                    <option value="">카테고리2</option>
-                    <option value="">카테고리3</option>
+                    <c:forEach items="${categoryValues}" var="cv">
+                    	<c:if test="${cv.categoryNo eq formValue.categoryNo}">
+	                    	<option value="${cv.categoryNo}" selected="selected">${cv.categoryName}</option>                	
+                    	</c:if>
+                    	<c:if test="${cv.categoryNo ne formValue.categoryNo}">
+	                    	<option value="${cv.categoryNo}">${cv.categoryName}</option>  
+                    	</c:if>              	
+                    </c:forEach>
                 </select>
             </div>
             <!-- form name -->
             <div>
-                <span>💬&ensp;양식제목 :</span>
-                <input type="text">
+                <span>💬&ensp;양식이름 :</span>
+                <input type="text" name="formTitle" value="${formValue.formTitle}" placeholder="변경하실 양식이름을 적어주세요.">
             </div>
             <!-- preserved years -->
             <div>
+                <% int[] y = {1, 2, 3, 4, 5}; %>
                 <span>📆&ensp;보존연한 :</span>
-                <select name="preservedYears" id="">
-                    <option value="1">1년</option>
-                    <option value="2">2년</option>
-                    <option value="3">3년</option>
-                    <option value="4">4년</option>
-                    <option value="5">5년</option>
+                <select name="formYears">
+                <c:forEach items="<%=y%>" var="year">
+                	<c:if test="${formValue.formYears eq year}">
+	                    <option value="${year}" selected="selected">${year}년</option>           	
+                	</c:if>                
+                	<c:if test="${formValue.formYears ne year}">
+	                    <option value="${year}">${year}년</option>    
+                    </c:if>       	
+                </c:forEach>
                 </select>
             </div>
             <!-- form contents -->
             <div>
                 <span>📝&ensp;양식내용 :</span>
-                <textarea name="content" id="editor" placeholder="내용을 입력해주세요." required></textarea>
+                <textarea name="formContent" id="editor" placeholder="내용을 입력해주세요." required>${formValue.formContent}</textarea>
             </div>
             <!-- btn -->
             <div>
-                <a href="">저장하기</a>
-                <a href="">취소</a>
+                <a href="javascript:reuqestForm.submit()" onclick="return confirmChange();">저장하기</a>
+                <a href="/iag/admin/ea/main">취소</a>
             </div>
         </form>
       </div>
@@ -88,6 +97,14 @@
     .catch( error => {
       console.error( error );
     } );
+    
+    function confirmChange() {
+    	if(confirm("수정 내용을 저장하시겠습니까?")) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    };
 
   </script>
 </body>

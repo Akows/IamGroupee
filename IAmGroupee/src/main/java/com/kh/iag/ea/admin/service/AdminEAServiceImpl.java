@@ -16,6 +16,26 @@ public class AdminEAServiceImpl implements AdminEAService {
 
 	@Autowired
 	private AdminEADao dao;
+
+	@Override
+	public SettingsDto checkInitialSettings() throws Exception {
+		return dao.checkInitialSettings();
+	}
+
+	@Override
+	public int insertInitialSettings1(SettingsDto dto) {
+		return dao.insertInitialSettings1(dto);
+	}
+
+	@Override
+	public int insertInitialSettings2(SettingsDto dto) {
+		return dao.insertInitialSettings2(dto);
+	}
+
+	@Override
+	public int insertInitialSettings3(SettingsDto dto) {
+		return dao.insertInitialSettings3(dto);
+	}
 	
 	@Override
 	public SettingsDto defaultSettings() throws Exception {
@@ -80,6 +100,26 @@ public class AdminEAServiceImpl implements AdminEAService {
 	@Override
 	public int deleteForm(String formNo) throws Exception {
 		return dao.deleteForm(formNo);
+	}
+
+	@Override
+	public int updateCategoryName(CategoryDto dto) throws Exception {
+		return dao.updateCategoryName(dto);
+	}
+
+	@Override
+	public int updateFormName(FormDto dto) throws Exception {
+		return dao.updateFormName(dto);
+	}
+
+	@Override
+	public FormDto formValue(FormDto dto) throws Exception {
+		return dao.formValue(dto);
+	}
+
+	@Override
+	public int editForm(FormDto dto) throws Exception {
+		return dao.editForm(dto);
 	}
 
 }
