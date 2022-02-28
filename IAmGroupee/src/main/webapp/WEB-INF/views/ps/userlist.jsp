@@ -18,29 +18,29 @@
        <br>
        <br>
        <div class="row">
-       		<div class="col-lg-2 col-5">
-       			<button class="btn btn-block btn-outline-primary btn-flat">사용자 추가</button>
-       		</div>
-       		<div class="col-lg-7 col-1">
-       		</div>
-       		<div class="col-lg-3 col-6">
-       			   <div class="form-group">
-                            <div class="input-group input-group-lg">
-                                <input type="search" class="form-control form-control-lg" placeholder="사번/이름으로 검색">
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-lg btn-default bg-primary" onclick="">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-       		</div>
-       </div>
-       <div class="row">
-       		<table class="table">
-       			<thead class="thead-light">
-       				<tr>
-       					<th>사번</th>
+        <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <a href="${root}/admin/ps/userenroll">사용자 추가 +</a>
+
+                <div class="card-tools">
+                  <div class="input-group" style="width: 250px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="사번/이름">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      	<th>사번</th>
        					<th>이름</th>
        					<th>전화번호</th>
        					<th>조직</th>
@@ -48,10 +48,29 @@
        					<th>직무</th>
        					<th>상태</th>
        					<th>수정</th>
-       				</tr>
-       			</thead>
-       			
-       		</table>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1111</td>
+                      <td>박재한</td>
+                      <td>010-4666-9408</td>
+                      <td>인사팀</td>
+                      <td>사원</td>
+                      <td>인사관리</td>
+                      <td>활성화</td>
+                      <td>수정버튼</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+       		
+       					
+
        </div>
 
       </div>
