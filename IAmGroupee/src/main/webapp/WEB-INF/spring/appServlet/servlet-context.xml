@@ -25,20 +25,8 @@
 	
 	<interceptors>
 		<interceptor>
-			<mapping path="/admin/leave/**"/>  <!-- http://127.0.0.1:8989/iag/admin/각자 맡은 도메인/~~~~ -->
-			<beans:bean class="com.kh.iag.interceptor.LeaveInterceptor"></beans:bean>
-		</interceptor>
-		<interceptor>
-			<mapping path="/admin/ea/**"/>
-			<beans:bean class="com.kh.iag.interceptor.EaInterceptor"></beans:bean>
-		</interceptor>
-		<interceptor>
 			<mapping path="/admin/ps/**"/>
 			<beans:bean class="com.kh.iag.interceptor.UserInterceptor"></beans:bean>
-		</interceptor>
-		<interceptor>
-			<mapping path="/admin/salary/**"/>
-			<beans:bean class="com.kh.iag.interceptor.SalInterceptor"></beans:bean>
 		</interceptor>
 		<interceptor>
 			<mapping path="/admin/attendance/**"/>

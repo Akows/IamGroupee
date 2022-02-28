@@ -32,60 +32,58 @@
         <div class="row stat-cards">
           <div class="col-md-6 col-xl-12" style="width: 20%; height: 150px;">
             <article class="stat-cards-item" style="text-align: center; margin: auto;">
-              	<div class="border-right" style="width: 20%; height: 100%; float: left;">
-              		<span>
-              		프사
-              		</span>
-              		<span>
-              		이름정보
+              	<div style="width: 10%; height: 100%; float: left; line-height: 5.5em; font-weight: bolder; font-size: large;">
+              		<div style="margin-left: 20px;"> ${loginUser.name} </div>
+              	</div>
+              	<div class="border-right" style="width: 10%; height: 100%; float: left; text-align: left; font-weight: bold; font-size: medium;">
+              		<div style="margin-top: 25px; margin-left: 30px;"> ${loginUser.departmentName}<br>${loginUser.positionName} </div>
+              	</div>
+              	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
+              		<span style="font-weight: bolder; line-height: 1.7em;">
+              		발생 연차
+              		</span> <br>
+              		<span style="font-size: xx-large; line-height: 2.5em;">
+              		15
               		</span>
               	</div>
               	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-              		<span>
-              		발생연차
+              		<span style="font-weight: bolder; line-height: 1.7em;">
+              		발생 월차
               		</span> <br>
-              		<span>
-              		num
+              		<span style="font-size: xx-large; line-height: 2.5em;">
+              		0
               		</span>
               	</div>
               	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-              		<span>
-              		발생월차
+              		<span style="font-weight: bolder; line-height: 1.7em;">
+              		조정 연차
               		</span> <br>
-              		<span>
-              		num
+              		<span style="font-size: xx-large; line-height: 2.5em;">
+              		2
               		</span>
               	</div>
               	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-              		<span>
-              		조정연차
+              		<span style="font-weight: bolder; line-height: 1.7em;">
+              		총 연차
               		</span> <br>
-              		<span>
-              		num
+              		<span style="font-size: xx-large; line-height: 2.5em;">
+              		17
               		</span>
               	</div>
               	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-              		<span>
-              		총연차
+              		<span style="font-weight: bolder; line-height: 1.7em;">
+              		사용 연차
               		</span> <br>
-              		<span>
-              		num
-              		</span>
-              	</div>
-              	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-              		<span>
-              		사용연차
-              		</span> <br>
-              		<span>
-              		num
+              		<span style="font-size: xx-large; line-height: 2.5em;">
+              		2.5
               		</span>
               	</div>
               	<div style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-              		<span>
-              		남은연차
+              		<span style="font-weight: bolder; line-height: 1.7em;">
+              		남은 연차
               		</span> <br>
-              		<span>
-              		num
+              		<span style="font-size: xx-large; line-height: 2.5em;">
+              		14.5
               		</span>
               	</div>          
             </article>

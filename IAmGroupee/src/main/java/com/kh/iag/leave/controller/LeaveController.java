@@ -2,7 +2,6 @@ package com.kh.iag.leave.controller;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +19,11 @@ import com.kh.iag.leave.entity.LvUsedListDto;
 import com.kh.iag.leave.service.LeaveService;
 import com.kh.iag.user.entity.UserDto;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping("leave")
+@Slf4j
 public class LeaveController {
 	
 	@Autowired
@@ -36,7 +39,7 @@ public class LeaveController {
 		String startDate = String.valueOf(year) + "-" + enrollDate.substring(5);
 		
 		String userNo = loginUser.getUserNo();
-		
+//		사용내역
 		List<LvUsedListDto> allUsedList =  service.getAllUsage(userNo);
 		for (LvUsedListDto allUsedLv : allUsedList) {
 			Date startLv = allUsedLv.getLvStart();
@@ -44,8 +47,8 @@ public class LeaveController {
 			String duringLv = startLv + " ~ " + endLv;
 			allUsedLv.setDuring(duringLv);
 		}
-		
-		
+
+
 		session.setAttribute("startDate", startDate);
 		request.setAttribute("allUsedList", allUsedList);
 		
@@ -54,7 +57,7 @@ public class LeaveController {
 	
 //	@GetMapping(value = {"/lvUsedList/{page}", "list"} , Model model, @PathVariable(required = false) String page)) // 연차 및 휴가 사용대장
 	@GetMapping("lvUsedList")
-	public String lvUsedList(HttpSession session, HttpServletRequest request) throws Exception {
+	public String lvUsedList(HttpSession session, Model model) throws Exception {
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
 		String userNo = loginUser.getUserNo();
 //		if (page == null) {
@@ -77,7 +80,7 @@ public class LeaveController {
 				String end =  String.valueOf(al.getLvEnd());
 				al.setDuring(start + " ~ " + end);
 			}
-			request.setAttribute("alvUsedList", alvUsedList);
+			model.addAttribute("alvUsedList", alvUsedList);
 		}
 		
 		// 로그인한 사용자의 휴가사용내역
@@ -88,7 +91,7 @@ public class LeaveController {
 				String end =  String.valueOf(al.getLvEnd());
 				al.setDuring(start + " ~ " + end);
 			}
-			request.setAttribute("lvUsedList", lvUsedList);
+			model.addAttribute("lvUsedList", lvUsedList);
 		}
 		
 		return "leave/lvUsedList";

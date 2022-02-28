@@ -23,7 +23,8 @@ public class LoginDaoImpl implements LoginDao {
 
 	@Override // 로그인 로직 처리
 	public UserDto getUserByNo(UserDto dto) throws Exception{
-		return session.selectOne("login.getUserByNo", dto);
+		UserDto d = session.selectOne("login.getUserByNo", dto);
+		return d;
 	}
 
 	@Override // 사용자 db에 세션쿠키정보 넣기

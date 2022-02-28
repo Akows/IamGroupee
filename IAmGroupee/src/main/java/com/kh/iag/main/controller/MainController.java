@@ -41,10 +41,11 @@ public class MainController {
 			}
 			// 로그인 로직
 			UserDto loginUser = service.login(dto);
+			
 			if (loginUser != null) {
 				//세션에 담기
 				session.setAttribute("loginUser",loginUser);
-				
+
 //				============연차 발생
 				
 				
