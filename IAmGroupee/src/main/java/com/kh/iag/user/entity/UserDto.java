@@ -10,6 +10,8 @@ public class UserDto {
 	private String userNo;
 	private long positionNo;
 	private long departmentNo;
+	private String positionName;
+	private String departmentName;
 	private long jobNo;
 	private String pwd;	
 	private String name;	
@@ -22,8 +24,8 @@ public class UserDto {
 	private String activityYn;	
 	private String profile;	
 	private int alvCount;	
-	private int alvUsedCount;	
-	private int alvLeftCount;	
+	private float alvUsedCount;	
+	private float alvLeftCount;	
 	private String personnelRight;	
 	private String paymentRight;	
 	private String leaveRight;	

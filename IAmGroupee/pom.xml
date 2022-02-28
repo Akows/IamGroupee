@@ -10,7 +10,7 @@
 	<properties>
 		<java-version>11</java-version>
 		<org.springframework-version> 4.3.25.RELEASE</org.springframework-version>
-		<org.aspectj-version>1.6.10</org.aspectj-version>
+		<org.aspectj-version>1.9.7</org.aspectj-version>
 		<org.slf4j-version>1.7.30</org.slf4j-version>
 	</properties>
 	<dependencies>
@@ -32,13 +32,6 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-				
-		<!-- AspectJ -->
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<version>${org.aspectj-version}</version>
-		</dependency>	
 		
 		<!-- Logging -->
 		<dependency>
@@ -186,8 +179,6 @@
 		</dependency>
 		
 		
-		<!-- Lombok  vo나 dto만들 때 생성자 gettersetter toString을 안해도됨 -->
-		<!-- eclipse.ini랑 프로젝트에도 추가해줘야함 -->
 		<dependency>
 		    <groupId>org.projectlombok</groupId>
 		    <artifactId>lombok</artifactId>
@@ -221,6 +212,28 @@
 		    <version>2.13.0</version>
 		</dependency>
 
+		<!-- spring AOP -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
+				
+		<!-- AspectJ rt -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>	
+
+				
+		<!-- AspectJ weaver -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>
 
 	</dependencies>
     <build>

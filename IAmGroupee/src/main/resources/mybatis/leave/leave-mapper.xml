@@ -11,6 +11,7 @@
     	JOIN IAG_USER IU ON (UL.USER_NO = IU.USER_NO)
     	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
     	WHERE IU.USER_NO = #{userNo} AND UL.LV_END &lt; SYSDATE
+    	ORDER BY UL.LV_END DESC
     </select>
   
     <select id="getAlvList" resultType="lvList">

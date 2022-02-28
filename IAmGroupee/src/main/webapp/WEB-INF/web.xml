@@ -5,21 +5,16 @@
                xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
                version="3.1">
 
-	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
-	<!-- 모든 서블릿 및 필터가 공유하는 루트 스프링 컨테이너의 정의 -->
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/root-context.xml</param-value>
 	</context-param>
-	
-	<!-- Creates the Spring Container shared by all Servlets and Filters -->
-	<!-- 모든 서블릿 및 필터가 공유하는 스프링 컨테이너 작성 -->
+
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-	<!-- Processes application requests -->
-	<!-- 응용 프로그램 요청 처리 -->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

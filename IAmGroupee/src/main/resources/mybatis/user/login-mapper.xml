@@ -5,8 +5,10 @@
   
   <mapper namespace="login">
   
-    <select id="getUserByNo" parameterType="user" resultType="user">
-    	SELECT * FROM IAG_USER 
+    <select id="getUserByNo" resultType="user">
+    	SELECT IU.*, D.DEPARTMENT_NAME, P.POSITION_NAME FROM IAG_USER IU
+    	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
+    	JOIN POSITION P ON (IU.POSITION_NO = P.POSITION_NO)
     	WHERE USER_NO = #{userNo}
     </select>
     
@@ -17,7 +19,9 @@
     </update>
     
     <select id="checkUserBySsKey" resultType="user">
-    	SELECT * FROM IAG_USER 
+    	SELECT IU.*, D.DEPARTMENT_NAME, P.POSITION_NAME FROM IAG_USER IU
+    	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
+    	JOIN POSITION P ON (IU.POSITION_NO = P.POSITION_NO)
     	WHERE SESSIONKEY = #{sessionKey} AND SESSIONLIMIT > SYSDATE
     </select>
     

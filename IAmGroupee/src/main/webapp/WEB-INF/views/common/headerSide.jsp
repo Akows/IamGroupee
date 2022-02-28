@@ -230,9 +230,6 @@
                           <a href="${root}/admin/attend/main">근태</a>
                       </li>
                       <li>
-                          <a href="${root}/admin/sal/main">급여</a>
-                      </li>
-                      <li>
                           <a href="${root}/admin/leave/main">연차</a>
                       </li>
                       <li>

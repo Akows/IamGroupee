@@ -38,7 +38,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			} 
 			request.setAttribute("msg", "로그인을 먼저 해주세요");
 			request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-//			response.sendRedirect("/iag/login");
 			return false;
 		}
 		// 로그인된 유저
