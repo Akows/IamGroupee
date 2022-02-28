@@ -16,6 +16,7 @@ import com.kh.iag.user.entity.UserDto;
 @RequestMapping("resv")
 public class ResvController {
 
+	//내예약페이지
 	@GetMapping("resvMain")
 	public String resvMain(HttpServletRequest request, HttpServletResponse response) {
 		UserDto loginUser = (UserDto) request.getSession().getAttribute("loginUser");
@@ -40,13 +41,11 @@ public class ResvController {
 	
 	//////////////////////////////////////////////////////////////////////////////////
 		
-	//부서별프로젝트
+	//자산별예약페이지
 	@GetMapping("resvAsset")
-		public String resvAsset() {
-
+	public String resvAsset() {
 		return "resv/resvAsset";
 	}
-	
 	
 	
 }

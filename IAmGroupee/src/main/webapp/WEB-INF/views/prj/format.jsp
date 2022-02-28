@@ -10,8 +10,6 @@
 	<link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
-	<!-- adminLTE CDN -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
 	
 </head>
 <body>
@@ -23,8 +21,9 @@
         		<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
+							<h1>Project name</h1>
 							<button class="btn-primary btn-lg">
-								page name
+								button name
 							</button>
 						</div>
 						
