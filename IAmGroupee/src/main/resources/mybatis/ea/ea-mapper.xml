@@ -4,7 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="ea">
-	<!-- 기본설정 데이터 -->
+<!-- 관리자 -->
+	<!-- 초기설정 확인 및 기본설정 데이터 확인 -->
 	<select id="defaultSettings" resultType="com.kh.iag.ea.entity.SettingsDto">
 		SELECT A.SEC_MIN SECMINA,
 				B.SEC_MIN SECMINB,
@@ -13,6 +14,18 @@
 				F.FORMAT_FORM
 		FROM EA_SEC_A A, EA_SEC_B B, EA_FORMAT F
 	</select>
+	
+	<!-- 문서 초기 설정 업데이트 -->
+	<insert id="insertInitialSettings1" parameterType="com.kh.iag.ea.entity.SettingsDto">
+		INSERT INTO EA_SEC_A (SEC_GRADE, SEC_MIN) VALUES (DEFAULT, ${secMinA})
+	</insert>
+	<insert id="insertInitialSettings2" parameterType="com.kh.iag.ea.entity.SettingsDto">
+		INSERT INTO EA_SEC_B (SEC_GRADE, SEC_MIN) VALUES (DEFAULT, ${secMinB})
+	</insert>
+	<insert id="insertInitialSettings3" parameterType="com.kh.iag.ea.entity.SettingsDto">
+		INSERT INTO EA_FORMAT (FORMAT_NO, FORMAT_YEAR, FORMAT_DEPT, FORMAT_FORM) VALUES (1, #{formatYear}, #{formatDept}, #{formatForm})
+	</insert>
+	
 	<!-- 직위 데이터 -->
 	<select id="positionValues" resultType="com.kh.iag.ea.entity.PositionDto">
 		SELECT * FROM POSITION ORDER BY POSITION_LEVEL
@@ -88,4 +101,35 @@
 	<delete id="deleteForm" parameterType="string">
 		DELETE FROM EA_FORM WHERE FORM_NO = ${formNo}
 	</delete>
+	
+	<!-- 양식 카테고리 이름 변경 -->
+	<update id="updateCategoryName" parameterType="com.kh.iag.ea.entity.CategoryDto">
+		UPDATE EA_CATEGORY SET CATEGORY_NAME = #{categoryName} WHERE CATEGORY_NO = ${categoryNo}
+	</update>
+	
+	<!-- 양식 이름 변경 -->
+	<update id="updateFormName" parameterType="eaform">
+		UPDATE EA_FORM SET FORM_TITLE = #{formTitle} WHERE FORM_NO = ${formNo}
+	</update>
+	
+	<!-- 양식 수정 페이지 선택 양식 default 데이터 -->
+	<select id="formValue" parameterType="eaform" resultType="eaform">
+		SELECT * FROM EA_FORM WHERE FORM_NO = ${formNo}
+	</select>
+	
+	<!-- 양식 수정 -->
+	<update id="editForm" parameterType="eaform">
+		UPDATE EA_FORM 
+		SET
+		    FORM_TITLE = #{formTitle},
+		    FORM_CONTENT = #{formContent},
+		    FORM_YEARS = ${formYears},
+		    CATEGORY_NO = ${categoryNo}
+		WHERE FORM_NO = ${formNo}
+	</update>
+<!-- 사용자 -->
+	<!-- 기안 작성 페이지 양식 데이터 -->
+	<select id="signupFormValue" parameterType="eaform" resultType="eaform">
+		SELECT * FROM EA_FORM WHERE FORM_NO = ${formNo}
+	</select>
 </mapper>

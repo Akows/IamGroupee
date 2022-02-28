@@ -1,24 +1,55 @@
 package com.kh.iag.ea.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.iag.ea.admin.service.AdminEAService;
+import com.kh.iag.ea.entity.CategoryDto;
+import com.kh.iag.ea.entity.FormDto;
+import com.kh.iag.ea.service.EAService;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping(value = "/ea")
 public class EAController {
+	@Autowired
+	private EAService service;
+	
+	@Autowired
+	private AdminEAService AdminService;
 	
 //---------------------------------------------------------------- 기안신청
 	// 기안신청 (양식선택)
 	@GetMapping(value = "/signup")
-	public String signUp() {
+	public String signUp(Model model) throws Exception {
+		
+		// 양식 카테고리 데이터
+		List<CategoryDto> categoryValues = AdminService.categoryValues();
+		model.addAttribute("categoryValues", categoryValues);
+		// 양식 데이터
+		List<FormDto> formValues = AdminService.formValues();
+		model.addAttribute("formValues", formValues);
+		
 		return "ea/user/ea_signup_form";
 	}
 	// 기안신청 (기안작성)
 	@GetMapping(value = "/write")
-	public String write() {
+	public String write(Model model, @ModelAttribute FormDto dto) {
+		log.info(dto.toString());
+		// 기안 신청시 작성하는 양식 데이터
+		FormDto formValue = service.signupFormValue(dto);
+		model.addAttribute("formValue", formValue);
+		
 		return "ea/user/ea_signup_write";
 	}
 	// 기안신청 (처리)

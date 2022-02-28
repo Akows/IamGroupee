@@ -156,13 +156,13 @@
 
         <!---------------------- 양식관리 탭 ---------------------->
         <div>
-          <form action="editform" method="GET">
+          <form action="editForm" method="GET">
             <!-- category -->
             <div>
               <div><span>🗂 카테고리</span></div>
               <select name="categoryNo" size="15">
 	              <c:forEach items="${categoryValues}" var="cv">
-	                <option value="${cv.categoryNo}" onclick="seletedCategory(this);" ondblclick="updateCategoryName(this);">${cv.categoryName}</option>
+	                <option value="${cv.categoryNo}" onclick="seletedCategory(this);" ondblclick="updateCategoryName();">${cv.categoryName}</option>
 	              </c:forEach>
               </select>
               <div>
@@ -175,7 +175,7 @@
               <div><span>🧾 양식</span></div>
               <select name="formNo" size="15">
                 <c:forEach items="${formValues}" var="fv">
-                  <option class="${fv.categoryNo}" value="${fv.formNo}" onclick="selectedForm(this);">${fv.formTitle}</option>
+                  <option class="${fv.categoryNo}" value="${fv.formNo}" onclick="selectedForm(this);" ondblclick="updateFormName();">${fv.formTitle}</option>
                 </c:forEach>
               </select>
               <div>
@@ -198,8 +198,30 @@
             <span id="arrow2">=></span>
             <input type="submit" value="양식 수정하기" id="editFormBtn">
           </form>
-        </div>
 
+          <div id="updateCategoryLayer">
+            <div>카테고리 이름 변경</div>
+            <div>
+              <input type="text" id="changedCategoryName" placeholder="변경하실 이름을 입력해주세요.">
+            </div>
+            <div>
+              <a>취소</a>
+              <a onclick="changingCategoryName();">변경</a>
+            </div>
+          </div>
+          <div id="updateFormLayer">
+            <div>양식 이름 변경</div>
+            <div>
+              <input type="text" id="changedFormName" placeholder="변경하실 이름을 입력해주세요.">
+            </div>
+            <div>
+              <a>취소</a>
+              <a onclick="changingFormName();">변경</a>
+            </div>
+          </div>
+          <div id="layer_bg"></div>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -344,7 +366,8 @@
             success : function(result) {
               $("<option>", {
                   value : result,
-                  onclick : "seletedCategory(this);"
+                  onclick : "seletedCategory(this);",
+                  ondblclick : "updateCategoryName();"
               }).text('새로운 카테고리')
               .appendTo("select[name=categoryNo]");
             },
@@ -383,14 +406,15 @@
               $("<option>", {
                   value : result,
                   class : $('select[name="categoryNo"] > option[selected="selected"]').val(),
-                  onclick : "selectedForm(this);"
+                  onclick : "selectedForm(this);",
+                  ondblclick : "updateFormName();"
               }).addClass('activeForm')
               .text('새로운 양식')
               .appendTo("select[name=formNo]");
 
               $("<div>", {
                   id : result
-              }).text('&lt;h1 style="text-align:center"&gt;새로운 양식&lt;/h1&gt;').appendTo("#formContents");
+              }).html('<h1 style="text-align:center">새로운 양식</h1>').appendTo("#formContents");
             },
             error : function(e) {
               console.log(e);
@@ -418,12 +442,82 @@
         };
 
         // 카테고리, 양식 제목 더블클릭시 이름 변경
-        // 더블클릭하면 태그속성 input:text같이 값을 입력할 수 있는 걸로 변경 replaceWith / replaceTag
-        // or 더블클릭하면 모달띄어서 이름 변경할수 있는 창 하는게 편할듯
-        function updateCategoryName(e) {
-          $(e).replaceWith
+        // 취소 레이어 hide
+        $('div[id$="Layer"] > div:nth-child(3) > a:nth-child(1)').click(function() {
+          $(this).parent().parent().hide();
+          $('#layer_bg').hide();
+        })
+
+        // 카테고리 이름 dblclick시 레이어 show
+        function updateCategoryName() {
+          $('#updateCategoryLayer').show();
+          $('#layer_bg').show();
+          $('#changedCategoryName').val('');
         };
 
+        // 카테고리 이름 변경 레이어 '변경'버튼 클릭시 카테고리 이름 변경 적용
+        function changingCategoryName() {
+          if(confirm('카테고리 이름을 변경하시겠습니까?')) {
+            $.ajax({
+              url : "${root}/admin/ea/updateCategoryName",
+              method : "GET",
+              data : {
+                categoryNo : $('select[name="categoryNo"] > option[selected="selected"]').val(),
+                categoryName : $('#changedCategoryName').val()
+              },
+              success : function(result) {
+                $('select[name="categoryNo"] > option[selected="selected"]').text($('#changedCategoryName').val());
+              },
+              error : function(e) {
+                console.log(e);
+              }
+            });
+          } else {
+            return false;
+          }
+          $('#updateCategoryLayer').hide();
+          $('#layer_bg').hide();
+        };
+
+        // 양식 이름 dblclick시 레이어 show
+        function updateFormName() {
+          $('#updateFormLayer').show();
+          $('#layer_bg').show();
+          $('#changedFormName').val('');
+        };
+
+        // 양식 이름 변경 레이어 '변경'버튼 클릭시 카테고리 이름 변경 적용
+        function changingFormName() {
+          if(confirm('양식 이름을 변경하시겠습니까?')) {
+            $.ajax({
+              url : "${root}/admin/ea/updateFormName",
+              method : "GET",
+              data : {
+                formNo : $('select[name="formNo"] > option[selected="selected"]').val(),
+                formTitle : $('#changedFormName').val()
+              },
+              success : function(result) {
+                $('select[name="formNo"] > option[selected="selected"]').text($('#changedFormName').val());
+              },
+              error : function(e) {
+                console.log(e);
+              }
+            });
+          } else {
+            return false;
+          }
+          $('#updateFormLayer').hide();
+          $('#layer_bg').hide();
+        };
+
+        // enter key process
+        // $('.container').on('keydown', 'input', function(e) {
+        //  if (e.keyCode === 13) {
+        //     e.preventDefault();
+        //     e.stopImmediatePropagation();
+        //     //Do your stuff...
+        //     }
+        // });
 
 
 

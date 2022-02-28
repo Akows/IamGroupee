@@ -18,6 +18,26 @@ public class AdminEADaoImpl implements AdminEADao {
 	private SqlSession sqlSession;
 	
 	@Override
+	public SettingsDto checkInitialSettings() throws Exception {
+		return sqlSession.selectOne("ea.defaultSettings");
+	}
+
+	@Override
+	public int insertInitialSettings1(SettingsDto dto) {
+		return sqlSession.insert("ea.insertInitialSettings1", dto);
+	}
+
+	@Override
+	public int insertInitialSettings2(SettingsDto dto) {
+		return sqlSession.insert("ea.insertInitialSettings2", dto);
+	}
+
+	@Override
+	public int insertInitialSettings3(SettingsDto dto) {
+		return sqlSession.insert("ea.insertInitialSettings3", dto);
+	}
+	
+	@Override
 	public SettingsDto defaultSettings() throws Exception {
 		return sqlSession.selectOne("ea.defaultSettings");
 	}
@@ -80,6 +100,26 @@ public class AdminEADaoImpl implements AdminEADao {
 	@Override
 	public int deleteForm(String formNo) throws Exception {
 		return sqlSession.delete("ea.deleteForm", formNo);
+	}
+
+	@Override
+	public int updateCategoryName(CategoryDto dto) throws Exception {
+		return sqlSession.update("ea.updateCategoryName", dto);
+	}
+
+	@Override
+	public int updateFormName(FormDto dto) throws Exception{
+		return sqlSession.update("ea.updateFormName", dto);
+	}
+
+	@Override
+	public FormDto formValue(FormDto dto) throws Exception {
+		return sqlSession.selectOne("ea.formValue", dto);
+	}
+
+	@Override
+	public int editForm(FormDto dto) throws Exception {
+		return sqlSession.update("ea.editForm", dto);
 	}
 
 }
