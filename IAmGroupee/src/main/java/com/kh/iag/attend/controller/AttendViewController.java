@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.iag.attend.entity.AttendModDTO;
 import com.kh.iag.attend.service.attendService;
+import com.kh.iag.user.entity.UserDto;
 
 @Controller
 @RequestMapping("attend")
@@ -27,8 +28,11 @@ public class AttendViewController
 	@PostMapping("attendmodify")
 	public String attendModify(AttendModDTO attendmodDTO, HttpServletRequest req) throws Exception
 	{
-		System.out.println(attendmodDTO);
+		UserDto loginUser = (UserDto) req.getSession().getAttribute("loginUser");
+		String userno = loginUser.getUserNo();
 		
+		attendmodDTO.setUser_no(userno);
+	
 		int result = attendService.attendModify(attendmodDTO, req);
 
 		if(result > 0) 

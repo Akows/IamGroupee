@@ -43,126 +43,45 @@
 		<div class="row stat-cards">
 		<div class="col-lg-12">
             <div class="users-table table-wrapper">
+            
               <table class="posts-table">
                 <thead>
                   <tr class="users-table-info">
-
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th>Action</th>
+                    <th>신청일</th>
+                    <th>신청자</th>
+                    <th>신청사유</th>
+                    <th>처리상태</th>
+                    <th>결과처리</th>
                   </tr>
                 </thead>
                 
                 <tbody>
-                
-                  <tr>
-                    <td>
-                      <label class="users-table__checkbox">
-                        <input type="checkbox" class="check">
-                        <div class="categories-table-img">
-
-                        </div>
-                      </label>
-                    </td>
-                    <td>
-                      클라이언트의 요청으로 출근 중 고객사 방문하여 이슈 처리, 정상 출근 요청함 
-                    </td>
-                    <td>
-                      <div class="pages-table-img">
-                        김철수 대리
-                      </div>
-                    </td>
-                    <td><span class="badge-pending">처리 중</span></td>
-                    <td>2022.08.23</td>
-                    <td>
-                      <span class="p-relative">
-                        <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                          <div class="sr-only">More info</div>
-                          <i data-feather="more-horizontal" aria-hidden="true"></i>
-                        </button>
-                        <ul class="users-item-dropdown dropdown">
-                          <li><a href="##">요청 승인</a></li>
-                          <li><a href="##">요청 반려</a></li>
-                          <li><a href="##">요청 삭제</a></li>
-                        </ul>
-                      </span>
-                    </td>
-                  </tr>
-                  
-                                    <tr>
-                    <td>
-                      <label class="users-table__checkbox">
-                        <input type="checkbox" class="check">
-                        <div class="categories-table-img">
-
-                        </div>
-                      </label>
-                    </td>
-                    <td>
-                      정상 출근 했으나 출근 처리를 하지 아니함.
-                    </td>
-                    <td>
-                      <div class="pages-table-img">
-                        이수철 부장
-                      </div>
-                    </td>
-                    <td><span class="badge-pending">처리 중</span></td>
-                    <td>2022.08.23</td>
-                    <td>
-                      <span class="p-relative">
-                        <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                          <div class="sr-only">More info</div>
-                          <i data-feather="more-horizontal" aria-hidden="true"></i>
-                        </button>
-                        <ul class="users-item-dropdown dropdown">
-                          <li><a href="##">요청 승인</a></li>
-                          <li><a href="##">요청 반려</a></li>
-                          <li><a href="##">요청 삭제</a></li>
-                        </ul>
-                      </span>
-                    </td>
-                  </tr>
-                  
-                                    <tr>
-                    <td>
-                      <label class="users-table__checkbox">
-                        <input type="checkbox" class="check">
-                        <div class="categories-table-img">
-
-                        </div>
-                      </label>
-                    </td>
-                    <td>
-                      출근 중 교통사고로 정상 출근하지 못한. 
-                    </td>
-                    <td>
-                      <div class="pages-table-img">
-                        박홍수 과장
-                      </div>
-                    </td>
-                    <td><span class="badge-pending">처리 중</span></td>
-                    <td>2022.08.24</td>
-                    <td>
-                      <span class="p-relative">
-                        <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                          <div class="sr-only">More info</div>
-                          <i data-feather="more-horizontal" aria-hidden="true"></i>
-                        </button>
-                        <ul class="users-item-dropdown dropdown">
-                          <li><a href="##">요청 승인</a></li>
-                          <li><a href="##">요청 반려</a></li>
-                          <li><a href="##">요청 삭제</a></li>
-                        </ul>
-                      </span>
-                    </td>
-                  </tr>
-                  
-
-
+	                <c:forEach items="${atModList}" var="modlist">
+						<tr>
+							<td>${modlist.req_date}"</td>
+							<td>${modlist.user_no}</td>
+							<td>${modlist.mod_reason}</td>
+							<td>${modlist.approve_state}</td>
+							<td>
+		                    	<span class="p-relative">
+			                        <button class="dropdown-btn transparent-btn" type="button" title="More info">
+			                          <div class="sr-only">More info</div>
+			                          <i data-feather="more-horizontal" aria-hidden="true"></i>
+			                        </button>
+			                        <ul class="users-item-dropdown dropdown">
+			                          <li><a href="##">요청 승인</a></li>
+			                          <li><a href="##">요청 반려</a></li>
+			                          <li><a href="##">요청 삭제</a></li>
+			                        </ul>
+			                    </span>
+                            </td>
+						</tr>
+					</c:forEach>
                 </tbody>
+                
+                
               </table>
+
             </div>
           </div>
         </div>

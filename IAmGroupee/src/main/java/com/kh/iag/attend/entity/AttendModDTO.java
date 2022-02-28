@@ -11,9 +11,7 @@ public class AttendModDTO
 	private String user_no;
 	private String req_date;
 	private String mod_reason;
-	private String approve_state;
-	
-	private MultipartFile file;
 	private String attach_file;
-	
+	private String approve_state;
+	private MultipartFile file;
 }

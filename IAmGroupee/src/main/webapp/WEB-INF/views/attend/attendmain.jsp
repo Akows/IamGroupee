@@ -43,19 +43,20 @@
 
 		<div class="row stat-cards">
 
-          <div class="col-md-6 col-xl-3">
+          <div class="col-md-6 col-xl-6">
             <article class="stat-cards-item">
               <div class="stat-cards-icon primary">
                 <i data-feather="bar-chart-2" aria-hidden="true"></i>
               </div>
               <div class="stat-cards-info">
-                <p class="stat-cards-info__num">춭퇴근 처리</p>
+                <p class="stat-cards-info__num">춭퇴근 상태</p>
                 <p class="stat-cards-info__title">금일 근무 상황</p>
+                <p class="stat-cards-info__title">출근시간 : <c:forEach items="" ></c:forEach>  ${atInfo.in_time}</p>
                 <p class="stat-cards-info__progress">
                   <span class="stat-cards-info__profit success">
                     <i data-feather="trending-up" aria-hidden="true"></i>출근
                   </span>
-                  처리 완료됨.
+                  근무중
                 </p>
                 <hr>
               </div>
@@ -67,8 +68,8 @@
                 <i data-feather="file" aria-hidden="true"></i>
               </div>
               <div class="stat-cards-info">
-                <p class="stat-cards-info__num">비정상 근무일수</p>
-                <p class="stat-cards-info__title">0일</p>
+                <p class="stat-cards-info__num">정상 근무일수</p>
+                <p class="stat-cards-info__title">${atInfo.work_numofdate}</p>
                 <p class="stat-cards-info__progress">
                   <span class="stat-cards-info__profit success">
                     <i data-feather="trending-up" aria-hidden="true"></i>이상없음
@@ -96,27 +97,12 @@
               </div>
             </article>
           </div>
-          
-          <div class="col-md-6 col-xl-3">
-            <article class="stat-cards-item">
-              <div class="stat-cards-icon purple">
-                <i data-feather="file" aria-hidden="true"></i>
-              </div>
-              <div class="stat-cards-info">
-                <p class="stat-cards-info__num">근무경고현황</p>
-                <p class="stat-cards-info__title">경고 3회</p>
-                <p class="stat-cards-info__progress">
-                  <span class="stat-cards-info__profit danger">
-                    <i data-feather="trending-down" aria-hidden="true"></i>지각잦음
-                  </span>
-                  주의
-                </p>
-                <hr>
-              </div>
-            </article>
-          </div>
 
         </div>
+        
+        <br>
+        <hr>
+        <br>
 
         <div class="row stat-cards">
         	<div class="col-md-9 col-xl-6">
@@ -126,7 +112,7 @@
 			            </div>
 			            	<div class="stat-cards-info">
 				                <p class="stat-cards-info__num">이번달 근무상황</p>
-				                <p class="stat-cards-info__title">총 근무시간 : 53시간 30분</p>
+				                <p class="stat-cards-info__title">총 근무시간 : ${atInfo.total_work_time}</p>
 				                <p class="stat-cards-info__progress">
 				                  <span class="stat-cards-info__profit success">
 				                    <i data-feather="trending-up" aria-hidden="true"></i>근무 시간 초과됨
