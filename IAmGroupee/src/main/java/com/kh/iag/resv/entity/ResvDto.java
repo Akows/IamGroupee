@@ -6,10 +6,10 @@ import lombok.Data;
 @Data
 public class ResvDto {
     
-    private long resvNo;
-	private long userNo;
-	private long roomNo;
-	private long equipNo;
+    private int resvNo;
+	private int userNo;
+	private int roomNo;
+	private int equipNo;
 	private Date resvStart;
 	private Date resvEnd;
 	private Date createDate;
