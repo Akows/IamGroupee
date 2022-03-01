@@ -207,9 +207,9 @@
 		
 		<!-- Json -->
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-core</artifactId>
-		    <version>2.13.0</version>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20211205</version>
 		</dependency>
 
 		<!-- spring AOP -->
