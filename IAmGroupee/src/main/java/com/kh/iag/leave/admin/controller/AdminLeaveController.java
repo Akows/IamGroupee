@@ -111,7 +111,7 @@ public class AdminLeaveController {
 		
 		int result = service.lvbDelete(lvInfoDto);
 		
-		return "redirect:/admin/leave/lvInfoAD";
+		return "redirect:/leave/lvInfo";
 	}
 	
 	
