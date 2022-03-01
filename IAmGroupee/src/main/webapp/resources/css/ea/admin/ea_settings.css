@@ -120,6 +120,10 @@
   height: 332px;
   padding: 10px;
 }
+#secondDiv > form > div > div > span {
+  font-size: 20px;
+  font-weight: 700;
+}
 span[id$="M"] {
   color: #064db8;
   background: #fff;

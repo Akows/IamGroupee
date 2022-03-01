@@ -132,4 +132,23 @@
 	<select id="signupFormValue" parameterType="eaform" resultType="eaform">
 		SELECT * FROM EA_FORM WHERE FORM_NO = ${formNo}
 	</select>
+	
+	<!-- 기안 작성 페이지 부서 데이터 -->
+	<select id="deptValues" resultType="com.kh.iag.ea.entity.DeptDto">
+		SELECT DEPARTMENT_NO, DEPARTMENT_NAME FROM DEPARTMENT
+	</select>
+	
+	<!-- 기안 작성 페이지 사원 데이터 -->
+	<select id="userValues" parameterType="string" resultType="com.kh.iag.ea.entity.EAUserDto">
+		SELECT A.USER_NO, A.NAME, A.DEPARTMENT_NO, A.DEPARTMENT_NAME, P.POSITION_NO, P.POSITION_NAME, P.POSITION_LEVEL 
+		FROM
+		(
+		    SELECT U.USER_NO, U.NAME, D.DEPARTMENT_NO, D.DEPARTMENT_NAME, U.POSITION_NO
+		    FROM IAG_USER U 
+		    JOIN DEPARTMENT D ON(U.DEPARTMENT_NO = D.DEPARTMENT_NO)
+		    WHERE ACTIVITY_YN = 'Y' AND USER_NO != #{userNo}
+		) A 
+		JOIN POSITION P ON(A.POSITION_NO = P.POSITION_NO)
+		ORDER BY P.POSITION_LEVEL
+	</select>
 </mapper>

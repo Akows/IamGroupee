@@ -23,17 +23,17 @@ public class AdminEAServiceImpl implements AdminEAService {
 	}
 
 	@Override
-	public int insertInitialSettings1(SettingsDto dto) {
+	public int insertInitialSettings1(SettingsDto dto) throws Exception {
 		return dao.insertInitialSettings1(dto);
 	}
 
 	@Override
-	public int insertInitialSettings2(SettingsDto dto) {
+	public int insertInitialSettings2(SettingsDto dto) throws Exception {
 		return dao.insertInitialSettings2(dto);
 	}
 
 	@Override
-	public int insertInitialSettings3(SettingsDto dto) {
+	public int insertInitialSettings3(SettingsDto dto) throws Exception {
 		return dao.insertInitialSettings3(dto);
 	}
 	

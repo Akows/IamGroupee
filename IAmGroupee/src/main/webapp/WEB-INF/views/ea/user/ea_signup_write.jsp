@@ -35,18 +35,19 @@
                 <span id="minusApprover">-</span>
                 <span id="plusApprover">+</span>
                 <span>( ☺︎ 박스 생성 순서대로 결재 순서가 정해집니다 ☻ )</span>
-                <label>&ensp;✿전결 가능 문서 체크&ensp;<input type="checkbox" name="arbit" value="checked"></label>
+                <label>
+                  &ensp;✿전결 가능 문서 체크&ensp;
+                  <input type="checkbox" name="arbit" value="checked">
+                </label>
               </a>
               <!-- 결재자 선택창에서 선택완료시 인풋히든에 사원번호 밸류 집어넣음 -->
-              <input type="text" class="approver" name="approverName1" readonly required placeholder="결재자 선택">
-              <input type="hidden" name="approverNo1">
+              <input type="text" class="approver" name="approverName" readonly required placeholder="결재자 선택" onclick="openSelectingApproverLayer(this);">
+              <input type="hidden" class="hiddenAppr" name="approverNo">
             </li>
             <li id="referList">
               <a>👨‍👩‍👧‍👦&ensp;참조자 선택</a>
-              <!-- 반복문 써서 참조자 5명까지 가능하게? -->
-              <input type="text" name="refer1" id="refer1" value="" readonly>
               <!-- 참조자 선택창에서 선택완료시 인풋히든에 사원번호 밸류 집어넣음 -->
-              <input type="hidden" name="">
+              <textarea name="refer" id="refer" cols="25" rows="3" readonly placeholder="참조자 선택" onclick="openSelectingReferLayer();"></textarea>
 
             </li>
             <li>
@@ -74,18 +75,74 @@
           </ul>
           <input type="submit" value="기안 신청">
           <input type="button" onclick="ea_signup_back();" value="돌아가기">
+          
+          <!-- hidden values -->
+          <input type="hidden" name="formNo" value="${formValue.formNo}">
+          <input type="hidden" name="formTitle" value="${formValue.formTitle}">
+          <input type="hidden" name="formYears" value="${formValue.formYears}">
+          <input type="hidden" name="categoryNo" value="${formValue.categoryNo}">
+          <input type="hidden" name="categoryName" value="${formValue.categoryName}">
+          <input type="hidden" name="arr" value="테스트1">
+          <input type="hidden" name="arr" value="테스트2">
+          <input type="hidden" name="arr" value="테스트3">
         </form>
-        
       </div>
     </div>
   </div>
   
   <!-- layer -->
-  <div id="layer1"> <!-- 결재자 -->
-
+  <div id="approverLayer"> <!-- 결재자 -->
+    <div>
+      결재자 선택
+    </div>
+    <div>
+      <c:forEach items="${deptValues}" var="dv">
+        <div class="deptName">
+          <span>${dv.departmentName}</span>
+        </div>
+        <c:forEach items="${userValues}" var="uv">
+          <c:if test="${dv.departmentNo eq uv.departmentNo}">
+            <div>
+              <label>
+                <span>${uv.name} ${uv.positionName}</span>
+                <input type="radio" name="selectAprrover" id="selectAprrover" class="selectAprrover" value="${uv.userNo}" onclick="selectedApprover(this);">
+              </label>
+            </div>
+          </c:if>
+        </c:forEach>      	
+      </c:forEach>
+    </div>
+    <div>
+      <a onclick="closeSelectingApproverLayer();">취소</a>
+      <a onclick="deliverSelectedApprover();">선택</a>
+    </div>
   </div>
-  <div id="layer2"> <!-- 참고자 -->
-    
+
+  <div id="referLayer"> <!-- 참조자 -->
+    <div>
+      참조자 선택
+    </div>
+    <div>
+      <c:forEach items="${deptValues}" var="dv">
+        <div class="deptName">
+          <span>${dv.departmentName}</span>
+        </div>
+        <c:forEach items="${userValues}" var="uv">
+          <c:if test="${dv.departmentNo eq uv.departmentNo}">
+            <div>
+              <label>
+                <span>${uv.name} ${uv.positionName}</span>
+                <input type="checkbox" name="selectRefer" class="selectRefer" value="${uv.userNo}" onclick="selectedRefer(this);">
+              </label>
+            </div>
+          </c:if>
+        </c:forEach>      	
+      </c:forEach>
+    </div>
+    <div>
+      <a onclick="closeSelectingReferLayer();">취소</a>
+      <a onclick="deliverSelectedRefer()">선택</a>
+    </div>
   </div>
 
   <div id="layer_bg"></div>
@@ -118,8 +175,8 @@
       }
     }
 
-    // 결재자 + , - 최대 5명 최소 1명
-    // 결재자 +
+    // 결재자 (+) , (-) 최대 5명 최소 1명
+    // 결재자 (+)
     let plusApproverBtn = document.getElementById('plusApprover');
     plusApproverBtn.addEventListener('click', () => {
       let approverArr = document.getElementsByClassName('approver');
@@ -130,14 +187,16 @@
           $('<input>', {
             type : "text",
             class : "approver",
-            name : "approverName" + count,
+            name : "approverName",
             readonly : "true",
             required : "true",
-            placeholder : "결재자 선택"
+            placeholder : "결재자 선택",
+            onclick : "openSelectingApproverLayer(this);"
           }).appendTo('#approverList');
           $('<input>', {
             type : "hidden",
-            name : "approverNo" + count
+            class : "hiddenAppr",
+            name : "approverNo"
           }).appendTo('#approverList');
           break;
         default: break;
@@ -146,15 +205,17 @@
         alert('상위 결재자는 최대 5명까지 설정 가능합니다!');
       }
     });
-    // 결재자 -
+    // 결재자 (-)
     let minusApproverBtn = document.getElementById('minusApprover');
     minusApproverBtn.addEventListener('click', () => {
       let approverArr = document.getElementsByClassName('approver');
+      let hiddenArr = document.getElementsByClassName('hiddenAppr');
       if(approverArr.length > 1) {
         switch (approverArr.length) {
         case approverArr.length:
           let count = approverArr.length - 1;
           approverArr[count].remove();
+          hiddenArr[count].remove();
           break;
         default: break;
         };
@@ -162,6 +223,83 @@
         alert('상위 결재자는 최소 1명 이상 필요합니다!');
       }
     });
+
+    // 결재자
+    // 창 block / none
+    function openSelectingApproverLayer(e) {
+      $('.approver').removeAttr('selected');
+      $(e).attr('selected', 'selected');
+      $('#approverLayer').show();
+      $('#layer_bg').show();
+    };
+    function closeSelectingApproverLayer() {
+      $('#approverLayer').hide();
+      $('#layer_bg').hide();
+    };
+    // 선택된 결재자 checked 속성
+    function selectedApprover(e) {
+      $('.selectAprrover').removeAttr('checked');
+      $(e).attr('checked', 'checked');
+    };
+
+    function deliverSelectedApprover() {
+      $('#approverLayer').hide();
+      $('#layer_bg').hide();
+      let userNo = $('#approverLayer input[checked="checked"]').val();
+      let userName = $('#approverLayer input[checked="checked"]').siblings().text();
+      $('input[selected="selected"]').next('input').val(userNo);
+      $('input[selected="selected"]').val(userName);
+    };
+
+    // 참조자 
+    // 창 block / none
+    function openSelectingReferLayer() {
+      $('#referLayer').show();
+      $('#layer_bg').show();
+    };
+    function closeSelectingReferLayer() {
+      $('#referLayer').hide();
+      $('#layer_bg').hide();
+    };
+    // 선택된 참조자 checked 속성
+    function selectedRefer(e) {
+      $(e).toggleClass('checkedRefer');
+      $(e).siblings('span').toggleClass('checkedReferName');
+    };
+    // 참조자 선택
+    function deliverSelectedRefer() {
+      $('#referLayer').hide();
+      $('#layer_bg').hide();
+      // 참조자 이름을 표시할 textarea
+      let referTextarea = document.getElementById('refer');
+      // 선택된 참조자의 사원번호를 저장
+      let referArr = document.getElementsByClassName('checkedRefer');
+      // 선택된 참조자의 이름을 저장
+      let referNameArr = document.getElementsByClassName('checkedReferName');
+      // 선택을 바꿀때마다 textarea 초기화
+      referTextarea.innerHTML = "";
+      // 선택을 바꿀때마다 input:hidden 초기화
+      $('input[name^="referNo"]').remove();
+      // 선택된 참조자들 숫자만큼 반복문 실행해서 textarea에 이름 표시, input:hidden 만들어서 참조자 사원번호 저장
+      for(let i = 0; i < referArr.length; i++) {
+        if(i < (referArr.length - 1)) {
+          referTextarea.innerHTML += referNameArr[i].textContent + ", ";
+          $('<input>', {
+            type : "hidden",
+            name : "referNo",
+            value : referArr[i].value
+          }).appendTo('#referList');
+        } else {
+          referTextarea.innerHTML += referNameArr[i].textContent;
+          $('<input>', {
+            type : "hidden",
+            name : "referNo",
+            value : referArr[i].value
+          }).appendTo('#referList');
+        };
+      };
+    };
+    
 
   </script>
 </body>
