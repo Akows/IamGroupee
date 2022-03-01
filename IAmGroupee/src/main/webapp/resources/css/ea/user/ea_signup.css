@@ -152,7 +152,8 @@
 .ea_signup_write_contents input {
   background: #fff;
 }
-.ea_signup_write_contents > form > ul > li > input {
+.ea_signup_write_contents > form > ul > li > input,
+.ea_signup_write_contents > form > ul > li > select {
   margin: 5px;
 }
 .ea_signup_write_contents > form > a,
@@ -161,6 +162,125 @@
   background: #4081e4;
   color: #fff;
   float: right;
+}
+#approverLayer {
+  display: none;
+  width: 200px;
+  background: #fff;
+  border: 1px solid #4081e4;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#approverLayer > div:last-child {
+  padding: 10px;
+  text-align: right;
+}
+#approverLayer > div:first-child {
+  background: #064db8;
+  color: #fff;
+  border-radius: 8px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  text-align: center;
+  font-weight: 600;
+}
+#approverLayer > div:nth-child(2) {
+  padding: 10px;
+  height: 300px;
+  overflow: scroll;
+}
+#approverLayer > div:nth-child(2) > .deptName {
+  text-align: center;
+  background: #4081e4;
+  color: #fff;
+  margin: 3px;
+  border-radius: 5px;
+}
+#approverLayer > div:nth-child(2) label {
+  border-bottom: 1px solid gainsboro;
+  margin: 3px;
+}
+#approverLayer a {
+  color: #fff;
+  background: #4081e4;
+  padding: 5px;
+  font-size: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#referLayer {
+  display: none;
+  width: 200px;
+  background: #fff;
+  border: 1px solid #4081e4;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#referLayer > div:last-child {
+  padding: 10px;
+  text-align: right;
+}
+#referLayer > div:first-child {
+  background: #064db8;
+  color: #fff;
+  border-radius: 8px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  text-align: center;
+  font-weight: 600;
+}
+#referLayer > div:nth-child(2) {
+  padding: 10px;
+  height: 300px;
+  overflow: scroll;
+}
+#referLayer > div:nth-child(2) > .deptName {
+  text-align: center;
+  background: #4081e4;
+  color: #fff;
+  margin: 3px;
+  border-radius: 5px;
+}
+#referLayer > div:nth-child(2) label {
+  border-bottom: 1px solid gainsboro;
+  margin: 3px;
+}
+#referLayer a {
+  color: #fff;
+  background: #4081e4;
+  padding: 5px;
+  font-size: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#layer_bg {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+}
+#selectAprrover {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  padding-top: 3px;
+}
+#refer {
+  resize: none;
+  margin: 5px;
+  font-size: 13px;
 }
 /* 기능구현 */
 select[name="formNo"] > option {

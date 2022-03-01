@@ -34,7 +34,7 @@
       <div class="ea_settings_list_contents">
         <!---------------------- 기본설정 탭 ---------------------->
         <div>
-          <form action="" method="GET">
+          <form action="" method="GET" onsubmit="return confirmChangeSettings();">
             <table>
               <thead>
                 <tr>
@@ -155,8 +155,8 @@
 
 
         <!---------------------- 양식관리 탭 ---------------------->
-        <div>
-          <form action="editForm" method="GET">
+        <div id="secondDiv">
+          <form action="editForm" method="GET" onsubmit="return checkingSelectForm();">
             <!-- category -->
             <div>
               <div><span>🗂 카테고리</span></div>
@@ -249,7 +249,14 @@
             target.addClass('active');
             tabCont.css('display', 'none');
             tabCont.eq(index).css('display', 'block');
-        })
+        });
+        function confirmChangeSettings() {
+          if(confirm('문서 설정 사항을 변경하시겠습니까?')) {
+            return true;
+          } else {
+            return false;
+          }
+        }
         // 문서 번호 포맷 디폴트값 들어가게
         let today = new Date();
         let year = (today.getYear()-100).toString();
@@ -509,6 +516,19 @@
           $('#updateFormLayer').hide();
           $('#layer_bg').hide();
         };
+
+        // 양식 수정하기 버튼 클릭시 선택된거 없으면 제출 불가
+        function checkingSelectForm() {
+          if(undefined === $('select[name="formNo"] > option[selected="selected"]').val()) {
+            alert('수정할 양식을 선택해주세요.');
+            return false;
+          } else {
+            return true;
+          }
+        };
+        
+        
+
 
         // enter key process
         // $('.container').on('keydown', 'input', function(e) {

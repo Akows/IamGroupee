@@ -25,13 +25,13 @@
         <span>기안신청 (양식선택)</span>
       </div>
       <div class="ea_signup_formselect_contents">
-        <form action="write" method="GET">
+        <form action="write" method="GET" onsubmit="return checkingSelectForm();">
           <div>
             <div><span>🗂 카테고리</span></div>
             <select name="categoryNo" size="15">
               <!-- 반복문으로 카테고리테이블에서 카테고리 가져 오기 -->
               <c:forEach items="${categoryValues}" var="cv">
-                <option value="${cv.categoryNo}" onclick="seletedCategory(this);">${cv.categoryName}</option>
+                <option value="${cv.categoryNo}" onclick="return seletedCategory(this);">${cv.categoryName}</option>
               </c:forEach>
             </select>
           </div>
@@ -91,6 +91,17 @@
     let value = document.getElementById(fn);
     $('#formContents > div').removeClass('activeContent');
     value.classList.add('activeContent');
+  };
+
+
+  // 양식 수정하기 버튼 클릭시 선택된거 없으면 제출 불가
+  function checkingSelectForm() {
+    if(undefined === $('select[name="formNo"] > option[selected="selected"]').val()) {
+      alert('양식을 선택해주세요.');
+      return false;
+    } else {
+      return true;
+    }
   };
 </script>
 </body>

@@ -11,11 +11,11 @@ public interface AdminEAService {
 
 	SettingsDto checkInitialSettings() throws Exception;
 
-	int insertInitialSettings1(SettingsDto dto);
+	int insertInitialSettings1(SettingsDto dto) throws Exception;
 
-	int insertInitialSettings2(SettingsDto dto);
+	int insertInitialSettings2(SettingsDto dto) throws Exception;
 
-	int insertInitialSettings3(SettingsDto dto);
+	int insertInitialSettings3(SettingsDto dto) throws Exception;
 	
 	SettingsDto defaultSettings() throws Exception;
 
