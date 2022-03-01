@@ -43,6 +43,13 @@ public class AttInterceptor extends HandlerInterceptorAdapter {
 			request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
 			return false;
 		  }
+	  }else {
+		  if ("Y".equals(loginUser.getAttendenceRight())) {
+				return true;
+		  } else {
+				response.sendRedirect("/iag/wrongRight");
+				return false;
+			}
 	  }
 		return true;
     }

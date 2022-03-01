@@ -29,11 +29,19 @@
 			<beans:bean class="com.kh.iag.interceptor.UserInterceptor"></beans:bean>
 		</interceptor>
 		<interceptor>
+			<mapping path="/admin/ea/**"/>
+			<beans:bean class="com.kh.iag.interceptor.EaInterceptor"></beans:bean>
+		</interceptor>
+		<interceptor>
+			<mapping path="/admin/leave/**"/>
+			<beans:bean class="com.kh.iag.interceptor.LeaveInterceptor"></beans:bean>
+		</interceptor>
+		<interceptor>
 			<mapping path="/admin/attendance/**"/>
 			<beans:bean class="com.kh.iag.interceptor.AttInterceptor"></beans:bean>
 		</interceptor>
 		<interceptor>
-			<mapping path="/admin/reservations/**"/>
+			<mapping path="/admin/resv/**"/>
 			<beans:bean class="com.kh.iag.interceptor.ResvInterceptor"></beans:bean>
 		</interceptor>
 		<interceptor>

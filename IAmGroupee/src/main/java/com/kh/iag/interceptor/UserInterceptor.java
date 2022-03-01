@@ -14,6 +14,8 @@ import org.springframework.web.util.WebUtils;
 import com.kh.iag.login.service.LoginService;
 import com.kh.iag.user.entity.UserDto;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 public class UserInterceptor extends HandlerInterceptorAdapter {
 	
 	@Autowired
@@ -25,16 +27,19 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 		HttpSession session = request.getSession();
 		
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
-		
 		if (loginUser == null) {
+			System.out.println("loginUser  : " + loginUser );
 			Cookie loginedCookie = WebUtils.getCookie(request, "savedLoginCookie");
 			if (loginedCookie != null) {
+				System.out.println("loginedCookie: " + loginedCookie);
 				String sessionKey = loginedCookie.getValue();
-				UserDto userDto = service.checkUserBySsKey(sessionKey);	
+				UserDto userDto = service.checkUserBySsKey(sessionKey);
 				if (userDto != null) {
 					if ("Y".equals(userDto.getPersonnelRight())) {
+						System.out.println("yyy");
 						return true;
 					} else {
+						System.out.println("nnn");
 						response.sendRedirect("/iag/wrongRight");
 						return false;
 					}
@@ -43,6 +48,13 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 			request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
 			return false;
 		  }
+	  }else {
+		  if ("Y".equals(loginUser.getPersonnelRight())) {
+				return true;
+		  } else {
+				response.sendRedirect("/iag/wrongRight");
+				return false;
+			}
 	  }
 		return true;
     }

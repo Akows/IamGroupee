@@ -12,37 +12,42 @@ import org.springframework.web.util.WebUtils;
 import com.kh.iag.login.service.LoginService;
 import com.kh.iag.user.entity.UserDto;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
-public class LoginInterceptor extends HandlerInterceptorAdapter {
-
+public class EaInterceptor extends HandlerInterceptorAdapter {
+	
 	@Autowired
 	private LoginService service;
-	
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		HttpSession session = request.getSession();
 		
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
-		
 		if (loginUser == null) {
 			Cookie loginedCookie = WebUtils.getCookie(request, "savedLoginCookie");
-			
 			if (loginedCookie != null) {
 				String sessionKey = loginedCookie.getValue();
 				UserDto userDto = service.checkUserBySsKey(sessionKey);	
-				
 				if (userDto != null) {
-					session.setAttribute("loginUser", userDto);
-					return true;
-				}
-			} 
+					if ("Y".equals(userDto.getPaymentRight())) {
+						return true;
+					} else {
+						response.sendRedirect("/iag/wrongRight");
+						return false;
+					}
+			    } 
 			request.setAttribute("msg", "로그인을 먼저 해주세요");
 			request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
 			return false;
-		}
+		  }
+	  }else {
+		  if ("Y".equals(loginUser.getPaymentRight())) {
+				return true;
+		  } else {
+				response.sendRedirect("/iag/wrongRight");
+				return false;
+			}
+	  }
 		return true;
-	}
+    }
 }

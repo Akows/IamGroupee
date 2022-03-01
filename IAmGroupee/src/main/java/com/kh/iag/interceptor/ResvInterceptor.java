@@ -14,6 +14,9 @@ import org.springframework.web.util.WebUtils;
 import com.kh.iag.login.service.LoginService;
 import com.kh.iag.user.entity.UserDto;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class ResvInterceptor extends HandlerInterceptorAdapter {
 	
 	@Autowired
@@ -25,7 +28,6 @@ public class ResvInterceptor extends HandlerInterceptorAdapter {
 		HttpSession session = request.getSession();
 		
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
-		
 		if (loginUser == null) {
 			Cookie loginedCookie = WebUtils.getCookie(request, "savedLoginCookie");
 			if (loginedCookie != null) {
@@ -43,6 +45,13 @@ public class ResvInterceptor extends HandlerInterceptorAdapter {
 			request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
 			return false;
 		  }
+	  }else {
+		  if ("Y".equals(loginUser.getReservationsRight())) {
+				return true;
+		  } else {
+				response.sendRedirect("/iag/wrongRight");
+				return false;
+			}
 	  }
 		return true;
     }

@@ -1,5 +1,7 @@
 package com.kh.iag.main.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.http.Cookie;
@@ -46,15 +48,17 @@ public class MainController {
 				//세션에 담기
 				session.setAttribute("loginUser",loginUser);
 
-//				============연차 발생
+//				============입사일 기준 연차 발생
+				// 입사일의 월일
+				SimpleDateFormat today = new SimpleDateFormat("yyyy-MM-dd");
+				Calendar c1 = Calendar.getInstance(); 
+				String todayDate = 	today.format(c1.getTime());
+				String enrollDate = String.valueOf(loginUser.getEnrollDate());
 				
-				
-				
-				
-				
-				
-				
-				
+				// 조건1. 입사일날짜 = 현재날짜 && 총 연차 개수 <= 15
+				if (todayDate.substring(5).equals(enrollDate.substring(5)) && (loginUser.getAlvCount() != 15 || loginUser.getAlvCount() == 0)) {
+					
+				}
 				
 				
 				
