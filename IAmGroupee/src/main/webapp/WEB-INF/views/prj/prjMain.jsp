@@ -294,9 +294,6 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel='stylesheet' href='${root}/resources/css/sch/main.css' />
 	
-	<!-- InputMask -->
-	<script src="${root}/resources/plugins/moment/moment.min.js"></script>
-	<script src="${root}/resources/plugins/inputmask/jquery.inputmask.min.js"></script>
 	<!-- date-range-picker -->
 	<script src="${root}/resources/plugins/daterangepicker/daterangepicker.js"></script>
 	<link rel="stylesheet" href="${root}/resources/plugins/daterangepicker/daterangepicker.css">

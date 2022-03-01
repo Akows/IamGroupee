@@ -1,3 +1,15 @@
+
+let fields = [
+  { name: "roomName", type: "text", width: 150 },
+  { name: "activateYn", type: "checkbox",title: "활성화", width: 50 },
+  { name: "createDate", type: "date", width: 150 },
+  { name: "modDate", type: "date", width: 150 },
+  { type: "control" , width:"15%"}
+]
+
+var rList = JSON.parse('${rList}'); 
+JSON.stringify( object )
+
 $("#jsGrid1").jsGrid({
   locale:"ko",
   width: "100%",
@@ -8,27 +20,14 @@ $("#jsGrid1").jsGrid({
   autoload: true,
   deleteConfirm: "선택한 자산을 정말 삭제하시겠습니까?",
 				
-  fields: [
-    { name: "roomName", type: "text", width: 150 },
-    { name: "activateYn", type: "checkbox",title: "활성화", width: 50 },
-    { name: "createDate", type: "date", width: 150 },
-    { name: "modDate", type: "date", width: 150 },
-    { type: "control" , width:"15%"}
-  ],
+  fields: fields,
 
   controller: {
       loadData: function(filter) {
         var d = $.Deferred();
         $.ajax({
-            url: "/admin/resv",
-            type: "GET",
-            data: {
-              name : "${rList.roomName}",
-              activateYn : "${rList.activateYn}",
-              createDate : "${rList.createDate}",
-              modDate : "${rList.modDate}}"
-            },
-            dataType: "json"
+            url: "<%=request.getContextPath()%>/admin/resv/main",
+            dataType: "json",
         }).done(function(response) {
             //조회 데이터 셋팅
             d.resolve(response.rList);
@@ -62,3 +61,4 @@ $("#jsGrid1").jsGrid({
   }
 
 });
+

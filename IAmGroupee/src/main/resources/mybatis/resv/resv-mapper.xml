@@ -5,11 +5,11 @@
   
   <mapper namespace="resv">
   
-  		<select id="getRoomList" resultType="room">
+  		<select id="getRoomList" parameterType="map" resultType="room">
   			SELECT * FROM MEETING_ROOM
   		</select>
   		
-  		<select id="getAssetList" resultType="asset">
+  		<select id="getAssetList" parameterType="map" resultType="asset">
   			SELECT * FROM ASSET
   		</select>
   	
