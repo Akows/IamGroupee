@@ -194,8 +194,8 @@
               </article>
             </div>
             
-            <span id="arrow1">=></span>
-            <span id="arrow2">=></span>
+            <span id="arrow1">▹</span>
+            <span id="arrow2">▹</span>
             <input type="submit" value="양식 수정하기" id="editFormBtn">
           </form>
 
@@ -384,7 +384,7 @@
           });
         };
         function categoryMinus() {
-          if(confirm('선택하신 카테고리를 삭제하시겠습니까?(삭제시 하위 문서양식까지 모두 삭제됩니다 ^^;;)')) {
+          if(confirm('선택하신 카테고리를 삭제하시겠습니까?\n(⚡︎삭제시 하위 문서양식까지 모두 삭제됩니다⚡︎)')) {
             $.ajax({
               url : "${root}/admin/ea/deleteCategory",
               method : "GET",

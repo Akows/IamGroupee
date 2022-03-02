@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.iag.ea.entity.DeptDto;
 import com.kh.iag.ea.entity.FormDto;
+import com.kh.iag.ea.entity.ProcessDto;
 import com.kh.iag.ea.entity.EAUserDto;
 
 @Service
@@ -31,4 +32,8 @@ public class EADaoImpl implements EADao {
 		return sqlSession.selectList("ea.userValues", userNo);
 	}
 
+	@Override
+	public int insertProcess(ProcessDto pd) throws Exception {
+		return sqlSession.insert("insertProcess", pd);
+	}
 }

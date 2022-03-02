@@ -19,6 +19,8 @@ import com.kh.iag.ea.entity.CategoryDto;
 import com.kh.iag.ea.entity.DeptDto;
 import com.kh.iag.ea.entity.EAUserDto;
 import com.kh.iag.ea.entity.FormDto;
+import com.kh.iag.ea.entity.ProcessDto;
+import com.kh.iag.ea.entity.SignupDto;
 import com.kh.iag.ea.service.EAService;
 import com.kh.iag.user.entity.UserDto;
 
@@ -70,51 +72,22 @@ public class EAController {
 	}
 	// 기안신청 (처리)
 	@PostMapping(value = "/write")
-	public String write(String arbit, String[] approverName, String[] approverNo, String refer, String[] referNo , String securityLevel, String deadlineDate, String title, String content, String formTitle, String[] arr) {
+	public String write(@ModelAttribute SignupDto dto) throws Exception {
 		
-		log.info(arbit);
+		log.info(dto.toString());
 		
-		for(String s : approverName)
-			System.out.print(s + "\t");
-		System.out.println();
+		// 결재선 번호 테이블 인서트(문서번호, 결재선번호)
+//		ProcessDto pd = service.insertProcessNo();
+				
+		// 결재선 번호 테이블 셀렉트(최신 데이터)
 		
-		for(String s : approverNo)
-			System.out.print(s + "\t");
-		System.out.println();
+		// 결재선 테이블 인서트 (결재자 수만큼)
+//		int result = service.insertProcess(dto);
+//		log.info("result :::" + result);
 		
-		log.info(refer);
-
-		for(String s : referNo)
-			System.out.print(s + "\t");
-		System.out.println();
+		// 문서 테이블 인서트
 		
-		log.info(securityLevel);
-		
-		log.info(deadlineDate);
-		
-		log.info(title);
-		
-		log.info(content);
-		
-		log.info(formTitle);
-		
-		for(String s : arr)
-			System.out.print(s + "\t");
-		System.out.println();
-		
-		// 넘어오는 name 값들
-		// arbit : checked - 전결 가능 문서 						확인완료
-		// approverNameX, approverNoX : 결재자 1명부터 5명까지 다수	
-		// refer : 참조자 이름들 - textarea							확인완료
-		// referNoX : 참조자들 사원 번호 - 없거나 1명, 다수				
-		// securityLevel : 보안등급 - S, A, B, C					확인완료
-		// deadlineDate : 마감날짜 - Date							확인완료(그런데 date로 받으면 400오류)
-		// title : 기안서 제목										확인완료
-		// content : 기안서 내용									확인완료
-		// formNo, formTitle, formYears, categoryNo, categoryName : 양식번호, 양식이름, 양식보존연한, 양식카테고리, 양식카테고리이름 - 양식 정보
-		
-		
-		
+		// 참조자 테이블 인서트 
 		
 		// 완료후 기안문서조회 상세 페이지로
 		return "ea/user/ea_signuplist_detail";

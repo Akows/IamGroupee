@@ -53,8 +53,8 @@
               </c:forEach>
             </article>
           </div>
-          <span id="arrow1">=></span>
-          <span id="arrow2">=></span>
+          <span id="arrow1">▹</span>
+          <span id="arrow2">▹</span>
           <div class="ea_signup_formselect_contents_btn">
               <input type="submit" value="기안 작성하기">
           </div>

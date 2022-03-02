@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.iag.ea.entity.DeptDto;
 import com.kh.iag.ea.entity.FormDto;
+import com.kh.iag.ea.entity.SignupDto;
 import com.kh.iag.ea.entity.EAUserDto;
 
 public interface EAService {
@@ -13,5 +14,7 @@ public interface EAService {
 	List<DeptDto> deptValues() throws Exception;
 
 	List<EAUserDto> userValue(String userNo) throws Exception;
+
+	int insertProcess(SignupDto dto) throws Exception;
 	
 }
