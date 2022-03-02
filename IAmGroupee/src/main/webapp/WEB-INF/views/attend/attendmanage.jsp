@@ -50,7 +50,8 @@
                     <th>신청일</th>
                     <th>신청자</th>
                     <th>신청사유</th>
-                    <th>처리상태</th>
+                    <th>첨부파일</th>
+                    <th>현재상태</th>
                     <th>결과처리</th>
                   </tr>
                 </thead>
@@ -58,9 +59,10 @@
                 <tbody>
 	                <c:forEach items="${atModList}" var="modlist">
 						<tr>
-							<td>${modlist.req_date}"</td>
-							<td>${modlist.user_no}</td>
+							<td>${modlist.req_date}</td>
+							<td>${modlist.user_name}</td>
 							<td>${modlist.mod_reason}</td>
+							<td><input type="button" id="filepage" value="${modlist.attach_file}"></td>
 							<td>${modlist.approve_state}</td>
 							<td>
 		                    	<span class="p-relative">
@@ -71,7 +73,6 @@
 			                        <ul class="users-item-dropdown dropdown">
 			                          <li><a href="##">요청 승인</a></li>
 			                          <li><a href="##">요청 반려</a></li>
-			                          <li><a href="##">요청 삭제</a></li>
 			                        </ul>
 			                    </span>
                             </td>
@@ -89,42 +90,61 @@
 	</div>
 </main>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
-
 <script type="text/javascript">
+	<!-- 오늘 날짜 계산하는 스크립트 -->
 	let today = new Date();
 	let year = today.getFullYear(); 
 	let month = today.getMonth() + 1
 	let day = today.getDate();
-
+	
 	document.getElementById("currentDate").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
-	document.getElementById("currentDate2").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
+
+	<!-- 첨부파일 상세페이지로 이동하는 스크립트 -->
+	let filebtn = document.getElementById("filepage");
+	filebtn.addEventListener('click', filebtnclickEventHandler)
+	
+	function filebtnclickEventHandler() 
+	{
+		var url = "attachfile";
+		var name = "파일상세페이지";
+		var specs = "width=1000, height=1000, scrollbars=yes, menubar=no";
+
+		window.open(url, name, specs);
+    };
+
+    <!-- ajax에서 컨트롤러로 넘어가는 스크립트? (오류 확인됨) -->
+	function test() 
+	{
+	    $.ajax({
+	   		type : "GET",
+		    url : "attachfile",
+		    contentType: "application/json",
+		    dataType: "json",
+		    success : function()
+		    {
+		    	alert("success!");
+		    },
+		    error : function() 
+		    {
+		        alert("error!");
+		    }
+		});
+	    
+    };
+    
+
+	
+
 </script>
 
-	<!-- Custom scripts -->
-	<script src="${root}/resources/js/script.js"></script>
-</body>
 
+
+<!-- Custom scripts -->
+<script src="${root}/resources/js/script.js"></script>
+
+</body>
 </html>
 
 

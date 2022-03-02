@@ -22,4 +22,5 @@ public interface attendService
 	
 	//근태관리
 	List<AttendModDTO> getModList() throws Exception;
+	List<AttendModDTO> getFile() throws Exception;
 }

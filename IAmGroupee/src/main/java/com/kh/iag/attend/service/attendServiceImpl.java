@@ -81,7 +81,9 @@ public class attendServiceImpl implements attendService
 		return attendDAO.getModList();
 	}
 
-
-
-
+	@Override
+	public List<AttendModDTO> getFile() throws Exception 
+	{
+		return attendDAO.getFile();
+	}
 }

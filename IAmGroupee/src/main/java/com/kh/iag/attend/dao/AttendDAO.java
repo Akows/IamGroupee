@@ -22,6 +22,7 @@ public interface AttendDAO
 	//근태 관리
 	int getAttendModCnt() throws Exception;
 	List<AttendModDTO> getModList() throws Exception;
+	List<AttendModDTO> getFile() throws Exception;
 
 
 

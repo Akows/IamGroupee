@@ -9,6 +9,7 @@
 	    <resultMap type="attendance" id="attendrm">
 			<result property="attend_num" column="ATTEND_NUM"/>
 			<result property="user_no" column="USER_NO"/>
+			<result property="user_name" column="USER_NAME"/>
 			<result property="attend_date" column="ATTEND_DATE"/>
 			<result property="normal_check" column="NORMAL_CHECK"/>
 			<result property="irregular_reason" column="IRREGULAR_REASON"/>
@@ -19,6 +20,7 @@
 	    <resultMap type="attendancemod" id="attendmodrm">
 			<result property="attend_mod_num" column="ATTEND_MOD_NUM"/>
 			<result property="user_no" column="USER_NO"/>
+			<result property="user_name" column="USER_NAME"/>
 			<result property="req_date" column="REQ_DATE"/>
 			<result property="mod_reason" column="MOD_REASON"/>
 			<result property="attach_file" column="ATTACH_FILE"/>
@@ -87,6 +89,7 @@
 	  		(
 	  			ATTEND_MOD_NUM,
 				USER_NO,
+				USER_NAME,
 				REQ_DATE,
 				MOD_REASON,
 				ATTACH_FILE,
@@ -96,9 +99,10 @@
 	  		(
 	  			#{attend_mod_num},
 	  			#{user_no},
+	  			#{user_name},
 	  			SYSDATE,
 	  			#{mod_reason},
-	  			'파일 등록중',
+	  			'첨부파일 없음',
 	  			'처리중'
 	  		)
 	  	</insert>
@@ -106,7 +110,7 @@
 	  	<update id="modfilereq" parameterType="attendancemod">
 	  		UPDATE ATTENDANCEMODIFY
 	   		SET ATTACH_FILE = #{attach_file}
-	   		WHERE ATTACH_FILE = '파일 등록중'
+	   		WHERE ATTACH_FILE = '첨부파일 없음'
 	  	</update>
   	
   	
@@ -117,7 +121,7 @@
   <!-- 근태관리 -->
 		<!-- 업무상황 수정요청관리 쿼리 -->
 	  	<select id="getModList" resultType="attendancemod" resultMap="attendmodrm">
-			SELECT *
+			SELECT ATTEND_MOD_NUM, TO_CHAR(REQ_DATE,'YYYYMMDD') AS REQ_DATE, USER_NAME, MOD_REASON, ATTACH_FILE, APPROVE_STATE
 			FROM ATTENDANCEMODIFY
 			WHERE APPROVE_STATE != '승인됨'
 			ORDER BY ATTEND_MOD_NUM
@@ -128,8 +132,13 @@
 			FROM ATTENDANCEMODIFY
 			WHERE APPROVE_STATE != '승인됨'
 		</select>
-  	
-  	
+		
+		<select id="getFile" resultType="attendancemod" resultMap="attendmodrm">
+			SELECT ATTEND_MOD_NUM, ATTACH_FILE
+			FROM ATTENDANCEMODIFY
+			WHERE ATTEND_MOD_NUM = '2'
+		</select>
+
   	
   	
   	

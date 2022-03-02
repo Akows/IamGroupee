@@ -9,6 +9,7 @@ public class AttendModDTO
 {
 	private long attend_mod_num;
 	private String user_no;
+	private String user_name;
 	private String req_date;
 	private String mod_reason;
 	private String attach_file;

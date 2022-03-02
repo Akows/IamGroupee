@@ -30,8 +30,10 @@ public class AttendViewController
 	{
 		UserDto loginUser = (UserDto) req.getSession().getAttribute("loginUser");
 		String userno = loginUser.getUserNo();
+		String userName = loginUser.getName();
 		
 		attendmodDTO.setUser_no(userno);
+		attendmodDTO.setUser_name(userName);
 	
 		int result = attendService.attendModify(attendmodDTO, req);
 

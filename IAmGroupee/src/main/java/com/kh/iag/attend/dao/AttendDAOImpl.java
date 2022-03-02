@@ -63,10 +63,15 @@ public class AttendDAOImpl implements AttendDAO
 	}
 
 	@Override
-	public List<AttendModDTO> getModList() throws Exception
+	public List<AttendModDTO> getModList() throws Exception 
 	{
-		
 		return ss.selectList("attend.getModList");
+	}
+
+	@Override
+	public List<AttendModDTO> getFile() throws Exception 
+	{
+		return ss.selectList("attend.getFile");
 	}
 
 
