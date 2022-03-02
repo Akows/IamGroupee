@@ -34,24 +34,28 @@ public class AttendMainController
 	@PostMapping("attendmain")
 	public String attendMainPage(Model model, HttpServletRequest req) throws Exception
 	{
-		AttendDTO tt = new AttendDTO();
-		AttendModDTO t1 = new AttendModDTO();
-		AttendWTDTO t2 = new AttendWTDTO();
+		AttendDTO attendDTO = new AttendDTO();
+		AttendModDTO attendModDTO = new AttendModDTO();
+		AttendWTDTO attendWTDTO = new AttendWTDTO();
 		
 		UserDto loginUser = (UserDto) req.getSession().getAttribute("loginUser");
 		String userno = loginUser.getUserNo();
 		
-		tt.setUser_no(userno);
-		t1.setUser_no(userno);
-		t2.setUser_no(userno);
+		attendDTO.setUser_no(userno);
+		attendModDTO.setUser_no(userno);
+		attendWTDTO.setUser_no(userno);
 		
 		List<AttendDTO> attendList = service.getAttendInfo();
 		List<AttendModDTO> attendModList = service.getAttendModInfo();
 		List<AttendWTDTO> attendWTList = service.getAttendWTInfo();
+		
+		System.out.println(attendList);
+		System.out.println(attendModList);
+		System.out.println(attendWTList);
 
 		model.addAttribute("atInfo", attendList);
-		model.addAttribute("atInfo", attendModList);
-		model.addAttribute("atInfo", attendWTList);
+		model.addAttribute("atModnfo", attendModList);
+		model.addAttribute("atWTInfo", attendWTList);
 		
 		return "attend/attendmain";
 	}

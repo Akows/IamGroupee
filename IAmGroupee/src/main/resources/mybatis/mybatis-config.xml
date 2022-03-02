@@ -31,6 +31,6 @@
 		<typeAlias type="com.kh.iag.board.entity.FreeBoardDto" alias="freeBoard"/>
 		<typeAlias type="com.kh.iag.board.entity.DeptBoardDto" alias="deptBoard"/>
 		<typeAlias type="com.kh.iag.resv.entity.RoomDto" alias="room"/>
-        <typeAlias type="com.kh.iag.resv.entity.AssetDto" alias="asset"/>
+		<typeAlias type="com.kh.iag.resv.entity.AssetDto" alias="asset"/>
 	</typeAliases>
 </configuration>
