@@ -24,14 +24,11 @@ import com.kh.iag.sch.service.ScheduleServiceImpl;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("sch")
 public class ScheduleController {
 
-	private static final Logger log = LoggerFactory.getLogger(ScheduleController.class);
-	
 	@Autowired
-	ScheduleService service;
+	private ScheduleService scheduleService;
 	
 	// 내 캘린더 보여주기
 	@GetMapping("mySch")
@@ -41,29 +38,9 @@ public class ScheduleController {
 	
 	// 캘린더 예제 페이지
 	@GetMapping("schedule")
-	@ResponseBody
-	public JSONArray schedule() {
-		
-		List<SchDto> listAll = service.findAll();
-		 
-        JSONObject jsonObj = new JSONObject();
-        JSONArray jsonArr = new JSONArray();
- 
-        HashMap<String, Object> hash = new HashMap<>();
-        
-        for (int i = 0; i < listAll.size(); i++) {
-            hash.put("title", listAll.get(i).getSchTitle());
-            hash.put("start", listAll.get(i).getSchStart());
-            hash.put("end", listAll.get(i).getSchEnd());
-            hash.put("with", listAll.get(i).getSchWith());
-            hash.put("category", listAll.get(i).getSchCategory());
-            hash.put("content", listAll.get(i).getSchContent());
- 
-            jsonObj = new JSONObject(hash);
-            jsonArr.putAll(jsonObj);
-        }
-        log.info("jsonArrCheck: {}", jsonArr);
-        return jsonArr;
+	public String schedule() {	
+	
+        return "sch/schedule";
     }
 	
 	// 스케줄 추가하기
