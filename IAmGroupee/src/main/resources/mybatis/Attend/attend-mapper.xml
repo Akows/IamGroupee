@@ -53,8 +53,13 @@
   	
   <select id="getAttendWTInfo" resultMap="attendwtrm">
 	SELECT *
-	FROM WORKTIME
-	WHERE USER_NO = #{user_no}
+	FROM ATTENDANCE A
+	INNER JOIN ATTENDANCEMODIFY M 
+	ON(A.USER_NO = M.USER_NO)
+	INNER JOIN WORKTIME W
+	ON(M.USER_NO = W.USER_NO)
+    WHERE A.USER_NO = #{user_no}
+    AND ATTEND_DATE = SYSDATE
   </select>
   	
   <select id="attendmainscreen">
