@@ -1,0 +1,21 @@
+@charset "UTF-8";
+.textInput{
+	border: 1px solid black;
+}
+
+.box {
+    width: 150px;
+    height: 150px; 
+    border-radius: 70%;
+    overflow: hidden;
+    background-color: #BDBDBD;
+}
+.profile {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#fileUpload {
+	display: none;
+}
