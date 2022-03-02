@@ -11,7 +11,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UsedLeaveList</title>
   
-  <c:set var="root" value="${pageContext.request.contextPath}"/>
+  <style type="text/css">
+    #calendar .fc-day-sun {
+    color: red;
+	}
+    #calendar .fc-day-sat {
+    color: blue;
+	}
+  </style>
   
   <!-- Favicon -->
   <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
@@ -19,11 +26,11 @@
   <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
   <link rel='stylesheet' href='${root}/resources/css/sch/main.css' />
   <!-- calendar -->
-    <link href='${root}/resources/css/lv/main.min.css' rel='stylesheet' />
+   <%--  <link href='${root}/resources/css/lv/main.min.css' rel='stylesheet' />
     <script src='${root}/resources/js/lv/main.min.js'></script>
-    <script src='${root}/resources/js/lv/ko.js'></script>
+    <script src='${root}/resources/js/lv/ko.js'></script> --%>
     
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css"/>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
@@ -152,7 +159,6 @@
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            /* plugins: [ googleCalendarPlugin ], */
             initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
             googleCalendarApiKey: 'AIzaSyDYMx36O77hSRC2wnwmpzWJ6M2BJ_F8fek',
 			headerToolbar : { // 헤더에 표시할 툴 바
@@ -171,7 +177,7 @@
             eventSources: [
 		         {
 		        	 googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
-		         	 className: '대한민국의 휴일',
+		         	 className: 'holiday',
          			 color : '#DD5246'
 		         }],
 		    events : [ 

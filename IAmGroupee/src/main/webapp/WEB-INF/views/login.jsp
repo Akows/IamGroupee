@@ -36,7 +36,7 @@
 		      </label>
 		      
 		      <input type="checkbox" name="checked" value="num" id="no"><i style="color: rgb(94, 94, 94); font-size: 14px; font-weight: 500;"> Save Number &nbsp; </i>
-		      <input type="checkbox" name="checked" value="login" id="logined"><i style="color: rgb(94, 94, 94); font-size: 14px; font-weight: 500;"> Stay Signed in &nbsp; </i><br>
+		      <input type="checkbox" checked name="checked" value="login" id="logined"><i style="color: rgb(94, 94, 94); font-size: 14px; font-weight: 500;"> Stay Signed in &nbsp; </i><br>
 		      <a class="link-info forget-link" href="##">Forgot your password?</a><br>
 		      <p style="color: red;">${msg}</p>
 		      <button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">Login</button>
@@ -54,7 +54,7 @@
 		      </label>
 		      
 		      <input type="checkbox" checked name="checked" value="num" id="no"><i style="color: rgb(94, 94, 94); font-size: 14px; font-weight: 500;"> Save Number &nbsp; </i>
-		      <input type="checkbox" name="checked" value="login" id="logined"><i style="color: rgb(94, 94, 94); font-size: 14px; font-weight: 500;"> Stay Signed in &nbsp; </i><br>
+		      <input type="checkbox" checked name="checked" value="login" id="logined"><i style="color: rgb(94, 94, 94); font-size: 14px; font-weight: 500;"> Stay Signed in &nbsp; </i><br>
 		      <a class="link-info forget-link" href="##">Forgot your password?</a><br>
 		      <p style="color: red;">${msg}</p>
 		      <button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">Login</button>
