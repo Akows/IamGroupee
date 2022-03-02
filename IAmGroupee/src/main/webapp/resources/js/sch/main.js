@@ -1,5 +1,9 @@
+window.onload = function() {
+};
+
 var draggedEventIsAllDay;
 var activeInactiveWeekends = true;
+var today = new Date();
 
 var calendar = $('#calendar').fullCalendar({
 
@@ -71,31 +75,39 @@ var calendar = $('#calendar').fullCalendar({
 
 
   eventRender: function (event, element, view) {
+		var reg = /[\{\}\[\]\/?.;:|\)*~a-z`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+		var test = "";
+		
+		test = JSON.stringify(event.target_user).replace(reg, "");
 
     //일정에 hover시 요약
     element.popover({
-      title: $('<div />', {
-        class: 'popoverTitleCalendar',
-        text: event.title
-      }).css({
-        'background': event.backgroundColor,
-        'color': event.textColor
-      }),
-      content: $('<div />', {
-          class: 'popoverInfoCalendar'
-        }).append('<p><strong>등록자:</strong> ' + event.username + '</p>')
-        .append('<p><strong>구분:</strong> ' + event.type + '</p>')
-        .append('<p><strong>시간:</strong> ' + getDisplayEventDate(event) + '</p>')
-        .append('<div class="popoverDescCalendar"><strong>설명:</strong> ' + event.description + '</div>'),
-      delay: {
-        show: "800",
-        hide: "50"
-      },
-      trigger: 'hover',
-      placement: 'top',
-      html: true,
-      container: 'body'
-    });
+      		title: $('<div />', {
+			        class: 'popoverTitleCalendar',
+			        text: event.title
+	        }).css({
+		          	'background': event.backgroundColor,
+		          	'color': event.textColor
+	        }),
+	        
+      		content: $('<div />', {
+          			class: 'popoverInfoCalendar'
+        	})
+			        .append("<p class='popup-label'><b>대상자:</b> " + test + "</p>")
+					.append("<p class='popup-label'><b>구분:</b> " + event.event_type + "</p>")
+					.append("<p class='popup-label'><b>시간:</b> " + getDisplayEventDate(event) + "</p>")
+					.append('<div class="popoverDescCalendar"><p class="popup-label"><b>설명</b>: ' + event.description + "</p></div>"),
+	      delay: {
+			        show: "800",
+			        hide: "50"
+	      },
+	      
+	      trigger: 'hover',
+	      placement: 'top',
+	      html: true,
+	      container: 'body'
+	      
+	    });
 
     return filtering(event);
 
