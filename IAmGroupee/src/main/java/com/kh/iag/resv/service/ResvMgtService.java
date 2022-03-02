@@ -23,6 +23,7 @@ public interface ResvMgtService {
 	void updateAsset(AssetDto dto) throws Exception;
 	
 	void deleteAsset(int AssetNo) throws Exception;
+
 	
 	
 	

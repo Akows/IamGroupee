@@ -1,4 +1,6 @@
 
+
+
 let fields = [
   { name: "roomName", type: "text", width: 150 },
   { name: "activateYn", type: "checkbox",title: "활성화", width: 50 },
@@ -6,9 +8,6 @@ let fields = [
   { name: "modDate", type: "date", width: 150 },
   { type: "control" , width:"15%"}
 ]
-
-var rList = JSON.parse('${rList}'); 
-JSON.stringify( object )
 
 $("#jsGrid1").jsGrid({
   locale:"ko",
