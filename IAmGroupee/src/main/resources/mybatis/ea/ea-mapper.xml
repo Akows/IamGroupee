@@ -151,4 +151,22 @@
 		JOIN POSITION P ON(A.POSITION_NO = P.POSITION_NO)
 		ORDER BY P.POSITION_LEVEL
 	</select>
+	
+	<!-- 기안 신청시 결재선 테이블 인서트 -->
+	<insert id="insertProcess" parameterType="com.kh.iag.ea.entity.ProcessDto">
+		INSERT INTO EA_PROCESS
+		(
+			PROC_NO,
+		    USER_NO,
+		    PROC_SEP,
+		    PROC_SEQ
+		)
+		VALUES
+		(
+			${procNo},
+			#{userNo},
+			${procSep},
+			${procSeq}
+		)
+	</insert>
 </mapper>

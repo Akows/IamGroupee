@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.iag.ea.entity.DeptDto;
 import com.kh.iag.ea.entity.FormDto;
+import com.kh.iag.ea.entity.ProcessDto;
 import com.kh.iag.ea.entity.EAUserDto;
 
 public interface EADao {
@@ -13,5 +14,7 @@ public interface EADao {
 	List<DeptDto> deptValues() throws Exception;
 
 	List<EAUserDto> userValue(String userNo) throws Exception;
+
+	int insertProcess(ProcessDto pd) throws Exception;
 	
 }

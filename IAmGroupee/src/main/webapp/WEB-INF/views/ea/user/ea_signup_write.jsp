@@ -12,13 +12,19 @@
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/svg/looo.png" type="image/x-icon">
   <!-- Custom styles -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.min.css">
+  <!-- Theme style -->
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/dist/css/adminlte.css">
+	<!-- adminLTE CDN -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
 
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ea/user/ea_signup.css">
-  
   <!-- text editor -->
   <script src="https://cdn.ckeditor.com/ckeditor5/32.0.0/classic/ckeditor.js"></script>
-</head>
+  
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ea/user/ea_signup.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="${root}/resources/plugins/daterangepicker/daterangepicker.css">
 
+</head>
 <body>
   <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 
@@ -35,14 +41,10 @@
                 <span id="minusApprover">-</span>
                 <span id="plusApprover">+</span>
                 <span>( ☺︎ 박스 생성 순서대로 결재 순서가 정해집니다 ☻ )</span>
-                <label>
-                  &ensp;✿전결 가능 문서 체크&ensp;
-                  <input type="checkbox" name="arbit" value="checked">
-                </label>
               </a>
               <!-- 결재자 선택창에서 선택완료시 인풋히든에 사원번호 밸류 집어넣음 -->
               <input type="text" class="approver" name="approverName" readonly required placeholder="결재자 선택" onclick="openSelectingApproverLayer(this);">
-              <input type="hidden" class="hiddenAppr" name="approverNo">
+              <input type="hidden" class="hiddenAppr" name="approverNo" required>
             </li>
             <li id="referList">
               <a>👨‍👩‍👧‍👦&ensp;참조자 선택</a>
@@ -62,11 +64,18 @@
             </li>
             <li>
               <a>📆&ensp;마감 날짜 선택</a>
-              <input type="date" name="deadlineDate" id="deadlineDate">
+			        	<div class="form-group" style="width:200px; margin:5px;">
+                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        <input type="text" name="deadlineDate" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                </div>	
             </li>
             <li>
               <a>💬&ensp;기안서 제목</a>
-              <input type="text" name="title" id="title" style="width: 30%;" placeholder="제목을 입력해주세요.">
+              <input type="text" name="title" id="title" style="width: 30%;" placeholder="제목을 입력해주세요." required>
             </li>
             <li>
               <a>📝&ensp;내용</a>
@@ -77,14 +86,11 @@
           <input type="button" onclick="ea_signup_back();" value="돌아가기">
           
           <!-- hidden values -->
-          <input type="hidden" name="formNo" value="${formValue.formNo}">
           <input type="hidden" name="formTitle" value="${formValue.formTitle}">
           <input type="hidden" name="formYears" value="${formValue.formYears}">
           <input type="hidden" name="categoryNo" value="${formValue.categoryNo}">
           <input type="hidden" name="categoryName" value="${formValue.categoryName}">
-          <input type="hidden" name="arr" value="테스트1">
-          <input type="hidden" name="arr" value="테스트2">
-          <input type="hidden" name="arr" value="테스트3">
+          <input type="hidden" name="userNo" value="${loginUser.userNo}">
         </form>
       </div>
     </div>
@@ -155,6 +161,13 @@
   
   <!-- Custom scripts -->
   <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
+
+  <!-- InputMask -->
+  <script src="${root}/resources/plugins/moment/moment.min.js"></script>
+  <!-- date-range-picker -->
+  <script src="${root}/resources/plugins/daterangepicker/daterangepicker.js"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="${root}/resources/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
   
   <script>
     ClassicEditor
@@ -191,12 +204,14 @@
             readonly : "true",
             required : "true",
             placeholder : "결재자 선택",
-            onclick : "openSelectingApproverLayer(this);"
+            onclick : "openSelectingApproverLayer(this);",
+            required : "required"
           }).appendTo('#approverList');
           $('<input>', {
             type : "hidden",
             class : "hiddenAppr",
-            name : "approverNo"
+            name : "approverNo",
+            required : "required"
           }).appendTo('#approverList');
           break;
         default: break;
@@ -299,8 +314,11 @@
         };
       };
     };
-    
 
+	  //Date picker
+    $('#reservationdate').datetimepicker({
+        format: 'L'
+    });
   </script>
 </body>
 </html>
