@@ -1,6 +1,7 @@
 package com.kh.iag.main.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -48,22 +49,6 @@ public class MainController {
 				//세션에 담기
 				session.setAttribute("loginUser",loginUser);
 
-//				============입사일 기준 연차 발생
-				// 입사일의 월일
-				SimpleDateFormat today = new SimpleDateFormat("yyyy-MM-dd");
-				Calendar c1 = Calendar.getInstance(); 
-				String todayDate = 	today.format(c1.getTime());
-				String enrollDate = String.valueOf(loginUser.getEnrollDate());
-				
-				// 조건1. 입사일날짜 = 현재날짜 && 총 연차 개수 <= 15
-				if (todayDate.substring(5).equals(enrollDate.substring(5)) && (loginUser.getAlvCount() != 15 || loginUser.getAlvCount() == 0)) {
-					
-				}
-				
-				
-				
-				
-				
 				String[] checkedValues = checkedVo.getChecked();
 				if(checkedValues != null) {
 					String checkedValue = "";
@@ -74,7 +59,12 @@ public class MainController {
 							// 자동 로그인 쿠키 생성
 							Cookie savedLoginCookie = new Cookie("savedLoginCookie", session.getId());
 							savedLoginCookie.setPath("/");
-							int savedTime = 60 * 60 * 24;
+							
+							LocalTime now = LocalTime.now();
+							int hour = now.getHour();
+							int minute = now.getMinute();
+							int second = now.getSecond();
+							int savedTime = (60 * 60 * 24) - ((hour * 60 * 60) + (minute * 60) + second);
 							savedLoginCookie.setMaxAge(savedTime);
 							
 							Date sessionLimit = new Date(System.currentTimeMillis() + (1000 * savedTime));
@@ -116,7 +106,12 @@ public class MainController {
 							// 자동 로그인 쿠키 생성
 							Cookie savedLoginCookie = new Cookie("savedLoginCookie", session.getId());
 							savedLoginCookie.setPath("/");
-							int savedTime = 60 * 60 * 24;
+							
+							LocalTime now = LocalTime.now();
+							int hour = now.getHour();
+							int minute = now.getMinute();
+							int second = now.getSecond();
+							int savedTime = (60 * 60 * 24) - ((hour * 60 * 60) + (minute * 60) + second);
 							savedLoginCookie.setMaxAge(savedTime);
 							
 							Date sessionLimit = new Date(System.currentTimeMillis() + (1000 * savedTime));
@@ -177,10 +172,17 @@ public class MainController {
 		return "redirect:/login";
 	}
 	
-	
-	// 메인주소 입력 시
+	// 메인으로
 	@GetMapping("main")
-	public String main(HttpSession session, HttpServletRequest req) {
+	public String main(HttpSession session, HttpServletRequest request) {
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+//		============입사일 기준 연차 발생
+		// 입사일의 월일
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-M-d");
+		Calendar today = Calendar.getInstance(); 
+		String todayDate = format.format(today.getTime()); // 오늘 날짜
+		String enrollDate = String.valueOf(format.format(loginUser.getEnrollDate())); // 입사일"yyyy-M-d"
+		// 조건1. 
 		return "mainPage";
 	}
 	
