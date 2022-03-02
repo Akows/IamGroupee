@@ -22,9 +22,6 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-  
-  
-
 </head>
 <body>
 
@@ -74,7 +71,7 @@
 									  
 									<div class="form-group">
 										<label>예약자</label>
-										<input readonly class="form-control" value="${loginUser.name}">
+										<input readonly class="form-control" value="${loginUser.name}"> 
 									</div>
 							
 									<!-- Date and time range -->
@@ -155,9 +152,10 @@
 	<!-- InputMask -->
 	<script src="${root}/resources/plugins/moment/moment.min.js"></script>
 	<script src="${root}/resources/plugins/inputmask/jquery.inputmask.min.js"></script>
-	<!-- date-range-picker -->
+	
+    <!-- date-range-picker -->
 	<link rel="stylesheet" href="${root}/resources/plugins/daterangepicker/daterangepicker.css">
-	<script src="${root}/resources/plugins/daterangepicker/daterangepicker.js"></script>
+	<script src="${root}/resources/plugins/daterangepicker/daterangepicker.js"></script> 
 
 </body>
 </html>

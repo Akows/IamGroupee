@@ -64,14 +64,16 @@
 
 	<script>
 		$(function () {
+
 			$("#jsGrid1").jsGrid({
 				width: "100%",
-				
+				height: "auto",
+
 				inserting: true,
 				editing: true,
 				sorting: true,
-				paging: true,
 				autoload: true,
+				
 				deleteConfirm: "선택한 자산을 정말 삭제하시겠습니까?",
 				
 				fields: [
@@ -82,37 +84,39 @@
 					{ type: "control" , width:"15%"}
 				],
 
-				controller: {
-					loadData: function(filter) {
-					var d = $.Deferred();
-					$.ajax({
-						url: "/admin/resv",
-						type: "GET",
-						data: {
-						name : "${rList.roomName}",
-						activateYn : "${rList.activateYn}",
-						createDate : "${rList.createDate}",
-						modDate : "${rList.modDate}}"
-						},
-						dataType: "json"
-					}).done(function(response) {
-						//조회 데이터 셋팅
-						d.resolve(response.rList);
-					});
-					return d.promise();
-					}
+				controller:  {
+		            loadData: function(filter) {
+		                var d = $.Deferred();
+		                $.ajax({
+		                	contentType : "application/json; charset=UTF-8",
+		                	type: "GET",
+		                	url: "<%=request.getContextPath()%>/admin/resv/room",
+		                    dataType: "json",
+		                    data: filter
+		                }).done(function(response) {
+		                	if(response.status == "ok") {
+		                		d.resolve(response.data);	
+		                	}
+		                });
+		                return d.promise();
+		            }
+		            
 				}
-
+			
+			
 			});
+
 
 			$("#jsGrid2").jsGrid({
 					width: "100%",
+					height: "auto",
 			
 					inserting: true,
 					editing: true,
 					sorting: true,
 					paging: true,
 					autoload: true,
+					
 					deleteConfirm: "선택한 자산을 정말 삭제하시겠습니까?",
 			
 					fields: [
@@ -122,8 +126,24 @@
 						{ name: "modDate", type: "date", width: 150 },
 						{ type: "control" , width:"15%"}
 					],
-
-					data: db.asset,
+					
+					controller:  {
+			            loadData: function(filter) {
+			                var d = $.Deferred();
+			                $.ajax({
+			                	contentType : "application/json; charset=UTF-8",
+			                	type: "GET",
+			                	url: "<%=request.getContextPath()%>/admin/resv/asset",
+			                    dataType: "json",
+			                    data: filter
+			                }).done(function(response) {
+			                	if(response.status == "ok") {
+			                		d.resolve(response.data);	
+			                	}
+			                });
+			                return d.promise();
+			            }
+					}
 			});
 	
 		});
@@ -139,8 +159,8 @@
 	<link rel="stylesheet" href="${root}/resources/plugins/jsgrid/jsgrid.min.css">
 	<link rel="stylesheet" href="${root}/resources/plugins/jsgrid/jsgrid-theme.min.css">
 	
+	<%-- <script src="${root}/resources/js/resv/jsGrid.js"></script> --%>
 	<script src="${root}/resources/plugins/jsgrid/jsgrid.min.js"></script>
-	<script src="${root}/resources/js/resv/jsGrid.js"></script>
 
 </body>
 </html>
