@@ -75,5 +75,6 @@
     <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 	<!-- Custom scripts -->
+	<script src="${root}/resources/js/script.js"></script>
 </body>
 </html>
