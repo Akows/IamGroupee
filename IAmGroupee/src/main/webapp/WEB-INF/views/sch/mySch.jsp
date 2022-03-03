@@ -29,7 +29,7 @@
   <link rel='stylesheet' href='${root}/resources/css/sch/main.css' />
 </head>
 
-<body>
+<body style="padding: 0px;">
 
     <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 
@@ -65,7 +65,7 @@
 				<br><br>
 					<div class="input-group" style=" left: 10px;">
 						<label for="calendar_view" style="font-size:1.4em;  font-weight: bold; right: 30px;">참석자</label>
-                        <select class="filter" id="type_filter" multiple="multiple">
+                        <select class="filter" id="type_filter" multiple="multiple" style="width: 150px;">
                             <option value="카테고리1">카테고리1</option>
                             <option value="카테고리2">카테고리2</option>
                             <option value="카테고리3">카테고리3</option>
@@ -91,7 +91,7 @@
           </div> <!-- /일정 선택 div -->
         
           <!-- Fullcalendar 페이지 -->
-          <div class="col-md-7 col-xl-8" style="height: 750px">
+          <div class="col-md-7 col-xl-8">
             <article class="stat-cards-item">
 		      
 	          <iframe src="${root}/sch/schedule" height="100%" width="100%" scrolling="no"></iframe>

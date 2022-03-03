@@ -1,12 +1,13 @@
 var eventModal = $('#eventModal');
 
 var modalTitle = $('.modal-title');
+
 var editAllDay = $('#schAllDay');
 var editTitle = $('#schTitle');
 var editStart = $('#schStart');
 var editEnd = $('#schEnd');
 var editType = $('#schType');
-var editColor = $('#SchColor');
+var editColor = $('#schColor');
 var editDesc = $('#schContent');
 
 var addBtnContainer = $('.modalBtnContainer-addEvent');
