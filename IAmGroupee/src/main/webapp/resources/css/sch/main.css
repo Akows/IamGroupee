@@ -1,5 +1,6 @@
 body {
   font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  padding: 30px;
 }
 
 .dropNewEvent {
@@ -228,8 +229,7 @@ body {
 }
 
 select.filter {
-  width: 180px !important;
-  height: 50px !important;
+  width: 500px !important;
 }
 
 .popover {

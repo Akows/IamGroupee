@@ -39,11 +39,7 @@
      <div class="container">
       
         <div class="row stat-cards">
-          <!-- 일정 등록 버튼 -->
-          <div class="insert_calender d-flex">
-          	<button class="btn btn-primary fw-bold txt-sm ms-auto schedule-btn" type="button" style="padding: 0.375rem 1.75rem" onclick="$('#eventModal').modal('show');">일정 등록</button>
-          </div>
-          	
+        
           <!-- 일정 선택 div -->
           <div class="col-md-6 col-xl-2" style="height: 750px;">
             <article class="stat-cards-item">

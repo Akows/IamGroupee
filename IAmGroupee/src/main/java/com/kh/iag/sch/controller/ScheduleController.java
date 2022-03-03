@@ -1,8 +1,12 @@
 package com.kh.iag.sch.controller;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,17 +22,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.iag.sch.entity.SchDto;
-import com.kh.iag.sch.service.ScheduleService;
-import com.kh.iag.sch.service.ScheduleServiceImpl;
+import com.kh.iag.user.entity.UserDto;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequestMapping("sch")
 public class ScheduleController {
-
-	@Autowired
-	private ScheduleService scheduleService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(ScheduleController.class);
 	
 	// 내 캘린더 보여주기
 	@GetMapping("mySch")
@@ -38,8 +40,7 @@ public class ScheduleController {
 	
 	// 캘린더 예제 페이지
 	@GetMapping("schedule")
-	public String schedule() {	
-	
+	public String schedule() {		
         return "sch/schedule";
     }
 	
