@@ -11,6 +11,12 @@
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
 	
+	<style>
+		.hide
+		{
+		   display:none;
+		}
+	</style>
 
 </head>
 <body>
@@ -68,20 +74,26 @@
 			$("#jsGrid1").jsGrid({
 				width: "100%",
 				height: "auto",
-
-				inserting: true,
+			
+				filtering: true,
+				inserting:true,
 				editing: true,
 				sorting: true,
+				paging: true,
 				autoload: true,
+				pageSize: 10,
+				pageButtonCount: 5,	
 				
 				deleteConfirm: "선택한 자산을 정말 삭제하시겠습니까?",
 				
 				fields: [
-					{ name: "roomName", type: "text", width: 150 },
-					{ name: "activateYn", type: "checkbox",title: "활성화", width: 50 },
-					{ name: "createDate", type: "date", width: 150 },
-					{ name: "modDate", type: "date", width: 150 },
-					{ type: "control" , width:"15%"}
+					{ name: "roomNo", type: "hidden",  css: 'hide'},
+					{ name: "roomName", type: "text", validate: "required", width: 150 },
+					{ name: "activateYn", type: "checkbox", width: 50 },
+					{ name: "createDate",type: "date", width: 150},
+					{ name: "modDate" ,type: "date", width: 150 },
+					{ name: "deleteYn",type: "checkbox", width: 50},
+					{ type: "control" ,width:"15%"}
 				],
 
 				controller:  {
@@ -100,10 +112,49 @@
 		                });
 		                return d.promise();
 		            }
-		            
+					,insertItem: function(item) {
+		                return $.ajax({
+		                	contentType : "application/json; charset=UTF-8",
+		                	type: "POST",
+		                    url: "<%=request.getContextPath()%>/admin/resv/room",
+		                    dataType: "json",
+		                    data: JSON.stringify(item)
+		                }).done(function(response) {
+		                	if(response.status == "ok") {
+		                		alert("등록되었습니다.");
+		                		location.reload();
+		                	}
+		                });
+		            }
+		            ,updateItem: function(item) {
+		                return $.ajax({
+		                	contentType : "application/json; charset=UTF-8",
+		                	type: "POST",
+		                    url: "<%=request.getContextPath()%>/admin/resv/room/"+item.roomNo,
+		                    dataType: "json",
+		                    data: JSON.stringify(item)
+		                }).done(function(response) {
+		                	if(response.status == "ok") {
+		                		alert("수정되었습니다.");
+		                		location.reload();
+		                	}
+		                });
+		            }
+					,updateItem: function(item) {
+		                return $.ajax({
+		                	contentType : "application/json; charset=UTF-8",
+		                	type: "PUT",
+		                    url: "<%=request.getContextPath()%>/admin/resv/room/"+item.roomNo,
+		                    dataType: "json",
+							data: item
+		                }).done(function(response) {
+		                	if(response.status == "ok") {
+								alert("삭제되었습니다.");
+		                		location.reload();
+		                	}
+		                });
+		            }
 				}
-			
-			
 			});
 
 

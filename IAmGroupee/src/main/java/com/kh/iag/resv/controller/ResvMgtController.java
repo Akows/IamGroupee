@@ -83,6 +83,7 @@ public class ResvMgtController {
 		try{
 			service.insertRoom(dto);
 			result.setStatus("ok");
+			System.out.println("추가 :::::::::" + result);
 		}catch(Exception e){
 			    e.printStackTrace();
 		}finally{
@@ -108,13 +109,15 @@ public class ResvMgtController {
 	//자산 수정
 	@SuppressWarnings("finally")
 	@ResponseBody
-    @PutMapping(value = "/room/{roomNo}", produces = "application/json")
+    @PostMapping(value = "/room/{roomNo}", produces = "application/json")
     public Object rUpdate(Model model, @PathVariable int roomNo, @RequestBody RoomDto dto) throws Exception {
 		JsonResult result =  new JsonResult();
 		
+		System.out.println(roomNo);
 		try{
 			service.updateRoom(dto);
 			result.setStatus("ok");
+			System.out.println("수정 :::::::::" + result);
 		}catch(Exception e){
 			    e.printStackTrace();
 		}finally{
@@ -123,7 +126,7 @@ public class ResvMgtController {
     }
 	@SuppressWarnings("finally")
 	@ResponseBody
-    @PutMapping(value = "/asset/{assetNo}", produces = "application/json")
+    @PostMapping(value = "/asset/{assetNo}", produces = "application/json")
     public Object aUpdate(Model model, @PathVariable int assetNo, @RequestBody AssetDto dto) throws Exception {
 		JsonResult result =  new JsonResult();
 		
@@ -140,13 +143,14 @@ public class ResvMgtController {
 	//자산삭제
 	@SuppressWarnings("finally")
 	@ResponseBody
-    @DeleteMapping(value = "/room/{roomNo}", produces = "application/json")
+    @PutMapping(value = "/room/{roomNo}", produces = "application/json")
     public Object rDelete(Model model, @PathVariable int roomNo) throws Exception {
 		JsonResult result =  new JsonResult();
 		
 		try{
 			service.deleteRoom(roomNo);
 			result.setStatus("ok");
+			System.out.println("삭제 :::::::::" + result);
 		}catch(Exception e){
 			    e.printStackTrace();
 		}finally{
@@ -156,7 +160,7 @@ public class ResvMgtController {
 	
 	@SuppressWarnings("finally")
 	@ResponseBody
-    @DeleteMapping(value = "/asset/{assetNo}", produces = "application/json")
+    @PutMapping(value = "/asset/{assetNo}", produces = "application/json")
     public Object aDelete(Model model, @PathVariable int assetNo) throws Exception {
 		JsonResult result =  new JsonResult();
 		
