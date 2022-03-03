@@ -18,6 +18,6 @@ public class LvUsedListDto {
 	private Date lvEnd;
 	private String during;
 	private String lvReason;
-	private Object reduceAlv;
+	private float reduceAlv;
 	private float alvTotalReduce;
 }

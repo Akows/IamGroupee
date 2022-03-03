@@ -16,6 +16,7 @@
 		<typeAlias type="com.kh.iag.leave.entity.LeaveDto" alias="leave"/>
 		<typeAlias type="com.kh.iag.leave.entity.LvUsedListDto" alias="lvList"/>
 		<typeAlias type="com.kh.iag.leave.entity.LvInfoDto" alias="lvInfo"/>
+		<typeAlias type="com.kh.iag.leave.entity.AlvOccurHistoryDto" alias="lvHistory"/>
 		<typeAlias type="com.kh.iag.attend.entity.AttendDTO" alias="attendance"/>
 		<typeAlias type="com.kh.iag.attend.entity.AttendModDTO" alias="attendancemod"/>
 		<typeAlias type="com.kh.iag.attend.entity.AttendWTDTO" alias="attendancewt"/>

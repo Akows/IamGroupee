@@ -6,34 +6,61 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.iag.leave.dao.LeaveDao;
+import com.kh.iag.leave.entity.AlvOccurHistoryDto;
 import com.kh.iag.leave.entity.LeaveDto;
 import com.kh.iag.leave.entity.LvInfoDto;
 import com.kh.iag.leave.entity.LvUsedListDto;
+import com.kh.iag.leave.entity.PageVo;
+import com.kh.iag.user.entity.UserDto;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class LeaveServiceImpl implements LeaveService {
 	
 	@Autowired
 	private LeaveDao dao;
 	
+	@Override // 로그인유저정보
+	public UserDto getThisUser(String userNo) throws Exception {
+		return dao.getThisUser(userNo);
+	}
+	
 	@Override // 메인 사용내역
 	public List<LvUsedListDto> getAllUsage(String userNo) throws Exception {
 		return dao.getAllUsage(userNo);
 	}
-
+	
 	@Override // 연차 사용대장
-	public List<LvUsedListDto> getAlvList(String userNo) throws Exception {
-		return dao.getAlvList(userNo);
+	public List<LvUsedListDto> getAlvListCalen(String userNo) throws Exception {
+		return dao.getAlvListCalen(userNo);
 	}
 
-	@Override // 페이징
+	@Override // 연차 사용대장 iframe
+	public List<LvUsedListDto> getAlvList(String userNo, PageVo pageVoAlv) throws Exception {
+		
+		return dao.getAlvList(userNo, pageVoAlv);
+	}
+
+	@Override // 연차 사용대장 페이징
 	public int getAlvRowCnt(String userNo) throws Exception {
 		return dao.getAlvRowCnt(userNo);
 	}
-
+	
 	@Override // 휴가 사용대장
-	public List<LvUsedListDto> getLvList(String userNo) throws Exception {
-		return dao.getLvList(userNo);
+	public List<LvUsedListDto> getLvListCalen(String userNo) throws Exception {
+		return dao.getLvListCalen(userNo);
+	}
+
+	@Override // 휴가 사용대장 iframe
+	public List<LvUsedListDto> getLvList(String userNo, PageVo pageVoLv) throws Exception {
+		return dao.getLvList(userNo, pageVoLv);
+	}
+
+	@Override // 휴가 사용대장 페이징
+	public int getLvRowCnt(String userNo) throws Exception {
+		return dao.getLvRowCnt(userNo);
 	}
 
 	@Override // 휴가 발생 페이지 휴가목록
@@ -90,6 +117,23 @@ public class LeaveServiceImpl implements LeaveService {
 	public int lvbDelete(LvInfoDto lvInfoDto) throws Exception {
 		return dao.lvbDelete(lvInfoDto);
 	}
+
+	@Override // 모든 사용자의 연차 내역가져오기
+	public List<UserDto> getAllUser() throws Exception {
+		return dao.getAllUser();
+	}
+
+	@Override // 발생내역 가져오기
+	public List<AlvOccurHistoryDto> getOccurHistory(String userNo) throws Exception {
+		return dao.getOccurHistory(userNo);
+	}
+
+	@Override // 연차 정산
+	public List<LvUsedListDto> getAlvUsageCal(String userNo) throws Exception {
+		return dao.getAlvUsageCal(userNo);
+	}
+
+
 
 	
 	

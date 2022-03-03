@@ -100,7 +100,8 @@
 			</div>
         	<div style="width: 45%; height: 100%; float: left;"></div>
         	<div style="width: 30%; height: 100%; float: left; text-align: right;">
-        		<input type="button" value="연차 신청" style="background-color: rgb(14, 104, 225); margin-right: 6px; font-weight: bold; color: white;">
+        		<!-- 사용가능한 연차가 없을 시 알림창 띄우고 leaveMain으로 돌아오기 -->
+        		<input type="button" onclick="location.href='${root}/ea/signup'" value="연차 신청" style="background-color: rgb(14, 104, 225); margin-right: 6px; font-weight: bold; color: white;">
         		<input type="button" onclick="location.href='${root}/ea/signup'" value="휴가 신청" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white;">
         	</div>
         </div>
@@ -157,23 +158,26 @@
           <div class="col-md-6 col-xl-12">
             <article class="stat-cards-item">
             
-              <div class="stat-cards-info">
-                <table class="table">
+                  
+              <div class="stat-cards-info" style="width: 100%">
+                <table class="table" style="width: 100%">
 				  <thead>
 				    <tr>
-				      <th scope="col">#</th>
-				      <th scope="col">First</th>
-				      <th scope="col">Last</th>
-				      <th scope="col">Handle</th>
+				      <th scope="col">발생명</th>
+				      <th scope="col">등록일</th>
+				      <th scope="col">발생일수</th>
+				      <th scope="col">내용</th>
 				    </tr>
 				  </thead>
 				  <tbody>
+				  <c:forEach items="${lvHistoryList}" var="lvHistoryList">
 				    <tr>
-				      <th scope="row">1</th>
-				      <td>Mark</td>
-				      <td>Otto</td>
-				      <td>@mdo</td>
+				      <td style="width: 15%">${lvHistoryList.lvName}</td>
+				      <td style="width: 15%">${lvHistoryList.alvOccurDate}</td>
+				      <td style="width: 15%">${lvHistoryList.alvOccurCount}</td>
+				      <td style="width: 12%">${lvHistoryList.alvOccurReason}</td>
 				    </tr>
+				  </c:forEach>
 				  </tbody>
 				</table>
               </div>

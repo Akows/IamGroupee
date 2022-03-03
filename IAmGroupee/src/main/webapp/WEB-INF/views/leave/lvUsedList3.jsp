@@ -11,7 +11,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UsedLeaveList</title>
   
-  <c:set var="root" value="${pageContext.request.contextPath}"/>
+  <style type="text/css">
+    #calendar .fc-day-sun {
+    color: red;
+	}
+    #calendar .fc-day-sat {
+    color: blue;
+	}
+  </style>
   
   <!-- Favicon -->
   <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
@@ -19,11 +26,11 @@
   <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
   <link rel='stylesheet' href='${root}/resources/css/sch/main.css' />
   <!-- calendar -->
-    <link href='${root}/resources/css/lv/main.min.css' rel='stylesheet' />
+   <%--  <link href='${root}/resources/css/lv/main.min.css' rel='stylesheet' />
     <script src='${root}/resources/js/lv/main.min.js'></script>
-    <script src='${root}/resources/js/lv/ko.js'></script>
+    <script src='${root}/resources/js/lv/ko.js'></script> --%>
     
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css"/>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
@@ -40,21 +47,21 @@
       
         <div class="row stat-cards" style="height: 100%;">
         
-          <div class="col-md-6 col-xl-5">
-	            
-    		<%@ include file="/WEB-INF/views/leave/lvUsedList1.jsp" %>
-    		<%@ include file="/WEB-INF/views/leave/lvUsedList2.jsp" %>
-	            
+          <div class="col-md-6 col-xl-5" style="height: 100%;">
+			 <iframe src="${root}/leave/alvUsedListIf" height="340px" width="100%" scrolling="no"></iframe>
+
+	         <iframe src="${root}/leave/lvUsedListIf" height="340px" width="100%" scrolling="no"></iframe>
           </div>
-        
+          
+          
           <div class="col-md-7 col-xl-7">
             <article class="stat-cards-item">
-            
     			<div id='calendar' style="width: 90%; margin: auto; text-align: center; margin-top: 10px;"></div>
-		    </article>
+		    </article>  
           </div>
         </div>
         
+      </div>
       </div>
       
     </main>
@@ -67,13 +74,12 @@
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            /* plugins: [ googleCalendarPlugin ], */
             initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
             googleCalendarApiKey: 'AIzaSyDYMx36O77hSRC2wnwmpzWJ6M2BJ_F8fek',
 			headerToolbar : { // 헤더에 표시할 툴 바
-				start : 'prev next',
+				start : 'today',
 				center : 'title',
-				end : 'today'
+				end : 'prev next'
 			},
 			titleFormat : function(date) {
 				return date.date.year + '년 ' + (parseInt(date.date.month) + 1) + '월';
@@ -86,7 +92,7 @@
             eventSources: [
 		         {
 		        	 googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
-		         	 className: '대한민국의 휴일',
+		         	 className: 'holiday',
          			 color : '#DD5246'
 		         }],
 		    events : [ 
