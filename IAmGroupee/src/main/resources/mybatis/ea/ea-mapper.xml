@@ -152,6 +152,25 @@
 		ORDER BY P.POSITION_LEVEL
 	</select>
 	
+	<!-- 기안 신청시 결재선번호 테이블 인서트 -->
+	<insert id="insertProcessNo" parameterType="com.kh.iag.ea.entity.ProcessDto">
+		INSERT INTO EA_PROCESS_NO
+		(
+			PROC_NO,
+			DOC_NO
+		)
+		VALUES
+		(
+			SEQ_EA_PROCESS_NO.NEXTVAL,
+			#{docNo}||SEQ_EA_DOC_NO.NEXTVAL
+		)
+	</insert>
+	
+	<!-- 기안 신청시 위에서 생성한 결재선번호 데이터 셀렉트 -->
+	<select id="selectProcessNo" resultType="com.kh.iag.ea.entity.ProcessDto">
+		SELECT PROC_NO, DOC_NO FROM (SELECT ROWNUM AS RNUM, p.* FROM (SELECT * FROM EA_PROCESS_NO ORDER BY PROC_NO DESC) p) WHERE RNUM = 1
+	</select>
+	
 	<!-- 기안 신청시 결재선 테이블 인서트 -->
 	<insert id="insertProcess" parameterType="com.kh.iag.ea.entity.ProcessDto">
 		INSERT INTO EA_PROCESS
@@ -159,14 +178,90 @@
 			PROC_NO,
 		    USER_NO,
 		    PROC_SEP,
-		    PROC_SEQ
+		    PROC_SEQ,
+		    PROC_CNT
 		)
 		VALUES
 		(
 			${procNo},
 			#{userNo},
 			${procSep},
-			${procSeq}
+			${procSeq},
+			${procCnt}
 		)
 	</insert>
+	
+	<!-- 기안 신청시 문서 테이블 인서트 -->
+	<insert id="insertDocument" parameterType="eadocs">
+		INSERT INTO EA_DOCUMENT
+		(
+			DOC_NO,
+			USER_NO,
+			FORM_NO,
+			PROC_NO,
+			DOC_TITLE,
+			DOC_CONTENT,
+			DOC_SLV,
+			DOC_MAKE,
+			DOC_CLOSE,
+			DOC_SEP
+		)
+		VALUES
+		(
+			#{docNo},
+			#{userNo},
+			${formNo},
+			${procNo},
+			#{docTitle},
+			#{docContent},
+			#{docSlv},
+			SYSDATE,
+			#{docClose},
+			'N'
+		)
+	</insert>
+	
+	<!-- 기안 작성시 참조자 테이블 인서트 -->
+	<insert id="insertRef" parameterType="com.kh.iag.ea.entity.RefDto">
+		INSERT INTO EA_REF
+		(
+			REF_NO,
+			DOC_NO
+		)
+		VALUES
+		(
+			#{refNo},
+			#{docNo}
+		)
+	</insert>
+	
+	<!-- 기안 작성시 작성한 문서 상세 페이지 문서 데이터 -->
+	<select id="selectDocument" parameterType="com.kh.iag.ea.entity.ProcessDto" resultType="eadocs">
+		SELECT D.*, U.NAME, P.POSITION_NAME, DP.DEPARTMENT_NAME, F.FORM_TITLE
+		FROM 
+		(
+			SELECT * FROM EA_DOCUMENT
+			WHERE DOC_NO = #{docNo}
+		) D
+		JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+		JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
+		JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+		JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+	</select>
+	
+	
+	<!-- 기안 작성시 작성한 문서 상세 페이지 결재선 데이터 -->
+	<select id="selectProcess" parameterType="com.kh.iag.ea.entity.ProcessDto" resultType="com.kh.iag.ea.entity.ProcessDto">
+		SELECT P.*, U.NAME, PS.POSITION_NAME, DP.DEPARTMENT_NAME
+		FROM 
+		(
+			SELECT * 
+			FROM EA_PROCESS
+			WHERE PROC_NO = ${procNo}
+			ORDER BY PROC_SEP
+		) P
+		JOIN IAG_USER U ON(P.USER_NO = U.USER_NO)
+		JOIN POSITION PS ON(U.POSITION_NO = PS.POSITION_NO)
+		JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+	</select>
 </mapper>

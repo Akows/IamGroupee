@@ -1,5 +1,6 @@
 package com.kh.iag.ea.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kh.iag.ea.admin.service.AdminEAService;
 import com.kh.iag.ea.entity.CategoryDto;
 import com.kh.iag.ea.entity.DeptDto;
+import com.kh.iag.ea.entity.DocsDto;
 import com.kh.iag.ea.entity.EAUserDto;
 import com.kh.iag.ea.entity.FormDto;
 import com.kh.iag.ea.entity.ProcessDto;
@@ -72,22 +74,44 @@ public class EAController {
 	}
 	// 기안신청 (처리)
 	@PostMapping(value = "/write")
-	public String write(@ModelAttribute SignupDto dto) throws Exception {
+	public String write(Model model, HttpSession session, @ModelAttribute SignupDto dto) throws Exception {
 		
 		log.info(dto.toString());
 		
 		// 결재선 번호 테이블 인서트(문서번호, 결재선번호)
-//		ProcessDto pd = service.insertProcessNo();
-				
-		// 결재선 번호 테이블 셀렉트(최신 데이터)
+		int result1 = service.insertProcessNo(session, dto);
+		
+		// 결재선 번호 테이블 셀렉트(위에서 인서트한 데이터)
+		ProcessDto pd = service.selectProcessNo();
 		
 		// 결재선 테이블 인서트 (결재자 수만큼)
-//		int result = service.insertProcess(dto);
-//		log.info("result :::" + result);
+		int result2 = service.insertProcess(dto, pd);
 		
 		// 문서 테이블 인서트
+		int result3 = service.insertDocument(dto, pd);
 		
 		// 참조자 테이블 인서트 
+		if(dto.getReferNo().length > 0) {			
+			int result4 = service.insertRef(dto, pd);
+		}
+		// addAttribute
+		// 문서 정보 문서 테이블
+		DocsDto doc = service.selectDocument(pd);
+		Date makeDate = doc.getDocMake();
+		Date closeDate = doc.getDocClose();
+		SimpleDateFormat ft = new SimpleDateFormat("yyyy. MM. dd.");
+		doc.setSimpleMakeDate(ft.format(makeDate));
+		doc.setSimpleCloseDate(ft.format(closeDate));
+		model.addAttribute("docInfo", doc);
+		
+		// 결재자 정보 결재선 테이블
+		List<ProcessDto> processList = service.selectProcess(pd);
+		model.addAttribute("processList", processList);
+		for(ProcessDto p : processList) {
+			log.info(p.toString());
+		}
+		
+		
 		
 		// 완료후 기안문서조회 상세 페이지로
 		return "ea/user/ea_signuplist_detail";
@@ -95,7 +119,18 @@ public class EAController {
 //---------------------------------------------------------------- 기안문서조회
 	// 기안문서조회 (리스트)
 	@GetMapping(value = "/signuplist")
-	public String signuplist() {
+	public String signuplist(HttpSession session) {
+		// 자신이 기안한 문서들 데이터
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		String userNo = loginUser.getUserNo();
+//		List<DocsDto> signupList = service.signupList(userNo);
+		
+		// 양식전체종류 데이터 (테이블헤더에 필요)
+		
+		// 진행단계 데이터 (테이블헤더에 필요)
+		
+		
+		
 		return "ea/user/ea_signuplist_list";
 	}
 	// 기안문서조회 (상세조회) -> PathValue사용해서 쿼리스트링 말고 "/" 문서번호구분으로 받아오기

@@ -15,5 +15,9 @@ public class SignupDto {
 	private String title;			// 제목
 	private String content;			// 문서내용
 	private String formNo;			// 양식번호
+	private String formTitle;
+	private String formYears;
+	private String categoryNo;
+	private String categoryName;
 	private String userNo;			// 작성자
 }
