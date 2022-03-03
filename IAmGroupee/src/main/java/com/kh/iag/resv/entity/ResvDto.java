@@ -16,6 +16,4 @@ public class ResvDto {
 	private Date ModDate;
 	private String returnYn;
 	
-	
-
 }

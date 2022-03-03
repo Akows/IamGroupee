@@ -12,10 +12,10 @@
 	<link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
 	
 	<style>
-		.hide
-		{
-		   display:none;
-		}
+	.hide
+	{
+		display:none;
+	}
 	</style>
 
 </head>
@@ -46,7 +46,9 @@
 				
 				<div class="card">
 					<div class="card-header">
-						<h3 class="card-title">회의실 목록 관리</h3>	
+						<h3 class="card-title">
+							<h3 class="card-title">회의실 목록 관리</h3>	
+						</h3>	
 					</div>
 
 					<div class="card-body">
@@ -74,59 +76,56 @@
 			$("#jsGrid1").jsGrid({
 				width: "100%",
 				height: "auto",
-			
-				filtering: true,
 				inserting:true,
 				editing: true,
 				sorting: true,
 				paging: true,
 				autoload: true,
-				pageSize: 10,
-				pageButtonCount: 5,	
-				
-				deleteConfirm: "선택한 자산을 정말 삭제하시겠습니까?",
-				
-				fields: [
-					{ name: "roomNo", type: "hidden",  css: 'hide'},
-					{ name: "roomName", type: "text", validate: "required", width: 150 },
-					{ name: "activateYn", type: "checkbox", width: 50 },
-					{ name: "createDate",type: "date", width: 150},
-					{ name: "modDate" ,type: "date", width: 150 },
-					{ name: "deleteYn",type: "checkbox", width: 50},
-					{ type: "control" ,width:"15%"}
-				],
-
+				deleteConfirm: function(item) {
+					return item.roomName + "을 정말 삭제하시겠습니까?"
+				},
+				fields: [ 
+					{	name: "roomNo", type: "hidden",  css: 'hide'},
+					{	name: "roomName", title:"회의실이름",type: "text", validate: "required", width: 100 },
+					{	name: "detail", title: "세부사항", type: "text", width: 150 },
+					{	name: "activateYn",title:"활성화",id:"check", type: "checkbox", width: 70 },
+					{	name: "reserved", title: "예약상태", readOnly: true, width: 70 , align:"center"},
+					{	name: "createDate", title: "생성일",type: "date", width: 100},
+					{	name: "modDate" ,title: "수정일",type: "date", width: 100 },
+					{ 	type: "control", width:50}
+				], 
 				controller:  {
-		            loadData: function(filter) {
-		                var d = $.Deferred();
-		                $.ajax({
-		                	contentType : "application/json; charset=UTF-8",
-		                	type: "GET",
-		                	url: "<%=request.getContextPath()%>/admin/resv/room",
-		                    dataType: "json",
-		                    data: filter
-		                }).done(function(response) {
-		                	if(response.status == "ok") {
-		                		d.resolve(response.data);	
-		                	}
-		                });
-		                return d.promise();
-		            }
+					loadData: function(filter) {
+						var d = $.Deferred();
+						$.ajax({
+						contentType : "application/json; charset=UTF-8",
+						type: "GET",
+						url: "<%=request.getContextPath()%>/admin/resv/room",
+							dataType: "json",
+							data: filter
+						}).done(function(response) {
+						if(response.status == "ok") {
+							$("#check").prop("checked", false);
+							d.resolve(response.data);	
+						}
+						});
+						return d.promise();
+					}
 					,insertItem: function(item) {
-		                return $.ajax({
-		                	contentType : "application/json; charset=UTF-8",
-		                	type: "POST",
-		                    url: "<%=request.getContextPath()%>/admin/resv/room",
-		                    dataType: "json",
-		                    data: JSON.stringify(item)
-		                }).done(function(response) {
-		                	if(response.status == "ok") {
-		                		alert("등록되었습니다.");
-		                		location.reload();
-		                	}
-		                });
-		            }
-		            ,updateItem: function(item) {
+						return $.ajax({
+							contentType : "application/json; charset=UTF-8",
+							type: "POST",
+							url: "<%=request.getContextPath()%>/admin/resv/room",
+							dataType: "json",
+							data: JSON.stringify(item)
+						}).done(function(response) {
+							if(response.status == "ok") {
+								alert("등록되었습니다.");
+								location.reload();
+							}
+						});
+					}
+					,updateItem: function(item) {
 		                return $.ajax({
 		                	contentType : "application/json; charset=UTF-8",
 		                	type: "POST",
@@ -140,65 +139,111 @@
 		                	}
 		                });
 		            }
+					,deleteItem: function(item) {
+						return $.ajax({
+							contentType : "application/json; charset=UTF-8",
+							type: "PUT",
+							url: "<%=request.getContextPath()%>/admin/resv/room/"+item.roomNo,
+							dataType: "json",
+							data: item
+						}).done(function(response) {
+							if(response.status == "ok") {
+								alert("삭제되었습니다.");
+								location.reload();
+							}
+						});
+					}
+            
+				}	
+			});
+
+			$("#jsGrid2").jsGrid({
+				width: "100%",
+				height: "auto",
+				inserting:true,
+				editing: true,
+				sorting: true,
+				paging: true,
+				autoload: true,
+				deleteConfirm: function(item) {
+					return item.roomName + "을 정말 삭제하시겠습니까?"
+				},
+				fields: [ 
+					{	name: "assetNo", type: "hidden",  css: 'hide'},
+					{	name: "assetName", title:"자산이름",type: "text", validate: "required", width: 100 },
+					{	name: "detail", title: "세부사항", type: "text", width: 150 },
+					{	name: "activateYn",title:"활성화",id:"check", type: "checkbox", width: 70 },
+					{	name: "reserved", title: "예약상태", readOnly: true, width: 70 , align:"center"},
+					{	name: "createDate", title: "생성일",type: "date", width: 100},
+					{	name: "modDate" ,title: "수정일",type: "date", width: 100 },
+					{ 	type: "control", width:50}
+				], 
+				controller:  {
+					loadData: function(filter) {
+						var d = $.Deferred();
+						$.ajax({
+						contentType : "application/json; charset=UTF-8",
+						type: "GET",
+						url: "<%=request.getContextPath()%>/admin/resv/asset",
+							dataType: "json",
+							data: filter
+						}).done(function(response) {
+						if(response.status == "ok") {
+							$("#check").prop("checked", false);
+							d.resolve(response.data);	
+						}
+						});
+						return d.promise();
+					}
+					,insertItem: function(item) {
+						return $.ajax({
+							contentType : "application/json; charset=UTF-8",
+							type: "POST",
+							url: "<%=request.getContextPath()%>/admin/resv/asset",
+							dataType: "json",
+							data: JSON.stringify(item)
+						}).done(function(response) {
+							if(response.status == "ok") {
+								alert("등록되었습니다.");
+								location.reload();
+							}
+						});
+					}
 					,updateItem: function(item) {
 		                return $.ajax({
 		                	contentType : "application/json; charset=UTF-8",
-		                	type: "PUT",
-		                    url: "<%=request.getContextPath()%>/admin/resv/room/"+item.roomNo,
+		                	type: "POST",
+		                    url: "<%=request.getContextPath()%>/admin/resv/asset/"+item.assetNo,
 		                    dataType: "json",
-							data: item
+		                    data: JSON.stringify(item)
 		                }).done(function(response) {
 		                	if(response.status == "ok") {
-								alert("삭제되었습니다.");
+		                		alert("수정되었습니다.");
 		                		location.reload();
 		                	}
 		                });
 		            }
-				}
-			});
-
-
-			$("#jsGrid2").jsGrid({
-					width: "100%",
-					height: "auto",
-			
-					inserting: true,
-					editing: true,
-					sorting: true,
-					paging: true,
-					autoload: true,
-					
-					deleteConfirm: "선택한 자산을 정말 삭제하시겠습니까?",
-			
-					fields: [
-						{ name: "assetName", type: "text", width: 150 },
-						{ name: "activateYn", type: "checkbox",title: "활성화", width: 50 },
-						{ name: "createDate", type: "date", width: 150 },
-						{ name: "modDate", type: "date", width: 150 },
-						{ type: "control" , width:"15%"}
-					],
-					
-					controller:  {
-			            loadData: function(filter) {
-			                var d = $.Deferred();
-			                $.ajax({
-			                	contentType : "application/json; charset=UTF-8",
-			                	type: "GET",
-			                	url: "<%=request.getContextPath()%>/admin/resv/asset",
-			                    dataType: "json",
-			                    data: filter
-			                }).done(function(response) {
-			                	if(response.status == "ok") {
-			                		d.resolve(response.data);	
-			                	}
-			                });
-			                return d.promise();
-			            }
+					,deleteItem: function(item) {
+						return $.ajax({
+							contentType : "application/json; charset=UTF-8",
+							type: "PUT",
+							url: "<%=request.getContextPath()%>/admin/resv/asset/"+item.assetNo,
+							dataType: "json",
+							data: item
+						}).done(function(response) {
+							if(response.status == "ok") {
+								alert("삭제되었습니다.");
+								location.reload();
+							}
+						});
 					}
+            
+				}	
 			});
-	
-		});
 
+
+    });
+ 
 	</script>
 
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
@@ -209,9 +254,9 @@
 	<!-- jsGrid -->
 	<link rel="stylesheet" href="${root}/resources/plugins/jsgrid/jsgrid.min.css">
 	<link rel="stylesheet" href="${root}/resources/plugins/jsgrid/jsgrid-theme.min.css">
-	
-	<%-- <script src="${root}/resources/js/resv/jsGrid.js"></script> --%>
 	<script src="${root}/resources/plugins/jsgrid/jsgrid.min.js"></script>
+	
 
+	
 </body>
 </html>

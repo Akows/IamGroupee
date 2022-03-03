@@ -1,17 +1,18 @@
 package com.kh.iag.resv.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -42,16 +43,14 @@ public class ResvMgtController {
 	@GetMapping(value = "/room", produces = "application/json")
     public Object rList(Model model, @RequestParam Map<String , String> filter) throws Exception {
 		
-		JsonResult room =  new JsonResult();
-		
+		JsonResult result =  new JsonResult();
 		try{
-			room.setStatus("ok");
-			room.setData(service.getRoomList(filter));
-			System.out.println(room);
+			result.setStatus("ok");
+			result.setData(service.getRoomList(filter));
 		}catch(Exception e){
 			    e.printStackTrace();
 		}finally{
-			return room;
+			return result;
 		}
     }
 	
@@ -61,29 +60,37 @@ public class ResvMgtController {
     @GetMapping(value = "/asset", produces = "application/json")
     public Object aList(Model model, @RequestParam Map<String , String> filter) throws Exception {
 		
-		JsonResult asset =  new JsonResult();
+		JsonResult result =  new JsonResult();
 		
 		try{
-			asset.setStatus("ok");
-			asset.setData(service.getAssetList(filter));
+			result.setStatus("ok");
+			result.setData(service.getAssetList(filter));
 		}catch(Exception e){
 			    e.printStackTrace();
 		}finally{
-			return asset;
+			return result;
 		}
     }
 
 	//자산 추가
 	@SuppressWarnings("finally")
 	@ResponseBody
-    @PostMapping(value = "/room", produces = "application/json")
+    @RequestMapping(value = "/room", produces = "application/json", method = RequestMethod.POST)
     public Object rInsert(Model model, @RequestBody RoomDto dto) throws Exception {
 		JsonResult result =  new JsonResult();
-		
+
+		if(dto.getActivateYn() == "true") {
+			dto.setActivateYn("Y");	
+			dto.setReserved("N");
+		}else {
+			dto.setActivateYn("N");
+			dto.setReserved("N");
+		}
+
+		System.out.println(dto);
 		try{
 			service.insertRoom(dto);
 			result.setStatus("ok");
-			System.out.println("추가 :::::::::" + result);
 		}catch(Exception e){
 			    e.printStackTrace();
 		}finally{
@@ -95,6 +102,14 @@ public class ResvMgtController {
     @PostMapping(value = "/asset", produces = "application/json")
     public Object aInsert(Model model, @RequestBody AssetDto dto) throws Exception {
 		JsonResult result =  new JsonResult();
+		
+		if(dto.getActivateYn() == "true") {
+			dto.setActivateYn("Y");	
+			dto.setReserved("N");
+		}else {
+			dto.setActivateYn("N");
+			dto.setReserved("N");
+		}
 		
 		try{
 			service.insertAsset(dto);
@@ -109,15 +124,21 @@ public class ResvMgtController {
 	//자산 수정
 	@SuppressWarnings("finally")
 	@ResponseBody
-    @PostMapping(value = "/room/{roomNo}", produces = "application/json")
+    @PostMapping(value = "room/{roomNo}", produces = "application/json")
     public Object rUpdate(Model model, @PathVariable int roomNo, @RequestBody RoomDto dto) throws Exception {
 		JsonResult result =  new JsonResult();
 		
-		System.out.println(roomNo);
+		if(dto.getActivateYn() == "true") {
+			dto.setActivateYn("Y");	
+			dto.setReserved("N");
+		}else {
+			dto.setActivateYn("N");
+			dto.setReserved("N");
+		}
+		
 		try{
 			service.updateRoom(dto);
 			result.setStatus("ok");
-			System.out.println("수정 :::::::::" + result);
 		}catch(Exception e){
 			    e.printStackTrace();
 		}finally{
@@ -126,9 +147,17 @@ public class ResvMgtController {
     }
 	@SuppressWarnings("finally")
 	@ResponseBody
-    @PostMapping(value = "/asset/{assetNo}", produces = "application/json")
+    @PostMapping(value = "asset/{assetNo}", produces = "application/json")
     public Object aUpdate(Model model, @PathVariable int assetNo, @RequestBody AssetDto dto) throws Exception {
 		JsonResult result =  new JsonResult();
+		
+		if(dto.getActivateYn() == "true") {
+			dto.setActivateYn("Y");	
+			dto.setReserved("N");
+		}else {
+			dto.setActivateYn("N");
+			dto.setReserved("N");
+		}
 		
 		try{
 			service.updateAsset(dto);
@@ -143,14 +172,14 @@ public class ResvMgtController {
 	//자산삭제
 	@SuppressWarnings("finally")
 	@ResponseBody
-    @PutMapping(value = "/room/{roomNo}", produces = "application/json")
+    @PutMapping(value = "room/{roomNo}", produces = "application/json")
     public Object rDelete(Model model, @PathVariable int roomNo) throws Exception {
 		JsonResult result =  new JsonResult();
 		
 		try{
 			service.deleteRoom(roomNo);
+			System.out.println(roomNo);
 			result.setStatus("ok");
-			System.out.println("삭제 :::::::::" + result);
 		}catch(Exception e){
 			    e.printStackTrace();
 		}finally{
@@ -160,7 +189,7 @@ public class ResvMgtController {
 	
 	@SuppressWarnings("finally")
 	@ResponseBody
-    @PutMapping(value = "/asset/{assetNo}", produces = "application/json")
+    @PutMapping(value = "asset/{assetNo}", produces = "application/json")
     public Object aDelete(Model model, @PathVariable int assetNo) throws Exception {
 		JsonResult result =  new JsonResult();
 		
