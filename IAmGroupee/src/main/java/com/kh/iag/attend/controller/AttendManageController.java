@@ -28,17 +28,4 @@ public class AttendManageController
 		
 		return "attend/attendmanage";
 	}
-	
-//	@GetMapping("/attachfile")
-//	public String attachfile(Model model, HttpServletRequest req) throws Exception 
-//	{
-//		List<AttendModDTO> getfile = service.getfile();
-//		
-//		//mod num과 파일 이름이 필요함
-//
-//		
-//		
-//		return "attend/attendmanage";
-//	}
-
 }

@@ -69,9 +69,15 @@ public class AttendDAOImpl implements AttendDAO
 	}
 
 	@Override
-	public List<AttendModDTO> getFile() throws Exception 
+	public List<AttendModDTO> getFile(String searchKey) throws Exception 
 	{
-		return ss.selectList("attend.getFile");
+		return ss.selectList("attend.getFile", searchKey);
+	}
+
+	@Override
+	public AttendModDTO downloadFile(String attach_file) 
+	{
+		return ss.selectOne("attend.downFile", attach_file);
 	}
 
 

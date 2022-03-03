@@ -77,6 +77,11 @@
 			                    </span>
                             </td>
 						</tr>
+
+						<form action="attachfile" method="get" id="autoform">
+                			<input type="hidden" name="attend_mod_num" value="${modlist.attend_mod_num}">
+		                </form>
+						
 					</c:forEach>
                 </tbody>
                 
@@ -93,6 +98,7 @@
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 <script type="text/javascript">
+
 	<!-- 오늘 날짜 계산하는 스크립트 -->
 	let today = new Date();
 	let year = today.getFullYear(); 
@@ -114,6 +120,24 @@
 		window.open(url, name, specs);
     };
 
+    <!-- form을 자동으로 submit하는 스크립트 -->
+    document.getElementById('autoform').submit(); 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <!-- ajax에서 컨트롤러로 넘어가는 스크립트? (오류 확인됨) -->
 	function test() 
 	{

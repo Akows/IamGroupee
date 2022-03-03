@@ -82,8 +82,8 @@ public class attendServiceImpl implements attendService
 	}
 
 	@Override
-	public List<AttendModDTO> getFile() throws Exception 
+	public List<AttendModDTO> getFile(String searchKey) throws Exception 
 	{
-		return attendDAO.getFile();
+		return attendDAO.getFile(searchKey);
 	}
 }

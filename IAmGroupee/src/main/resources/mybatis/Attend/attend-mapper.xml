@@ -110,7 +110,7 @@
 	  	<update id="modfilereq" parameterType="attendancemod">
 	  		UPDATE ATTENDANCEMODIFY
 	   		SET ATTACH_FILE = #{attach_file}
-	   		WHERE ATTACH_FILE = '첨부파일 없음'
+	   		WHERE ATTEND_MOD_NUM = #{attend_mod_num}
 	  	</update>
   	
   	
@@ -136,9 +136,14 @@
 		<select id="getFile" resultType="attendancemod" resultMap="attendmodrm">
 			SELECT ATTEND_MOD_NUM, ATTACH_FILE
 			FROM ATTENDANCEMODIFY
-			WHERE ATTEND_MOD_NUM = '2'
+			WHERE ATTEND_MOD_NUM = #{attend_mod_num}
 		</select>
 
+		<select id="downFile" resultType="attendancemod" resultMap="attendmodrm">
+			SELECT *
+			FROM ATTENDANCEMODIFY
+			WHERE ATTACH_FILE = #{attach_file}
+		</select>
   	
   	
   	
