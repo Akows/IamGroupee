@@ -4,8 +4,8 @@
 }
 
 .box {
-    width: 150px;
-    height: 150px; 
+    width: 200px;
+    height: 200px; 
     border-radius: 70%;
     overflow: hidden;
     background-color: #BDBDBD;
@@ -18,4 +18,8 @@
 
 #fileUpload {
 	display: none;
+}
+
+#profile:hover {
+	cursor: pointer;
 }
