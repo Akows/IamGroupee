@@ -105,8 +105,8 @@
 			                <table class="table" style="text-align: center;">
 			                  <thead>
 			                    <tr>
-			                      <th style="width: 30%">휴가 종류</th>
-			                      <th style="width: 40%">사용 날짜</th>
+			                      <th style="width: 25%">휴가 종류</th>
+			                      <th style="width: 45%">사용 날짜</th>
 			                      <th style="width: 30%">세부 내용</th>
 			                    </tr>
 			                  </thead>

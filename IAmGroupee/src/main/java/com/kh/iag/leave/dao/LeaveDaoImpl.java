@@ -136,8 +136,8 @@ public class LeaveDaoImpl implements LeaveDao {
 	}
 
 	@Override
-	public UserDto getThisUser(String userNo) throws Exception {
-		return session.selectOne("leave.getThisUser", userNo);
+	public List<UserDto> getThisUser(String userNo) throws Exception {
+		return session.selectList("leave.getThisUser", userNo);
 	}
 
 	

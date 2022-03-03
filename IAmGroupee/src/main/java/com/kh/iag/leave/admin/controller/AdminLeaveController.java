@@ -1,5 +1,6 @@
 package com.kh.iag.leave.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,25 +28,38 @@ public class AdminLeaveController {
 	
 //============================= 관리자 메뉴 =============================	
 	
-	@GetMapping("main") // 관리 메인
-	public String main(Model model) throws Exception {
-		// 모든 사원의 정보 불러오기
-		List<UserDto> allUserList = service.getAllUser();
-		// 총연차개수 set해주기
-		for (UserDto userDto : allUserList) {
-			int alvTotalCount = userDto.getAlvCount() + userDto.getAlvAddCount();
-			userDto.setAlvTotalCount(alvTotalCount);
+	@RequestMapping("main") // 관리 메인 +  조정연차를 부여해줄 사원 찾기
+	public String main(String searchByUserNo, Model model) throws Exception {
+		List<UserDto> allUserList = new ArrayList<UserDto>();
+		if (searchByUserNo == null) {
+			// 모든 사원의 정보 불러오기
+			allUserList = service.getAllUser();
+			// 총연차개수 set해주기
+			for (UserDto userDto : allUserList) {
+				int alvTotalCount = userDto.getAlvCount() + userDto.getAlvAddCount();
+				userDto.setAlvTotalCount(alvTotalCount);
+			}
+		} else {
+			// 해당 사원의 정보 불러오기
+			allUserList = service.getThisUser(searchByUserNo);
+			// 총연차개수 set해주기
+			for (UserDto userDto : allUserList) {
+				int alvTotalCount = userDto.getAlvCount() + userDto.getAlvAddCount();
+				userDto.setAlvTotalCount(alvTotalCount);
+			}
 		}
+		
 		model.addAttribute("allUserList", allUserList);
 		return "leave/lvAdmin/adminLeaveMain";
 	}
 	
-	@PostMapping("searchUser") // 조정연차를 부여해줄 사원 찾기
-	public String searchUser(String searchByUserNo, Model model) throws Exception {
-		// 해당 사원의 정보 불러오기
-		UserDto allUserList = service.getThisUser(searchByUserNo);
-
-		model.addAttribute("allUserList", allUserList);
+	@PostMapping("alvAddUpdate")
+	public String alvAddUpdate(int alvOccurCount, String userNo, String alvOccurReason) throws Exception {
+		// iag_user addAlvCount에 update +=
+//			service.iagAddAlvCount(alvOccurCount,userNo);
+		// alv_occur_history에 insert
+		
+		
 		return "redirect:/admin/leave/main";
 	}
 	

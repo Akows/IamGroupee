@@ -23,7 +23,7 @@ public class LeaveServiceImpl implements LeaveService {
 	private LeaveDao dao;
 	
 	@Override // 로그인유저정보
-	public UserDto getThisUser(String userNo) throws Exception {
+	public List<UserDto> getThisUser(String userNo) throws Exception {
 		return dao.getThisUser(userNo);
 	}
 	

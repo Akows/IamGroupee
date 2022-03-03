@@ -53,7 +53,7 @@ public interface LeaveService {
 
 	List<LvUsedListDto> getAlvUsageCal(String userNo) throws Exception;
 
-	UserDto getThisUser(String userNo) throws Exception;
+	List<UserDto> getThisUser(String userNo) throws Exception;
 
 
 }
