@@ -144,21 +144,33 @@
   position: relative;
   float: left;
 }
+.ea_signuplist_detail_contents > div:nth-child(1) > table > * > * > * {
+  border: 1px solid #262626;
+  background: #fff;
+  padding: 3px;
+  text-align: center;
+  overflow: hidden;
+}
 .ea_signuplist_detail_contents > div:nth-child(1) > table {
-  font-style: italic;
   float: left;
   margin: 20px;
+  width: 300px;
+}
+.ea_signuplist_detail_contents > div:nth-child(1) > table th {
+  background: gray;
 }
 .ea_signuplist_detail_contents > div:nth-child(2) > table {
   float: right;
   margin: 20px;
-  width: 300px;
   height: 100px;
   text-align: center;
 }
 .ea_signuplist_detail_contents > div:nth-child(2) > table > * > * > * {
   border: 1px solid #262626;
   background: #fff;
+  padding: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 .ea_signuplist_detail_contents > div:nth-child(2) th {
   background: gray;
@@ -231,4 +243,46 @@
   background: #4081e4;
   color: #fff;
   border-radius: 5px;
+}
+span[id^="stamp"] {
+  font-size: 12px;
+  color: #fff;
+  padding: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-radius: 50%;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px #262626;
+}
+#stamp1 {
+  background: #31ac0b;
+}
+#stamp2 {
+  background: #d403e7;
+  animation: stamp2 6s infinite linear;
+}
+#stamp3 {
+  background: #e00909;
+  animation: stamp3 6s infinite linear;
+}
+#stamp4 {
+  background: #110ec5;
+  animation: stamp4 6s infinite linear;
+}
+#waitApprv {
+  font-size: 13px;
+  border: 2px solid #262626;
+  padding: 2px;
+  text-shadow: 0.5px 0.5px 0.5px gray;
+}
+@keyframes stamp2 {
+  0% {
+    background: rgb(255, 0, 0);
+  }
+  30% {
+    background: rgb(0, 255, 0);
+  }
+  80% {
+    background: rgb(0, 0, 255);
+  }
 }
