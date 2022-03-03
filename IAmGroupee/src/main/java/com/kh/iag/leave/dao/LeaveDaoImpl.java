@@ -1,16 +1,24 @@
 package com.kh.iag.leave.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.iag.leave.entity.AlvOccurHistoryDto;
 import com.kh.iag.leave.entity.LeaveDto;
 import com.kh.iag.leave.entity.LvInfoDto;
 import com.kh.iag.leave.entity.LvUsedListDto;
+import com.kh.iag.leave.entity.PageVo;
+import com.kh.iag.user.entity.UserDto;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
+@Slf4j
 public class LeaveDaoImpl implements LeaveDao {
 	
 	@Autowired
@@ -20,20 +28,41 @@ public class LeaveDaoImpl implements LeaveDao {
 	public List<LvUsedListDto> getAllUsage(String userNo) throws Exception {
 		return session.selectList("leave.getAllUsage", userNo);
 	}
-
+	
 	@Override
-	public List<LvUsedListDto> getAlvList(String userNo) throws Exception {
-		return session.selectList("leave.getAlvList", userNo);
+	public List<LvUsedListDto> getAlvListCalen(String userNo) throws Exception {
+		return session.selectList("leave.getAlvListCalen", userNo);
+	}
+	
+	@Override
+	public List<LvUsedListDto> getLvListCalen(String userNo) throws Exception {
+		return session.selectList("leave.getLvListCalen", userNo);
 	}
 
 	@Override
-	public List<LvUsedListDto> getLvList(String userNo) throws Exception {
-		return session.selectList("leave.getLvList", userNo);
+	public List<LvUsedListDto> getAlvList(String userNo, PageVo pageVoAlv) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+        map.put("userNo", userNo);
+        map.put("pageVoAlv", pageVoAlv);
+		return session.selectList("leave.getAlvList", map);
+	}
+
+	@Override
+	public List<LvUsedListDto> getLvList(String userNo, PageVo pageVoLv) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+        map.put("userNo", userNo);
+        map.put("pageVoAlv", pageVoLv);
+		return session.selectList("leave.getLvList", map);
 	}
 
 	@Override
 	public int getAlvRowCnt(String userNo) throws Exception {
 		return session.selectOne("leave.getAlvRowCnt", userNo);
+	}
+	
+	@Override
+	public int getLvRowCnt(String userNo) throws Exception {
+		return session.selectOne("leave.getLvRowCnt", userNo);
 	}
 
 	@Override
@@ -89,6 +118,26 @@ public class LeaveDaoImpl implements LeaveDao {
 	@Override
 	public int lvbDelete(LvInfoDto lvInfoDto) throws Exception {
 		return session.update("leave.lvbDelete", lvInfoDto);
+	}
+
+	@Override
+	public List<UserDto> getAllUser() throws Exception {
+		return session.selectList("leave.getAllUser");
+	}
+
+	@Override
+	public List<AlvOccurHistoryDto> getOccurHistory(String userNo) throws Exception {
+		return session.selectList("leave.getOccurHistory", userNo);
+	}
+
+	@Override
+	public List<LvUsedListDto> getAlvUsageCal(String userNo) throws Exception {
+		return session.selectList("leave.getAlvUsageCal", userNo);
+	}
+
+	@Override
+	public UserDto getThisUser(String userNo) throws Exception {
+		return session.selectOne("leave.getThisUser", userNo);
 	}
 
 	

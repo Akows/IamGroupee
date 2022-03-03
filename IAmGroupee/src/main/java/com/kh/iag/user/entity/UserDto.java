@@ -26,6 +26,8 @@ public class UserDto {
 	private int alvCount;	
 	private float alvUsedCount;	
 	private float alvLeftCount;	
+	private int alvAddCount;	
+	private int alvTotalCount;	
 	private String personnelRight;	
 	private String paymentRight;	
 	private String leaveRight;	

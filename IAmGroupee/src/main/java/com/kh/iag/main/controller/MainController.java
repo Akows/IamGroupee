@@ -11,10 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.kh.iag.leave.service.LeaveService;
 import com.kh.iag.login.service.LoginService;
 import com.kh.iag.login.vo.CheckedVo;
 import com.kh.iag.user.entity.UserDto;
@@ -27,6 +29,9 @@ public class MainController {
 	
 	@Autowired
 	private LoginService service;
+	
+	@Autowired
+	private LeaveService leaveService;
 	
 	// 로그인 화면
 	@GetMapping("login")
@@ -174,24 +179,213 @@ public class MainController {
 	
 	// 메인으로
 	@GetMapping("main")
-	public String main(HttpSession session, HttpServletRequest request) {
+	public String main(HttpSession session, HttpServletRequest request) throws Exception {
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		
+		/** // 연차로직 잠시 주석ㄱ
+		
+		
+		String userNo = loginUser.getUserNo();
 //		============입사일 기준 연차 발생
 		// 입사일의 월일
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-M-d");
 		Calendar today = Calendar.getInstance(); 
-		String todayDate = format.format(today.getTime()); // 오늘 날짜
-		String enrollDate = String.valueOf(format.format(loginUser.getEnrollDate())); // 입사일"yyyy-M-d"
-		// 조건1. 
+		String todayDate = format.format(today.getTime()); // 오늘 날짜"yyyy-M-d"
+		String enrollDate = String.valueOf(format.format(loginUser.getEnrollDate())); // 입사 날짜"yyyy-M-d"
+		String enrollMonth = String.valueOf(format.format(loginUser.getEnrollDate())).substring(5, 5); // 입사월"M"
+		int month = Integer.parseInt(enrollMonth);
+		String enrollDay = String.valueOf(format.format(loginUser.getEnrollDate())).substring(6);; // 입사일"-d"
+		
+//		=== 임시로직 === 사원의 근속일수 데이터 채우기 (근태 도메인 구현 완료 시 수정 및 삭제)
+		
+		
+		
+		
+		
+		
+		//연차발생로직 시작
+		String returnUrl = "";
+		
+		// 조건1. 현재날짜 - 입사일 ==> 1년 미만/이상
+		Calendar getToday = Calendar.getInstance();
+		getToday.setTime(new Date()); //금일 날짜
+		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(enrollDate);
+		Calendar cmpDate = Calendar.getInstance();
+		cmpDate.setTime(date); //특정 일자
+		
+		long diffDays = ((getToday.getTimeInMillis() - cmpDate.getTimeInMillis()) / 1000) / (24*60*60); //일자수 차이
+		
+		System.out.println(diffDays + "일 차이");
+		
+		if (diffDays >= 365) {
+			// 1년 이상 ==> 전년도 근속일수 80%이상/미만
+			int result = leaveService.checkOverEighty(userNo);
+			
+			if (result == 1) { // 80% 이상 -> 조건2
+				// 조건2. 연차조건
+				returnUrl = conditionAlv(enrollDate, todayDate, userNo);
+				return returnUrl;
+				
+			} else { // 80% 미만 -> 조건3
+				// 조건3. 월차조건
+				returnUrl = conditionMlv(enrollDay, todayDate, userNo, month);
+				return returnUrl;
+			}
+			
+		} else { // 1년 미만 -> 조건3
+			// 조건3. 월차조건
+			returnUrl = conditionMlv(enrollDay, todayDate, userNo, month);
+			
+//			return returnUrl;
+		}
+		
+		**/ // 연차로직 잠시 주석ㄱ
+		
 		return "mainPage";
 	}
+	
+	
+
+	/** // 연차로직 잠시 주석ㄱ
+	
+	
+	// 조건2. 연차조건
+	public String conditionAlv(String enrollDate, String todayDate, String userNo) {
+		String returnUrl = "";
+		// 오늘 발생한 연차가 있는지 (없어야한다)
+		int occurToday = leaveService.checkOccurAlvToday(userNo);
+
+		if (todayDate.equals(enrollDate) && occurToday == 0) {
+			int result = leaveService.addAlvCount(userNo);
+			
+			if (result > 0) {
+				returnUrl = "mainPage";
+			} else {
+				returnUrl = "common/error/wrongRight";
+			}
+		}
+		return returnUrl;
+	}
+
+	// 조건3. 월차조건
+	public String conditionMlv(String enrollDay, String todayDate, String userNo, int month) {
+		String returnUrl = "";
+
+		switch (month) {
+		case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10:
+			for (int i = 1; i < 12 - month; i++) {
+				String dueDate = (month + i) + enrollDay;
+				returnUrl = checkPossibility(dueDate, todayDate, userNo);
+			}
+			for (int i = month - 1; i > 0; i--) {
+				String dueDate = (month - i) + enrollDay;
+				returnUrl = checkPossibility(dueDate, todayDate, userNo);
+			}
+			break;
+			
+		case 1:
+			for (int i = 1; i < 12 - month; i++) {
+				String dueDate = (month + i) + enrollDay;
+				returnUrl = checkPossibility(dueDate, todayDate, userNo);
+			}
+			break;
+			
+		case 2:
+			for (int i = 1; i < 12 - month; i++) {
+				String dueDate = (month + i) + enrollDay;
+				returnUrl = checkPossibility(dueDate, todayDate, userNo);
+			}
+			if (todayDate.equals("1"+enrollDay)) {
+				// 오늘 발생한 월차가 있는지 (없어야한다)
+				int occurToday = leaveService.checkOccurMlvToday(userNo);
+				// 이전 달에 개근을 했는지 (했어야한다)
+				int attendAll = leaveService.checkAttendAll(userNo);
+				
+				if (occurToday == 0 && attendAll == 1) {
+					// 로그인 유저의 총월차개수 update +1
+					int result = leaveService.addMlvCount(userNo);
+					
+					if (result > 0) {
+						returnUrl = "mainPage";
+					}else {
+						returnUrl = "common/error/wrongRight";
+					}
+				}
+			}
+			break;
+			
+		case 11:
+			for (int i = month - 1; i > 0; i--) {
+				String dueDate = (month - i) + enrollDay;
+				returnUrl = checkPossibility(dueDate, todayDate, userNo);
+			}
+			if (todayDate.equals("12"+enrollDay)) {
+				// 오늘 발생한 월차가 있는지 (없어야한다)
+				int occurToday = leaveService.checkOccurMlvToday(userNo);
+				// 이전 달에 개근을 했는지 (했어야한다)
+				int attendAll = leaveService.checkAttendAll(userNo);
+				
+				if (occurToday == 0 && attendAll == 1) {
+					// 로그인 유저의 총월차개수 update +1
+					int result = leaveService.addMlvCount(userNo);
+					
+					if (result > 0) {
+						returnUrl = "mainPage";
+					}else {
+						returnUrl = "common/error/wrongRight";
+					}
+				}
+			}
+			break;
+			
+		case 12:
+			for (int i = month - 1; i > 0; i--) {
+				String dueDate = (month - i) + enrollDay;
+				returnUrl = checkPossibility(dueDate, todayDate, userNo);
+			}
+			break;
+		}
+		return returnUrl;
+	}
+	
+	
+	// 월차가 발생할 수 있는 조건인지 체크해주는 메소드
+	public String checkPossibility(String dueDate, String todayDate, String userNo) {
+		
+		String returnUrl = "";
+		if (todayDate.equals(dueDate)) {
+			// 오늘 발생한 월차가 있는지 (없어야한다)
+			int occurToday = leaveService.checkOccurMlvToday(userNo);
+			// 이전 달에 개근을 했는지 (했어야한다)
+			int attendAll = leaveService.checkAttendAll(userNo);
+			
+			if (occurToday == 0 && attendAll == 1) {
+				// 로그인 유저의 총월차개수 update +1
+				int result = leaveService.addMlvCount(userNo);
+				
+				if (result > 0) {
+					returnUrl = "mainPage";
+				}else {
+					returnUrl = "common/error/wrongRight";
+				}
+			}
+		}
+		
+		return returnUrl;
+	}
+		
+	
+	
+	**/ // 연차로직 잠시 주석ㄱ
 	
 	
 	// 관리자 권한이 없을 시
 	@GetMapping("wrongRight")
 	public String main2() {
-		
-		return "common/error/wrongRight";
+
+		String returnUrl = "common/error/wrongRight";
+//		return "common/error/wrongRight";
+		return returnUrl;
 	}
 	
 }

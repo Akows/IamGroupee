@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kh.iag.leave.entity.LeaveDto;
 import com.kh.iag.leave.entity.LvInfoDto;
 import com.kh.iag.leave.service.LeaveService;
+import com.kh.iag.user.entity.UserDto;
 
 @Controller
 @RequestMapping("admin/leave")
@@ -27,13 +28,25 @@ public class AdminLeaveController {
 //============================= 관리자 메뉴 =============================	
 	
 	@GetMapping("main") // 관리 메인
-	public String main() {
+	public String main(Model model) throws Exception {
+		// 모든 사원의 정보 불러오기
+		List<UserDto> allUserList = service.getAllUser();
+		// 총연차개수 set해주기
+		for (UserDto userDto : allUserList) {
+			int alvTotalCount = userDto.getAlvCount() + userDto.getAlvAddCount();
+			userDto.setAlvTotalCount(alvTotalCount);
+		}
+		model.addAttribute("allUserList", allUserList);
 		return "leave/lvAdmin/adminLeaveMain";
 	}
 	
-	@GetMapping("usAlvAD") // 사원 연차 관리 (JSP없음)
-	public String usAlvAD() {
-		return "leave/lvAdmin/usAlvAD";
+	@PostMapping("searchUser") // 조정연차를 부여해줄 사원 찾기
+	public String searchUser(String searchByUserNo, Model model) throws Exception {
+		// 해당 사원의 정보 불러오기
+		UserDto allUserList = service.getThisUser(searchByUserNo);
+
+		model.addAttribute("allUserList", allUserList);
+		return "redirect:/admin/leave/main";
 	}
 	
 	@GetMapping("lvModiAD") // 휴가 발생 관리

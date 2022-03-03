@@ -184,7 +184,7 @@
                           <a href="${root}/leave/leaveMain">연차 메인</a>
                       </li>
                       <li>
-                          <a href="${root}/leave/lvUsedList">연차 및 휴무 사용대장</a>
+                          <a href="${root}/leave/AllLvUsedList">연차 및 휴무 사용대장</a>
                       </li>
                       <li>
                           <a href="${root}/leave/lvInfo">휴무 정보</a>

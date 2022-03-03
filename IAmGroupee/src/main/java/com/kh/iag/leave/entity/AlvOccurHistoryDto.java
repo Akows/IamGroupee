@@ -5,7 +5,7 @@ import java.sql.Date;
 import lombok.Data;
 
 @Data
-public class AlvOccurHistory {
+public class AlvOccurHistoryDto {
 	private String userNo;
 	private String lvCode;
 	private String lvName;

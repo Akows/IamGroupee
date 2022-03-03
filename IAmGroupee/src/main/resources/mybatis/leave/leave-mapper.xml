@@ -5,6 +5,19 @@
   
   <mapper namespace="leave">
   
+    <select id="getThisUser" resultType="user">
+    	SELECT IU.*, D.DEPARTMENT_NAME, P.POSITION_NAME FROM IAG_USER IU
+    	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
+    	JOIN POSITION P ON (IU.POSITION_NO = P.POSITION_NO)
+    	WHERE IU.USER_NO = #{userNo} 
+    </select>
+  
+    <select id="getAllUser" resultType="user">
+    	SELECT IU.*, D.DEPARTMENT_NAME, P.POSITION_NAME FROM IAG_USER IU
+    	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
+    	JOIN POSITION P ON (IU.POSITION_NO = P.POSITION_NO)
+    </select>
+    
     <select id="getAllUsage" resultType="lvList">
     	SELECT UL.*, L.LV_NAME, IU.NAME, D.DEPARTMENT_NAME FROM LEAVE L
     	JOIN USAGE_LV UL ON (L.LV_CODE = UL.LV_CODE)
@@ -13,20 +26,66 @@
     	WHERE IU.USER_NO = #{userNo} AND UL.LV_END &lt; SYSDATE
     	ORDER BY UL.LV_END DESC
     </select>
+    
+    <select id="getAlvUsageCal" resultType="lvList">
+    	SELECT UL.*, L.LV_NAME, IU.NAME, D.DEPARTMENT_NAME FROM LEAVE L
+    	JOIN USAGE_LV UL ON (L.LV_CODE = UL.LV_CODE)
+    	JOIN IAG_USER IU ON (UL.USER_NO = IU.USER_NO)
+    	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
+    	WHERE IU.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'ALV%' AND UL.LV_END BETWEEN TO_CHAR(ADD_MONTHS(SYSDATE, -12), 'yyyy-mm-dd') AND TO_CHAR(SYSDATE-1, 'yyyy-mm-dd')
+    	ORDER BY UL.LV_END ASC
+    </select>
   
-    <select id="getAlvList" resultType="lvList">
+    <select id="getAlvListCalen" resultType="lvList"> <!-- 오류없으면 삭제 -->
     	SELECT * FROM USAGE_LV UL
     	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
     	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'ALV%'	AND UL.LV_END &lt; SYSDATE
+    	ORDER BY UL.LV_END DESC
     </select>
   
-    <select id="getLvList" resultType="lvList">
+    <select id="getLvListCalen" resultType="lvList"> <!-- 오류없으면 삭제 -->
     	SELECT * FROM USAGE_LV UL
     	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
     	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'LV%' AND UL.LV_END &lt; SYSDATE
+    	ORDER BY UL.LV_END DESC
+    </select>
+  
+    <select id="getAlvList" resultType="lvList">
+	    SELECT * FROM 
+	    	(
+	    		SELECT ROWNUM RN, ALV.*
+		    	FROM 
+		    	(
+			    	SELECT * FROM USAGE_LV UL
+			    	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
+			    	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'ALV%'	AND UL.LV_END &lt; SYSDATE
+			    	ORDER BY UL.LV_END DESC
+		    	) ALV
+	    	) WHERE RN BETWEEN #{pageVoAlv.startRow} AND #{pageVoAlv.endRow}
+    </select>
+  
+    <select id="getLvList" resultType="lvList">
+	    SELECT * FROM 
+	    	(
+	    		SELECT ROWNUM RN, LV.*
+		    	FROM 
+		    	(
+			    	SELECT * FROM USAGE_LV UL
+			    	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
+			    	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'LV%' AND UL.LV_END &lt; SYSDATE
+			    	ORDER BY UL.LV_END DESC
+		    	) LV
+	    	) WHERE RN BETWEEN #{pageVoAlv.startRow} AND #{pageVoAlv.endRow}
+    	
     </select>
   
     <select id="getAlvRowCnt" resultType="int">
+    	SELECT COUNT(*) FROM USAGE_LV UL
+    	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
+    	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'ALV%' AND UL.LV_END &lt; SYSDATE
+    </select>
+  
+    <select id="getLvRowCnt" resultType="int">
     	SELECT COUNT(*) FROM USAGE_LV UL
     	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
     	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'LV%' AND UL.LV_END &lt; SYSDATE
@@ -105,10 +164,11 @@
     	WHERE LVB_NO = #{lvbNo}
     </update>
     
-    
-    
-    
-    
+    <select id="getOccurHistory" resultType="lvHistory">
+    	SELECT AOH.*, L.LV_NAME FROM ALV_OCCUR_HISTORY AOH
+    	JOIN LEAVE L ON (AOH.LV_CODE = L.LV_CODE)
+    	WHERE AOH.USER_NO = #{userNo}
+    </select>
     
     
     

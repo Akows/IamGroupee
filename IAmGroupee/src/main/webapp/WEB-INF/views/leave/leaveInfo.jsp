@@ -31,7 +31,7 @@
                   <div style="height: 30px; width: 100%; margin-left: 90px;">
 		        	<div style="width: 30%; height: 100%; float: left;">
 		        		<h1 style="width: 160px; color: rgb(94, 94, 94); font-weight: 600;
-		        		box-shadow: inset 0 -3px 0   rgb(14, 104, 225); line-height: 60px;">휴무 정보</h1>
+		        		box-shadow: inset 0 -3px 0   #8092B8; line-height: 60px;">휴무 정보</h1>
 					</div>
 					<%
 					String leaveRight = (String)session.getAttribute("leaveRight");
