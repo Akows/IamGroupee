@@ -26,7 +26,7 @@ var calendar = $('#calendar').fullCalendar({
                               },
   eventLimitClick           : 'week', //popover
   navLinks                  : true,
-  defaultDate               : moment('2022-02'), //실제 사용시 현재 날짜로 수정
+  defaultDate               : moment('2022-03'), //실제 사용시 현재 날짜로 수정
   timeFormat                : 'HH:mm',
   defaultTimedEventDuration : '01:00:00',
   editable                  : true,
@@ -75,39 +75,36 @@ var calendar = $('#calendar').fullCalendar({
 
 
   eventRender: function (event, element, view) {
-		var reg = /[\{\}\[\]\/?.;:|\)*~a-z`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-		var test = "";
-		
-		test = JSON.stringify(event.target_user).replace(reg, "");
+	
+	var reg = /[\{\}\[\]\/?.;:|\)*~a-z`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+	var test = "";
+
+	test = JSON.stringify(event.loginUser).replace(reg, "");
 
     //일정에 hover시 요약
     element.popover({
-      		title: $('<div />', {
-			        class: 'popoverTitleCalendar',
-			        text: event.title
-	        }).css({
-		          	'background': event.backgroundColor,
-		          	'color': event.textColor
-	        }),
-	        
-      		content: $('<div />', {
-          			class: 'popoverInfoCalendar'
-        	})
-			        .append("<p class='popup-label'><b>대상자:</b> " + test + "</p>")
-					.append("<p class='popup-label'><b>구분:</b> " + event.event_type + "</p>")
-					.append("<p class='popup-label'><b>시간:</b> " + getDisplayEventDate(event) + "</p>")
-					.append('<div class="popoverDescCalendar"><p class="popup-label"><b>설명</b>: ' + event.description + "</p></div>"),
-	      delay: {
-			        show: "800",
-			        hide: "50"
-	      },
-	      
-	      trigger: 'hover',
-	      placement: 'top',
-	      html: true,
-	      container: 'body'
-	      
-	    });
+      title: $('<div />', {
+        class: 'popoverTitleCalendar',
+        text: event.title
+      }).css({
+        'background': event.backgroundColor,
+        'color': event.textColor
+      }),
+      content: $('<div />', {
+          class: 'popoverInfoCalendar'
+        }).append('<p><strong>등록자:</strong> ' + event.username + '</p>')
+        .append('<p><strong>구분:</strong> ' + event.type + '</p>')
+        .append('<p><strong>시간:</strong> ' + getDisplayEventDate(event) + '</p>')
+        .append('<div class="popoverDescCalendar"><strong>설명:</strong> ' + event.description + '</div>'),
+      delay: {
+        show: "300",
+        hide: "50"
+      },
+      trigger: 'hover',
+      placement: 'top',
+      html: true,
+      container: 'body'
+    });
 
     return filtering(event);
 
@@ -119,12 +116,11 @@ var calendar = $('#calendar').fullCalendar({
   events: function (start, end, timezone, callback) {
     $.ajax({
       type: "get",
-      url: "schedule",
-      dataType: "json",
+      url: "data.json",
       data: {
-		      // 화면이 바뀌면 Date 객체인 start, end 가 들어옴
-		      startDate : moment(start).format('YYYY-MM-DD'),
-		      endDate   : moment(end).format('YYYY-MM-DD')
+        // 화면이 바뀌면 Date 객체인 start, end 가 들어옴
+        //startDate : moment(start).format('YYYY-MM-DD'),
+        //endDate   : moment(end).format('YYYY-MM-DD')
       },
       success: function (response) {
         var fixedDate = response.map(function (array) {
@@ -153,7 +149,7 @@ var calendar = $('#calendar').fullCalendar({
     //리사이즈한 일정 업데이트
     $.ajax({
       type: "get",
-      url: "schedule",
+      url: "",
       data: {
         //id: event._id,
         //....
@@ -188,7 +184,7 @@ var calendar = $('#calendar').fullCalendar({
     //드롭한 일정 업데이트
     $.ajax({
       type: "get",
-      url: "schedule",
+      url: "",
       data: {
         //...
       },

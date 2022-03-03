@@ -9,7 +9,7 @@ $('.filter').on('change', function () {
 });
 
 $("#type_filter").select2({
-    placeholder: "참석자",
+    placeholder: "선택..",
     allowClear: true
 });
 
