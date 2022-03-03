@@ -14,57 +14,80 @@
   		</select>
   		
   		<insert id="insertRoom">
-  			INSERT INTO ROOM(
+  			INSERT INTO MEETING_ROOM(
   				  ROOM_NO
   				, ROOM_NAME
   				, ACTIVATE_YN
   				, CREATE_DATE
   				, DELETE_YN
-  			)VALUE(
-  				SEQ_MEETING_ROOM.NEXTVAL
-  				, ${roomName}
-  				, '
-  				, ${roomName}
-  				, ${roomName}
+  			)VALUES(
+  				  SEQ_MEETING_ROOM.NEXTVAL
+  				, #{roomName}
+  				, #{activateYn}
+  				, SYSDATE
+  				, 'N'
   			)
-  			
   		</insert>
   		
   		<insert id="insertAsset">
+  			INSERT INTO ASSET(
+  				  ASSET_NO
+  				, ASSET_NAME
+  				, ACTIVATE_YN
+  				, CREATE_DATE
+  				, DELETE_YN
+  			)VALUES(
+  				  SEQ_ASSET.NEXTVAL
+  				, #{assetName}
+  				, #{activateYn}
+  				, SYSDATE
+  				, 'N'
+  			)
   		</insert>
   		
   		<update id="updateRoom">
-  			UPDATE ROOM
+  			UPDATE MEETING_ROOM
   			SET
-  			(
-  				ROOM_NAME = ${roomName},	
-  				ACTIVATE_YN = ${activateYn},	
-  				MOD_DATE = SYSDATE	
-  			)
-  			WHERE ROOM_NO = ${roomNo}	
+  				      ROOM_NO = #{userNo}
+  				
+  				<if test="roomName != null and roomName != '' ">
+  					, ROOM_NAME = #{roomName}
+  				</if>
+  				
+  				<if test="activateYn != null and activateYn != '' ">
+	  				, ACTIVATE_YN = #{activateYn}
+  				</if>
+  					, MOD_DATE = SYSDATE	
+  			WHERE ROOM_NO = #{roomNo}	
   		</update>
   		
   		<update id="updateAsset">
   			UPDATE ASSET
   			SET
-  			(
-  				ASSET_NAME = ${assetName},	
-  				ACTIVATE_YN = ${activateYn},	
-  				MOD_DATE = SYSDATE	
-  			)
-  			WHERE ROOM_NO = ${roomNo}	
+  				  ASEET_NO = #{assetNo}
+  				<if test="assetName != null and assetName != '' ">  
+  					, ASSET_NAME = #{assetName}	
+				</if>
+				
+				<if test="activateYn != null and activateYn != '' ">
+  					, ACTIVATE_YN = #{activateYn}	
+  				</if>
+  					, MOD_DATE = SYSDATE	
+  			WHERE ROOM_NO = #{roomNo}	
   		</update>
   		
   		<update id="deleteRoom">
-  			UPDATE ROOM
-  			SET DELETE_YN = 'Y'
-  			WHERE ROOM_NO = ${roomNo}
+  			UPDATE MEETING_ROOM
+  			SET 
+  				DELETE_YN = 'Y'
+  			WHERE ROOM_NO = #{roomNo}
   		</update>
   		
   		<update id="deleteAsset" parameterType="int">
   			UPDATE ASSET
-  			SET DELETE_YN = 'Y'
-  			WHERE ASSET_NO = ${assetNo}
+  			SET 
+  				DELETE_YN = 'Y'
+  			WHERE ASSET_NO = #{assetNo}
   		</update>
   		
   	
