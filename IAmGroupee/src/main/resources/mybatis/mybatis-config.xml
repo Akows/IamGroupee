@@ -33,5 +33,9 @@
 		<typeAlias type="com.kh.iag.board.entity.DeptBoardDto" alias="deptBoard"/>
 		<typeAlias type="com.kh.iag.resv.entity.RoomDto" alias="room"/>
 		<typeAlias type="com.kh.iag.resv.entity.AssetDto" alias="asset"/>
+		<typeAlias type="com.kh.iag.ps.admin.entity.departmentDto" alias="dept"/>
+		<typeAlias type="com.kh.iag.ps.admin.entity.jobDto" alias="job"/>
+		<typeAlias type="com.kh.iag.ps.admin.entity.positionDto" alias="posi"/>
+		<typeAlias type="com.kh.iag.ps.admin.entity.UserDto" alias="userDto"/>
 	</typeAliases>
 </configuration>

@@ -1,0 +1,8 @@
+@charset "UTF-8";
+.userAddLink {
+	color : blue;
+}
+
+.userAddLink:hover {
+	color : blue;
+}
