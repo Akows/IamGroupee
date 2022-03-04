@@ -10,7 +10,7 @@
   <title>MySchedule Page</title>
   
   <c:set var="root" value="${pageContext.request.contextPath}"/>
-  
+  <script type="text/javascript" src="//code.jquery.com/jquery-3.1.1.min.js"></script>
   <!-- Favicon -->
   <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
   <!-- Custom styles -->
@@ -29,7 +29,7 @@
   <link rel='stylesheet' href='${root}/resources/css/sch/main.css' />
 </head>
 
-<body>
+<body style="padding: 0px;">
 
     <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 
@@ -63,27 +63,17 @@
 					<!-- 필터별 선택 -->
 					<p style="color: gray; font-weight: bold; font-size: large;">구분</p>
 				<br><br>
-					<div class="input-group" style=" left: 10px;">
-						<label for="calendar_view" style="font-size:1.4em;  font-weight: bold; right: 30px;">참석자</label>
-                        <select class="filter" id="type_filter" multiple="multiple">
-                            <option value="카테고리1">카테고리1</option>
-                            <option value="카테고리2">카테고리2</option>
-                            <option value="카테고리3">카테고리3</option>
-                            <option value="카테고리4">카테고리4</option>
-                        </select>
-                    </div>
-                 <br><br>
                  <div class="col-lg-6" style="">
                     <label for="calendar_view" style="font-size:1.4em;  font-weight: bold;">캘린더</label>
                     <div class="input-group" style="width: 100px;">
                         <label class="checkbox-inline" style="font-size:1.4em;  font-weight: bold;"><br>
-                        <input class='filter' type="checkbox" value="정연" checked>기본 캘린더</label>
+                        <input class='filter' type="checkbox" value="" checked>기본 캘린더</label>
                         
                         <label class="checkbox-inline" style="font-size:1.4em;  font-weight: bold;"><br>
-                        <input class='filter' type="checkbox" value="다현" checked>부서 캘린더</label>
+                        <input class='filter' type="checkbox" value="">부서 캘린더</label>
                         
                         <label class="checkbox-inline" style="font-size:1.4em;  font-weight: bold;"><br>
-                        <input class='filter' type="checkbox" value="사나" checked>전사 캘린더</label>
+                        <input class='filter' type="checkbox" value="">전사 캘린더</label>
                     </div>
                 </div>
              </div>
@@ -91,7 +81,7 @@
           </div> <!-- /일정 선택 div -->
         
           <!-- Fullcalendar 페이지 -->
-          <div class="col-md-7 col-xl-8" style="height: 750px">
+          <div class="col-md-7 col-xl-8">
             <article class="stat-cards-item">
 		      
 	          <iframe src="${root}/sch/schedule" height="100%" width="100%" scrolling="no"></iframe>
@@ -100,13 +90,6 @@
           </div><!-- /Fullcalendar 페이지 -->
           
         </div>
-        
-        <div class="row">
-          
-        
-        </div>
-        
-
       </div>
     </main>
 

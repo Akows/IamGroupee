@@ -75,11 +75,10 @@ var calendar = $('#calendar').fullCalendar({
 
 
   eventRender: function (event, element, view) {
-	
 	var reg = /[\{\}\[\]\/?.;:|\)*~a-z`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
 	var test = "";
 
-	test = JSON.stringify(event.loginUser).replace(reg, "");
+	test = JSON.stringify(event.userNo).replace(reg, "");
 
     //일정에 hover시 요약
     element.popover({
@@ -116,8 +115,9 @@ var calendar = $('#calendar').fullCalendar({
   events: function (start, end, timezone, callback) {
     $.ajax({
       type: "get",
-      url: "data.json",
+      url: "/iag/sch/ajax_get_calender",
       data: {
+		userNo: "11"
         // 화면이 바뀌면 Date 객체인 start, end 가 들어옴
         //startDate : moment(start).format('YYYY-MM-DD'),
         //endDate   : moment(end).format('YYYY-MM-DD')

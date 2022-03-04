@@ -1,20 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head profile="http://www.w3.org/2005/10/profile">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Schedule Page</title>
   
   <c:set var="root" value="${pageContext.request.contextPath}"/>
-
-  <!-- FullCalendar -->
-  <link rel="shortcut icon" href="${root}/resources/img/sch/favicon.ico">
   
+  <script type="text/javascript" src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+  <!-- FullCalendar -->
   <link rel='stylesheet' href='${root}/resources/css/sch/fullcalendar.min.css' />
   <link rel='stylesheet' href='${root}/resources/css/sch/bootstrap.min.css' />
   <link rel='stylesheet' href='${root}/resources/css/sch/select2.min.css' />
@@ -24,11 +22,11 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   
   <link rel='stylesheet' href='${root}/resources/css/sch/main.css' />
-
 </head>
 
 <body>
 	<div class="container">
+	
 	        <!-- 일자 클릭시 메뉴오픈 -->
 	        <div id="contextMenu" class="dropdown clearfix">
 	            <ul class="dropdown-menu dropNewEvent" role="menu" aria-labelledby="dropdownMenu"
@@ -72,11 +70,13 @@
 	                        <h4 class="modal-title">일정 등록</h4>
 	                    </div>
 	                    <div class="modal-body">
-							<form id="sch-data">
+	                    
+							<form id="schData">
+							
 		                        <div class="row">
 		                            <div class="col-xs-12">
-		                                <label class="col-xs-4" for="schAllDay">하루종일</label>
-		                                <input class='allDayNewEvent' id="schAllDay" type="checkbox"></label>
+		                                <label class="col-xs-4" for="schAllDay">하루종일</label>             
+		                                <input class='allDayNewEvent' id="schAllDay" type="checkbox">
 		                            </div>
 		                        </div>
 		
@@ -87,32 +87,36 @@
 		                                    required="required" />
 		                            </div>
 		                        </div>
+		                        
 		                        <div class="row">
 		                            <div class="col-xs-12">
 		                                <label class="col-xs-4" for="schStart">시작</label>
-		                                <input class="inputModal" type="text" name="schStart" id="schStart" />
+		                                <input class="inputModal" type="datetime" name="schStart" id="schStart" />
 		                            </div>
 		                        </div>
+		                        
 		                        <div class="row">
 		                            <div class="col-xs-12">
 		                                <label class="col-xs-4" for="schEnd">끝</label>
-		                                <input class="inputModal" type="text" name="schEnd" id="schEnd" />
+		                                <input class="inputModal" type="datetime" name="schEnd" id="schEnd" />
 		                            </div>
 		                        </div>
+		                        
 		                        <div class="row">
 		                            <div class="col-xs-12">
 		                                <label class="col-xs-4" for="schType">구분</label>
 		                                <select class="inputModal" type="text" name="schType" id="schType">
-		                                    <option value="sch-common">기본 캘린더</option>
+		                                    <option name="sch-common" value="sch-common">기본 캘린더</option>
 		                                    <option value="sch-dept">부서 캘린더</option>
 		                                    <option value="sch-all">전사 캘린더</option>
 		                                </select>
 		                            </div>
 		                        </div>
+		                        
 		                        <div class="row">
 		                            <div class="col-xs-12">
 		                                <label class="col-xs-4" for="SchColor">색상</label>
-		                                <select class="inputModal" name="SchColor" id="SchColor">
+		                                <select class="inputModal" name="color" id="SchColor">
 		                                    <option value="#D25565" style="color:#D25565;">빨간색</option>
 		                                    <option value="#9775fa" style="color:#9775fa;">보라색</option>
 		                                    <option value="#ffa94d" style="color:#ffa94d;">주황색</option>
@@ -125,6 +129,7 @@
 		                                </select>
 		                            </div>
 		                        </div>
+		                        
 		                        <div class="row">
 		                            <div class="col-xs-12">
 		                                <label class="col-xs-4" for="schContent">설명</label>
@@ -132,21 +137,26 @@
 		                                    id="schContent"></textarea>
 		                            </div>
 		                        </div>
+		                        
 	                        </form>
+	                        
 	                    </div>
 	                    <div class="modal-footer modalBtnContainer-addEvent">
 	                        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
 	                        <button type="button" class="btn btn-primary" id="save-event">저장</button>
 	                    </div>
+	                    
 	                    <div class="modal-footer modalBtnContainer-modifyEvent">
 	                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 	                        <button type="button" class="btn btn-danger" id="deleteEvent">삭제</button>
 	                        <button type="button" class="btn btn-primary" id="updateEvent">저장</button>
 	                    </div>
+	                    
 	                </div><!-- /.modal-content -->
 	            </div><!-- /.modal-dialog -->
 	        </div><!-- /.modal -->
 	</div>
+	<!-- /.container -->
 
 	<!-- FullCalendar js -->
 	<script src='${root}/resources/js/sch/jquery.min.js'></script>
