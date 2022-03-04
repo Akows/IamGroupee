@@ -143,8 +143,11 @@
 	<!-- 첨부파일 상세페이지로 이동하는 스크립트 -->
 	<!-- 파일 검색용 modnum을 전송하는 스크립트도 겸함 -->
 	let filebtn = document.getElementsByClassName("tempBtn");
-	$(filebtn).each(function(idx, element){
+	
+	$(filebtn).each(function(idx, element)
+	{
 		element.addEventListener('click', filebtnclickEventHandler);
+	
 	});
 	//filebtn.addEventListener('click', filebtnclickEventHandler)
 	
