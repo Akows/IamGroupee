@@ -3,14 +3,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head profile="http://www.w3.org/2005/10/profile">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Schedule Page</title>
   
   <c:set var="root" value="${pageContext.request.contextPath}"/>
-
+  
+  <script type="text/javascript" src="//code.jquery.com/jquery-3.1.1.min.js"></script>
   <!-- FullCalendar -->
   <link rel='stylesheet' href='${root}/resources/css/sch/fullcalendar.min.css' />
   <link rel='stylesheet' href='${root}/resources/css/sch/bootstrap.min.css' />
@@ -21,7 +22,6 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   
   <link rel='stylesheet' href='${root}/resources/css/sch/main.css' />
-
 </head>
 
 <body>
@@ -71,11 +71,11 @@
 	                    </div>
 	                    <div class="modal-body">
 	                    
-							<form id="sch-data">
+							<form id="schData">
 							
 		                        <div class="row">
 		                            <div class="col-xs-12">
-		                                <label class="col-xs-4" for="schAllDay">하루종일</label>
+		                                <label class="col-xs-4" for="schAllDay">하루종일</label>             
 		                                <input class='allDayNewEvent' id="schAllDay" type="checkbox">
 		                            </div>
 		                        </div>
@@ -91,14 +91,14 @@
 		                        <div class="row">
 		                            <div class="col-xs-12">
 		                                <label class="col-xs-4" for="schStart">시작</label>
-		                                <input class="inputModal" type="text" name="schStart" id="schStart" />
+		                                <input class="inputModal" type="datetime" name="schStart" id="schStart" />
 		                            </div>
 		                        </div>
 		                        
 		                        <div class="row">
 		                            <div class="col-xs-12">
 		                                <label class="col-xs-4" for="schEnd">끝</label>
-		                                <input class="inputModal" type="text" name="schEnd" id="schEnd" />
+		                                <input class="inputModal" type="datetime" name="schEnd" id="schEnd" />
 		                            </div>
 		                        </div>
 		                        
@@ -106,7 +106,7 @@
 		                            <div class="col-xs-12">
 		                                <label class="col-xs-4" for="schType">구분</label>
 		                                <select class="inputModal" type="text" name="schType" id="schType">
-		                                    <option value="sch-common">기본 캘린더</option>
+		                                    <option name="sch-common" value="sch-common">기본 캘린더</option>
 		                                    <option value="sch-dept">부서 캘린더</option>
 		                                    <option value="sch-all">전사 캘린더</option>
 		                                </select>
@@ -116,7 +116,7 @@
 		                        <div class="row">
 		                            <div class="col-xs-12">
 		                                <label class="col-xs-4" for="SchColor">색상</label>
-		                                <select class="inputModal" name="SchColor" id="SchColor">
+		                                <select class="inputModal" name="color" id="SchColor">
 		                                    <option value="#D25565" style="color:#D25565;">빨간색</option>
 		                                    <option value="#9775fa" style="color:#9775fa;">보라색</option>
 		                                    <option value="#ffa94d" style="color:#ffa94d;">주황색</option>
@@ -157,9 +157,7 @@
 	        </div><!-- /.modal -->
 	</div>
 	<!-- /.container -->
-	
-	<!-- Custom scripts -->
-	<script src="${root}/resources/js/script.js"></script>
+
 	<!-- FullCalendar js -->
 	<script src='${root}/resources/js/sch/jquery.min.js'></script>
 	<script src='${root}/resources/js/sch/bootstrap.min.js'></script>

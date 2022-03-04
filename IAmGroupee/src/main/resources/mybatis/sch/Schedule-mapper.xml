@@ -15,11 +15,11 @@
    		DESC
    	</select>
    	
-   	<insert id="addSchedule" parameterType="sch">
+   	<insert id="insert_schedule" parameterType="sch">
     	INSERT INTO
-    		CALENDAR(SCH_TITLE,SCH_START,SCH_END,SCH_WITH,SCH_CONTENT)
+    		CALENDAR(USER_NO,SCH_ALLDAY,SCH_TITLE,SCH_START,SCH_END,SCH_TYPE,SCH_COLOR,SCH_CONTENT)
     	VALUES
-    		(#{schTitle},#{schStart},#{schEnd},#{schWith},#{schContent})
+    		(#{userNo},#{schAllDay},#{schTitle},#{schStart},#{schEnd},#{schType},#{schColor},#{schContent})
    	</insert>
 	
 </mapper>

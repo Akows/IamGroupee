@@ -35,18 +35,20 @@ var newEvent = function (start, end, eventType) {
     //새로운 일정 저장버튼 클릭
     $('#save-event').unbind();
     $('#save-event').on('click', function () {
+		
+		submitarray = {
+			targetdata: JSON.stringify(array),
+		};
 
         var eventData = {
-            _id: eventId,
             title: editTitle.val(),
             start: editStart.val(),
             end: editEnd.val(),
             description: editDesc.val(),
-            type: editType.val(),
-            username: '사나',
-            backgroundColor: editColor.val(),
-            textColor: '#ffffff',
-            allDay: false
+            type: $("input[name=edit-type]:checked").val(),   
+            backgroundColor: $("input[name=schType]:checked").attr('data-color'),
+            allDay: false,
+            target_user: submitarray
         };
 
         if (eventData.start > eventData.end) {
@@ -78,15 +80,20 @@ var newEvent = function (start, end, eventType) {
 
         //새로운 일정 저장
         $.ajax({
-            type: "get",
-            url: "",
+            type: "post",
+            url: "ajax_insert_schedule",
             data: {
-                //.....
+                eventData: eventData,
             },
+            dataType: "json",
             success: function (response) {
                 //DB연동시 중복이벤트 방지를 위한
-                //$('#calendar').fullCalendar('removeEvents');
-                //$('#calendar').fullCalendar('refetchEvents');
+                $("#schedule_calendar").fullCalendar("removeEvents");
+				$("#schedule_calendar").fullCalendar("refetchEvents");
+				
+				location.reload();
+				
+				alert("등록되었습니다.");
             }
         });
     });
