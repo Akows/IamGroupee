@@ -1,39 +1,42 @@
 package com.kh.iag.resv.controller;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.iag.resv.entity.ResvDto;
-import com.kh.iag.user.entity.UserDto;
+import com.kh.iag.resv.service.ResvService;
 
 @Controller
 @RequestMapping("resv")
 public class ResvController {
 
+	@Autowired
+	private ResvService service;
+	
 	//내예약페이지
 	@GetMapping("resvMain")
-	public String resvMain(HttpServletRequest request, HttpServletResponse response) {
-		UserDto loginUser = (UserDto) request.getSession().getAttribute("loginUser");
-		String cookieKey = loginUser.getUserNo();
-		String cookieValue = Long.toString(loginUser.getJobNo());
-		
-		Cookie cookie = new Cookie(cookieKey, cookieValue);
-		cookie.setPath("/");
-		// 쿠키 삭제
-		cookie.setMaxAge(0);
-
-		response.addCookie(cookie);
-		
+	public String resvMain() {
 		return "resv/resvMain";
 	}
 	
-	//예약하기
+//	//일정보기
+//	@GetMapping( value = "resvList", produces = "application/json")
+//	public String data(Model model) {
+//		try {
+//			model.addAttribute("list", service.getResvList());
+//			System.out.println(service.getResvList());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return null; 
+//    }
+	
+	
 	@PostMapping("resvMain")
 	public String resvMain(ResvDto resv) {
 		return "resv/resvMain";

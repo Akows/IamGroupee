@@ -13,6 +13,8 @@ public class AssetDto {
 	private String assetName;
 	private String activateYn;
 	private String deleteYn;
+	private String detail;
+	private String reserved;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date createDate;

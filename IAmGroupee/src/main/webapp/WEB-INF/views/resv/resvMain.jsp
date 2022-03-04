@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
+<%@page import="com.kh.iag.resv.entity.ResvDto"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,15 +14,8 @@
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
 
-	<!-- FullCalendar -->
-	<link rel='stylesheet' href='${root}/resources/css/sch/main.css' />
-	<link rel='stylesheet' href='${root}/resources/css/sch/fullcalendar.min.css' />
-	<link rel='stylesheet' href='${root}/resources/css/sch/bootstrap.min.css' />
-	<link rel='stylesheet' href='${root}/resources/css/sch/select2.min.css' />
-	<link rel='stylesheet' href='${root}/resources/css/sch/bootstrap-datetimepicker.min.css' />
-
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<!-- fullcalendar 언어 CDN -->
+	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
 
 </head>
 <body>
@@ -130,6 +125,62 @@
 				}
     		})
 		})
+
+		var request = $.ajax({
+			url: "<%=request.getContextPath()%>/resv/resvMain",
+			method: "GET",
+			dataType: "json"
+		});
+
+		document.addEventListener('DOMContentLoaded', function(data) {
+			var calendarEl = document.getElementById('calendar');
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				googleCalendarApiKey: 'AIzaSyAs1UZKO49dOGkrpX3qeYNU0wZx_vbq1Co',
+				eventSources:{
+					googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+					className: '대한민국의 휴일',
+					color : '#DD5246'
+				},
+				headerToolbar: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'dayGridMonth,timeGridWeek,timeGridDay'
+				},
+				slotMinTime: '08:00', // Day 캘린더에서 시작 시간
+				slotMaxTime: '20:00', // Day 캘린더에서 종료 시간
+				initialView: 'dayGridMonth',
+				navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+				selectable: true, // 달력 일자 드래그 설정가능
+				nowIndicator: true, // 현재 시간 마크
+				dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+				locale: 'ko', // 한국어 설정
+
+				// eventAdd: function(obj) { // 이벤트가 추가되면 발생하는 이벤트
+				// 	console.log(obj);
+				// },
+				// eventChange: function(obj) { // 이벤트가 수정되면 발생하는 이벤트
+				// 	console.log(obj);
+				// },
+				// eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
+				// 	console.log(obj);
+				// },
+				// select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
+				// 	var title = prompt('Event Title:');
+				// 	if (title) {
+				// 	calendar.addEvent({
+				// 	title: title,
+				// 	start: arg.start,
+				// 	end: arg.end,
+				// 	allDay: arg.allDay
+				// 	})
+				// 	}
+				// 	calendar.unselect()
+				// }
+			
+			});
+			calendar.render();
+		});
+
 	</script>
 	
 
@@ -138,16 +189,10 @@
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
 
-	<!-- FullCalendar js -->
-	<script src='${root}/resources/js/sch/moment.min.js'></script>
-	<script src='${root}/resources/js/sch/fullcalendar.min.js'></script>
-	<script src='${root}/resources/js/sch/ko.js'></script>
-	<script src='${root}/resources/js/resv/main.js'></script>
-	
-	<link rel='stylesheet' href='${root}/resources/css/sch/fullcalendar.min.css' />
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel='stylesheet' href='${root}/resources/css/sch/main.css' />
+	<!-- FullCalendar -->
+	<link rel="stylesheet" href="${root}/resources/plugins/fullcalendar/main.css">
+	<script src="${root}/resources/plugins/moment/moment.min.js"></script>
+	<script src="${root}/resources/plugins/fullcalendar/main.js"></script>
 
 	<!-- InputMask -->
 	<script src="${root}/resources/plugins/moment/moment.min.js"></script>

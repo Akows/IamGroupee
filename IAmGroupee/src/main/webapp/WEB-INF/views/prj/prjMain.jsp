@@ -14,6 +14,9 @@
 	<!-- adminLTE CDN -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
 	
+	
+
+	
 </head>
 <body>
 
@@ -259,6 +262,7 @@
 	<script>
 		
 		$(function () {
+
 			//Date range picker with time picker
 		    $('#reservationtime').daterangepicker({
 		      timePicker: true,
@@ -275,31 +279,34 @@
 			$('.select2').select2()
 		})
 
+		document.addEventListener('DOMContentLoaded', function() {
+		  var calendarEl = document.getElementById('calendar');
+		  var calendar = new FullCalendar.Calendar(calendarEl, {
+			initialView: 'dayGridMonth'
+		  });
+		  calendar.render();
+		});
+
 	</script>
+
 
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
 
-
-	<!-- FullCalendar js -->
-	<script src='${root}/resources/js/sch/moment.min.js'></script>
-	<script src='${root}/resources/js/sch/fullcalendar.min.js'></script>
-	<script src='${root}/resources/js/sch/ko.js'></script>
-	<script src='${root}/resources/js/resv/main.js'></script>
-	
-	<link rel='stylesheet' href='${root}/resources/css/sch/fullcalendar.min.css' />
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel='stylesheet' href='${root}/resources/css/sch/main.css' />
-	
 	<!-- date-range-picker -->
 	<script src="${root}/resources/plugins/daterangepicker/daterangepicker.js"></script>
 	<link rel="stylesheet" href="${root}/resources/plugins/daterangepicker/daterangepicker.css">
 	<!-- Select2 -->
 	<script src="${root}/resources/plugins/select2/js/select2.full.min.js"></script>
 	<link rel="stylesheet" href="${root}/resources/plugins/select2/css/select2.min.css">
+	
+	<!-- FullCalendar -->
+	<link rel="stylesheet" href="${root}/resources/plugins/fullcalendar/main.css">
+	<script src="${root}/resources/plugins/moment/moment.min.js"></script>
+	<script src="${root}/resources/plugins/fullcalendar/main.js"></script>
+
 	
 </body>
 </html>

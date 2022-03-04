@@ -7,25 +7,31 @@
   
   		<select id="getRoomList" parameterType="map" resultType="room">
   			SELECT * FROM MEETING_ROOM
+  			WHERE DELETE_YN = 'N'
   		</select>
   		
   		<select id="getAssetList" parameterType="map" resultType="asset">
   			SELECT * FROM ASSET
+  			WHERE DELETE_YN = 'N'
   		</select>
   		
   		<insert id="insertRoom">
   			INSERT INTO MEETING_ROOM(
   				  ROOM_NO
   				, ROOM_NAME
+  				, DETAIL
   				, ACTIVATE_YN
+  				, RESERVED
   				, CREATE_DATE
   				, DELETE_YN
   			)VALUES(
   				  SEQ_MEETING_ROOM.NEXTVAL
   				, #{roomName}
+  				, #{detail}
   				, #{activateYn}
+  				, DEFAULT
   				, SYSDATE
-  				, 'N'
+  				, DEFAULT
   			)
   		</insert>
   		
@@ -33,30 +39,36 @@
   			INSERT INTO ASSET(
   				  ASSET_NO
   				, ASSET_NAME
+  				, DETAIL
   				, ACTIVATE_YN
+  				, RESERVED
   				, CREATE_DATE
   				, DELETE_YN
   			)VALUES(
   				  SEQ_ASSET.NEXTVAL
   				, #{assetName}
+  				, #{detail}
   				, #{activateYn}
+  				, DEFAULT
   				, SYSDATE
-  				, 'N'
+  				, DEFAULT
   			)
   		</insert>
   		
   		<update id="updateRoom">
   			UPDATE MEETING_ROOM
   			SET
-  				      ROOM_NO = #{userNo}
-  				
+  				      ROOM_NO = #{roomNo}
   				<if test="roomName != null and roomName != '' ">
   					, ROOM_NAME = #{roomName}
   				</if>
-  				
+  				<if test="detail != null and detail != '' ">
+  					, DETAIL = #{detail}
+  				</if>
   				<if test="activateYn != null and activateYn != '' ">
 	  				, ACTIVATE_YN = #{activateYn}
   				</if>
+  					, RESERVED = #{reserved}
   					, MOD_DATE = SYSDATE	
   			WHERE ROOM_NO = #{roomNo}	
   		</update>
@@ -68,9 +80,14 @@
   				<if test="assetName != null and assetName != '' ">  
   					, ASSET_NAME = #{assetName}	
 				</if>
-				
-				<if test="activateYn != null and activateYn != '' ">
-  					, ACTIVATE_YN = #{activateYn}	
+				<if test="detail != null and detail != '' ">
+  					, DETAIL = #{detail}
+  				</if>
+  				<if test="activateYn != null and activateYn != '' ">
+	  				, ACTIVATE_YN = #{activateYn}
+  				</if>
+  				<if test="reserved != null and reserved != '' ">
+  					, RESERVED = #{reserved}
   				</if>
   					, MOD_DATE = SYSDATE	
   			WHERE ROOM_NO = #{roomNo}	
@@ -90,5 +107,11 @@
   			WHERE ASSET_NO = #{assetNo}
   		</update>
   		
-  	
+  	<!-- 내예약  -->
+  		
+  		<select id="getResvList"  parameterType="map" resultType="resv">
+  			SELECT * FROM RESERVATION
+  			WHERE DELETE_YN = 'N'
+  		</select>
+  		
   </mapper>
