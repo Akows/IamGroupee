@@ -59,7 +59,7 @@
 	                      <td>미사용 연차일수</td>
 	                    </tr>
 	                    <tr>
-	                      <td id="now">${user.enrollDate} ~ </td>
+	                      <td id="now">${startDate} ~ </td>
 	                      <td>${user.alvCount + user.alvAddCount}</td>
 	                      <td>${usedAlv}</td>
 	                      <td>${(user.alvCount + user.alvAddCount) - usedAlv}</td>

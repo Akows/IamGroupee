@@ -140,6 +140,31 @@ public class LeaveDaoImpl implements LeaveDao {
 		return session.selectOne("leave.getThisUser", userNo);
 	}
 
-	
+	@Override
+	public int iagAddAlvCount(String alvAddCount, String userNo) throws Exception {
+		Map<String, Object> iagAdd = new HashMap<String, Object>();
+		iagAdd.put("alvAddCount", alvAddCount);
+		iagAdd.put("userNo", userNo);
+		return session.update("leave.iagAddAlvCount", iagAdd);
+	}
+
+	@Override
+	public int alvOccurHistory(String alvAddCount, String userNo, String alvOccurReason) throws Exception {
+		Map<String, Object> history = new HashMap<String, Object>();
+		history.put("alvAddCount", alvAddCount);
+		history.put("userNo", userNo);
+		history.put("alvOccurReason", alvOccurReason);
+		return session.insert("leave.insertOccurHistory", history);
+	}
+
+	@Override
+	public UserDto getAllAlvUsage(String userNo) throws Exception {
+		return session.selectOne("leave.getAllAlvUsage", userNo);
+	}
+
+	@Override
+	public List<UserDto> getThisUserAD(String searchByUserNo) throws Exception {
+		return session.selectList("leave.getThisUserAD", searchByUserNo);
+	}	
 	
 }

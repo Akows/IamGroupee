@@ -1,7 +1,9 @@
 package com.kh.iag.leave.controller;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,15 +36,25 @@ public class LeaveController {
 	@GetMapping("leaveMain")  // 연차 메인
 	public String leaveMain(HttpSession session, Model model) throws Exception {	
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar today = Calendar.getInstance(); 
+		String todayDate = format.format(today.getTime()); // 오늘 날짜"yyyy-MM-dd"
+		String enrollDate = String.valueOf(format.format(loginUser.getEnrollDate()));
+		String todayYear = todayDate.substring(0,4); // 오늘 연도"yyyy"
+		String enrollMonthDay = enrollDate.substring(4); // 입사 월일 "-MM-dd"
+		int lastYear = Integer.parseInt(todayYear) - 1;
+		String startDate = lastYear + enrollMonthDay;
 		
-		String enrollDate = String.valueOf(loginUser.getEnrollDate());
-		LocalDate now = LocalDate.now();
-		int year = now.getYear();
-		String startDate = String.valueOf(year) + "-" + enrollDate.substring(5);
 		
 		String userNo = loginUser.getUserNo();
+//		상단바
+		UserDto allUsedAlv = service.getThisUser(userNo);
+		// 총연차개수 set해주기
+			int alvTotalCount = allUsedAlv.getAlvCount() + allUsedAlv.getMlvCount() + allUsedAlv.getAlvAddCount();
+			allUsedAlv.setAlvTotalCount(alvTotalCount);
+		
 //		사용내역
-		List<LvUsedListDto> allUsedList =  service.getAllUsage(userNo);
+		List<LvUsedListDto> allUsedList = service.getAllUsage(userNo);
 		for (LvUsedListDto allUsedLv : allUsedList) {
 			Date startLv = allUsedLv.getLvStart();
 			Date endLv = allUsedLv.getLvStart();
@@ -53,6 +65,7 @@ public class LeaveController {
 		List<AlvOccurHistoryDto> lvHistoryList = service.getOccurHistory(userNo);
 
 		session.setAttribute("startDate", startDate);
+		model.addAttribute("allUsedAlvList", allUsedAlv);
 		model.addAttribute("allUsedList", allUsedList);
 		model.addAttribute("lvHistoryList", lvHistoryList);
 		

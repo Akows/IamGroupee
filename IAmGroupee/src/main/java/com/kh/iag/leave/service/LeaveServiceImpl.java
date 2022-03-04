@@ -27,6 +27,11 @@ public class LeaveServiceImpl implements LeaveService {
 		return dao.getThisUser(userNo);
 	}
 	
+	@Override // 메인 상단연차내역
+	public UserDto getAllAlvUsage(String userNo) throws Exception {
+		return dao.getAllAlvUsage(userNo);
+	}
+	
 	@Override // 메인 사용내역
 	public List<LvUsedListDto> getAllUsage(String userNo) throws Exception {
 		return dao.getAllUsage(userNo);
@@ -131,6 +136,21 @@ public class LeaveServiceImpl implements LeaveService {
 	@Override // 연차 정산
 	public List<LvUsedListDto> getAlvUsageCal(String userNo) throws Exception {
 		return dao.getAlvUsageCal(userNo);
+	}
+
+	@Override // 조정연차 iagUser테이블에 +
+	public int iagAddAlvCount(String alvAddCount, String userNo) throws Exception {
+		return dao.iagAddAlvCount(alvAddCount, userNo);
+	}
+
+	@Override // 조정연차 history테이블에 +
+	public int alvOccurHistory(String alvAddCount, String userNo, String alvOccurReason) throws Exception {
+		return dao.alvOccurHistory(alvAddCount, userNo, alvOccurReason);
+	}
+
+	@Override
+	public List<UserDto> getThisUserAD(String searchByUserNo) throws Exception {
+		return dao.getThisUserAD(searchByUserNo);
 	}
 
 
