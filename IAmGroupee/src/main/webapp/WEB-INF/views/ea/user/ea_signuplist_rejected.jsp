@@ -27,7 +27,7 @@
   <div class="ea_wrapper">
     <div class="ea_signuplist_wrapper_rejected">
       <div class="ea_signuplist_title">
-        <span>기안문서조회 (반려문서 수정)</span>
+        <span>기안문서조회 (반려/협의요청 문서)</span>
       </div>
       <div class="ea_signuplist_rejected_contents">
         <form action="" method="POST" name="reuqestForm">

@@ -264,4 +264,59 @@
 		JOIN POSITION PS ON(U.POSITION_NO = PS.POSITION_NO)
 		JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
 	</select>
+	
+	
+	<!-- 기안리스트조회 내가 기안한 문서 리스트 데이터 -->
+	<select id="signupList" parameterType="hashMap" resultType="eadocs">
+		SELECT * FROM
+		(
+		    SELECT ROWNUM RN, T.*
+		    FROM
+		    (
+		    SELECT D.*, U.NAME, P.POSITION_NAME, DP.DEPARTMENT_NAME, F.FORM_TITLE
+		    FROM 
+		    (
+		        SELECT * FROM EA_DOCUMENT
+		        WHERE USER_NO = 'user6' AND DOC_SEP = 'N'
+		        ORDER BY DOC_MAKE DESC
+		    ) D
+		    JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+		    JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
+		    JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+		    JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+		    ) T
+		)
+		WHERE RN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- 기안리스트조회 결재선 정의 데이터 -->
+	<select id="processList" parameterType="string" resultType="com.kh.iag.ea.entity.ProcessDto">
+		SELECT D.DOC_NO, PC.*
+		FROM 
+		(
+		    SELECT * FROM EA_DOCUMENT
+		    WHERE USER_NO = #{userNo} AND DOC_SEP = 'N'
+		    ORDER BY DOC_MAKE DESC
+		) D
+		JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+		JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
+		JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+		JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+		JOIN EA_PROCESS PC ON(D.PROC_NO = PC.PROC_NO)
+	</select>
+	
+	<!-- 기안리스트조회 로우 카운트 -->
+	<select id="getSignupListCnt" parameterType="string" resultType="int">
+		SELECT COUNT(D.DOC_NO)
+		FROM 
+		(
+		    SELECT * FROM EA_DOCUMENT
+		    WHERE USER_NO = #{userNo} AND DOC_SEP = 'N'
+		    ORDER BY DOC_MAKE DESC
+		) D
+		JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+		JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
+		JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+		JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+	</select>
 </mapper>

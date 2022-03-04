@@ -1,5 +1,6 @@
 package com.kh.iag.ea.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -67,6 +68,26 @@ public class EADaoImpl implements EADao {
 	@Override
 	public List<ProcessDto> selectProcess(ProcessDto pd) throws Exception {
 		return sqlSession.selectList("ea.selectProcess", pd);
+	}
+
+	@Override
+	public List<DocsDto> signupList(HashMap<String, String> map) throws Exception {
+		return sqlSession.selectList("ea.signupList", map);
+	}
+
+	@Override
+	public List<FormDto> formList() throws Exception {
+		return sqlSession.selectList("ea.formValues");
+	}
+
+	@Override
+	public List<ProcessDto> processList(String userNo) {
+		return sqlSession.selectList("ea.processList", userNo);
+	}
+
+	@Override
+	public int getSignupListCnt(String userNo) {
+		return sqlSession.selectOne("ea.getSignupListCnt", userNo);
 	}
 
 }

@@ -40,71 +40,52 @@
   position: relative;
   float: left;
 }
-.ea_signuplist_list_contents > form > input {
-  background: #fff;
-  display: block;
-  margin: 10px;
-  width: 300px;
-}
-.ea_signuplist_list_contents > form > table {
+.ea_signuplist_list_contents > table {
   width: 98%;
   margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
   text-align: center;
   border: 1px solid gainsboro;
 }
-.ea_signuplist_list_contents > form > table > thead > tr {
+.ea_signuplist_list_contents > table > thead > tr {
   height: 40px;
   color: #fff;
   background: #0343a3;
 }
-.ea_signuplist_list_contents > form > table > tbody > tr {
+.ea_signuplist_list_contents > table > thead > tr > th:nth-child(1) {
+  width: 20%;
+}
+.ea_signuplist_list_contents > table > thead > tr > th:nth-child(2) {
+  width: 10%;
+}
+.ea_signuplist_list_contents > table > thead > tr > th:nth-child(4) {
+  width: 10%;
+}
+.ea_signuplist_list_contents > table > thead > tr > th:nth-child(5) {
+  width: 10%;
+}
+.ea_signuplist_list_contents > table > thead > tr > th:nth-child(6) {
+  width: 10%;
+}
+.ea_signuplist_list_contents > table > tbody > tr {
   height: 30px;
   font-size: 12px;
 }
-.ea_signuplist_list_contents > form > table > tbody > tr > td {
+.ea_signuplist_list_contents > table > tbody > tr > td {
   border-bottom: 1px solid gainsboro;
 }
-.ea_signuplist_list_contents > form > table > tbody > tr:hover {
+.ea_signuplist_list_contents > table > tbody > tr:hover {
   background: #89b0eb;
   color: #fff;
 }
-#ea_paging {
-  width: 100%;
-  height: 40px;
+.ea_signuplist_list_contents > table > thead > tr > th {
   position: relative;
 }
-.ea_signuplist_list_contents > #ea_paging > ul {
-  height: 100%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.ea_signuplist_list_contents > #ea_paging > ul > li {
-  float: left;
-  line-height: 2.5;
-}
-.ea_signuplist_list_contents > #ea_paging > ul > li > a {
-  display: inline-block;
-  padding: 5px;
-  border: 1px solid gainsboro;
-  color: #262626;
-  background: #fff;
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
-.ea_signuplist_list_contents > #ea_paging > ul > li > a:hover {
-  color: #fff;
-  background: #0343a3;
-  font-weight: bold;
-}
-.ea_signuplist_list_contents > form > table > thead > tr > th {
-  position: relative;
-}
-.ea_signuplist_list_contents > form > table > thead > tr > th > span {
+.ea_signuplist_list_contents > table > thead > tr > th > span {
   cursor: pointer;
 }
-.ea_signuplist_list_contents > form > table > thead > tr > th > ul {
+.ea_signuplist_list_contents > table > thead > tr > th > ul {
   display: none;
   position: absolute;
   color: #262626;
@@ -112,28 +93,43 @@
   width: 100%;
   top: 100%;
 }
-.ea_signuplist_list_contents > form > table > thead > tr > th > ul > li {
+.ea_signuplist_list_contents > table > thead > tr > th > ul > li {
   font-size: 14px;
   padding: 5px;
   font-weight: lighter;
+  background: aliceblue;
+  border: 1px solid gainsboro;
 }
-.ea_signuplist_list_contents > form > table > thead > tr > th > ul > li > a {
+.ea_signuplist_list_contents > table > thead > tr > th > ul > li > a {
   display: block;
 }
-.ea_signuplist_list_contents
-  > form
-  > table
-  > thead
-  > tr
-  > th
-  > ul
-  > li
-  > a:hover {
+.ea_signuplist_list_contents > table > thead > tr > th > ul > li > a:hover {
   color: #fff;
   background: #89b0eb;
 }
-.ea_signuplist_list_contents > form > table > thead > tr > th > ul.active {
+.ea_signuplist_list_contents > table > thead > tr > th > ul.active {
   display: block;
+}
+.ea_signuplist_list_contents > table > tbody {
+  background: #fff;
+}
+#pagingBtn {
+  margin-bottom: 10px;
+  width: 100%;
+  position: relative;
+}
+#pagingBtn > ul {
+  display: flex;
+  justify-content: center;
+}
+#pagingBtn > ul > li {
+  padding: 7px;
+  padding-right: 10px;
+  padding-left: 10px;
+  background: #fff;
+  color: #4081e4;
+  float: left;
+  border: 1px solid gainsboro;
 }
 /* 전자결재 > 기안문서조회 (상세조회) */
 .ea_signuplist_detail_contents {
@@ -143,6 +139,11 @@
   border-top-left-radius: 0;
   position: relative;
   float: left;
+}
+#pagingBtn > ul > li:hover {
+  background: #4081e4;
+  color: #fff;
+  transition: 0s;
 }
 .ea_signuplist_detail_contents > div:nth-child(1) > table > * > * > * {
   border: 1px solid #262626;
