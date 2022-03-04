@@ -107,5 +107,11 @@
   			WHERE ASSET_NO = #{assetNo}
   		</update>
   		
-  	
+  	<!-- 내예약  -->
+  		
+  		<select id="getResvList"  parameterType="map" resultType="resv">
+  			SELECT * FROM RESERVATION
+  			WHERE DELETE_YN = 'N'
+  		</select>
+  		
   </mapper>

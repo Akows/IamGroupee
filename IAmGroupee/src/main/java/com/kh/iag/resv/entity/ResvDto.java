@@ -7,7 +7,7 @@ import lombok.Data;
 public class ResvDto {
     
     private int resvNo;
-	private int userNo;
+	private String userNo;
 	private int roomNo;
 	private int equipNo;
 	private Date resvStart;
@@ -15,5 +15,6 @@ public class ResvDto {
 	private Date createDate;
 	private Date ModDate;
 	private String returnYn;
+	private String deleteYn;
 	
 }

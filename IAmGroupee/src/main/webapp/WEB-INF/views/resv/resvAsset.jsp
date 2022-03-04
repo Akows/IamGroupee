@@ -12,7 +12,10 @@
 	<link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
     <!-- adminLTE CDN -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
-  
+
+	<!-- fullcalendar 언어 CDN -->
+	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+
 </head>
 <body>
 
@@ -132,7 +135,7 @@
 	<!-- FullCalendar -->
 	<link rel="stylesheet" href="${root}/resources/plugins/fullcalendar/main.css">
 	<script src="${root}/resources/plugins/moment/moment.min.js"></script>
-	<script src="${root}/resources/plugins/fullcalendar/main.js"></script>
+	<script src="${root}/resources/plugins/fullcalendar/main.js"></script> 
 
 </body>
-</html>`
+</html>
