@@ -130,6 +130,14 @@
 				}
     		})
 		})
+
+		document.addEventListener('DOMContentLoaded', function() {
+		  var calendarEl = document.getElementById('calendar');
+		  var calendar = new FullCalendar.Calendar(calendarEl, {
+			initialView: 'dayGridMonth'
+		  });
+		  calendar.render();
+		});
 	</script>
 	
 
@@ -138,16 +146,11 @@
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
 
-	<!-- FullCalendar js -->
-	<script src='${root}/resources/js/sch/moment.min.js'></script>
-	<script src='${root}/resources/js/sch/fullcalendar.min.js'></script>
-	<script src='${root}/resources/js/sch/ko.js'></script>
-	<script src='${root}/resources/js/resv/main.js'></script>
-	
-	<link rel='stylesheet' href='${root}/resources/css/sch/fullcalendar.min.css' />
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel='stylesheet' href='${root}/resources/css/sch/main.css' />
+	<!-- FullCalendar -->
+	<link rel="stylesheet" href="${root}/resources/plugins/fullcalendar/main.css">
+	<script src="${root}/resources/plugins/moment/moment.min.js"></script>
+	<script src="${root}/resources/plugins/fullcalendar/main.js"></script>
+
 
 	<!-- InputMask -->
 	<script src="${root}/resources/plugins/moment/moment.min.js"></script>
