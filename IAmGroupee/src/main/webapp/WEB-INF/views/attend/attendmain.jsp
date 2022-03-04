@@ -43,73 +43,76 @@
 		
 		<div class="row stat-cards">
 
-		<c:set var="testcode" value="출근안함" />
+		<c:forEach items="${atWTInfo}" var="wtinfo">
+			<c:choose>
+				<c:when test="${wtinfo.in_time eq null}">
+					<div class="col-md-6 col-xl-3">
+		            <article class="stat-cards-item">
+		              <div class="stat-cards-icon primary">
+		                <i data-feather="bar-chart-2" aria-hidden="true"></i>
+		              </div>
+		              <div class="stat-cards-info">
+			              <table>
+							  <tr>
+				              		<td>
+				              			<p class="stat-cards-info__num">춭퇴근 체크</p>
+						                <p class="stat-cards-info__title">금일 출퇴근 상황</p>
+						                <p class="stat-cards-info__title">출근시간 : ${atWTInfo.in_time}</p>
+						                <p class="stat-cards-info__progress">
+						                  <span class="stat-cards-info__profit danger">
+						                    <i data-feather="trending-down" aria-hidden="true"></i>퇴근중
+						                  </span>
+						                </p>
+				              		</td>
+				              		<td><hr></td>
+				              		<td>
+						                <form action="attendprocessin" method="post">
+							               <input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="출근">
+						                </form>
+				              		</td>
+				              </tr>
+						  </table>
+		                <hr>
+		              </div>
+		            </article>
+		          </div>
+				</c:when>
+				
+				<c:otherwise>
+					<div class="col-md-6 col-xl-3">
+		            <article class="stat-cards-item">
+		              <div class="stat-cards-icon primary">
+		                <i data-feather="bar-chart-2" aria-hidden="true"></i>
+		              </div>
+		              <div class="stat-cards-info">
+			              <table>
+							  <tr>
+				              		<td>
+				              			<p class="stat-cards-info__num">춭퇴근 체크</p>
+						                <p class="stat-cards-info__title">금일 출퇴근 상황</p>
+						                <p class="stat-cards-info__title">퇴근시간 : ${atWTInfo.out_time}</p>
+						                <p class="stat-cards-info__progress">
+						                  <span class="stat-cards-info__profit success">
+						                    <i data-feather="trending-up" aria-hidden="true"></i>근무중
+						                  </span>
+						                </p>
+				              		</td>
+				              		<td><hr></td>
+				              		<td>
+						                <form action="attendprocessout" method="post">
+							               <input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="퇴근">
+						                </form>
+				              		</td>
+				              </tr>
+						  </table>
+		                <hr>
+		              </div>
+		            </article>
+		          </div>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
 
-		<c:if test="${testcode eq '출근안함'}">
-		  <div class="col-md-6 col-xl-3">
-            <article class="stat-cards-item">
-              <div class="stat-cards-icon primary">
-                <i data-feather="bar-chart-2" aria-hidden="true"></i>
-              </div>
-              <div class="stat-cards-info">
-	              <table>
-					  <tr>
-		              		<td>
-		              			<p class="stat-cards-info__num">춭퇴근 체크</p>
-				                <p class="stat-cards-info__title">금일 출퇴근 상황</p>
-				                <p class="stat-cards-info__title">출근시간 : <c:forEach items="${atWTInfo}" var="atWTInfo">${atWTInfo.in_time}"</c:forEach></p>
-				                <p class="stat-cards-info__progress">
-				                  <span class="stat-cards-info__profit danger">
-				                    <i data-feather="trending-down" aria-hidden="true"></i>퇴근중
-				                  </span>
-				                </p>
-		              		</td>
-		              		<td><hr></td>
-		              		<td>
-				                <form action="" method="post">
-					               <input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="출근">
-				                </form>
-		              		</td>
-		              </tr>
-				  </table>
-                <hr>
-              </div>
-            </article>
-          </div>
-		</c:if>
-		
-		<c:if test="${testcode eq '출근함'}">
-		  <div class="col-md-6 col-xl-3">
-            <article class="stat-cards-item">
-              <div class="stat-cards-icon primary">
-                <i data-feather="bar-chart-2" aria-hidden="true"></i>
-              </div>
-              <div class="stat-cards-info">
-	              <table>
-					  <tr>
-		              		<td>
-		              			<p class="stat-cards-info__num">춭퇴근 체크</p>
-				                <p class="stat-cards-info__title">금일 출퇴근 상황</p>
-				                <p class="stat-cards-info__title">퇴근시간 : <c:forEach items="${atWTInfo}" var="atWTInfo">${atWTInfo.out_time}"</c:forEach></p>
-				                <p class="stat-cards-info__progress">
-				                  <span class="stat-cards-info__profit success">
-				                    <i data-feather="trending-up" aria-hidden="true"></i>근무중
-				                  </span>
-				                </p>
-		              		</td>
-		              		<td><hr></td>
-		              		<td>
-				                <form action="" method="post">
-					               <input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="퇴근">
-				                </form>
-		              		</td>
-		              </tr>
-				  </table>
-                <hr>
-              </div>
-            </article>
-          </div>
-		</c:if>
 
 
           

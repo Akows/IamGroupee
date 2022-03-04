@@ -23,34 +23,54 @@ public class attendServiceImpl implements attendService
 	
 	//근태 메인페이지
 	@Override
-	public List<AttendDTO> getAttendInfo() throws Exception 
+	public List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception 
 	{
-		return attendDAO.getAttendInfo();
+		return attendDAO.getAttendInfo(attendDTO);
 	}
 
 	@Override
-	public List<AttendModDTO> getAttendModInfo() throws Exception
+	public List<AttendModDTO> getAttendModInfo(AttendModDTO attendModDTO) throws Exception
 	{
-		return attendDAO.getAttendModInfo();
+		return attendDAO.getAttendModInfo(attendModDTO);
 	}
 
 	@Override
-	public List<AttendWTDTO> getAttendWTInfo() throws Exception
+	public List<AttendWTDTO> getAttendWTInfo(AttendWTDTO attendWTDTO) throws Exception
 	{
-		return attendDAO.getAttendWTInfo();
+		return attendDAO.getAttendWTInfo(attendWTDTO);
+	}
+	
+	//근태 출퇴근처리
+	@Override
+	public int attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception 
+	{
+		int no = attendDAO.getAttendWtSeq();
+
+		attendWTDTO.setWorktime_num(no);
+		
+		int result = attendDAO.attendprocessIN(attendWTDTO);
+
+		return result;
+	}
+
+	@Override
+	public void attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception 
+	{
+		attendDAO.attendprocessOUT(attendWTDTO, req);
 	}
 	
 	//근태조회
 	@Override
-	public int attendModify(AttendModDTO attendmodDTO, HttpServletRequest req) throws Exception 
+	public int attendModify(AttendModDTO attendmodDTO, HttpServletRequest req, MultipartFile mpfile) throws Exception 
 	{
 		int no = attendDAO.getAttendmodSeq();
-
 		attendmodDTO.setAttend_mod_num(no);
+		
+		attendmodDTO.setAttach_file_size(mpfile.getSize());
 		
 		int result = attendDAO.insertattendmodify(attendmodDTO);
 
-		MultipartFile mpfile = attendmodDTO.getFile();
+		mpfile = attendmodDTO.getFile();
 
 		if(!mpfile.isEmpty()) 
 		{	
@@ -86,4 +106,18 @@ public class attendServiceImpl implements attendService
 	{
 		return attendDAO.getFile(searchKey);
 	}
+	
+	//수정요청 승인 혹은 거절
+	@Override
+	public int approveManageOK(AttendModDTO attendModDTO) throws Exception 
+	{
+		return attendDAO.approveManageOK(attendModDTO);
+	}
+
+	@Override
+	public int approveManageNone(AttendModDTO attendModDTO) throws Exception 
+	{
+		return attendDAO.approveManageNone(attendModDTO);
+	}
+
 }

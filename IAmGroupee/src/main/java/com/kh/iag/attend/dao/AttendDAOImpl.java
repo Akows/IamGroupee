@@ -2,11 +2,12 @@ package com.kh.iag.attend.dao;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.iag.attend.controller.AttendPageVo;
 import com.kh.iag.attend.entity.AttendDTO;
 import com.kh.iag.attend.entity.AttendModDTO;
 import com.kh.iag.attend.entity.AttendWTDTO;
@@ -19,22 +20,41 @@ public class AttendDAOImpl implements AttendDAO
 	
 	//근태메인
 	@Override
-	public List<AttendDTO> getAttendInfo() throws Exception 
+	public List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception 
 	{
-		return ss.selectList("attend.getAttendInfo");
+		return ss.selectList("attend.getAttendInfo", attendDTO);
 	}
 
 	@Override
-	public List<AttendModDTO> getAttendModInfo() throws Exception 
+	public List<AttendModDTO> getAttendModInfo(AttendModDTO attendModDTO) throws Exception 
 	{
-		return ss.selectList("attend.getAttendModInfo");
+		return ss.selectList("attend.getAttendModInfo", attendModDTO);
 	}
 
 	@Override
-	public List<AttendWTDTO> getAttendWTInfo() throws Exception 
+	public List<AttendWTDTO> getAttendWTInfo(AttendWTDTO attendWTDTO) throws Exception 
 	{
-		return ss.selectList("attend.getAttendWTInfo");
+		return ss.selectList("attend.getAttendWTInfo", attendWTDTO);
 	}
+	
+	//근태출퇴근
+	@Override
+	public int getAttendWtSeq() throws Exception 
+	{
+		return ss.selectOne("attend.getWTseq");
+	}
+	@Override
+	public int attendprocessIN(AttendWTDTO attendWTDTO) 
+	{
+		return ss.insert("attend.attendprocessIN", attendWTDTO);	
+	}
+
+	@Override
+	public void attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) 
+	{
+		ss.update("attend.attendprocessOUT", attendWTDTO);
+	}
+	
 	
 	//근태조회
 	@Override
@@ -79,6 +99,22 @@ public class AttendDAOImpl implements AttendDAO
 	{
 		return ss.selectOne("attend.downFile", attach_file);
 	}
+
+	//수정요청 승인 혹은 거절
+	@Override
+	public int approveManageOK(AttendModDTO attendModDTO) throws Exception 
+	{
+		return ss.update("attend.approveManageOK", attendModDTO);
+	}
+
+	@Override
+	public int approveManageNone(AttendModDTO attendModDTO) throws Exception 
+	{
+		return ss.update("attend.approveManageNone", attendModDTO);
+	}
+
+
+
 
 
 

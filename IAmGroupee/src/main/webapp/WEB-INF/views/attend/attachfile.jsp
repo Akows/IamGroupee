@@ -10,19 +10,7 @@
 <body>
 	
 	<h1>첨부파일</h1>
-	
-	<hr>
-	<c:forEach items="${file}" var="f">
-		${f.attend_mod_num}
-		${f.user_no}
-		${f.user_name}
-		${f.req_date}
-		${f.mod_reason}
-		${f.attach_file}
-		${f.approve_state}
-	</c:forEach>
-	<hr>
-	
+
 	<div class="container">	
 		<div class="row stat-cards">
 			<div class="users-table table-wrapper">
@@ -39,14 +27,10 @@
 	
 	<c:forEach items="${file}" var="f">
 	
-		<form action="attachfiledownload" method="get"> 
-		
-			<input type="hidden" value="${f.attach_file}" id="attach_file">
-	
+		<form action="attachfiledownload/${f.attach_file}" method="get"> 
 			<button class="dropdown-btn transparent-btn" type="submit">첨부파일 다운로드</button>
-	
 		</form>
-		
+
 	</c:forEach>
 
 

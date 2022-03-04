@@ -62,8 +62,33 @@
 							<td>${modlist.req_date}</td>
 							<td>${modlist.user_name}</td>
 							<td>${modlist.mod_reason}</td>
-							<td><input type="button" id="filepage" value="${modlist.attach_file}"></td>
-							<td>${modlist.approve_state}</td>
+							<td>
+								<form action="attachfile" method="get" id="auform">
+							        <input type="hidden" id="xxx" name="attend_mod_num" value="${modlist.attend_mod_num}">
+							        <input type="button" class="tempBtn" name="attach_file" id="filepage" value="${modlist.attach_file}">
+								</form>
+							</td>
+							<td>
+								<c:choose>
+									<c:when test="${modlist.approve_state eq '처리중'}">
+										<span class="badge-active">
+											${modlist.approve_state}
+										</span>
+									</c:when>
+									
+									<c:when test="${modlist.approve_state eq '승인됨'}">
+										<span class="badge-pending">
+											${modlist.approve_state}
+										</span>
+									</c:when>
+									
+									<c:otherwise>
+										<span class="badge-pending">
+											${modlist.approve_state}
+										</span>
+									</c:otherwise>
+								</c:choose>
+							</td>
 							<td>
 		                    	<span class="p-relative">
 			                        <button class="dropdown-btn transparent-btn" type="button" title="More info">
@@ -71,20 +96,28 @@
 			                          <i data-feather="more-horizontal" aria-hidden="true"></i>
 			                        </button>
 			                        <ul class="users-item-dropdown dropdown">
-			                          <li><a href="##">요청 승인</a></li>
-			                          <li><a href="##">요청 반려</a></li>
+			                          <li>
+			                          	<form action="approvemanageok" method="get">
+									        <input type="hidden" name="attend_mod_num" value="${modlist.attend_mod_num}">
+									        <input type="submit" value="요청 승인">
+										</form>
+			                          </li>
+			                          <li>
+			                          	<form action="approvemanagenone" method="get">
+									        <input type="hidden" name="attend_mod_num" value="${modlist.attend_mod_num}">
+									        <input type="submit" value="요청 반려">
+										</form>	                         	 
+			                          </li>
 			                        </ul>
 			                    </span>
                             </td>
 						</tr>
+						
 
-						<form action="attachfile" method="get" id="autoform">
-                			<input type="hidden" name="attend_mod_num" value="${modlist.attend_mod_num}">
-		                </form>
 						
 					</c:forEach>
                 </tbody>
-                
+
                 
               </table>
 
@@ -108,27 +141,31 @@
 	document.getElementById("currentDate").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
 
 	<!-- 첨부파일 상세페이지로 이동하는 스크립트 -->
-	let filebtn = document.getElementById("filepage");
-	filebtn.addEventListener('click', filebtnclickEventHandler)
+	<!-- 파일 검색용 modnum을 전송하는 스크립트도 겸함 -->
+	let filebtn = document.getElementsByClassName("tempBtn");
+	$(filebtn).each(function(idx, element){
+		element.addEventListener('click', filebtnclickEventHandler);
+	});
+	//filebtn.addEventListener('click', filebtnclickEventHandler)
 	
-	function filebtnclickEventHandler() 
+	function filebtnclickEventHandler(e) 
 	{
-		var url = "attachfile";
+		e.currnetTartget
+		// http://127.0.0.1:8989/iag/attend/attachfile?attend_mod_num=1
+				
+				
+		var url = "http://127.0.0.1:8989/iag/attend/attachfile?attend_mod_num=";
+		let x = document.querySelector('#auform > input[name=attend_mod_num]').value;
+		url += x;
+		
 		var name = "파일상세페이지";
 		var specs = "width=1000, height=1000, scrollbars=yes, menubar=no";
 
 		window.open(url, name, specs);
+		
+		//document.getElementById('auform').submit(); 
     };
 
-    <!-- form을 자동으로 submit하는 스크립트 -->
-    document.getElementById('autoform').submit(); 
-    
-    
-    
-    
-    
-    
-    
     
     
     

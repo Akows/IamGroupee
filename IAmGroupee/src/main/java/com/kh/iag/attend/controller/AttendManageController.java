@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.iag.attend.entity.AttendModDTO;
@@ -27,5 +28,21 @@ public class AttendManageController
 		model.addAttribute("atModList", atModList);
 		
 		return "attend/attendmanage";
+	}
+	
+	@GetMapping("/approvemanageok")
+	public String approvemanageok(AttendModDTO attendModDTO) throws Exception 
+	{
+		int result = service.approveManageOK(attendModDTO);
+		
+		return "redirect:/attend/attendmanage";
+	}
+	
+	@GetMapping("/approvemanagenone")
+	public String approvemanagenone(AttendModDTO attendModDTO) throws Exception 
+	{
+		int result = service.approveManageNone(attendModDTO);
+
+		return "redirect:/attend/attendmanage";
 	}
 }

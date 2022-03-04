@@ -13,6 +13,7 @@ public class AttendModDTO
 	private String req_date;
 	private String mod_reason;
 	private String attach_file;
+	private long attach_file_size;
 	private String approve_state;
 	private MultipartFile file;
 }

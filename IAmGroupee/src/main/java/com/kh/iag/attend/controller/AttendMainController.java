@@ -45,9 +45,9 @@ public class AttendMainController
 		attendModDTO.setUser_no(userno);
 		attendWTDTO.setUser_no(userno);
 		
-		List<AttendDTO> attendList = service.getAttendInfo();
-		List<AttendModDTO> attendModList = service.getAttendModInfo();
-		List<AttendWTDTO> attendWTList = service.getAttendWTInfo();
+		List<AttendDTO> attendList = service.getAttendInfo(attendDTO);
+		List<AttendModDTO> attendModList = service.getAttendModInfo(attendModDTO);
+		List<AttendWTDTO> attendWTList = service.getAttendWTInfo(attendWTDTO);
 		
 		System.out.println(attendList);
 		System.out.println(attendModList);
@@ -59,4 +59,67 @@ public class AttendMainController
 		
 		return "attend/attendmain";
 	}
+	
+	@PostMapping("attendprocessin")
+	public String attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception
+	{
+		UserDto loginUser = (UserDto) req.getSession().getAttribute("loginUser");
+		String userno = loginUser.getUserNo();
+		attendWTDTO.setUser_no(userno);
+		
+		int result = service.attendprocessIN(attendWTDTO, req);
+		
+		if(result > 0) 
+		{
+			return "attend/attendmain";
+		}
+		else 
+		{
+			return "attend/attendmain";
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@PostMapping("attendprocessout")
+	public String attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception
+	{
+		UserDto loginUser = (UserDto) req.getSession().getAttribute("loginUser");
+		String userno = loginUser.getUserNo();
+		attendWTDTO.setUser_no(userno);
+		
+		service.attendprocessOUT(attendWTDTO, req);
+		
+		return "attend/attendmain";
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

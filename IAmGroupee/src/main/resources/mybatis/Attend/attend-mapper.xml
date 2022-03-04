@@ -41,37 +41,66 @@
   <!-- 0000000000000000000000000000000000000000000000000000000000000000000 -->			
   
   <!-- 근태메인 -->
-  <select id="getAttendInfo" resultMap="attendrm">
-	SELECT *
-	FROM ATTENDANCE
-	WHERE USER_NO = #{user_no}
-  </select>
-  	
-  <select id="getAttendModInfo" resultMap="attendmodrm">
-	SELECT *
-	FROM ATTENDANCEMODIFY
-	WHERE USER_NO = #{user_no}
-  </select>
-  	
-  <select id="getAttendWTInfo" resultMap="attendwtrm">
-	SELECT *
-	FROM ATTENDANCE A
-	INNER JOIN ATTENDANCEMODIFY M 
-	ON(A.USER_NO = M.USER_NO)
-	INNER JOIN WORKTIME W
-	ON(M.USER_NO = W.USER_NO)
-    WHERE A.USER_NO = #{user_no}
-    AND ATTEND_DATE = SYSDATE
-  </select>
-  	
-  <select id="attendmainscreen">
-  	SELECT A.ATTEND_DATE, A.WORK_NUMOFDATE, M.ATTEND_MOD_NUM, W.TOTAL_WORK_TIME
-	FROM ATTENDANCE A
-	INNER JOIN ATTENDANCEMODIFY M 
-	ON(A.ATTEND_NUM = M.ATTEND_NUM)
-	INNER JOIN WORKTIME W
-	ON(M.ATTEND_NUM = W.ATTEND_NUM)
-  </select>
+	  <select id="getAttendInfo" parameterType="attendance" resultType="attendance" resultMap="attendrm">
+		SELECT *
+		FROM ATTENDANCE
+		WHERE USER_NO = #{user_no}
+	  </select>
+	  	
+	  <select id="getAttendModInfo" parameterType="attendancemod" resultType="attendancemod" resultMap="attendmodrm">
+		SELECT *
+		FROM ATTENDANCEMODIFY
+		WHERE USER_NO = #{user_no}
+	  </select>
+	  	
+	  <select id="getAttendWTInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
+		SELECT *
+		FROM WORKTIME
+		WHERE USER_NO = #{user_no}
+	  </select>
+	  	
+	  <select id="attendmainscreen">
+	  	SELECT A.ATTEND_DATE, A.WORK_NUMOFDATE, M.ATTEND_MOD_NUM, W.TOTAL_WORK_TIME
+		FROM ATTENDANCE A
+		INNER JOIN ATTENDANCEMODIFY M 
+		ON(A.ATTEND_NUM = M.ATTEND_NUM)
+		INNER JOIN WORKTIME W
+		ON(M.ATTEND_NUM = W.ATTEND_NUM)
+	  </select>
+  
+  <!-- 근태 출퇴근 -->  
+  		<select id="getWTseq" resultType="int">
+	 		SELECT SEQ_WORKTIME.NEXTVAL
+	 		FROM DUAL
+	  	</select>
+  
+  	  	<insert id="attendprocessIN" parameterType="attendancewt">
+	  		INSERT INTO WORKTIME
+	  		(
+			    WORKTIME_NUM,
+			    USER_NO,
+			    ATTEND_DATE,
+			    IN_TIME,
+			    OUT_TIME,
+			    TOTAL_WORK_TIME
+	  		)
+	  		VALUES
+	  		(
+	  			#{worktime_num},
+	  			#{user_no},
+	  			SYSDATE,
+	  			TO_CHAR(SYSDATE,'HH24MISS'),
+	  			'0',
+	  			'0'
+	  		)
+	  	</insert>
+	
+	  	<update id="attendprocessOUT" parameterType="attendancewt">
+	  		UPDATE ATTENDANCEMODIFY
+	   		SET ATTACH_FILE = #{attach_file}
+	   		WHERE ATTEND_MOD_NUM = #{attend_mod_num}
+	  	</update>
+  
   	
   <!-- 0000000000000000000000000000000000000000000000000000000000000000000 -->	
   <!-- 0000000000000000000000000000000000000000000000000000000000000000000 -->	
@@ -93,6 +122,7 @@
 				REQ_DATE,
 				MOD_REASON,
 				ATTACH_FILE,
+				ATTACH_FILE_SIZE,
 				APPROVE_STATE
 	  		)
 	  		VALUES
@@ -103,13 +133,15 @@
 	  			SYSDATE,
 	  			#{mod_reason},
 	  			'첨부파일 없음',
+	  			0,
 	  			'처리중'
 	  		)
 	  	</insert>
 	
 	  	<update id="modfilereq" parameterType="attendancemod">
 	  		UPDATE ATTENDANCEMODIFY
-	   		SET ATTACH_FILE = #{attach_file}
+	   		SET ATTACH_FILE = #{attach_file},
+	   		ATTACH_FILE_SIZE = #{attach_file_size}
 	   		WHERE ATTEND_MOD_NUM = #{attend_mod_num}
 	  	</update>
   	
@@ -123,14 +155,14 @@
 	  	<select id="getModList" resultType="attendancemod" resultMap="attendmodrm">
 			SELECT ATTEND_MOD_NUM, TO_CHAR(REQ_DATE,'YYYYMMDD') AS REQ_DATE, USER_NAME, MOD_REASON, ATTACH_FILE, APPROVE_STATE
 			FROM ATTENDANCEMODIFY
-			WHERE APPROVE_STATE != '승인됨'
+			WHERE APPROVE_STATE != '0'
 			ORDER BY ATTEND_MOD_NUM
 		</select>
 		
 		<select id="getAttendModCnt" resultType="int">
 			SELECT COUNT(ATTEND_MOD_NUM)
 			FROM ATTENDANCEMODIFY
-			WHERE APPROVE_STATE != '승인됨'
+			WHERE APPROVE_STATE != '0'
 		</select>
 		
 		<select id="getFile" resultType="attendancemod" resultMap="attendmodrm">
@@ -145,7 +177,18 @@
 			WHERE ATTACH_FILE = #{attach_file}
 		</select>
   	
-  	
+  		<!--수정요청 승인 혹은 거절 -->
+  		<update id="approveManageOK" parameterType="attendancemod">
+	  		UPDATE ATTENDANCEMODIFY
+	   		SET APPROVE_STATE = '승인됨'
+	   		WHERE ATTEND_MOD_NUM = #{attend_mod_num}
+	  	</update>
+	  	
+	  	<update id="approveManageNone" parameterType="attendancemod">
+	  		UPDATE ATTENDANCEMODIFY
+	   		SET APPROVE_STATE = '반려됨'
+	   		WHERE ATTEND_MOD_NUM = #{attend_mod_num}
+	  	</update>
   	
   	
   	
