@@ -36,12 +36,12 @@ public class AdminLeaveController {
 			allUserList = service.getAllUser();
 			// 총연차개수 set해주기
 			for (UserDto userDto : allUserList) {
-				int alvTotalCount = userDto.getAlvCount() + userDto.getAlvAddCount();
+				int alvTotalCount = userDto.getAlvCount() + userDto.getMlvCount() + userDto.getAlvAddCount();
 				userDto.setAlvTotalCount(alvTotalCount);
 			}
 		} else {
 			// 해당 사원의 정보 불러오기
-			allUserList = service.getThisUser(searchByUserNo);
+			allUserList = service.getThisUserAD(searchByUserNo);
 			// 총연차개수 set해주기
 			for (UserDto userDto : allUserList) {
 				int alvTotalCount = userDto.getAlvCount() + userDto.getAlvAddCount();
@@ -54,10 +54,11 @@ public class AdminLeaveController {
 	}
 	
 	@PostMapping("alvAddUpdate")
-	public String alvAddUpdate(int alvOccurCount, String userNo, String alvOccurReason) throws Exception {
+	public String alvAddUpdate(String alvAddCount, String userNo, String alvOccurReason) throws Exception {
 		// iag_user addAlvCount에 update +=
-//			service.iagAddAlvCount(alvOccurCount,userNo);
+		int iagResult = service.iagAddAlvCount(alvAddCount,userNo);
 		// alv_occur_history에 insert
+		int historyResult = service.alvOccurHistory(alvAddCount, userNo, alvOccurReason);
 		
 		
 		return "redirect:/admin/leave/main";

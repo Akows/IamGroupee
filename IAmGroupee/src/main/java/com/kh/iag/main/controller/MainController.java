@@ -213,7 +213,7 @@ public class MainController {
 		Calendar today = Calendar.getInstance(); 
 		String todayDate = format.format(today.getTime()); // 오늘 날짜"yyyy-M-d"
 		String enrollDate = String.valueOf(format.format(loginUser.getEnrollDate()));// 입사 날짜"yyyy-M-d"
-		String todayYear = todayDate.substring(0,3); // 오늘 연도"yyyy"
+		String todayYear = todayDate.substring(0,4); // 오늘 연도"yyyy"
 		String enrollMonthDay = enrollDate.substring(5, 7); // 입사 월일 "M-d"
 		int lastYear = Integer.parseInt(todayYear) - 1;
 		String lastDueYear = String.valueOf(lastYear) + "-" + enrollMonthDay; // 작년 업데이트일 "yyyy-M-d"

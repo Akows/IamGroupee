@@ -87,7 +87,7 @@
               
             
               <div class="stat-cards-info" style="width: 100%">
-                <table class="table" style="width: 100%; text-align: center;">
+                <table class="table abc" style="width: 100%; text-align: center;">
 				  <thead>
 				    <tr">
 				      <th scope="col">이름</th>
@@ -111,10 +111,9 @@
 				      <td style="width: 11%">${allUserList.alvAddCount}</td>
 				      <td style="width: 11%">${allUserList.alvTotalCount}</td>
 				      <td style="width: 11%">${allUserList.alvUsedCount}</td>
-				      <td style="width: 11%">${allUserList.alvLeftCount}</td>
+				      <td style="width: 11%">${allUserList.alvTotalCount - allUserList.alvUsedCount}</td>
 				      <td style="width: 8%;">
 				      	<button class="btn btn-primary btn-sm" onClick="show_pop('${allUserList.userNo}');">추가</button>
-				      	<input type="hidden" id="userNo" name="userNo" value="${allUserList.userNo}">
 				      </td>
 				    </tr>
 				  </c:forEach>
@@ -127,7 +126,7 @@
 				      <div class="modal-header">
 				        <h5 class="modal-title">조정할 연차의 개수를 입력하세요</h5>
 				        <!-- <h2 class="userNo" name="userNo"></h2> -->
-				        <input type="hidden" class="userNo" name="userNo" value="">
+				        <input type="hidden" class="userNo" name="userNo"></input>
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="close_pop();">
 				          <span aria-hidden="true">&times;</span>
 				        </button>
@@ -182,8 +181,8 @@
 		function show_pop(userNo) {
 			//show_pop 호출시 넘겨준 값을 이용하여 ajax 등을 통해 modal 을 띄울때 동적으로 바뀌어야 하는 값을 얻어온다.  
 			//$("#title").html("ajax를 통해 얻어온 id에 해당하는 값");
-			var userNo = $(".userNo").val();
-			
+			$(".userNo").html(userNo);
+			console.log(userNo);
 		     $('.modal').show();
 		};
 		//팝업 Close 기능
@@ -195,42 +194,41 @@
 	$(function() {
 	    $('.addAlvDB').click(function() {
 	            
-	        var alvOccurCount = $('.alvOccurCount').val();
-	        var userNo = $('.userNo').val();      
-	        var alvOccurReason = $('.alvOccurReason').val();      
+	        var alvAddCount = $('.alvOccurCount').val();
+	        var userNo = $('.userNo').text();      
+	        var alvOccurReason = $('.alvOccurReason').val();    
 	            
 	        // ajax 호출을 위한 정보 기입
 	        var request = $.ajax({
 	            url: "${root}/admin/leave/alvAddUpdate", // 호출 url
 	            method: "POST", // 전송방식
-	           data: {alvOccurCount, userNo, alvOccurReason}, // 파라미터
-	            dataType: "text" // 전송 받을 타입 ex) xml, html, text, json
+	            data: {alvAddCount, userNo, alvOccurReason}, // 파라미터
+	            dataType: "text" 
 	        });
 	             
 	        // 호출 정상일 시 실행되는 메서드
 	        request.done(function( data ) {
 	            console.log(data);
+	            close_pop();
+	           /*  $('.abc').load(location.href+' .abc'); */
+	            window.location.reload();
 	        });
 	 
 	        // 호출 에러일 시 실행되는 메서드
 	        request.fail(function() {
-	            alert( "Request failed");
+	            alert( "조정연차가 추가되지않았습니다.");
 	        });
 	 
 	        // 호출 정상 또는 에러 상관없이 실행
-	        /* request.always(function() {
+	        request.always(function() {
 	            console.log('완료');
-	        }); */
+	        });
 	    });
 	});
 
 </script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
-
-
-
 
 
 </body>

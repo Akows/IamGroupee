@@ -43,7 +43,7 @@
               		발생 연차
               		</span> <br>
               		<span style="font-size: xx-large; line-height: 2.5em;">
-              		15
+              		${allUsedAlvList.alvCount}
               		</span>
               	</div>
               	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
@@ -51,7 +51,7 @@
               		발생 월차
               		</span> <br>
               		<span style="font-size: xx-large; line-height: 2.5em;">
-              		0
+              		${allUsedAlvList.mlvCount}
               		</span>
               	</div>
               	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
@@ -59,7 +59,7 @@
               		조정 연차
               		</span> <br>
               		<span style="font-size: xx-large; line-height: 2.5em;">
-              		2
+              		${allUsedAlvList.alvAddCount}
               		</span>
               	</div>
               	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
@@ -67,7 +67,7 @@
               		총 연차
               		</span> <br>
               		<span style="font-size: xx-large; line-height: 2.5em;">
-              		17
+              		${allUsedAlvList.alvTotalCount}
               		</span>
               	</div>
               	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
@@ -75,7 +75,7 @@
               		사용 연차
               		</span> <br>
               		<span style="font-size: xx-large; line-height: 2.5em;">
-              		2.5
+              		${allUsedAlvList.alvUsedCount}
               		</span>
               	</div>
               	<div style="width: 13%; height: 100%; float: left; margin-left: 4px;">
@@ -83,7 +83,7 @@
               		남은 연차
               		</span> <br>
               		<span style="font-size: xx-large; line-height: 2.5em;">
-              		14.5
+              		${allUsedAlvList.alvTotalCount - allUsedAlvList.alvUsedCount}
               		</span>
               	</div>          
             </article>
@@ -174,8 +174,8 @@
 				    <tr>
 				      <td style="width: 15%">${lvHistoryList.lvName}</td>
 				      <td style="width: 15%">${lvHistoryList.alvOccurDate}</td>
-				      <td style="width: 15%">${lvHistoryList.alvOccurCount}</td>
-				      <td style="width: 12%">${lvHistoryList.alvOccurReason}</td>
+				      <td style="width: 10%">${lvHistoryList.alvOccurCount}</td>
+				      <td style="width: 17%">${lvHistoryList.alvOccurReason}</td>
 				    </tr>
 				  </c:forEach>
 				  </tbody>

@@ -53,7 +53,14 @@ public interface LeaveService {
 
 	List<LvUsedListDto> getAlvUsageCal(String userNo) throws Exception;
 
-	List<UserDto> getThisUser(String userNo) throws Exception;
+	UserDto getThisUser(String userNo) throws Exception;
 
+	int iagAddAlvCount(String alvAddCount, String userNo) throws Exception;
+
+	int alvOccurHistory(String alvAddCount, String userNo, String alvOccurReason) throws Exception;
+
+	UserDto getAllAlvUsage(String userNo) throws Exception;
+
+	List<UserDto> getThisUserAD(String searchByUserNo) throws Exception;
 
 }

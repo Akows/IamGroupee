@@ -6,6 +6,11 @@
   <mapper namespace="leave">
   
     <select id="getThisUser" resultType="user">
+    	SELECT * FROM IAG_USER 
+    	WHERE USER_NO = #{userNo} 
+    </select>
+  
+    <select id="getThisUserAD" resultType="user">
     	SELECT IU.*, D.DEPARTMENT_NAME, P.POSITION_NAME FROM IAG_USER IU
     	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
     	JOIN POSITION P ON (IU.POSITION_NO = P.POSITION_NO)
@@ -16,6 +21,11 @@
     	SELECT IU.*, D.DEPARTMENT_NAME, P.POSITION_NAME FROM IAG_USER IU
     	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
     	JOIN POSITION P ON (IU.POSITION_NO = P.POSITION_NO)
+    </select>
+    
+    <select id="getAllAlvUsage" resultType="user">
+    	SELECT IU.* FROM IAG_USER IU
+    	WHERE IU.USER_NO = #{userNo}
     </select>
     
     <select id="getAllUsage" resultType="lvList">
@@ -49,6 +59,10 @@
     	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'LV%' AND UL.LV_END &lt; SYSDATE
     	ORDER BY UL.LV_END DESC
     </select>
+  
+  
+  
+  
   
     <select id="getAlvList" resultType="lvList">
 	    SELECT * FROM 
@@ -90,6 +104,10 @@
     	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
     	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'LV%' AND UL.LV_END &lt; SYSDATE
     </select>
+  
+  
+  
+  
   
     <select id="getLvTypeList" resultType="leave">
     	SELECT * FROM LEAVE
@@ -168,9 +186,26 @@
     	SELECT AOH.*, L.LV_NAME FROM ALV_OCCUR_HISTORY AOH
     	JOIN LEAVE L ON (AOH.LV_CODE = L.LV_CODE)
     	WHERE AOH.USER_NO = #{userNo}
+    	ORDER BY AOH.ALV_OCCUR_DATE DESC
     </select>
     
+    <update id="iagAddAlvCount" parameterType="hashmap">
+    	UPDATE IAG_USER SET
+    	ALV_ADD_COUNT = ALV_ADD_COUNT + #{alvAddCount}
+    	WHERE USER_NO = #{userNo}
+    </update>
     
+    <insert id="insertOccurHistory" parameterType="hashmap">
+    	INSERT INTO ALV_OCCUR_HISTORY
+    	VALUES
+    	(
+    		#{userNo},
+    		'ALV_05',
+    		#{alvAddCount},
+    		SYSDATE,
+    		#{alvOccurReason}
+    	)
+    </insert>
     
     
     

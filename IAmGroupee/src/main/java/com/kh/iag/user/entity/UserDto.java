@@ -24,6 +24,7 @@ public class UserDto {
 	private String activityYn;	
 	private String profile;	
 	private int alvCount;	
+	private int mlvCount;	
 	private float alvUsedCount;	
 	private float alvLeftCount;	
 	private int alvAddCount;	
@@ -37,6 +38,9 @@ public class UserDto {
 	private String salaryRight;	
 	private String sessionKey;	
 	private Timestamp sessionLimit;	
+	private int alvOccurCount;
+	private Date alvOccurDate;
+	private String alvOccurReason;
 }
 
 
