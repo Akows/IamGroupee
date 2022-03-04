@@ -2,6 +2,7 @@ package com.kh.iag.ea.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -11,8 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.iag.ea.admin.service.AdminEAService;
@@ -21,6 +24,7 @@ import com.kh.iag.ea.entity.DeptDto;
 import com.kh.iag.ea.entity.DocsDto;
 import com.kh.iag.ea.entity.EAUserDto;
 import com.kh.iag.ea.entity.FormDto;
+import com.kh.iag.ea.entity.PageDto;
 import com.kh.iag.ea.entity.ProcessDto;
 import com.kh.iag.ea.entity.SignupDto;
 import com.kh.iag.ea.service.EAService;
@@ -107,41 +111,83 @@ public class EAController {
 		// 결재자 정보 결재선 테이블
 		List<ProcessDto> processList = service.selectProcess(pd);
 		model.addAttribute("processList", processList);
-		for(ProcessDto p : processList) {
-			log.info(p.toString());
-		}
-		
-		
 		
 		// 완료후 기안문서조회 상세 페이지로
 		return "ea/user/ea_signuplist_detail";
 	}
 //---------------------------------------------------------------- 기안문서조회
 	// 기안문서조회 (리스트)
-	@GetMapping(value = "/signuplist")
-	public String signuplist(HttpSession session) {
-		// 자신이 기안한 문서들 데이터
+	@GetMapping(value = {"/signuplist/{page}", "/signuplist"})
+	public String signuplist(HttpSession session, Model model, @PathVariable(required = false) String page) throws Exception {
+		
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
 		String userNo = loginUser.getUserNo();
-//		List<DocsDto> signupList = service.signupList(userNo);
+		
+		if(page == null) {
+			return "redirect:signuplist/1";
+		}
+		int cntPerPage = 15;
+		int pageBtnCnt = 5;
+		int totalRow = service.getSignupListCnt(userNo);
+		PageDto vo = new PageDto(page, cntPerPage, pageBtnCnt, totalRow);
+		
+		HashMap<String, String> map =  new HashMap<>();
+		map.put("userNo", userNo);
+		map.put("startRow", String.valueOf(vo.getStartRow()));
+		map.put("endRow", String.valueOf(vo.getEndRow()));
+		
+		// 자신이 기안한 문서들 데이터
+		List<DocsDto> signupList = service.signupList(map);
+		
+		for(DocsDto d : signupList) {
+			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+			Date makeDate = d.getDocMake();
+			Date closeDate = d.getDocClose();
+			d.setSimpleMakeDate(ft.format(makeDate));
+			d.setSimpleCloseDate(ft.format(closeDate));
+		}
+		model.addAttribute("signupList", signupList);
+		model.addAttribute("page", vo);
 		
 		// 양식전체종류 데이터 (테이블헤더에 필요)
+		List<FormDto> formList = service.formList();
+		model.addAttribute("formList", formList);
 		
 		// 진행단계 데이터 (테이블헤더에 필요)
-		
-		
+		List<ProcessDto> processList = service.processList(userNo);
+		model.addAttribute("processList", processList);
 		
 		return "ea/user/ea_signuplist_list";
 	}
-	// 기안문서조회 (상세조회) -> PathValue사용해서 쿼리스트링 말고 "/" 문서번호구분으로 받아오기
-	@GetMapping(value = "/signuplist/detail")
-	public String signuplistDetail(String process) {
+	
+	// 기안문서조회 (상세조회)
+	@PostMapping(value = "/signuplist/detail")
+	public String signuplistDetail(Model model, String process, String docNo) throws Exception {
+		
 		// 반려 문서시 내용 수정하여 다시 기안할 수 있는 페이지로 이동
-		System.out.println(process);
-		if((process.equals("반려")))
-			return "ea/user/ea_signuplist_rejected";
-		else
+		if(("반려".equals(process)) || "협의요청".equals(process)) {
+			return "ea/user/ea_signuplist_rejected";			
+		} else {
+			ProcessDto pd = new ProcessDto();
+			pd.setDocNo(docNo);
+			
+			// 문서 정보 문서 테이블
+			DocsDto doc = service.selectDocument(pd);
+			Date makeDate = doc.getDocMake();
+			Date closeDate = doc.getDocClose();
+			SimpleDateFormat ft = new SimpleDateFormat("yyyy. MM. dd.");
+			doc.setSimpleMakeDate(ft.format(makeDate));
+			doc.setSimpleCloseDate(ft.format(closeDate));
+			model.addAttribute("docInfo", doc);
+			
+			pd.setProcNo(doc.getProcNo());
+			
+			// 결재자 정보 결재선 테이블
+			List<ProcessDto> processList = service.selectProcess(pd);
+			model.addAttribute("processList", processList);
+			
 			return "ea/user/ea_signuplist_detail";
+		}
 	}
 
 //---------------------------------------------------------------- 결재문서조회

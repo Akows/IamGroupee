@@ -1,5 +1,6 @@
 package com.kh.iag.ea.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -32,6 +33,14 @@ public interface EAService {
 	DocsDto selectDocument(ProcessDto pd) throws Exception;
 
 	List<ProcessDto> selectProcess(ProcessDto pd) throws Exception;
+
+	List<DocsDto> signupList(HashMap<String, String> map) throws Exception;
+
+	List<FormDto> formList() throws Exception;
+
+	List<ProcessDto> processList(String userNo);
+
+	int getSignupListCnt(String userNo);
 
 
 	

@@ -2,6 +2,8 @@ package com.kh.iag.ea.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -156,6 +158,26 @@ public class EAServiceImpl implements EAService {
 	@Override
 	public List<ProcessDto> selectProcess(ProcessDto pd) throws Exception {
 		return dao.selectProcess(pd);
+	}
+
+	@Override
+	public List<DocsDto> signupList(HashMap<String, String> map) throws Exception {
+		return dao.signupList(map);
+	}
+
+	@Override
+	public List<FormDto> formList() throws Exception {
+		return dao.formList();
+	}
+
+	@Override
+	public List<ProcessDto> processList(String userNo) {
+		return dao.processList(userNo);
+	}
+
+	@Override
+	public int getSignupListCnt(String userNo) {
+		return dao.getSignupListCnt(userNo);
 	}
 
 }

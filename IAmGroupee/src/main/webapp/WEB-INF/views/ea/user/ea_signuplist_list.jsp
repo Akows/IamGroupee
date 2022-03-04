@@ -28,8 +28,6 @@
       </div>
       <div class="ea_signuplist_list_contents">
         <!-- 제목 누르면 그냥 문서번호만 보내서 처리 -->
-        <form action="signuplist/detail" method="GET" name="reuqestForm">
-        <input type="search" name="" id="" placeholder="문서 제목을 입력하세요.">
         <table>
           <thead>
             <tr>
@@ -37,9 +35,12 @@
               <th>
                 양식<span> ▾</span>
                 <ul>
-                  <li><a href="#">양식1</a></li>
-                  <li><a href="#">양식2</a></li>
-                  <li><a href="#">양식3</a></li>
+                <c:forEach items="${formList}" var="fl">
+                  <li>
+                    <a href="#">${fl.formTitle}</a>
+                    <input type="hidden" value="${fl.formNo}">
+                  </li>
+                </c:forEach>
                 </ul>
               </th>
               <th>문서 제목</th>
@@ -60,110 +61,91 @@
               <th>
                 진행 단계<span> ▾</span>
                 <ul>
-                  <li><a href="#">1차 결재</a></li>
-                  <li><a href="#">2차 결재</a></li>
+                  <li><a href="#">결재대기</a></li>
                   <li><a href="#">반려</a></li>
-                  <li><a href="#">승인</a></li>
+                  <li><a href="#">협의요청</a></li>
                 </ul>
               </th>
             </tr>
           </thead>
           <tbody>
             <!-- for-each -->
-            <tr>
-              <td>1</td>
-              <td>비품구매서</td>
-              <td><a href="javascript:reuqestForm.submit()" class="ea_title">문서상세</a></td>
-              <td>2022-01-01</td>
-              <td>2022-01-07</td>
-              <td>1차 결재</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>비품구매서</td>
-              <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-              <td>2022-01-01</td>
-              <td>2022-01-07</td>
-              <td>2차 결재</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>비품구매서</td>
-              <td><a href="javascript:reuqestForm.submit()"     class="ea_title">반려문서</a></td>
-              <td>2022-01-01</td>
-              <td>2022-01-07</td>
-              <td>반려</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>비품구매서</td>
-                <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-                <td>2022-01-01</td>
-                <td>2022-01-07</td>
-                <td>승인</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>비품구매서</td>
-                <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-                <td>2022-01-01</td>
-                <td>2022-01-07</td>
-                <td>1차 결재</td>
-              </tr>
-              <tr>
-                <td>6</td>
-                <td>비품구매서</td>
-                <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-                <td>2022-01-01</td>
-                <td>2022-01-07</td>
-                <td>2차 결재</td>
-              </tr>
-              <tr>
-                <td>7</td>
-                <td>비품구매서</td>
-                <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-                <td>2022-01-01</td>
-                <td>2022-01-07</td>
-                <td>반려</td>
-              </tr>
-              <tr>
-                <td>8</td>
-                <td>비품구매서</td>
-                <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-                <td>2022-01-01</td>
-                <td>2022-01-07</td>
-                <td>승인</td>
-              </tr>
-              <tr>
-                <td>9</td>
-                <td>비품구매서</td>
-                <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-                <td>2022-01-01</td>
-                <td>2022-01-07</td>
-                <td>1차 결재</td>
-              </tr>
-              <tr>
-                <td>10</td>
-                <td>비품구매서</td>
-                <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-                <td>2022-01-01</td>
-                <td>2022-01-07</td>
-                <td>2차 결재</td>
-              </tr>
-            </tbody>
+            <form action="${root}/ea/signuplist/detail" method="POST" name="requestForm">
+              <c:forEach items="${signupList}" var="sl">
+                <tr>
+                  <td>${sl.docNo}</td>
+                  <td>${sl.formTitle}</td>
+                  <td><a href="javascript:requestForm.submit()" class="ea_title">${sl.docTitle}</a></td>
+                  <td>${sl.simpleMakeDate}</td>
+                  <td>${sl.simpleCloseDate}</td>
+                  
+                  <c:forEach items="${processList}" var="pl" varStatus="vs">
+                    <c:if test="${sl.docNo eq pl.docNo}">
+                      <c:if test="${pl.procSeq eq 2}">
+                      <td>반려</td>
+                      </c:if>
+                      <c:if test="${pl.procSeq eq 3}">
+                      <td>협의요청</td>
+                      </c:if>
+                      
+                      <c:if test="${pl.procSeq ne 2 || pl.procSeq ne 3}">
+                        <c:if test="${pl.procSep eq 1 && pl.procSeq eq 0}">
+                          <td>결제대기</td>
+                        </c:if>
+                        <c:if test="${pl.procSep eq 1 && pl.procSeq eq 1}">
+                          <c:if test="${pl.procSep eq 2 && pl.procSeq eq 0}">
+                          <td>결제대기</td>
+                          </c:if>
+                          <c:if test="${pl.procSep eq 2 && pl.procSeq eq 0}">
+                            <c:if test="${pl.procSep eq 3 && pl.procSeq eq 0}">
+                            <td>결제대기</td>
+                            </c:if>
+                            <c:if test="${pl.procSep eq 3 && pl.procSeq eq 1}">
+                              <c:if test="${pl.procSep eq 4 && pl.procSeq eq 0}">
+                              <td>결제대기</td>
+                              </c:if>
+                              <c:if test="${pl.procSep eq 4 && pl.procSeq eq 1}">
+                                <c:if test="${pl.procSep eq 5 && pl.procSeq eq 0}">
+                                <td>결제대기</td>
+                                </c:if>
+                              </c:if>
+                            </c:if>
+                          </c:if>       
+                        </c:if>
+                      </c:if>
+                    </c:if>
+                  </c:forEach>
+                </tr>
+              </c:forEach>
+            </form>
+          </tbody>
           </table>
-        </form>
-          <div id="ea_paging">
-            <ul>
-              <li><a href="#"><</a></li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">99</a></li>
-              <li><a href="#">></a></li>
-            </ul>
-          </div>
+        
+        
+        
+        <div id="pagingBtn">
+          <!-- 페이지 start -->
+          <ul>
+            <c:if test="${page.startPage != 1}">
+              <li><a href="${page.startPage - 1}">◁</a></li>
+            </c:if>
+            
+            <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+              <c:if test="${page.currentPage != i and i <= page.lastPage}">
+                <li><a href="${root}/ea/signuplist/${i}">${i}</a></li>
+              </c:if>
+              <c:if test="${page.currentPage == i and i <= page.lastPage}">
+                <li style="background: #4081e4; color: #fff;">${i}</li>
+              </c:if>
+            </c:forEach>
+            
+            <c:if test="${page.endPage < page.lastPage}">
+              <li><a href="${page.endPage + 1}">▷</a></li>
+            </c:if>
+          </ul>
+          <!-- 페이지 end -->
+        </div>
+          
         </div>
       </div>
     </div>
@@ -176,16 +158,28 @@
     <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
 
 <script>
-  $('.ea_signuplist_list_contents > form > table > thead > tr > th > span').click(function() {
+  $('.ea_signuplist_list_contents > table > thead > tr > th > span').click(function() {
     $(this).siblings("ul").toggleClass('active');
   });
 
-  // 임시 페이지 접근 코드
+  // 상세페이지 이동시 문서번호, 결재절차 데이터 추가
   $('.ea_title').click(function() {
-    let x = $(this).parent().siblings().eq(4).text();
-    $(this).parent().siblings().eq(4).html(x + '<input type="hidden" name="process" value="">');
-    $(this).parent().siblings().eq(4).children().val(x);
+    let process = $(this).parent().siblings().eq(4).text();
+    console.log(process);
+    let docNo = $(this).parent().parent().children().eq(0).text();
+    console.log(docNo);
+    $('<input>', {
+      type : "hidden",
+      name: "process",
+      value : process
+    }).appendTo('form[name="requestForm"]');
+    $('<input>', {
+      type : "hidden",
+      name: "docNo",
+      value : docNo
+    }).appendTo('form[name="requestForm"]');
   });
+
 
 </script>
 </body>

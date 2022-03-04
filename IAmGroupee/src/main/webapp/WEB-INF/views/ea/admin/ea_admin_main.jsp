@@ -527,9 +527,6 @@
           }
         };
         
-        
-
-
         // enter key process
         // $('.container').on('keydown', 'input', function(e) {
         //  if (e.keyCode === 13) {

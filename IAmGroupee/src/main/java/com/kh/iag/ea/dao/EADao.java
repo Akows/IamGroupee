@@ -1,5 +1,6 @@
 package com.kh.iag.ea.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.kh.iag.ea.entity.DeptDto;
@@ -30,5 +31,13 @@ public interface EADao {
 	DocsDto selectDocument(ProcessDto pd) throws Exception;
 
 	List<ProcessDto> selectProcess(ProcessDto pd) throws Exception;
+
+	List<DocsDto> signupList(HashMap<String, String> map) throws Exception;
+
+	List<FormDto> formList() throws Exception;
+
+	List<ProcessDto> processList(String userNo);
+
+	int getSignupListCnt(String userNo);
 	
 }

@@ -16,6 +16,4 @@ public class ProcessDto {
 	private String name;
 	private String positionName;
 	private String departmentName;
-	
-	
 }
