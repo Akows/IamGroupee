@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.iag.attend.dao.AttendDAO;
 import com.kh.iag.attend.entity.AttendModDTO;
@@ -60,27 +61,44 @@ public class AttendManageAttachFileController
 	}
 
 	@GetMapping("attachfiledownload/{attach_file}")
-	public ResponseEntity fileDownload(@PathVariable String attach_file) throws IOException
+	public ResponseEntity<ByteArrayResource> fileDownload(@PathVariable String attach_file, HttpServletRequest req) throws IOException
 	{ 
+		
+		System.out.println("=====");
+		System.out.println(attach_file);
+		attach_file += ".JPG";
+		
 		AttendModDTO attendModDTO = Attenddao.downloadFile(attach_file);
 		
 		if (attendModDTO == null)
 		{
+			System.out.println("if~~~");
 			return ResponseEntity.notFound().build();
 		}
 		
-		File file = new File("D://Coding Archive//Git Repo//FinalProject//FinalPrj//IAmGroupee//src//main//webapp//resources//upload//files", String.valueOf(attach_file));
+//		File file = new File("D://Coding Archive//Git Repo//FinalProject//FinalPrj//IAmGroupee//src//main//webapp//resources//upload//files", String.valueOf(attach_file));
+		
+		System.out.println(req.getServletContext().getRealPath("/"));
+		
+		File file = new File(req.getServletContext().getRealPath("/resources/upload/files/"), String.valueOf(attach_file));
+		
+		System.out.println("exist ::: " + file.exists());
 		
 		byte[] data = FileUtils.readFileToByteArray(file);
 		
 		ByteArrayResource res = new ByteArrayResource(data);
 		
+		System.out.println("res=====");
+		System.out.println(res);
+		
+		System.out.println("size : "  + attendModDTO.getAttach_file_size());
+		
 		return ResponseEntity
 			   .ok()
 			   .contentType(MediaType.APPLICATION_OCTET_STREAM)
 			   .contentLength(attendModDTO.getAttach_file_size())
-			   .header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + URLEncoder.encode(attendModDTO.getAttach_file(), "UTF-8") + "\"")
-			   .header(org.springframework.http.HttpHeaders.CONTENT_ENCODING, "UTF-8")
+			   .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + URLEncoder.encode(attendModDTO.getAttach_file(), "UTF-8") + "\"")
+			   .header(HttpHeaders.CONTENT_ENCODING, "UTF-8")
 			   .body(res);
 	}
 	

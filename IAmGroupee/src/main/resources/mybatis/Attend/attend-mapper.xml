@@ -24,6 +24,7 @@
 			<result property="req_date" column="REQ_DATE"/>
 			<result property="mod_reason" column="MOD_REASON"/>
 			<result property="attach_file" column="ATTACH_FILE"/>
+			<result property="attach_file_size" column="ATTACH_FILE_SIZE"/>
 			<result property="approve_state" column="APPROVE_STATE"/>
 		</resultMap>
 		

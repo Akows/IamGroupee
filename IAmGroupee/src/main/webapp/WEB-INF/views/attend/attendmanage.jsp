@@ -153,13 +153,12 @@
 	
 	function filebtnclickEventHandler(e) 
 	{
-		e.currnetTartget
 		// http://127.0.0.1:8989/iag/attend/attachfile?attend_mod_num=1
 				
 				
 		var url = "http://127.0.0.1:8989/iag/attend/attachfile?attend_mod_num=";
-		let x = document.querySelector('#auform > input[name=attend_mod_num]').value;
-		url += x;
+		let no = e.currentTarget.previousSibling.previousSibling.value;
+		url += no;
 		
 		var name = "파일상세페이지";
 		var specs = "width=1000, height=1000, scrollbars=yes, menubar=no";
