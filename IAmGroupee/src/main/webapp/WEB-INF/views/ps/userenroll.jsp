@@ -13,7 +13,6 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
-	<c:set var="pwdCheck" value="false" />
     <!-- ! Main -->
     <main class="main users chart-page" id="skip-target">
      <div class="container">
@@ -36,6 +35,9 @@
                         <input type="text" class="form-control textInput" placeholder="ID" name="userNo" id="userNo" required>
                       </div>
                       <div class="form-group">
+                      	<span id="idDup"></span>
+                      </div>
+                      <div class="form-group">
                         <label for="pwd">비밀번호</label>
                         <input type="password" class="form-control textInput" placeholder="PASSWORD" name="pwd" id="pwd" required>
                       </div>
@@ -43,11 +45,14 @@
                         <label for="pwdCheck">비밀번호 확인</label>
                         <input type="password" class="form-control textInput" placeholder="PASSWORD CHECK" name="pwdCheck" id="pwdCheck" required>
                       </div>
+                        <div class="form-group">
+                      	<span id="pwdDup"></span>
+                      </div>
                     </div>
                     <div class="col-sm-6">
                   		<div class="box" style="background: #BDBDBD;">
     						<a id="profile"><img class="profile" src="${root}/resources/img/ps/profile/user.png"></a>
-    						<input type="file" id="file" accept=".jpg,.png" name="profile"/>
+    						<input type="file" id="file" accept=".jpg,.png" name="file"/>
 						</div>
 					</div>
                   </div>
@@ -64,6 +69,9 @@
                         <label for="residentNo">주민등록번호</label>
                         <input type="text" class="form-control textInput" placeholder="주민등록번호" name="residentNo" id="residentNo" required>
                       </div>
+                      <div class="form-group">
+                      	<span id="resiEx"></span>
+                      </div>
 					</div>
                   </div>
                   <div class="row">
@@ -72,12 +80,18 @@
                       <div class="form-group">
                         <label for="phone">전화 번호</label>
                         <input type="text" class="form-control textInput" placeholder="PHONE" name="phone" id="phone" required>
-                      </div>          
+                      </div>   
+                      <div class="form-group">
+                      	<span id="phoneEx"></span>
+                      </div>       
                     </div>
                     <div class="col-sm-6">
                   		<div class="form-group">
                         <label for="email">이메일</label>
                         <input type="text" class="form-control textInput" placeholder="EMAIL" name="email" id="email" required>
+                      </div>
+                      <div class="form-group">
+                      	<span id="emailEx"></span>
                       </div>
 					</div>
                   </div>
@@ -88,7 +102,7 @@
                       <label for="enrollDate">입사일</label>
                     	<div class="input-group date" id="reservationdate" data-target-input="nearest">
                     	
-                        <input type="text" name="enrollDate" id="enrollDate" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                        <input type="text" name="enrollDateStr" id="enrollDate" class="form-control datetimepicker-input" data-target="#reservationdate" placeholder="dd/MM/yyyy" required/>
                         <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -109,6 +123,9 @@
                         <label>조직</label>
                         <select class="form-control" name="departmentNo">
                           <option value="0">없음</option>
+                          <c:forEach items="${deptList}" var="d">
+                          	<option value="${d.departmentNo}">${d.departmentName}</option>
+                          </c:forEach>
                         </select>
                       </div>
                     </div>
@@ -118,6 +135,9 @@
                         <label>직위</label>
                         <select class="form-control" name="positionNo">
                           <option value="0">없음</option>
+                          <c:forEach items="${posiList}" var="p">
+                          	<option value="${p.positionNo}">${p.positionName}</option>
+                          </c:forEach>
                         </select>
                       </div>
                     </div>
@@ -127,6 +147,9 @@
                         <label>직무</label>
                         <select class="form-control" name="jobNo">
                           <option value="0">없음</option>
+                          <c:forEach items="${jobList}" var="j">
+                          	<option value="${j.jobNo}">${j.jobName}</option>
+                          </c:forEach>
                         </select>
                       </div>
                     </div>
@@ -215,7 +238,7 @@
                           			<label for="customRadio1" class="custom-control-label">활성화</label>
                         		</div>
                         		<div class="custom-control custom-radio">
-                          			<input class="custom-control-input" type="radio" id="customRadio2" name="activityYn" activityYn="N">
+                          			<input class="custom-control-input" type="radio" id="customRadio2" name="activityYn" value="N">
                           			<label for="customRadio2" class="custom-control-label">비활성화</label>
                         		</div>
                       		</div>
@@ -225,7 +248,7 @@
                   <div class="row">
                   	<div class="col-sm-6 col-lg-8"></div>
                   	<div class="col-sm-3 col-lg-2">
-                  		<button type="submit" class="btn btn-block btn-primary">추가</button>
+                  		<button type="submit" class="btn btn-block btn-primary" id="add">추가</button>
                   	</div>
                   	<div class="col-sm-3 col-lg-2">
                   		<button type="button" class="btn btn-block btn-secondary" id="cancle">취소</button>
@@ -255,6 +278,11 @@
     
 	<script type="text/javascript">
 		$(document).ready(function () { 
+			var pwdCheck = false;
+			var idCheck = false;
+			var phoneCheck = false;
+			var emailCheck = false;
+			var resiCheck = false;
 			$("#cancle").on("click",function(){
 				if(confirm("사용자 등록을 취소하시겠습니까?")){
 					window.location.replace("/iag/admin/ps/userlist");
@@ -264,7 +292,7 @@
 				$("#file").click();
 			});
 			$("#file").change(function(){
-				let fileTag = document.querySelector('input[name=profile]');
+				let fileTag = document.querySelector('input[name=file]');
 				let aTag = document.querySelector('#profile');
 				if(fileTag.files.length > 0){
 					let reader = new FileReader();
@@ -289,14 +317,89 @@
 			        format: 'L'
 			    });
 			$("#pwdCheck").change(function(){
-				if(this.val() === $("#pwd").val()){
-					pwdCheck="true"
+				if($("#pwdCheck").val() === $("#pwd").val()){
+					pwdCheck=true;
+					$("#pwdDup").text("비밀번호가 일치합니다.");
+					$("#pwdDup").css("color", "green");
 				}else{
-					pwdCheck="false";
+					pwdCheck=false;
+					$("#pwdDup").text("비밀번호가 일치하지 않습니다.");
+					$("#pwdDup").css("color", "red");
 				}
-				
 			})
+			$("#userNo").change(function() {
+				let userNo = $("#userNo").val();
+				$.ajax({
+					url : "${root}/admin/ps/dupCheck",
+					data : {"userNo" : userNo},
+					type : 'post',
+					success : function(data){
+						if(data === "true"){
+							idCheck = true;
+							$("#idDup").text("사용가능한 사원번호입니다.");
+							$("#idDup").css("color", "green");
+						} else {
+							idCheck = false;
+							$("#idDup").text("중복된 사원번호입니다.");
+							$("#idDup").css("color", "red");
+						}
+					},
+					error : function(e){
+						console.log(e);
+					}
+					
+				});
+			});
+			$("#add").on("click", function(){
+				if(!(pwdCheck && idCheck && resiCheck && emailCheck && phoneCheck)){
+					alert("입력을 확인해주세요.");
+					return false;
+				}
+			});
+			var regex1= /^\d{2}([0]\d|[1][0-2])([0][1-9]|[1-2]\d|[3][0-1])[-]*[1-4]\d{6}/g;
+			var regex2= /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			var regex3= /^\d{2,3}-\d{3,4}-\d{4}$/;
+			$("#residentNo").change(function(){
+				if(!regex1.test($(this).val())){
+					resiCheck = false;
+					$("#resiEx").text("올바르지 않은 주민등록번호입니다.");
+					$("#resiEx").css("color", "red");
+				} else{
+					resiCheck = true;
+					$("#resiEx").text("올바른 주민등록번호입니다.");
+					$("#resiEx").css("color", "green");
+				}
+			});
+			$("#email").change(function(){
+				if(!regex2.test($(this).val())){
+					emailCheck = false;
+					$("#emailEx").text("올바르지 않은 이메일입니다.");
+					$("#emailEx").css("color", "red");
+				} else{
+					emailCheck = true;
+					$("#emailEx").text("올바른 이메일입니다.");
+					$("#emailEx").css("color", "green");
+				}
+			});
+			$("#phone").change(function(){
+				if(!regex3.test($(this).val())){
+					phoneCheck = false;
+					$("#phoneEx").text("올바르지 않은 전화번호입니다.");
+					$("#phoneEx").css("color", "red");
+				} else{
+					phoneCheck = true;
+					$("#phoneEx").text("올바른 전화번호입니다.");
+					$("#phoneEx").css("color", "green");
+				}
+			});
+			$("#residentNo").keyup(function(){
+				$(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(\d{6})(\d+)/g,"$1-$2").replace("--", "-") );
+			})
+			$("#phone").keyup(function() { 
+				$(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") ); 
+			});
 		});
+		
 		
 
 	</script>

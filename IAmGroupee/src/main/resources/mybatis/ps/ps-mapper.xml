@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="ps">
+	<insert id="userEnroll">
+		INSERT INTO 
+		IAG_USER
+		(
+			USER_NO,
+			PWD,
+			NAME,
+			RESIDENT_NO,
+			PHONE,
+			EMAIL,
+			ADDRESS,
+			ENROLL_DATE,
+			ACTIVITY_YN,
+			PROFILE,
+			PERSONNEL_RIGHT,
+			PAYMENT_RIGHT,
+			LEAVE_RIGHT,
+			RESERVATIONS_RIGHT,
+			BOARD_RIGHT,
+			ATTENDENCE_RIGHT,
+			SALARY_RIGHT
+			<if test="positionNo != 0">
+				,POSITION_NO
+			</if>
+			<if test="departmentNo != 0">
+				,DEPARTMENT_NO
+			</if>
+			<if test="jobNo != 0">
+				,JOB_NO
+			</if>
+		)
+		VALUES
+		(
+			#{userNo},
+			#{pwd},
+			#{name},
+			#{residentNo},
+			#{phone},
+			#{email},
+			#{address},
+			#{enrollDate},
+			#{activityYn},
+			#{profile},
+			#{personnelRight},
+			#{paymentRight},
+			#{leaveRight},
+			#{reservationsRight},
+			#{boardRight},
+			#{attendenceRight},
+			#{salaryRight}
+			<if test="positionNo != 0">
+				, #{positionNo}
+			</if>
+			<if test="departmentNo != 0">
+				, #{departmentNo}
+			</if>
+			<if test="jobNo != 0">
+				, #{jobNo}
+			</if>
+		)
+	</insert>
+	
+	<select id="position" resultType="posi">
+		SELECT * FROM POSITION
+	</select>
+	
+	<select id="job" resultType="job">
+		SELECT * FROM JOB
+	</select>
+	
+	<select id="department" resultType="dept">
+		SELECT * FROM DEPARTMENT
+	</select>
+	
+	<select id="deptCnt" resultType="_int">
+		SELECT COUNT(DEPARTMENT_NO)
+		FROM DEPARTMENT
+	</select>
+	
+	<select id="jobCnt" resultType="_int">
+		SELECT COUNT(JOB_NO)
+		FROM JOB
+	</select>
+	
+	<select id="posiCnt" resultType="_int">
+		SELECT COUNT(POSITION_NO)
+		FROM POSITION
+	</select>
+	
+	<select id="userCnt" resultType="_int">
+		SELECT COUNT(USER_NO)
+		FROM IAG_USER
+		WHERE END_DATE IS NULL
+	</select>
+	
+	<select id="getUserCnt" resultType="_int">
+		SELECT COUNT(USER_NO)
+		FROM IAG_USER
+		WHERE END_DATE IS NULL
+		<if test="search != null and search !=''">
+			AND (USER_NO LIKE '%'|| #{search}||'%' OR TRIM(REPLACE(PHONE,'-','')) LIKE '%'||#{search}||'%' OR NAME LIKE '%'||#{search}||'%')
+		</if>
+	</select>
+	
+	<select id="dupCheck" resultType="_int">
+		SELECT COUNT(USER_NO)
+		FROM IAG_USER
+		WHERE USER_NO = #{userNo}
+	</select>
+	
+	<select id="getUserList" resultType="userDto">
+		SELECT * FROM(
+			SELECT ROWNUM RN, A.* 
+			FROM
+			(
+				SELECT * 
+				FROM IAG_USER U
+				LEFT OUTER JOIN POSITION P ON (U.POSITION_NO = P.POSITION_NO)
+                LEFT OUTER JOIN DEPARTMENT D ON (D.DEPARTMENT_NO = U.DEPARTMENT_NO)
+                LEFT OUTER JOIN JOB J ON (J.JOB_NO = U.JOB_NO)
+				WHERE U.END_DATE IS NULL
+				<if test="search != null and search !=''">
+					AND (U.USER_NO LIKE '%'|| #{search}||'%' OR TRIM(REPLACE(U.PHONE,'-','')) LIKE '%'||#{search}||'%' OR U.NAME LIKE '%'||#{search}||'%')
+				</if>
+				ORDER BY U.ENROLL_DATE
+			) A
+		) WHERE RN BETWEEN #{startRow} AND #{endRow}
+	</select>
+</mapper>

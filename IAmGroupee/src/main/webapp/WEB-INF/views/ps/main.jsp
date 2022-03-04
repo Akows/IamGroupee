@@ -23,7 +23,7 @@
               <div class="inner">
                 <h3>임직원 관리</h3>
 
-                <p>10명</p>
+                <p>${psCnt.userCnt}명의 임직원</p>
               </div>
               <div class="icon">
                 <i class="fas fa-user-plus"></i>
@@ -40,7 +40,7 @@
               <div class="inner">
                 <h3>부서 관리</h3>
 
-                <p>7개 부서</p>
+                <p>${psCnt.deptCnt}개의 부서</p>
               </div>
               <div class="icon">
                 <i class="fas fa-chart-pie"></i>
@@ -55,9 +55,9 @@
             <!-- small card -->
             <div class="small-box bg-primary">
               <div class="inner">
-                <h3>직무/직위 관리</h3>
+                <h3>직위/직무 관리</h3>
 
-                <p>3가지 직위</p>
+                <p>${psCnt.posiCnt}개의 직위 / ${psCnt.jobCnt}개의 직무</p>
               </div>
               <div class="icon">
                 <i class="far fa-flag"></i>
