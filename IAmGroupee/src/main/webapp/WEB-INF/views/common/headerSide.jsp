@@ -42,7 +42,7 @@
             <ul class="sidebar-body-menu">
                 <li>
                     <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
-                        <span class="icon document" aria-hidden="true"></span>Attendance
+                        <span class="icon document" aria-hidden="true"></span>근태
                         <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -62,7 +62,7 @@
                 </li>
                 <li>
                     <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
-                        <span class="icon folder" aria-hidden="true"></span>Electronic Approval
+                        <span class="icon folder" aria-hidden="true"></span>전자결재
                         <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -88,7 +88,7 @@
                 </li>
                 <li>
                     <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
-                        <span class="icon paper" aria-hidden="true"></span>Personnel
+                        <span class="icon paper" aria-hidden="true"></span>인사
                         <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -102,7 +102,7 @@
                 </li>
                 <li>
                     <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
-                        <span class="icon image" aria-hidden="true"></span>Salary
+                        <span class="icon image" aria-hidden="true"></span>급여
                         <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -122,7 +122,7 @@
             <ul class="sidebar-body-menu">
               <li>
                   <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
-                      <span class="icon document" aria-hidden="true"></span>Schedule
+                      <span class="icon document" aria-hidden="true"></span>일정
                       <span class="category__btn transparent-btn" title="Open list">
                           <span class="sr-only">Open list</span>
                           <span class="icon arrow-down" aria-hidden="true"></span>
@@ -139,7 +139,7 @@
               </li>
               <li>
                   <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
-                      <span class="icon folder" aria-hidden="true"></span>Projects
+                      <span class="icon folder" aria-hidden="true"></span>프로젝트
                       <span class="category__btn transparent-btn" title="Open list">
                           <span class="sr-only">Open list</span>
                           <span class="icon arrow-down" aria-hidden="true"></span>
@@ -156,7 +156,7 @@
               </li>
               <li>
                   <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
-                      <span class="icon image" aria-hidden="true"></span>Reservations
+                      <span class="icon image" aria-hidden="true"></span>예약
                       <span class="category__btn transparent-btn" title="Open list">
                           <span class="sr-only">Open list</span>
                           <span class="icon arrow-down" aria-hidden="true"></span>
@@ -173,7 +173,7 @@
               </li>
               <li>
                   <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
-                      <span class="icon paper" aria-hidden="true"></span>Leave
+                      <span class="icon paper" aria-hidden="true"></span>연차
                       <span class="category__btn transparent-btn" title="Open list">
                           <span class="sr-only">Open list</span>
                           <span class="icon arrow-down" aria-hidden="true"></span>
@@ -196,7 +196,7 @@
               </li>
               <li>
                   <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
-                      <span class="icon paper" aria-hidden="true"></span>Board
+                      <span class="icon paper" aria-hidden="true"></span>게시판
                       <span class="category__btn transparent-btn" title="Open list">
                           <span class="sr-only">Open list</span>
                           <span class="icon arrow-down" aria-hidden="true"></span>
@@ -216,7 +216,7 @@
               </li>
               <li>
                   <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
-                      <span class="icon paper" aria-hidden="true"></span>Management
+                      <span class="icon paper" aria-hidden="true"></span>관리자
                       <span class="category__btn transparent-btn" title="Open list">
                           <span class="sr-only">Open list</span>
                           <span class="icon arrow-down" aria-hidden="true"></span>
@@ -230,7 +230,7 @@
                           <a href="${root}/admin/attend/main">근태</a>
                       </li>
                       <li>
-                          <a href="${root}/admin/leave/main">연차</a>
+                          <a href="${root}/admin/leave/main/1">연차</a>
                       </li>
                       <li>
                           <a href="${root}/admin/ea/main">전자결재</a>
@@ -245,7 +245,7 @@
               </li>
               <li>
                   <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
-                      <span class="icon user-3" aria-hidden="true"></span>MyPage
+                      <span class="icon user-3" aria-hidden="true"></span>마이페이지
                       <span class="category__btn transparent-btn" title="Open list">
                           <span class="sr-only">Open list</span>
                           <span class="icon arrow-down" aria-hidden="true"></span>

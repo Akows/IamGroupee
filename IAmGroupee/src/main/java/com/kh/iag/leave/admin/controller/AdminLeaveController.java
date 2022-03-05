@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.iag.leave.entity.LeaveDto;
 import com.kh.iag.leave.entity.LvInfoDto;
+import com.kh.iag.leave.entity.PageVo;
 import com.kh.iag.leave.service.LeaveService;
 import com.kh.iag.user.entity.UserDto;
 
@@ -27,19 +29,40 @@ public class AdminLeaveController {
 	private LeaveService service;	
 	
 //============================= 관리자 메뉴 =============================	
-	
-	@RequestMapping("main") // 관리 메인 +  조정연차를 부여해줄 사원 찾기
-	public String main(String searchByUserNo, Model model) throws Exception {
+	@GetMapping(value = {"/main/{page}", "allUserList"})
+	public String mainGet(Model model, @PathVariable(required = false) String page) throws Exception {
 		List<UserDto> allUserList = new ArrayList<UserDto>();
-		if (searchByUserNo == null) {
-			// 모든 사원의 정보 불러오기
-			allUserList = service.getAllUser();
-			// 총연차개수 set해주기
-			for (UserDto userDto : allUserList) {
-				int alvTotalCount = userDto.getAlvCount() + userDto.getMlvCount() + userDto.getAlvAddCount();
-				userDto.setAlvTotalCount(alvTotalCount);
-			}
-		} else {
+		if (page == null) {
+			return "redirect:main/1";
+		}
+		//페이지vo생성 int currentPage, int cntPerPage, int pageBtnCnt, int totalRow
+		int cntPerPage = 10; // 한 페이지 당 10개씩 보여주기
+		int pageBtnCnt = 3; // 한 번에 보여줄 버튼 개수
+		int totalRow = service.getRowCntAD(); // 디비에 있는 모든 데이터개수
+		
+		PageVo pageVo = new PageVo(page, cntPerPage, pageBtnCnt, totalRow);// 모든 사원의 정보 불러오기
+//		System.out.println(pageVo);
+		allUserList = service.getAllUserAD(pageVo);
+		// 총연차개수 set해주기
+		for (UserDto userDto : allUserList) {
+			int alvTotalCount = userDto.getAlvCount() + userDto.getMlvCount() + userDto.getAlvAddCount();
+			userDto.setAlvTotalCount(alvTotalCount);
+		}
+		model.addAttribute("allUserList", allUserList);
+		model.addAttribute("page", pageVo);
+		return "leave/lvAdmin/adminLeaveMain";
+	}
+	
+	
+	
+	
+	@PostMapping("main") // 관리 메인 +  조정연차를 부여해줄 사원 찾기
+	public String main(String searchByUserNo, Model model, String dept, @PathVariable(required = false) String page) throws Exception {		
+		List<UserDto> allUserList = new ArrayList<UserDto>();
+		if (dept != null && !dept.equals("--부서별--")) {
+			// 해당부서의 사원정보 불러오기
+			allUserList = service.getThisDeptUserAD(dept);
+		} else if (searchByUserNo != null && dept.equals("--부서별--")) {
 			// 해당 사원의 정보 불러오기
 			allUserList = service.getThisUserAD(searchByUserNo);
 			// 총연차개수 set해주기
@@ -47,11 +70,48 @@ public class AdminLeaveController {
 				int alvTotalCount = userDto.getAlvCount() + userDto.getAlvAddCount();
 				userDto.setAlvTotalCount(alvTotalCount);
 			}
+		} else {
+			return "redirect:main/1";
 		}
-		
 		model.addAttribute("allUserList", allUserList);
 		return "leave/lvAdmin/adminLeaveMain";
 	}
+	
+	
+	
+	
+//	@RequestMapping("main") // 관리 메인 +  조정연차를 부여해줄 사원 찾기
+//	public String main(String searchByUserNo, Model model, String dept) throws Exception {
+//		List<UserDto> allUserList = new ArrayList<UserDto>();
+//		if (dept != null && !dept.equals("--부서별--")) {
+//			// 해당부서의 사원정보 불러오기
+//			allUserList = service.getThisDeptUserAD(dept);
+//		} else if (searchByUserNo != null && dept.equals("--부서별--")) {
+//			// 해당 사원의 정보 불러오기
+//			allUserList = service.getThisUserAD(searchByUserNo);
+//			// 총연차개수 set해주기
+//			for (UserDto userDto : allUserList) {
+//				int alvTotalCount = userDto.getAlvCount() + userDto.getAlvAddCount();
+//				userDto.setAlvTotalCount(alvTotalCount);
+//			}
+//		} else {
+//			// 모든 사원의 정보 불러오기
+//			allUserList = service.getAllUser();
+//			// 총연차개수 set해주기
+//			for (UserDto userDto : allUserList) {
+//				int alvTotalCount = userDto.getAlvCount() + userDto.getMlvCount() + userDto.getAlvAddCount();
+//				userDto.setAlvTotalCount(alvTotalCount);
+//			}
+//		}
+//		model.addAttribute("allUserList", allUserList);
+//		return "leave/test/adminLeaveMain";
+//	}
+	
+	
+	
+	
+	
+	
 	
 	@PostMapping("alvAddUpdate")
 	public String alvAddUpdate(String alvAddCount, String userNo, String alvOccurReason) throws Exception {

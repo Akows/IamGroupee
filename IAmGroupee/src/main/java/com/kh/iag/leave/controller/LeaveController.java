@@ -33,6 +33,7 @@ public class LeaveController {
 	@Autowired
 	private LeaveService service;
 //============================= 사용자, 관리자 메뉴 =============================	
+	
 	@GetMapping("leaveMain")  // 연차 메인
 	public String leaveMain(HttpSession session, Model model) throws Exception {	
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
@@ -115,14 +116,12 @@ public class LeaveController {
 
 		//페이지vo생성 int currentPage, int cntPerPage, int pageBtnCnt, int totalRow
 		int cntPerPage = 4; // 한 페이지 당 14개씩 보여주기
-		int pageBtnCnt = 3; // 한 번에 보여줄 버튼 개수
+		int pageBtnCnt = 2; // 한 번에 보여줄 버튼 개수
 		int totalAlvRow = service.getAlvRowCnt(userNo); // 디비에 있는 모든 연차사용내역 데이터개수
 		PageVo pageVoAlv = new PageVo(page, cntPerPage, pageBtnCnt, totalAlvRow);
-		System.out.println("연차" + pageVoAlv);
 			
 		// 로그인한 사용자의 연차사용내역
 		List<LvUsedListDto> alvUsedListIf = service.getAlvList(userNo, pageVoAlv);
-		System.out.println(alvUsedListIf);
 		if (alvUsedListIf != null) {
 			
 			for (LvUsedListDto al : alvUsedListIf) {
@@ -148,12 +147,13 @@ public class LeaveController {
 
 		//페이지vo생성 int currentPage, int cntPerPage, int pageBtnCnt, int totalRow
 		int cntPerPage = 4; // 한 페이지 당 14개씩 보여주기
-		int pageBtnCnt = 3; // 한 번에 보여줄 버튼 개수
+		int pageBtnCnt = 2; // 한 번에 보여줄 버튼 개수
 		int totalLvRow = service.getLvRowCnt(userNo); // 디비에 있는 모든 휴가사용내역 데이터개수
 		PageVo pageVoLv = new PageVo(page2, cntPerPage, pageBtnCnt, totalLvRow);
+//		System.out.println("휴가" + pageVoLv);
 			
 		// 로그인한 사용자의 휴가사용내역
-		List<LvUsedListDto> lvUsedListIf = service.getAlvList(userNo, pageVoLv);
+		List<LvUsedListDto> lvUsedListIf = service.getLvList(userNo, pageVoLv);
 		if (lvUsedListIf != null) {
 			
 			for (LvUsedListDto al : lvUsedListIf) {

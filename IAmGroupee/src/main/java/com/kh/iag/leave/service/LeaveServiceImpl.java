@@ -124,8 +124,8 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 
 	@Override // 모든 사용자의 연차 내역가져오기
-	public List<UserDto> getAllUser() throws Exception {
-		return dao.getAllUser();
+	public List<UserDto> getAllUserAD(PageVo pageVo) throws Exception {
+		return dao.getAllUserAD(pageVo);
 	}
 
 	@Override // 발생내역 가져오기
@@ -148,9 +148,19 @@ public class LeaveServiceImpl implements LeaveService {
 		return dao.alvOccurHistory(alvAddCount, userNo, alvOccurReason);
 	}
 
-	@Override
+	@Override // 해당 사원번호의 사원정보 불러오기
 	public List<UserDto> getThisUserAD(String searchByUserNo) throws Exception {
 		return dao.getThisUserAD(searchByUserNo);
+	}
+	
+	@Override // 해당부서의 사원정보 불러오기
+	public List<UserDto> getThisDeptUserAD(String dept) throws Exception {
+		return dao.getThisDeptUserAD(dept);
+	}
+
+	@Override // 관리자 메인 모든 사원의 연차 조회
+	public int getRowCntAD() throws Exception {
+		return dao.getRowCntAD();
 	}
 
 

@@ -47,7 +47,7 @@ public interface LeaveService {
 
 	int lvbDelete(LvInfoDto lvInfoDto) throws Exception;
 
-	List<UserDto> getAllUser() throws Exception;
+	List<UserDto> getAllUserAD(PageVo pageVo) throws Exception;
 
 	List<AlvOccurHistoryDto> getOccurHistory(String userNo) throws Exception;
 
@@ -62,5 +62,9 @@ public interface LeaveService {
 	UserDto getAllAlvUsage(String userNo) throws Exception;
 
 	List<UserDto> getThisUserAD(String searchByUserNo) throws Exception;
+
+	List<UserDto> getThisDeptUserAD(String dept) throws Exception;
+
+	int getRowCntAD() throws Exception;
 
 }

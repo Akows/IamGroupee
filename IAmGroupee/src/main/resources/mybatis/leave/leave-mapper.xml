@@ -17,10 +17,24 @@
     	WHERE IU.USER_NO = #{userNo} 
     </select>
   
-    <select id="getAllUser" resultType="user">
-    	SELECT IU.*, D.DEPARTMENT_NAME, P.POSITION_NAME FROM IAG_USER IU
-    	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
-    	JOIN POSITION P ON (IU.POSITION_NO = P.POSITION_NO)
+    <select id="getAllUserAD" parameterType="hashmap" resultType="user">
+   		SELECT * FROM 
+   			( 
+   				SELECT ROWNUM RN, U.* 
+   				FROM 
+   				( 
+   					SELECT IU.*, D.DEPARTMENT_NAME, P.POSITION_NAME 
+   					FROM IAG_USER IU 
+					JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO) 
+					JOIN POSITION P ON (IU.POSITION_NO = P.POSITION_NO)
+				) U
+   			) WHERE RN BETWEEN #{startRow} AND #{endRow}
+    </select>
+    
+    <select id="getRowCntAD" resultType="int">
+    	SELECT COUNT(*)
+    	FROM IAG_USER
+    	WHERE ACTIVITY_YN = 'Y'
     </select>
     
     <select id="getAllAlvUsage" resultType="user">
@@ -59,10 +73,6 @@
     	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'LV%' AND UL.LV_END &lt; SYSDATE
     	ORDER BY UL.LV_END DESC
     </select>
-  
-  
-  
-  
   
     <select id="getAlvList" resultType="lvList">
 	    SELECT * FROM 
@@ -207,7 +217,12 @@
     	)
     </insert>
     
-    
+    <select id="getThisDeptUserAD" resultType="user">
+    	SELECT IU.*, D.DEPARTMENT_NAME, P.POSITION_NAME FROM IAG_USER IU
+    	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
+    	JOIN POSITION P ON (IU.POSITION_NO = P.POSITION_NO)
+    	WHERE IU.DEPARTMENT_NO = #{departmentNo} 
+    </select>
     
     
     

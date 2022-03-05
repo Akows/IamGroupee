@@ -57,7 +57,9 @@ public class LeaveDaoImpl implements LeaveDao {
 
 	@Override
 	public int getAlvRowCnt(String userNo) throws Exception {
-		return session.selectOne("leave.getAlvRowCnt", userNo);
+		int result = session.selectOne("leave.getAlvRowCnt", userNo);
+		log.info(String.valueOf(result));
+		return result;
 	}
 	
 	@Override
@@ -121,8 +123,11 @@ public class LeaveDaoImpl implements LeaveDao {
 	}
 
 	@Override
-	public List<UserDto> getAllUser() throws Exception {
-		return session.selectList("leave.getAllUser");
+	public List<UserDto> getAllUserAD(PageVo pageVo) throws Exception {
+		Map<String, Object> pageMap = new HashMap<String, Object>();
+		pageMap.put("startRow", pageVo.getStartRow());
+		pageMap.put("endRow", pageVo.getEndRow());
+		return session.selectList("leave.getAllUserAD", pageMap);
 	}
 
 	@Override
@@ -165,6 +170,17 @@ public class LeaveDaoImpl implements LeaveDao {
 	@Override
 	public List<UserDto> getThisUserAD(String searchByUserNo) throws Exception {
 		return session.selectList("leave.getThisUserAD", searchByUserNo);
+	}
+
+	@Override
+	public List<UserDto> getThisDeptUserAD(String dept) throws Exception {
+		int departmentNo = Integer.parseInt(dept);
+		return session.selectList("leave.getThisDeptUserAD", departmentNo);
+	}
+
+	@Override
+	public int getRowCntAD() throws Exception {
+		return session.selectOne("leave.getRowCntAD");
 	}	
 	
 }

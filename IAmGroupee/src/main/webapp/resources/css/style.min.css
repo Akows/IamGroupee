@@ -811,8 +811,8 @@ body {
 
 .logo {
     background-image: url(../img/svg/img4.png);
-    width: 230px;
-    height: 120px
+    width: 210px;
+    height: 114px
 }
 
 .menu-toggle {
@@ -1700,7 +1700,7 @@ label {
     -ms-flex-pack: justify;
     justify-content: space-between;
     background-color: #0061f7 !important;
-    width: 350px;
+    width: 270px;
     padding: 20px 15px 37px 20px;
     -webkit-transition: .5s all;
     -o-transition: .5s all;
@@ -1826,7 +1826,8 @@ label {
 }
 
 .logo {
-    margin-right: 9px
+    margin-right: 9px;
+    margin-left: -10px;
 }
 
 .logo-text,
