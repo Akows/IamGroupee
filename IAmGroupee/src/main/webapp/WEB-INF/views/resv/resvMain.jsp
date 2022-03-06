@@ -155,27 +155,40 @@
 				dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 				locale: 'ko', // 한국어 설정
 
-				// eventAdd: function(obj) { // 이벤트가 추가되면 발생하는 이벤트
-				// 	console.log(obj);
-				// },
-				// eventChange: function(obj) { // 이벤트가 수정되면 발생하는 이벤트
-				// 	console.log(obj);
-				// },
-				// eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
-				// 	console.log(obj);
-				// },
-				// select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
-				// 	var title = prompt('Event Title:');
-				// 	if (title) {
-				// 	calendar.addEvent({
-				// 	title: title,
-				// 	start: arg.start,
-				// 	end: arg.end,
-				// 	allDay: arg.allDay
-				// 	})
-				// 	}
-				// 	calendar.unselect()
-				// }
+				eventAdd: function(obj) { // 이벤트가 추가되면 발생하는 이벤트
+					console.log(obj);
+				},
+				eventChange: function(obj) { // 이벤트가 수정되면 발생하는 이벤트
+					console.log(obj);
+				},
+				eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
+					console.log(obj);
+				},
+				select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
+					var title = prompt('Event Title:');
+					if (title) {
+						calendar.addEvent({
+							title: title,
+							start: arg.start,
+							end: arg.end,
+							allDay: arg.allDay
+						})
+					}
+					calendar.unselect()
+				},
+				events : [ 
+		    	    <%List<Calendar> calendarList = (List<Calendar>) request.getAttribute("calendarList");%>
+		            <%if (calendarList != null) {%>
+		            <%for (Calendar vo : calendarList) {%>
+		            {
+		            	title : '<%=vo.getCalendarTitle()%>',
+		                start : '<%=vo.getCalendarStart()%>',
+		                end : '<%=vo.getCalendarEnd()%>',
+		                color : '#' + Math.round(Math.random() * 0xffffff).toString(16)
+		             },
+						<%}
+					}%>
+				]
 			
 			});
 			calendar.render();
