@@ -81,13 +81,48 @@ public class EADaoImpl implements EADao {
 	}
 
 	@Override
-	public List<ProcessDto> processList(String userNo) {
+	public List<ProcessDto> processList(String userNo) throws Exception {
 		return sqlSession.selectList("ea.processList", userNo);
 	}
 
 	@Override
-	public int getSignupListCnt(String userNo) {
+	public int getSignupListCnt(String userNo) throws Exception {
 		return sqlSession.selectOne("ea.getSignupListCnt", userNo);
+	}
+
+	@Override
+	public int deleteSignupDoc(String docNo) throws Exception {
+		return sqlSession.update("ea.deleteSignupDoc", docNo);
+	}
+
+	@Override
+	public int reSignup(DocsDto dto) throws Exception {
+		return sqlSession.update("ea.reSignup", dto);
+	}
+
+	@Override
+	public int reSignupUpdateProcess(String procNo) throws Exception {
+		return sqlSession.update("ea.reSignupUpdateProcess", procNo);
+	}
+
+	@Override
+	public int getApprListCnt(String userNo) throws Exception {
+		return sqlSession.selectOne("ea.getApprListCnt", userNo);
+	}
+
+	@Override
+	public List<DocsDto> apprList(HashMap<String, String> map) throws Exception {
+		return sqlSession.selectList("ea.apprList", map);
+	}
+
+	@Override
+	public List<ProcessDto> processListForApprAll() throws Exception {
+		return sqlSession.selectList("ea.processListForApprAll");
+	}
+
+	@Override
+	public List<ProcessDto> processListForApprOne(String userNo) throws Exception {
+		return sqlSession.selectList("ea.processListForApprOne", userNo);
 	}
 
 }

@@ -38,10 +38,22 @@ public interface EAService {
 
 	List<FormDto> formList() throws Exception;
 
-	List<ProcessDto> processList(String userNo);
+	List<ProcessDto> processList(String userNo) throws Exception;
 
-	int getSignupListCnt(String userNo);
+	int getSignupListCnt(String userNo) throws Exception;
 
+	int deleteSignupDoc(String docNo) throws Exception;
 
+	int reSignup(DocsDto dto) throws Exception;
+
+	int reSignupUpdateProcess(String procNo) throws Exception;
+
+	int getApprListCnt(String userNo) throws Exception;
+
+	List<DocsDto> apprList(HashMap<String, String> map) throws Exception;
+
+	List<ProcessDto> processListForApprAll() throws Exception;
+
+	List<ProcessDto> processListForApprOne(String userNo) throws Exception;
 	
 }
