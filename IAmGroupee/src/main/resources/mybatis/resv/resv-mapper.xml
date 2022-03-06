@@ -76,7 +76,7 @@
   		<update id="updateAsset">
   			UPDATE ASSET
   			SET
-  				  ASEET_NO = #{assetNo}
+  				  ASSET_NO = #{assetNo}
   				<if test="assetName != null and assetName != '' ">  
   					, ASSET_NAME = #{assetName}	
 				</if>
@@ -90,7 +90,7 @@
   					, RESERVED = #{reserved}
   				</if>
   					, MOD_DATE = SYSDATE	
-  			WHERE ROOM_NO = #{roomNo}	
+  			WHERE ASSET_NO = #{assetNo}	
   		</update>
   		
   		<update id="deleteRoom">
