@@ -6,3 +6,28 @@
 .userAddLink:hover {
 	color : blue;
 }
+
+.textInput{
+	border: 1px solid black;
+}
+
+.box {
+    width: 200px;
+    height: 200px; 
+    border-radius: 70%;
+    overflow: hidden;
+    background-color: #BDBDBD;
+}
+.profile {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#fileUpload {
+	display: none;
+}
+
+#profile:hover {
+	cursor: pointer;
+}

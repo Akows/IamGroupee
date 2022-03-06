@@ -42,6 +42,12 @@ public class PersonnelController {
 	public String userlist(@PathVariable(required = false) String page, String search,Model model) throws Exception{
 		PageVo pv = service.getPageVo(page,search);
 		List<UserDto> userList = service.getUserList(pv);
+		List<positionDto> posiList = service.posiList();
+		List<jobDto> jobList = service.jobList();
+		List<departmentDto> deptList = service.deptList();
+		model.addAttribute("posiList", posiList);
+		model.addAttribute("jobList", jobList);
+		model.addAttribute("deptList", deptList);
 		model.addAttribute("userList", userList);
 		model.addAttribute("pv", pv);
 		return "ps/userlist";
