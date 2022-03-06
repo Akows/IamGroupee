@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@page import="java.util.List"%>
-<%@page import="com.kh.iag.resv.entity.ResvDto"%>
+pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.kh.iag.resv.entity.ResvDto"%>
+<% 
+	List<ResvDto> roomResvList = (List<ResvDto>)request.getAttribute("roomResvList");
+	List<ResvDto> assetResvList = (List<ResvDto>)request.getAttribute("assetResvList");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -113,7 +118,6 @@
 	</div>
 	</main>
 
- 
 	<script>
 		$(function () {
 			//Date range picker with time picker
@@ -132,7 +136,7 @@
 			dataType: "json"
 		});
 
-		document.addEventListener('DOMContentLoaded', function(data) {
+		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarEl, {
 				googleCalendarApiKey: 'AIzaSyAs1UZKO49dOGkrpX3qeYNU0wZx_vbq1Co',
@@ -155,37 +159,23 @@
 				dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 				locale: 'ko', // 한국어 설정
 
-				eventAdd: function(obj) { // 이벤트가 추가되면 발생하는 이벤트
-					console.log(obj);
-				},
-				eventChange: function(obj) { // 이벤트가 수정되면 발생하는 이벤트
-					console.log(obj);
-				},
-				eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
-					console.log(obj);
-				},
-				select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
-					var title = prompt('Event Title:');
-					if (title) {
-						calendar.addEvent({
-							title: title,
-							start: arg.start,
-							end: arg.end,
-							allDay: arg.allDay
-						})
-					}
-					calendar.unselect()
-				},
 				events : [ 
-		    	    <%List<Calendar> calendarList = (List<Calendar>) request.getAttribute("calendarList");%>
-		            <%if (calendarList != null) {%>
-		            <%for (Calendar vo : calendarList) {%>
-		            {
-		            	title : '<%=vo.getCalendarTitle()%>',
-		                start : '<%=vo.getCalendarStart()%>',
-		                end : '<%=vo.getCalendarEnd()%>',
-		                color : '#' + Math.round(Math.random() * 0xffffff).toString(16)
-		             },
+					<%if (roomResvList != null || assetResvList != null) {%>
+						<%for (ResvDto r : roomResvList) {%>
+							{
+								title : '<%=r.getRoomName()%>',
+								start : '<%=r.getResvStart()%>',
+								end : '<%=r.getResvEnd()%>',
+								color : '#2D82D7'
+							},
+						<%}%>
+						<%for (ResvDto a : assetResvList) {%>
+							{
+								title : '<%=a.getAssetName()%>',
+								start : '<%=a.getResvStart()%>',
+								end : '<%=a.getResvEnd()%>',
+								color : '#28a745'
+							}
 						<%}
 					}%>
 				]
@@ -195,7 +185,6 @@
 		});
 
 	</script>
-	
 
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	

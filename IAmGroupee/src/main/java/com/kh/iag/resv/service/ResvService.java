@@ -7,6 +7,8 @@ import com.kh.iag.resv.entity.ResvDto;
 
 public interface ResvService {
 
-	List<ResvDto> getResvList() throws Exception;
+	List<ResvDto> getRoomResvList(String userNo) throws Exception;
+	
+	List<ResvDto> getAssetResvList(String userNo) throws Exception;
 
 }

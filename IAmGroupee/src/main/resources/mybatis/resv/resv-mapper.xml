@@ -109,9 +109,16 @@
   		
   	<!-- 내예약  -->
   		
-  		<select id="getResvList"  parameterType="map" resultType="resv">
-  			SELECT * FROM RESERVATION
-  			WHERE DELETE_YN = 'N'
+  		<select id="getRoomResvList" resultType="resv">
+  			SELECT * FROM RESERVATION R
+  			JOIN MEETING_ROOM M ON (M.ROOM_NO = R.ROOM_NO)
+  			WHERE R.USER_NO = #{userNo}
+  		</select>
+  		
+  		<select id="getAssetResvList" resultType="resv">
+  			SELECT * FROM RESERVATION R
+  			JOIN ASSET A ON (A.ASSET_NO = R.ASSET_NO)
+  			WHERE R.USER_NO = #{userNo}
   		</select>
   		
   </mapper>

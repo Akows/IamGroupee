@@ -16,8 +16,13 @@ public class ResvServiceImpl implements ResvService{
 	private ResvDao dao;
 
 	@Override
-	public List<ResvDto> getResvList() throws Exception {
-		return dao.getResvList();
+	public List<ResvDto> getRoomResvList(String userNo) throws Exception {
+		return dao.getRoomResvList(userNo);
+	}
+
+	@Override
+	public List<ResvDto> getAssetResvList(String userNo) throws Exception {
+		return dao.getAssetResvList(userNo);
 	}
 
 }

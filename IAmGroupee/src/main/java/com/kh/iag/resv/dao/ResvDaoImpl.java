@@ -14,10 +14,15 @@ public class ResvDaoImpl implements ResvDao {
 
 	@Autowired
 	private SqlSession ss;
-	
+
 	@Override
-	public List<ResvDto> getResvList() throws Exception {
-		return ss.selectList("resv.getResvList");
+	public List<ResvDto> getRoomResvList(String userNo) throws Exception {
+		return ss.selectList("resv.getRoomResvList", userNo);
+	}
+
+	@Override
+	public List<ResvDto> getAssetResvList(String userNo) throws Exception {
+		return ss.selectList("resv.getAssetResvList", userNo);
 	}
 
 }

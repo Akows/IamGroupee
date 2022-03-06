@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,59 +44,25 @@
 		<section class="content-body">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-md-3 connectedSortable">
+				
+					<section class="col-md-3 connectedSortable">
 						<div class="sticky-top mb-3">
 						<div class="card">
-							<div class="card-header">
-							<h4 class="card-title">Draggable Events</h4>
-							</div>
+							<div class="card-header"><h4 class="card-title">회의실 목록</h4></div>
 							<div class="card-body">
-							<!-- the events -->
-							<div id="external-events">
-								<div class="external-event bg-success ui-draggable ui-draggable-handle" style="position: relative;">회의실A</div>
-								<div class="external-event bg-warning ui-draggable ui-draggable-handle" style="position: relative;">회의실B</div>
-								<div class="external-event bg-info ui-draggable ui-draggable-handle" style="position: relative;">회의실C</div>
-								<div class="external-event bg-primary ui-draggable ui-draggable-handle" style="position: relative;">빔프로젝터A</div>
-								<div class="external-event bg-danger ui-draggable ui-draggable-handle" style="position: relative;">노트북A</div>
-								<div class="checkbox">
-								<label for="drop-remove">
-									<input type="checkbox" id="drop-remove">
-									remove after drop
-								</label>
-								</div>
-							</div>
-							</div>
-							<!-- /.card-body -->
+								<c:forEach items="" var="i">
+									<button id="add-new-event" type="button" class="btn btn-primary">${}</button>
+								</c:forEach>
+							</div> <!-- /.card-body -->
 						</div>
-						<!-- /.card -->
 						<div class="card">
-							<div class="card-header">
-							<h3 class="card-title">Create Event</h3>
-							</div>
+							<div class="card-header"><h3 class="card-title">자산 목록</h3></div>
 							<div class="card-body">
-							<div class="btn-group" style="width: 100%; margin-bottom: 10px;">
-								<ul class="fc-color-picker" id="color-chooser">
-								<li><a class="text-primary" href="#"><i class="fas fa-square"></i></a></li>
-								<li><a class="text-warning" href="#"><i class="fas fa-square"></i></a></li>
-								<li><a class="text-success" href="#"><i class="fas fa-square"></i></a></li>
-								<li><a class="text-danger" href="#"><i class="fas fa-square"></i></a></li>
-								<li><a class="text-muted" href="#"><i class="fas fa-square"></i></a></li>
-								</ul>
-							</div>
-							<!-- /btn-group -->
-							<div class="input-group">
-								<input id="new-event" type="text" class="form-control" placeholder="Event Title">
-			
-								<div class="input-group-append">
-								<button id="add-new-event" type="button" class="btn btn-primary">Add</button>
-								</div>
-								<!-- /btn-group -->
-							</div>
-							<!-- /input-group -->
+							
 							</div>
 						</div>
 						</div>
-					</div><!-- /.col -->
+					</section><!-- /.col -->
 
 					<section class="col-md-9 connectedSortable">
 						<div class="card">
@@ -105,9 +72,8 @@
 							</div>
 						</div> 
 					</section> 
-
+					
 				</div> <!-- /.row -->
-
 			</div> <!-- /.container-fluid -->
 		</section>
 
@@ -120,7 +86,26 @@
 		document.addEventListener('DOMContentLoaded', function() {
 		  var calendarEl = document.getElementById('calendar');
 		  var calendar = new FullCalendar.Calendar(calendarEl, {
-			initialView: 'dayGridMonth'
+			googleCalendarApiKey: 'AIzaSyAs1UZKO49dOGkrpX3qeYNU0wZx_vbq1Co',
+				eventSources:{
+					googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+					className: '대한민국의 휴일',
+					color : '#DD5246'
+				},
+				headerToolbar: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'dayGridMonth,timeGridWeek,timeGridDay'
+				},
+				slotMinTime: '08:00', // Day 캘린더에서 시작 시간
+				slotMaxTime: '20:00', // Day 캘린더에서 종료 시간
+				initialView: 'dayGridMonth',
+				navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+				selectable: true, // 달력 일자 드래그 설정가능
+				nowIndicator: true, // 현재 시간 마크
+				dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+				locale: 'ko', // 한국어 설정
+
 		  });
 		  calendar.render();
 		});
