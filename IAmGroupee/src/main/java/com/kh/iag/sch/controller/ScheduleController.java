@@ -60,9 +60,6 @@ public class ScheduleController {
 		
 		ArrayList<Map<String, String>> map_target_data = new Gson().fromJson(st_target_data, new ArrayList<Map<String, String>>().getClass());
 		
-		List<String> target_user_name = new ArrayList<String>();
-		List<String> target_user_value = new ArrayList<String>();
-		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		map.put("title", eventData.get("eventData[title]"));
