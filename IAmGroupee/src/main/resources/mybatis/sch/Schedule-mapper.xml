@@ -19,7 +19,7 @@
     	INSERT INTO
     		CALENDAR(USER_NO,SCH_ALLDAY,SCH_TITLE,SCH_START,SCH_END,SCH_TYPE,SCH_COLOR,SCH_CONTENT)
     	VALUES
-    		(#{userNo},#{schAllDay},#{schTitle},#{schStart},#{schEnd},#{schType},#{schColor},#{schContent})
+    		(#{m.userNo},#{m.schAllDay},#{m.schTitle},#{m.schStart},#{m.schEnd},#{m.schType},#{m.schColor},#{m.schContent})
    	</insert>
 	
 </mapper>
