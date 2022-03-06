@@ -35,11 +35,13 @@
               <th>
                 양식<span> ▾</span>
                 <ul>
+                <% int i = 1; %>
                 <c:forEach items="${formList}" var="fl">
                   <li>
                     <a href="#">${fl.formTitle}</a>
-                    <input type="hidden" value="${fl.formNo}">
+                    <input type="hidden" name="formNo" value="${fl.formNo}">
                   </li>
+                  <% i++; %>
                 </c:forEach>
                 </ul>
               </th>
@@ -72,7 +74,7 @@
             <!-- for-each -->
             <form action="${root}/ea/signuplist/detail" method="POST" name="requestForm">
               <c:forEach items="${signupList}" var="sl">
-                <tr>
+                <tr id="listContents">
                   <td>${sl.docNo}</td>
                   <td>${sl.formTitle}</td>
                   <td><a href="javascript:requestForm.submit()" class="ea_title">${sl.docTitle}</a></td>
@@ -87,31 +89,9 @@
                       <c:if test="${pl.procSeq eq 3}">
                       <td>협의요청</td>
                       </c:if>
-                      
+                      <!-- 그냥... 오버플로우 히든으로 가리자... -->
                       <c:if test="${pl.procSeq ne 2 || pl.procSeq ne 3}">
-                        <c:if test="${pl.procSep eq 1 && pl.procSeq eq 0}">
-                          <td>결제대기</td>
-                        </c:if>
-                        <c:if test="${pl.procSep eq 1 && pl.procSeq eq 1}">
-                          <c:if test="${pl.procSep eq 2 && pl.procSeq eq 0}">
-                          <td>결제대기</td>
-                          </c:if>
-                          <c:if test="${pl.procSep eq 2 && pl.procSeq eq 0}">
-                            <c:if test="${pl.procSep eq 3 && pl.procSeq eq 0}">
-                            <td>결제대기</td>
-                            </c:if>
-                            <c:if test="${pl.procSep eq 3 && pl.procSeq eq 1}">
-                              <c:if test="${pl.procSep eq 4 && pl.procSeq eq 0}">
-                              <td>결제대기</td>
-                              </c:if>
-                              <c:if test="${pl.procSep eq 4 && pl.procSeq eq 1}">
-                                <c:if test="${pl.procSep eq 5 && pl.procSeq eq 0}">
-                                <td>결제대기</td>
-                                </c:if>
-                              </c:if>
-                            </c:if>
-                          </c:if>       
-                        </c:if>
+                        <td>결제대기</td>
                       </c:if>
                     </c:if>
                   </c:forEach>

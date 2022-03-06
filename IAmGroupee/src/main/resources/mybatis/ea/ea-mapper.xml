@@ -241,7 +241,7 @@
 		FROM 
 		(
 			SELECT * FROM EA_DOCUMENT
-			WHERE DOC_NO = #{docNo}
+			WHERE DOC_NO = #{docNo} AND DOC_SEP = 'N'
 		) D
 		JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
 		JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
@@ -277,7 +277,7 @@
 		    FROM 
 		    (
 		        SELECT * FROM EA_DOCUMENT
-		        WHERE USER_NO = 'user6' AND DOC_SEP = 'N'
+		        WHERE USER_NO = #{userNo} AND DOC_SEP = 'N'
 		        ORDER BY DOC_MAKE DESC
 		    ) D
 		    JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
@@ -318,5 +318,103 @@
 		JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
 		JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
 		JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+	</select>
+	
+	<!-- 반려/협의 문서 삭제하기(DOC_SEP = 'Y'로 업데이트) -->
+	<update id="deleteSignupDoc" parameterType="string">
+		UPDATE EA_DOCUMENT
+		SET
+		DOC_SEP = 'Y'
+		WHERE
+		DOC_NO = #{docNo}	
+	</update>
+	
+	<!-- 반려/협의 문서 재기안하기 문서테이블 재기안 내용 업데이트 -->
+	<update id="reSignup" parameterType="eadocs">
+		UPDATE EA_DOCUMENT
+		SET
+			DOC_TITLE = #{docTitle},
+			DOC_CONTENT = #{docContent},
+			DOC_MAKE = SYSDATE,
+			DOC_CLOSE = #{docClose}
+		WHERE DOC_NO = #{docNo}
+	</update>
+	
+	<!-- 반려/합의 문서 재기안하기 결재선테이블 반려/협의자 PROC_SEQ 0으로 업데이트 -->
+	<update id="reSignupUpdateProcess" parameterType="string">
+		UPDATE EA_PROCESS
+		SET
+			PROC_SEQ = 0
+		WHERE PROC_NO = ${procNo} AND PROC_SEQ IN(2, 3)
+	</update>
+	
+	<!-- 결재리스트조회 로우 카운트 -->
+	<select id="getApprListCnt" parameterType="string" resultType="int">
+		SELECT COUNT(DOC_NO) 
+		FROM EA_DOCUMENT 
+		WHERE PROC_NO IN(SELECT PROC_NO FROM EA_PROCESS WHERE USER_NO = #{userNo}) 
+		  AND DOC_SEP = 'N'
+	</select>
+	
+	<!-- 결재리스트조회 내가 결재할 문서 리스트 데이터 -->
+	<select id="apprList" parameterType="hashMap" resultType="eadocs">
+		SELECT * FROM
+		(
+		    SELECT ROWNUM RN, T.*
+		    FROM
+		    (
+		    SELECT D.*, U.NAME, P.POSITION_NAME, DP.DEPARTMENT_NAME, F.FORM_TITLE
+		    FROM 
+		    (
+		        SELECT * 
+		        FROM EA_DOCUMENT 
+		        WHERE PROC_NO IN(SELECT PROC_NO FROM EA_PROCESS WHERE USER_NO = #{userNo}) 
+		          AND DOC_SEP = 'N' 
+		        ORDER BY DOC_MAKE DESC
+		    ) D
+		    JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+		    JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
+		    JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+		    JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+		    ) T
+		)
+		WHERE RN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- 결재리스트조회 모든 문서의 결재선 정보 -->
+	<select id="processListForApprAll" resultType="com.kh.iag.ea.entity.ProcessDto">
+		SELECT D.DOC_NO, PC.*
+		FROM 
+		(
+		    SELECT * FROM EA_DOCUMENT
+		    WHERE DOC_SEP = 'N'
+		    ORDER BY DOC_MAKE DESC
+		) D
+		JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+		JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
+		JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+		JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+		JOIN EA_PROCESS PC ON(D.PROC_NO = PC.PROC_NO)
+	</select>
+	
+	<!-- 결재리스트조회 내가 결재할 결재선 정보 -->
+	<select id="processListForApprOne" parameterType="string" resultType="com.kh.iag.ea.entity.ProcessDto">
+		SELECT *
+		FROM
+		(
+		    SELECT D.DOC_NO, PC.*
+		    FROM 
+		    (
+		        SELECT * FROM EA_DOCUMENT
+		        WHERE DOC_SEP = 'N'
+		        ORDER BY DOC_MAKE DESC
+		    ) D
+		    JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+		    JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
+		    JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+		    JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+		    JOIN EA_PROCESS PC ON(D.PROC_NO = PC.PROC_NO)
+		    )
+		WHERE USER_NO = #{userNo}
 	</select>
 </mapper>

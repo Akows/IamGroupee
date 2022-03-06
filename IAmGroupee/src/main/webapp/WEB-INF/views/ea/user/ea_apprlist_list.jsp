@@ -29,7 +29,6 @@
       <div class="ea_apprlist_list_contents">
         <!-- 제목 누르면 그냥 문서번호만 보내서 처리 -->
         <form action="apprlist/detail" method="POST" name="reuqestForm">
-        <input type="search" name="" id="" placeholder="문서 제목을 입력하세요.">
         <table>
           <thead>
             <tr>
@@ -37,9 +36,15 @@
               <th>
                 양식<span> ▾</span>
                 <ul>
-                  <li><a href="#">양식1</a></li>
-                  <li><a href="#">양식2</a></li>
-                  <li><a href="#">양식3</a></li>
+                <% int i = 1; %>
+                <c:forEach items="${formList}" var="fl">
+                  <li>
+                    <a href="#">${fl.formTitle}</a>
+                    <input type="hidden" name="formNo" value="${fl.formNo}">
+                    </form>
+                  </li>
+                <% i++; %>
+                </c:forEach>
                 </ul>
               </th>
               <th>문서 제목</th>
@@ -58,111 +63,34 @@
                 </ul>
               </th>
               <th>
-                진행 단계<span> ▾</span>
+                결재 분류<span> ▾</span>
                 <ul>
-                  <li><a href="#">1차 결재</a></li>
-                  <li><a href="#">2차 결재</a></li>
-                  <li><a href="#">결재 완료</a></li>
+                  <li><a href="#">중간 결재</a></li>
+                  <li><a href="#">최종 결재</a></li>
                 </ul>
               </th>
             </tr>
           </thead>
           <tbody>
+            <!-- 여기에 if문으로 내 결재순서인 게시글만 걸러서 보여주기  -->
             <!-- for-each -->
-            <tr>
-              <td>1</td>
-              <td>비품구매서</td>
-              <td><a href="javascript:reuqestForm.submit()" class="ea_title">문서상세</a></td>
-              <td>2022-01-01</td>
-              <td>2022-01-07</td>
-              <td>1차 결재</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>비품구매서</td>
-              <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-              <td>2022-01-01</td>
-              <td>2022-01-07</td>
-              <td>2차 결재</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>비품구매서</td>
-              <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-              <td>2022-01-01</td>
-              <td>2022-01-07</td>
-              <td>1차 결재</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>비품구매서</td>
-                <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-                <td>2022-01-01</td>
-                <td>2022-01-07</td>
-                <td>2차 결재</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>비품구매서</td>
-                <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-                <td>2022-01-01</td>
-                <td>2022-01-07</td>
-                <td>1차 결재</td>
-              </tr>
-              <tr>
-                <td>6</td>
-                <td>비품구매서</td>
-                <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-                <td>2022-01-01</td>
-                <td>2022-01-07</td>
-                <td>2차 결재</td>
-              </tr>
-              <tr>
-                <td>7</td>
-                <td>비품구매서</td>
-                <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-                <td>2022-01-01</td>
-                <td>2022-01-07</td>
-                <td>1차 결재</td>
-              </tr>
-              <tr>
-                <td>8</td>
-                <td>비품구매서</td>
-                <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-                <td>2022-01-01</td>
-                <td>2022-01-07</td>
-                <td>2차 결재</td>
-              </tr>
-              <tr>
-                <td>9</td>
-                <td>비품구매서</td>
-                <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-                <td>2022-01-01</td>
-                <td>2022-01-07</td>
-                <td>1차 결재</td>
-              </tr>
-              <tr>
-                <td>10</td>
-                <td>비품구매서</td>
-                <td>무슨무슨 비품 구매로 무슨무슨 비품구매 신청</td>
-                <td>2022-01-01</td>
-                <td>2022-01-07</td>
-                <td>2차 결재</td>
-              </tr>
-            </tbody>
+            <form action="${root}/ea/apprlist/detail" method="POST" name="requestForm">
+              <c:forEach items="${apprList}" var="al">
+                <tr id="listContents">
+                  <td>${al.docNo}</td>
+                  <td>${al.formTitle}</td>
+                  <td><a href="javascript:requestForm.submit()" class="ea_title">${al.docTitle}</a></td>
+                  <td>${al.simpleMakeDate}</td>
+                  <td>${al.simpleCloseDate}</td>
+                  
+                
+                </tr>
+              </c:forEach>
+            </form>
+          </tbody>
           </table>
         </form>
-          <div id="ea_paging">
-            <ul>
-              <li><a href="#"><</a></li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">99</a></li>
-              <li><a href="#">></a></li>
-            </ul>
-          </div>
+          
         </div>
       </div>
     </div>

@@ -136,6 +136,7 @@ public class EAController {
 		map.put("startRow", String.valueOf(vo.getStartRow()));
 		map.put("endRow", String.valueOf(vo.getEndRow()));
 		
+		
 		// 자신이 기안한 문서들 데이터
 		List<DocsDto> signupList = service.signupList(map);
 		
@@ -166,6 +167,25 @@ public class EAController {
 		
 		// 반려 문서시 내용 수정하여 다시 기안할 수 있는 페이지로 이동
 		if(("반려".equals(process)) || "협의요청".equals(process)) {
+			ProcessDto pd = new ProcessDto();
+			pd.setDocNo(docNo);
+			
+			// 문서 정보 문서 테이블
+			DocsDto doc = service.selectDocument(pd);
+			Date makeDate = doc.getDocMake();
+			Date closeDate = doc.getDocClose();
+			SimpleDateFormat ft = new SimpleDateFormat("yyyy. MM. dd.");
+			doc.setSimpleMakeDate(ft.format(makeDate));
+			doc.setSimpleCloseDate(ft.format(closeDate));
+			model.addAttribute("docInfo", doc);
+			
+			pd.setProcNo(doc.getProcNo());
+			
+			// 결재자 정보 결재선 테이블
+			List<ProcessDto> processList = service.selectProcess(pd);
+			model.addAttribute("processList", processList);
+			
+			
 			return "ea/user/ea_signuplist_rejected";			
 		} else {
 			ProcessDto pd = new ProcessDto();
@@ -189,13 +209,78 @@ public class EAController {
 			return "ea/user/ea_signuplist_detail";
 		}
 	}
-
+	
+	// 반려/협의요청 문서 삭제하기
+	@RequestMapping(value = "deleteSignupDoc", method = RequestMethod.GET)
+	@ResponseBody
+	public int deleteSignupDoc(String docNo) throws Exception {
+		System.out.println(docNo);
+		return service.deleteSignupDoc(docNo);		
+	}
+	
+	// 반려/협의요청 문서 재기안하기
+	@RequestMapping(value = "reSignup", method = RequestMethod.POST)
+	public String reSignup(@ModelAttribute DocsDto dto) throws Exception {
+		
+		// docTitle, docClose, docContent, docMake(SYSDATE) EA_DOCUMENT 테이블 수정사항 업데이트
+		int result = service.reSignup(dto);
+		
+		// procNo으로 EA_PROCESS 테이블에서 반려자나 협의요청자의 PROC_SEQ = 0 으로 바꿔주기
+		String procNo = dto.getProcNo();
+		int result1 = service.reSignupUpdateProcess(procNo);
+		
+		return "ea/user/ea_signuplist_list";
+	}
 //---------------------------------------------------------------- 결재문서조회
 	// 결재문서조회 (리스트)
-	@GetMapping(value = "/apprlist")
-	public String apprlist() {
+	@GetMapping(value = {"/apprlist/{page}", "/apprlist"})
+	public String apprlist(HttpSession session, Model model, @PathVariable(required = false) String page) throws Exception {
+		
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		String userNo = loginUser.getUserNo();
+		
+		if(page == null) {
+			return "redirect:apprlist/1";
+		}
+		int cntPerPage = 15;
+		int pageBtnCnt = 5;
+		int totalRow = service.getApprListCnt(userNo);
+		PageDto vo = new PageDto(page, cntPerPage, pageBtnCnt, totalRow);
+		
+		HashMap<String, String> map =  new HashMap<>();
+		map.put("userNo", userNo);
+		map.put("startRow", String.valueOf(vo.getStartRow()));
+		map.put("endRow", String.valueOf(vo.getEndRow()));
+		
+		// 자신이 결재할 문서들
+		List<DocsDto> apprList = service.apprList(map);
+		
+		for(DocsDto d : apprList) {
+			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+			Date makeDate = d.getDocMake();
+			Date closeDate = d.getDocClose();
+			d.setSimpleMakeDate(ft.format(makeDate));
+			d.setSimpleCloseDate(ft.format(closeDate));
+		}
+		model.addAttribute("apprList", apprList);
+		model.addAttribute("page", vo);
+		
+		// 양식전체종류 데이터 (테이블헤더에 필요)
+		List<FormDto> formList = service.formList();
+		model.addAttribute("formList", formList);
+		
+		// 진행단계 데이터 (테이블헤더에 필요, 결재순서가 로그인한 유저 순서인 문서를 찾기 위한 모든 결재선 정보)
+		List<ProcessDto> processListForApprAll = service.processListForApprAll();
+		model.addAttribute("processListForApprAll", processListForApprAll);
+		
+		// 진행단계 데이터 (테이블헤더에 필요, 결재순서가 로그인한 유저 순서인 문서를 찾기 위한 로그인한 유저의 결재선 정보)
+		List<ProcessDto> processListForApprOne = service.processListForApprOne(userNo);
+		model.addAttribute("processListForApprOne", processListForApprOne);
+		
 		return "ea/user/ea_apprlist_list";
 	}
+	
+	
 	// 결재문서조회 (상세조회)
 	@PostMapping(value = "/apprlist/detail")
 	public String apprlistDetail() {

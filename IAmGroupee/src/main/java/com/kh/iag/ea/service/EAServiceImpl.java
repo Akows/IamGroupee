@@ -171,13 +171,48 @@ public class EAServiceImpl implements EAService {
 	}
 
 	@Override
-	public List<ProcessDto> processList(String userNo) {
+	public List<ProcessDto> processList(String userNo) throws Exception {
 		return dao.processList(userNo);
 	}
 
 	@Override
-	public int getSignupListCnt(String userNo) {
+	public int getSignupListCnt(String userNo) throws Exception {
 		return dao.getSignupListCnt(userNo);
+	}
+
+	@Override
+	public int deleteSignupDoc(String docNo) throws Exception {
+		return dao.deleteSignupDoc(docNo);
+	}
+
+	@Override
+	public int reSignup(DocsDto dto) throws Exception {
+		return dao.reSignup(dto);
+	}
+
+	@Override
+	public int reSignupUpdateProcess(String procNo) throws Exception {
+		return dao.reSignupUpdateProcess(procNo);
+	}
+
+	@Override
+	public int getApprListCnt(String userNo) throws Exception {
+		return dao.getApprListCnt(userNo);
+	}
+
+	@Override
+	public List<DocsDto> apprList(HashMap<String, String> map) throws Exception {
+		return dao.apprList(map);
+	}
+
+	@Override
+	public List<ProcessDto> processListForApprAll() throws Exception {
+		return dao.processListForApprAll();
+	}
+
+	@Override
+	public List<ProcessDto> processListForApprOne(String userNo) throws Exception {
+		return dao.processListForApprOne(userNo);
 	}
 
 }

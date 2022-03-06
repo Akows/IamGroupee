@@ -131,6 +131,13 @@
   float: left;
   border: 1px solid gainsboro;
 }
+#listContents > td:nth-child(7),
+#listContents > td:nth-child(8),
+#listContents > td:nth-child(9),
+#listContents > td:nth-child(10),
+#listContents > td:nth-child(11) {
+  display: none;
+}
 /* 전자결재 > 기안문서조회 (상세조회) */
 .ea_signuplist_detail_contents {
   width: 100%;
@@ -208,24 +215,33 @@
   position: relative;
   float: left;
 }
+.ea_signuplist_rejected_contents > form > div:nth-child(1) > table > * > * > * {
+  border: 1px solid #262626;
+  background: #fff;
+  padding: 3px;
+  text-align: center;
+  overflow: hidden;
+}
 .ea_signuplist_rejected_contents > form > div:nth-child(1) > table {
-  font-style: italic;
   float: left;
   margin: 20px;
+  width: 400px;
 }
-.ea_signuplist_rejected_contents > form > div:nth-child(1) input {
-  background: #fff;
+.ea_signuplist_rejected_contents > form > div:nth-child(1) > table th {
+  background: gray;
 }
 .ea_signuplist_rejected_contents > form > div:nth-child(2) > table {
   float: right;
   margin: 20px;
-  width: 300px;
   height: 100px;
   text-align: center;
 }
 .ea_signuplist_rejected_contents > form > div:nth-child(2) > table > * > * > * {
   border: 1px solid #262626;
   background: #fff;
+  padding: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 .ea_signuplist_rejected_contents > form > div:nth-child(2) th {
   background: gray;
@@ -260,14 +276,14 @@ span[id^="stamp"] {
 }
 #stamp2 {
   background: #d403e7;
-  animation: stamp2 6s infinite linear;
+  animation: stamp2 1s infinite linear;
 }
 #stamp3 {
   background: #e00909;
   animation: stamp3 6s infinite linear;
 }
 #stamp4 {
-  background: #110ec5;
+  background: #e69113;
   animation: stamp4 6s infinite linear;
 }
 #waitApprv {

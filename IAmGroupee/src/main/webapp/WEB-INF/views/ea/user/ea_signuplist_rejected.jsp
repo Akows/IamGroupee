@@ -30,37 +30,45 @@
         <span>기안문서조회 (반려/협의요청 문서)</span>
       </div>
       <div class="ea_signuplist_rejected_contents">
-        <form action="" method="POST" name="reuqestForm">
+        <form action="${root}/ea/reSignup" method="POST" name="reuqestForm">
             <!-- 문서 좌상단 문서 정보 -->
             <div>
                 <table>
                     <tr>
-                        <th>문서 번호 : </th>
-                        <td>1</td>
+                        <th>양식</th>
+                        <td>${docInfo.formTitle}</td>
                     </tr>
                     <tr>
-                        <th>문서 제목 : </th>
-                        <td><input type="text" name="" id="" value="원래 제목" style="width: 300px;"></td>
+                        <th>문서 번호</th>
+                        <td>${docInfo.docNo}</td>
                     </tr>
                     <tr>
-                        <th>양식 : </th>
-                        <td>비품구매서</td>
+                        <th>문서 제목</th>
+                        <td><input type="text" name="docTitle" value="${docInfo.docTitle}"></td>
                     </tr>
                     <tr>
-                        <th>상신 날짜 : </th>
-                        <td>2022-02-22</td>
+                        <th>상신 날짜</th>
+                        <td>${docInfo.simpleMakeDate}</td>
                     </tr>
                     <tr>
-                        <th>마감 날짜 : </th>
-                        <td><input type="date" name="" id=""></td>
+                        <th>마감 날짜</th>
+                        <td style="overflow: visible; display: flex; justify-content: center; border: none; border-right: 1px solid #262626;">
+                            <div class="form-group" style="width:200px; margin:5px;">
+                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                <input type="text" name="docClose" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>	</td>
                     </tr>
                     <tr>
-                        <th>진행 단계 : </th>
-                        <td colspan="2">반려(사유 : 너무 비싸잉~~~~~~~)</td>
+                        <th>보안 등급</th>
+                        <td>${docInfo.docSlv}등급</td>
                     </tr>
                     <tr>
-                        <th>보안 등급 : </th>
-                        <td>A</td>
+                        <th>반려/협의요청 사유</th>
+                        <td>${docInfo.docRejected}</td>
                     </tr>
                 </table>
             </div>
@@ -69,34 +77,60 @@
                 <table>
                     <tr>
                         <th>기안자</th>
-                        <th>중간 결재자</th>
+                        <c:forEach items="${processList}" var="pl" begin="0" step="1" end="${processList[0].procCnt}" varStatus="vs">
+                        <c:if test="${!vs.last}">
+                        <th>${vs.count}차 결재자</th>
+                           </c:if>
+                           <c:if test="${vs.last}">
                         <th>최종 결재자</th>
+                           </c:if>
+                        </c:forEach>
                     </tr>
                     <tr>
-                        <td>알파포대</td>
-                        <td>브라보포대</td>
-                        <td>HQ</td>
+                        <td>${docInfo.departmentName}</td>
+                        <c:forEach items="${processList}" var="pl">
+                        <td>${pl.departmentName}</td>
+                        </c:forEach>
                     </tr>
                     <tr>
-                        <td>일병 이종훈</td>
-                        <td>중사 이종훈</td>
-                        <td>대위 이종훈</td>
+                        <td>${docInfo.positionName} ${docInfo.name}</td>
+                        <c:forEach items="${processList}" var="pl">
+                        <td>${pl.positionName} ${pl.name}</td>
+                        </c:forEach>
                     </tr>
                     <tr>
-                        <td>🐶</td>
-                        <td>🐧</td>
-                        <td>🦁</td>
+                        <td><span id="stamp1">상신</span></td>
+                        <c:forEach items="${processList}" var="pl" begin="0" step="1" end="${processList[0].procCnt}" varStatus="vs">
+                        <c:if test="${pl.procSeq eq 0}">
+                        <td><span id="waitApprv">결재대기</span></td>                    
+                        </c:if>
+                        <c:if test="${pl.procSeq eq 1}">
+                        <td><span id="stamp2">승인</span></td>
+                        </c:if>
+                        <c:if test="${pl.procSeq eq 2}">
+                        <td><span id="stamp3">반려</span></td>
+                        </c:if>
+                        <c:if test="${pl.procSeq eq 3}">
+                        <td><span id="stamp4">협의</span></td>
+                        </c:if>
+                        </c:forEach>
                     </tr>
                 </table>
             </div>
             <!-- 문서 중앙 문서 내용 -->
             <div>
-                <textarea name="content" id="editor" placeholder="내용을 입력해주세요." required>
+                <textarea name="docContent" id="editor" placeholder="내용을 입력해주세요." required>
+                    ${docInfo.docContent}
                 </textarea>
             </div>
             <div>
-                <a href="javascript:reuqestForm.submit()">재기안 하기</a>
+                <a href="javascript:reuqestForm.submit()"  onclick="return confirmCheck();">재기안 하기</a>
+                <a href="/iag/ea/signuplist" onclick="return deleteSignupDoc();">삭제하기</a>
                 <a href="/iag/ea/signuplist">목록으로</a>
+                
+                <input type="hidden" name="procNo" value="${docInfo.procNo}">
+                <input type="hidden" name="docNo" value="${docInfo.docNo}">
+
             </div>
         </form>
       </div>
@@ -110,12 +144,56 @@
 <!-- Custom scripts -->
 <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
 
+<!-- InputMask -->
+<script src="${root}/resources/plugins/moment/moment.min.js"></script>
+<!-- date-range-picker -->
+<script src="${root}/resources/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="${root}/resources/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+
 <script>
     ClassicEditor
     .create( document.querySelector( '#editor' ) )
     .catch( error => {
       console.error( error );
     } );
+
+    //Date picker
+    $('#reservationdate').datetimepicker({
+        format: 'L'
+    });
+
+    // 문서 삭제
+    function deleteSignupDoc() {
+        if(confirm('문서를 삭제하시겠습니까?')) {
+
+            $.ajax({
+                url : "${root}/ea/deleteSignupDoc",
+                method : "GET",
+                data : {
+                    docNo : '<c:out value="${docInfo.docNo}"/>'
+                },
+                succcess : function(result) {
+                    console.log(result);
+                },
+                error : function(e) {
+                    console.log(e);
+                }
+            });
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function confirmCheck() {
+        if(confirm('기안서를 다시 제출하시겠습니까?')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 </script>
 </body>
 </html>
