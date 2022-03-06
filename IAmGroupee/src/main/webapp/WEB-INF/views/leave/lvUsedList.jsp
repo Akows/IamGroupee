@@ -43,107 +43,28 @@
     <!-- ! Main -->
     <main class="main users chart-page" id="skip-target">
     
-     <div class="container">
+     <div class="container" style="margin-top: 20px; margin-left: 25px;">
       
-        <div class="row stat-cards" style="height: 100%;">
-        
-          <div class="col-md-6 col-xl-5">
-	            <div class="card card-primary card-outline card-tabs" style="height: 49%;">
-	              <div class="card-body">
-	                <div class="tab-content" id="custom-tabs-three-tabContent">
-			          <div id="letter" style="margin-bottom: 20px;">
-			        		<h4 style="color: rgb(94, 94, 94); font-weight: 600;">연차 사용 대장</h4>
-					  </div>
-	                  <div class="card">
-			              <div class="card-body p-0">
-			                <table class="table" style="text-align: center;">
-			                  <thead>
-			                    <tr>
-			                      <th style="width: 20%">연차 종류</th>
-			                      <th style="width: 40%">사용 날짜</th>
-			                      <th style="width: 20%">사용 연차</th>
-			                      <th style="width: 20%">세부 내용</th>
-			                    </tr>
-			                  </thead>
-			                  <tbody>
-				                  <c:forEach items="${alvUsedList}" var="alv">
-				                    <tr>
-				                      <td>${alv.lvName}</td>
-				                      <td>${alv.during}</td>
-				                      <td>${alv.reduceAlv}</td>
-				                      <td>${alv.lvReason}</td>
-				                    </tr>
-				                  </c:forEach>
-			                  </tbody>
-			                </table>
-			              </div>
-				  		  <!-- 페이징 -->
-						  <div class="card-footer clearfix" style="width: 100%; margin: auto; text-align: center;">
-			                <ul class="pagination pagination-m m-2" style=" margin: auto; color: black; padding-left: 25%; padding-right: 25%;">
-				              <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225); font-weight: bold;">&laquo;</a></li>&nbsp;
-			                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225);">1</a></li>
-			                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225);">2</a></li>
-			                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225);">3</a></li>
-			                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225);">4</a></li>
-			                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225);">5</a></li>&nbsp;
-			                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225); font-weight: bold;">&raquo;</a></li>
-			                </ul>
-		                  </div>
-			            </div>
-	                </div>
-	              </div>
-	            </div>
-	            
-	            <div class="card card-primary card-outline card-tabs" style="height: 49%;">
-	              <div class="card-body">
-	                <div class="tab-content" id="custom-tabs-three-tabContent">
-			        	<div id="letter" style="margin-bottom: 20px;">
-			        		<h4 style="color: rgb(94, 94, 94); font-weight: 600;">휴가 사용 대장</h4>
+        <div class="row stat-cards" style="height: 160%; width: 120%;">
+
+				<div class="col-md-6 col-xl-5" style="margin-right: 20px; height: 100%">
+					<div style="height: 50%; margin-bottom: 10px;">
+						<div class="card-body" style="height: 100%; padding: 0px; margin: 0px;">
+							<iframe src="${root}/leave/alvUsedListIf" scrolling="no" height="360px" width="100%"></iframe>
 						</div>
-	                  <div class="card">
-			              <div class="card-body p-0">
-			                <table class="table" style="text-align: center;">
-			                  <thead>
-			                    <tr>
-			                      <th style="width: 25%">휴가 종류</th>
-			                      <th style="width: 45%">사용 날짜</th>
-			                      <th style="width: 30%">세부 내용</th>
-			                    </tr>
-			                  </thead>
-			                  <tbody>
-				                  <c:forEach items="${lvUsedList}" var="lv">
-				                    <tr>
-				                      <td>${lv.lvName}</td>
-				                      <td>${lv.during}</td>
-				                      <td>${lv.lvReason}</td>
-				                    </tr>
-				                  </c:forEach>
-			                  </tbody>
-			                </table>
-			              </div>
-				  		  <!-- 페이징 -->
-						  <div class="card-footer clearfix" style="width: 100%; margin: auto; text-align: center;">
-			                <ul class="pagination pagination-m m-2" style=" margin: auto; color: black; padding-left: 25%; padding-right: 25%;">
-				              <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225); font-weight: bold;">&laquo;</a></li>&nbsp;
-			                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225);">1</a></li>
-			                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225);">2</a></li>
-			                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225);">3</a></li>
-			                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225);">4</a></li>
-			                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225);">5</a></li>&nbsp;
-			                  <li class="page-item"><a class="page-link" href="#" style="color: rgb(14, 104, 225); font-weight: bold;">&raquo;</a></li>
-			                </ul>
-		                  </div>
-			            </div>
-	                </div>
-	              </div>
-	            </div>
-          </div>
-        
-          <div class="col-md-7 col-xl-7">
-            <article class="stat-cards-item">
-            
-    			<div id='calendar' style="width: 90%; margin: auto; text-align: center; margin-top: 10px;"></div>
-		        
+					</div>
+
+					<div style="height: 50%;">
+						<div class="card-body" style="height: 100%; padding: 0px; margin: 0px;">
+							<iframe src="${root}/leave/lvUsedListIf" height="360px" width="100%" scrolling="no"></iframe>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-7 col-xl-6">
+          		  <article class="stat-cards-item">
+    			    <div id='calendar' style="width: 90%; margin: auto; text-align: center; margin-top: 10px;"></div>
+		          </article>
           </div>
         </div>
         
