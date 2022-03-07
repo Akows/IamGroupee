@@ -3,6 +3,8 @@ package com.kh.iag.user.entity;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -39,6 +41,7 @@ public class UserDto {
 	private String sessionKey;	
 	private Timestamp sessionLimit;	
 	private int alvOccurCount;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date alvOccurDate;
 	private String alvOccurReason;
 }

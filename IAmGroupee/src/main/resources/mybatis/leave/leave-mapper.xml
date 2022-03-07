@@ -227,23 +227,38 @@
     	WHERE IU.DEPARTMENT_NO = #{departmentNo} 
     </select>
     
-    
-    
-    
-    
-    
-    <insert id="Test" parameterType="lvHistory">
-    	INSERT INTO ALV_OCCUR_HISTORY
-    	VALUES
-    	(
-    		#{userNo},
-    		#{lvCode},
-    		#{alvOccurCount},
-    		DEFAULT,
-    		#{alvOccurReason}
-    	)
-    </insert>
-    
-    
+
+    <!-- //////////////////////////////////////////////// -->
+    	<!-- ATTENDANCE -->
+	    <resultMap type="attendance" id="attendrm">
+			<result property="attend_num" column="ATTEND_NUM"/>
+			<result property="user_no" column="USER_NO"/>
+			<result property="user_name" column="USER_NAME"/>
+			<result property="attend_date" column="ATTEND_DATE"/>
+			<result property="normal_check" column="NORMAL_CHECK"/>
+			<result property="irregular_reason" column="IRREGULAR_REASON"/>
+			<result property="work_numofdate" column="WORK_NUMOFDATE"/>
+		</resultMap>
+  	   
+  	   <insert id="attendtempInsert" parameterType="attendance">
+	  		INSERT INTO ATTENDANCE
+	  		(
+			    ATTEND_NUM,
+			    USER_NO,
+			    USER_NAME,
+			    ATTEND_DATE,
+			    NORMAL_CHECK,
+			    IRREGULAR_REASON
+	  		)
+	  		VALUES
+	  		(
+	  			SEQ_ATTENDANCE.NEXTVAL,
+	  			#{user_no},
+	  			#{user_name},
+	  			#{attend_date},
+	  			'Y',	  			
+	  			'--'
+	  		)
+	  	</insert>
     
   </mapper>
