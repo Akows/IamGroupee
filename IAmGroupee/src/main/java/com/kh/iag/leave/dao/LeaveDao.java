@@ -67,5 +67,9 @@ public interface LeaveDao {
 
 	int getRowCntAD() throws Exception;
 
+	List<UserDto> getAllUserInfo() throws Exception;
+
+	int Test(AlvOccurHistoryDto historyDto) throws Exception;
+
 
 }

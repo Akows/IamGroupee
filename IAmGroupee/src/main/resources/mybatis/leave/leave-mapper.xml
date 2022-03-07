@@ -17,6 +17,13 @@
     	WHERE IU.USER_NO = #{userNo} 
     </select>
   
+    <select id="getAllUserInfo" resultType="user">
+    	SELECT * FROM IAG_USER IU
+    	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
+    	JOIN POSITION P ON (IU.POSITION_NO = P.POSITION_NO)
+    	JOIN JOB J ON (IU.JOB_NO = J.JOB_NO)
+    </select>
+  
     <select id="getAllUserAD" parameterType="hashmap" resultType="user">
    		SELECT * FROM 
    			( 
@@ -115,10 +122,6 @@
     	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'LV%' AND UL.LV_END &lt; SYSDATE
     </select>
   
-  
-  
-  
-  
     <select id="getLvTypeList" resultType="leave">
     	SELECT * FROM LEAVE
     	WHERE LV_CODE LIKE 'LV%'
@@ -211,7 +214,7 @@
     	(
     		#{userNo},
     		'ALV_05',
-    		#{alvAddCount},
+    		#{alvOccurCount},
     		SYSDATE,
     		#{alvOccurReason}
     	)
@@ -228,6 +231,18 @@
     
     
     
+    
+    <insert id="Test" parameterType="lvHistory">
+    	INSERT INTO ALV_OCCUR_HISTORY
+    	VALUES
+    	(
+    		#{userNo},
+    		#{lvCode},
+    		#{alvOccurCount},
+    		DEFAULT,
+    		#{alvOccurReason}
+    	)
+    </insert>
     
     
     

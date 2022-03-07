@@ -67,4 +67,6 @@ public interface LeaveService {
 
 	int getRowCntAD() throws Exception;
 
+	List<UserDto> getAllUserInfo() throws Exception;
+
 }

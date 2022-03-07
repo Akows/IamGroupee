@@ -53,9 +53,6 @@ public class AdminLeaveController {
 		return "leave/lvAdmin/adminLeaveMain";
 	}
 	
-	
-	
-	
 	@PostMapping("main") // 관리 메인 +  조정연차를 부여해줄 사원 찾기
 	public String main(String searchByUserNo, Model model, String dept, @PathVariable(required = false) String page) throws Exception {		
 		List<UserDto> allUserList = new ArrayList<UserDto>();
@@ -75,45 +72,9 @@ public class AdminLeaveController {
 		}
 		model.addAttribute("allUserList", allUserList);
 		return "leave/lvAdmin/adminLeaveMain";
-	}
+	}	
 	
-	
-	
-	
-//	@RequestMapping("main") // 관리 메인 +  조정연차를 부여해줄 사원 찾기
-//	public String main(String searchByUserNo, Model model, String dept) throws Exception {
-//		List<UserDto> allUserList = new ArrayList<UserDto>();
-//		if (dept != null && !dept.equals("--부서별--")) {
-//			// 해당부서의 사원정보 불러오기
-//			allUserList = service.getThisDeptUserAD(dept);
-//		} else if (searchByUserNo != null && dept.equals("--부서별--")) {
-//			// 해당 사원의 정보 불러오기
-//			allUserList = service.getThisUserAD(searchByUserNo);
-//			// 총연차개수 set해주기
-//			for (UserDto userDto : allUserList) {
-//				int alvTotalCount = userDto.getAlvCount() + userDto.getAlvAddCount();
-//				userDto.setAlvTotalCount(alvTotalCount);
-//			}
-//		} else {
-//			// 모든 사원의 정보 불러오기
-//			allUserList = service.getAllUser();
-//			// 총연차개수 set해주기
-//			for (UserDto userDto : allUserList) {
-//				int alvTotalCount = userDto.getAlvCount() + userDto.getMlvCount() + userDto.getAlvAddCount();
-//				userDto.setAlvTotalCount(alvTotalCount);
-//			}
-//		}
-//		model.addAttribute("allUserList", allUserList);
-//		return "leave/test/adminLeaveMain";
-//	}
-	
-	
-	
-	
-	
-	
-	
-	@PostMapping("alvAddUpdate")
+	@PostMapping("alvAddUpdate") // 조정연차 부여
 	public String alvAddUpdate(String alvAddCount, String userNo, String alvOccurReason) throws Exception {
 		// iag_user addAlvCount에 update +=
 		int iagResult = service.iagAddAlvCount(alvAddCount,userNo);
@@ -202,35 +163,9 @@ public class AdminLeaveController {
 		return "redirect:/leave/lvInfo";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	@GetMapping("alvIntendAD") // 연차 사용 촉구서 (JSP없음)
-	public String alvIntendAD() {
-		return "leave/lvAdmin/alvIntendAD";
+	@GetMapping("alvUrgeAD") // 연차 사용 촉구서
+	public String alvUrgeAD() {
+		return "leave/lvAdmin/alvUrgeAD";
 	}
 	
 }

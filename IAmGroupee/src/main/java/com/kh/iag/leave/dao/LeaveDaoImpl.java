@@ -58,7 +58,6 @@ public class LeaveDaoImpl implements LeaveDao {
 	@Override
 	public int getAlvRowCnt(String userNo) throws Exception {
 		int result = session.selectOne("leave.getAlvRowCnt", userNo);
-		log.info(String.valueOf(result));
 		return result;
 	}
 	
@@ -156,7 +155,7 @@ public class LeaveDaoImpl implements LeaveDao {
 	@Override
 	public int alvOccurHistory(String alvAddCount, String userNo, String alvOccurReason) throws Exception {
 		Map<String, Object> history = new HashMap<String, Object>();
-		history.put("alvAddCount", alvAddCount);
+		history.put("alvOccurCount", alvAddCount);
 		history.put("userNo", userNo);
 		history.put("alvOccurReason", alvOccurReason);
 		return session.insert("leave.insertOccurHistory", history);
@@ -181,6 +180,16 @@ public class LeaveDaoImpl implements LeaveDao {
 	@Override
 	public int getRowCntAD() throws Exception {
 		return session.selectOne("leave.getRowCntAD");
+	}
+
+	@Override
+	public List<UserDto> getAllUserInfo() throws Exception {
+		return session.selectList("leave.getAllUserInfo");
+	}
+
+	@Override
+	public int Test(AlvOccurHistoryDto historyDto) throws Exception {
+		return session.insert("leave.Test", historyDto);
 	}	
 	
 }
