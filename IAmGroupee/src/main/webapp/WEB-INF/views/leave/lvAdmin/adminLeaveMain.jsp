@@ -78,7 +78,7 @@
 						</div>
 						<div
 							style="float: left; width: 68%; margin-left: 30px; margin-top: 10px; margin-bottom: 13px;">
-							<a href="${root}/admin/leave/alvIntendAD">
+							<a href="${root}/admin/leave/alvUrgeAD">
 								<p
 									style="color: rgb(94, 94, 94); font-size: x-large; font-weight: bold;">연차
 									사용 촉구서 관리</p>

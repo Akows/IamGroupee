@@ -166,13 +166,7 @@ public class LeaveController {
 		}
 
 		return "leave/lvUsedList2";
-	}
-	
-	
-	
-	
-	
-	
+	}	
 	
 	@GetMapping("alvCal") // 연차 정산
 	public String alvCal(HttpSession session, Model model) throws Exception {
@@ -214,7 +208,7 @@ public class LeaveController {
 		return "leave/leaveInfo";
 	}
 	
-	@GetMapping("lvInfoDetail/{no}")
+	@GetMapping("lvInfoDetail/{no}") // 사용자 휴무 정보 게시글 상세보기
 	public String lvInfoDetail(@PathVariable int no, HttpServletRequest request, HttpSession session) throws Exception {
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
 		String leaveRight = loginUser.getLeaveRight();
@@ -225,7 +219,6 @@ public class LeaveController {
 
 		session.setAttribute("leaveRight", leaveRight);
 		request.setAttribute("lvInfoDetail", lvInfoDetail);
-		
 		
 		return "leave/lvInfoDetail";
 	}

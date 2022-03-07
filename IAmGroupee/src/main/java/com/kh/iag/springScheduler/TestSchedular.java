@@ -2,24 +2,70 @@ package com.kh.iag.springScheduler;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
 
+import com.kh.iag.leave.dao.LeaveDao;
+import com.kh.iag.leave.entity.AlvOccurHistoryDto;
+import com.kh.iag.leave.entity.LeaveDto;
+import com.kh.iag.leave.service.LeaveService;
 import com.kh.iag.user.entity.UserDto;
 
 @Component
 public class TestSchedular {
+
 	
-//	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder .getRequestAttributes()).getRequest();
-//	HttpSession session = request.getSession();
-//	UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+/**
+	@Autowired
+	private LeaveService service;
+	@Autowired
+	private LeaveDao dao;
 	
-//	@Scheduled(cron = "0 0 12 1 1/1 ? *")
+	// 전체 사원목록 구하기
+	
+	public List<UserDto> getAllUserInfo() throws Exception {
+		
+		List<UserDto> allUserInfo = service.getAllUserInfo();
+		
+		return allUserInfo;
+	}
+	
+	
+	
+	// 연차사용 촉구서 이메일로 보내고 보내는 거 
+	@Scheduled(cron = "0 30 0 1/1 * *")
+	public void urgeUseAnnualLeave() throws Exception {
+		List<UserDto> allUserInfo = getAllUserInfo();
+		
+		for (UserDto userDto : allUserInfo) {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-M-d");
+			Calendar today = Calendar.getInstance(); 
+			String todayDate = format.format(today.getTime()); // 오늘 날짜"yyyy-M-d"
+			String enrollDate = String.valueOf(format.format(userDto.getEnrollDate()));// 입사 날짜"yyyy-M-d"
+			
+		}
+		
+		
+	}
+	@Scheduled(cron = "")
+	public void teest() throws Exception {
+		AlvOccurHistoryDto historyDto = new AlvOccurHistoryDto();
+		historyDto.setUserNo("2222");
+		historyDto.setLvCode("ALV_05");
+		historyDto.setAlvOccurCount(1);
+		historyDto.setAlvOccurReason("스케쥴러 테스트");;
+		
+		dao.Test(historyDto);
+		System.out.println("테스트실행됨");
+	}
+**/
+	
+	
+//	@Scheduled(cron = "0 1 0 1/1 * ? *")
 //	public void urgeUseAnnualLeave() {
 	
 //	=== 임시로직 === 사원의 근속일수 데이터 채우기 (근태 도메인 구현 완료 시 수정 및 삭제)
@@ -59,13 +105,7 @@ public class TestSchedular {
 //		// 연차생성로직
 	
 //	}
-//	
-//	@Scheduled(fixedRate=5000)
-//	public void urgeUseAnnualLeave() {
-//		// 연차사용 촉구서 이메일로 보내고 보내는 거 
-	
-//	}
-//	
+
 	
 	
 	/**

@@ -163,6 +163,11 @@ public class LeaveServiceImpl implements LeaveService {
 		return dao.getRowCntAD();
 	}
 
+	@Override // 전체사원의 정보 가져오기
+	public List<UserDto> getAllUserInfo() throws Exception {
+		return dao.getAllUserInfo();
+	}
+
 
 
 	
