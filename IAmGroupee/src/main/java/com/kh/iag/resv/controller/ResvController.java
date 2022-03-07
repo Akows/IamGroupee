@@ -1,7 +1,5 @@
 package com.kh.iag.resv.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -39,7 +37,7 @@ public class ResvController {
 		model.addAttribute("assetList", assetList);
 		
 		if (roomResvList != null) {
-			model.addAttribute("roomResvList", roomResvList);
+		model.addAttribute("roomResvList", roomResvList);
 		}
 		if (assetResvList != null) {
 			model.addAttribute("assetResvList", assetResvList);
@@ -53,26 +51,36 @@ public class ResvController {
 	public String insertResv(Model model, ResvDto dto) throws Exception {
 
 		String[] parts = dto.getPeriod().split("~");
-		String part1 = parts[0]; 
-		String part2 = parts[1];
+		String start = parts[0]; 
+		String end = parts[1];
+		//par1 =  '2022-03-08 08:00'
 		
-		SimpleDateFormat transFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm");
-		Date start = (Date) transFormat.parse(part1);
-		Date end = (Date) transFormat.parse(part2);
+//		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//		java.util.Date start = transFormat.parse(part1);
+//		java.util.Date end = transFormat.parse(part2);
+//		System.out.println("start : "+ start);
+//		
+//		long timeInMilliSeconds1 = start.getTime();
+//		long timeInMilliSeconds2 = start.getTime();
+//		java.sql.Date sqlStart = new java.sql.Date(timeInMilliSeconds1);
+//		java.sql.Date sqlEnd = new java.sql.Date(timeInMilliSeconds2);
 		
-		java.util.Date utilStart = new java.util.Date();
-	    java.sql.Date sqlStart = new java.sql.Date(utilStart.getTime());
-	    
-	    java.util.Date utilEnd = new java.util.Date();
-	    java.sql.Date sqlEnd = new java.sql.Date(utilEnd.getTime());
-	    
-		dto.setResvStart(sqlStart);
-		dto.setResvEnd(sqlEnd);
+		
+//	    Date sqlStart = new Date(start.getTime());
+//	    Date sqlEnd = new Date(end.getTime());
+//	    System.out.println("sqlStart : "+ sqlStart);
+		
+//		Timestamp tStart = new Timestamp(start.getTime());
+//		Timestamp tEnd =  new Timestamp(end.getTime());
+//		System.out.println("tstart : "+ tStart);
+//	    
+		dto.setResvStart(start);
+		dto.setResvEnd(end);
 		System.out.println(dto);
 		
 		int result = service.insertResv(dto);
 
-		return "redirect:/resv/resvMain";
+		return "/resv/resvMain";
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////

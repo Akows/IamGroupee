@@ -3,7 +3,9 @@ package com.kh.iag.resv.entity;
 import java.sql.Date;
 
 import lombok.Data;
+import lombok.Getter;
 
+@Getter
 @Data
 public class ResvDto {
     
@@ -11,8 +13,8 @@ public class ResvDto {
 	private String userNo;
 	private int roomNo;
 	private int assetNo;
-	private Date resvStart;
-	private Date resvEnd;
+	private String resvStart;
+	private String resvEnd;
 	private Date createDate;
 	private Date ModDate;
 	private String returnYn;

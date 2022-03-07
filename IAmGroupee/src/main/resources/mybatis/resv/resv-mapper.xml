@@ -110,13 +110,35 @@
   		
   		<!-- 내예약페이지 -->
   		<select id="getRoomResvList" resultType="resv">
-  			SELECT * FROM RESERVATION R
-  			JOIN MEETING_ROOM M ON (M.ROOM_NO = R.ROOM_NO)
+  			SELECT 
+				  R.RESV_NO
+				, R.USER_NO 
+				, R.ROOM_NO
+				, M.ROOM_NAME
+				, TO_CHAR(R.RESV_START, 'YYYY-MM-DD"T"HH24:MI:SS') RESV_START
+				, TO_CHAR(R.RESV_END, 'YYYY-MM-DD"T"HH24:MI:SS') RESV_END
+				, R.CREATE_DATE
+				, R.MOD_DATE
+				, R.RETURN_YN
+				, R.DELETE_YN
+			FROM RESERVATION R
+			JOIN MEETING_ROOM M ON (M.ROOM_NO = R.ROOM_NO)
   			WHERE R.USER_NO = #{userNo}
   		</select>
   		
   		<select id="getAssetResvList" resultType="resv">
-  			SELECT * FROM RESERVATION R
+  			SELECT 
+  				  R.RESV_NO
+				, R.USER_NO 
+				, R.ASSET_NO
+				, A.ASSET_NAME
+				, TO_CHAR(R.RESV_START, 'YYYY-MM-DD"T"HH24:MI:SS') RESV_START
+				, TO_CHAR(R.RESV_END, 'YYYY-MM-DD"T"HH24:MI:SS') RESV_END
+				, R.CREATE_DATE
+				, R.MOD_DATE
+				, R.RETURN_YN
+				, R.DELETE_YN
+  			FROM RESERVATION R
   			JOIN ASSET A ON (A.ASSET_NO = R.ASSET_NO)
   			WHERE R.USER_NO = #{userNo}
   		</select>
@@ -133,21 +155,15 @@
 	  				, USER_NO
 	  				, ROOM_NO
 	  				, RESV_START
-	  				, RESV_END
+					, RESV_END
 	  				, CREATE_DATE
-	  				, MOD_DATE
-	  				, RETURN_YN
-	  				, DELETE_YN
 	  			)VALUES(
 	  				  SEQ_RESERVATION.NEXTVAL
 	  				, #{userNo}
 		  			, #{roomNo}
-	  				, #{resvStart}
-	  				, #{resvEnd}
+	  				, TO_CHAR(#{resvStart}, 'YYYY-MM-DD HH24:MI')
+	  				, TO_CHAR(#{resvEnd}, 'YYYY-MM-DD HH24:MI')
 	  				, SYSDATE
-	  				, #{modDate}
-	  				, DEFAULT
-	  				, DEFAULT
 	  			)
   			</if>
   			<if test="assetNo != null and assetNo != '' ">
@@ -156,21 +172,15 @@
 	  				, USER_NO
 	  				, ASSET_NO
 	  				, RESV_START
-	  				, RESV_END
+					, RESV_END
 	  				, CREATE_DATE
-	  				, MOD_DATE
-	  				, RETURN_YN
-	  				, DELETE_YN
 	  			)VALUES(
 	  				  SEQ_RESERVATION.NEXTVAL
 	  				, #{userNo}
 		  			, #{assetNo}
-	  				, #{resvStart}
-	  				, #{resvEnd}
+		  			, TO_CHAR(#{resvStart}, 'YYYY-MM-DD HH24:MI:SS')
+	  				, TO_CHAR(#{resvEnd}, 'YYYY-MM-DD HH24:MI:SS')
 	  				, SYSDATE
-	  				, #{modDate}
-	  				, DEFAULT
-	  				, DEFAULT
 	  			)
   			</if>
   		</insert>

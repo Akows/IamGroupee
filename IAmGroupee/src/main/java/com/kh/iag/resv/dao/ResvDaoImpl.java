@@ -1,7 +1,7 @@
 package com.kh.iag.resv.dao;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +15,16 @@ public class ResvDaoImpl implements ResvDao {
 	@Autowired
 	private SqlSession ss;
 
+//	@Override
+//	public List<ResvDto> getRoomResvList(String userNo) throws Exception {
+//		return ss.selectList("resv.getRoomResvList", userNo);
+//	}
+	
 	@Override
 	public List<ResvDto> getRoomResvList(String userNo) throws Exception {
 		return ss.selectList("resv.getRoomResvList", userNo);
 	}
+
 
 	@Override
 	public List<ResvDto> getAssetResvList(String userNo) throws Exception {
@@ -39,5 +45,7 @@ public class ResvDaoImpl implements ResvDao {
 	public List<ResvDto> getAssetList() throws Exception {
 		return ss.selectList("resv.getAssetList");
 	}
+
+	
 
 }

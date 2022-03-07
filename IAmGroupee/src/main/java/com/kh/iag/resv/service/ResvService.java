@@ -1,9 +1,6 @@
 package com.kh.iag.resv.service;
 
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import com.kh.iag.resv.entity.ResvDto;
 

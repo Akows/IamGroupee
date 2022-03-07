@@ -174,6 +174,7 @@ pageEncoding="UTF-8"%>
 			timePicker: true,
 			timePickerIncrement: 10,
 			timePicker24Hour: true,
+			timePickerSeconds: true,
 			locale: {
 				"separator": "~",               // 시작일시와 종료일시 구분자
 				"format": 'YYYY-MM-DD HH:mm',     // 일시 노출 포맷
@@ -222,7 +223,8 @@ pageEncoding="UTF-8"%>
 				eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
 					console.log(obj);
 				},
-				events : [ 
+				events : 
+				[ 
 					<%if (roomResvList != null || assetResvList != null) {%>
 						<%for (ResvDto r : roomResvList) {%>
 							{
@@ -242,6 +244,7 @@ pageEncoding="UTF-8"%>
 						<%}
 					}%>
 				]
+				
 			
 			});
 			calendar.render();
