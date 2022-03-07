@@ -101,4 +101,10 @@ public class PersonnelController {
 		}
 	}
 	
+	@PostMapping("/userModi")
+	public String userModi(@ModelAttribute UserDto user,HttpServletRequest req) throws Exception {
+		int result = service.userUpdate(user, req);
+		return "redirect:/admin/ps/userlist";
+	}
+	
 }

@@ -27,9 +27,9 @@ public class LoginServiceImpl implements LoginService {
 	@Override // 로그인
 	public UserDto login(UserDto dto) throws Exception{
 		UserDto dbUser = dao.getUserByNo(dto);
-
-//		if (passwordEncoder.matches(dto.getPwd(), dbUser.getPwd())) {  추후에 암호화로 돌릴 예정
-		if(dbUser.getPwd().equals(dto.getPwd())) {
+		System.out.println(dto.getPwd());
+		System.out.println(dbUser.getPwd());
+		if (passwordEncoder.matches(dto.getPwd(), dbUser.getPwd())) {
 			// 세션아이디와 유효시간 DB에 저장
 			return dbUser;
 		} else {

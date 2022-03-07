@@ -96,15 +96,13 @@
 	<select id="userCnt" resultType="_int">
 		SELECT COUNT(USER_NO)
 		FROM IAG_USER
-		WHERE END_DATE IS NULL
 	</select>
 	
 	<select id="getUserCnt" resultType="_int">
 		SELECT COUNT(USER_NO)
 		FROM IAG_USER
-		WHERE END_DATE IS NULL
 		<if test="search != null and search !=''">
-			AND (USER_NO LIKE '%'|| #{search}||'%' OR TRIM(REPLACE(PHONE,'-','')) LIKE '%'||#{search}||'%' OR NAME LIKE '%'||#{search}||'%')
+			WHERE USER_NO LIKE '%'|| #{search}||'%' OR TRIM(REPLACE(PHONE,'-','')) LIKE '%'||#{search}||'%' OR NAME LIKE '%'||#{search}||'%'
 		</if>
 	</select>
 	
@@ -124,12 +122,49 @@
 				LEFT OUTER JOIN POSITION P ON (U.POSITION_NO = P.POSITION_NO)
                 LEFT OUTER JOIN DEPARTMENT D ON (D.DEPARTMENT_NO = U.DEPARTMENT_NO)
                 LEFT OUTER JOIN JOB J ON (J.JOB_NO = U.JOB_NO)
-				WHERE U.END_DATE IS NULL
+				
 				<if test="search != null and search !=''">
-					AND (U.USER_NO LIKE '%'|| #{search}||'%' OR TRIM(REPLACE(U.PHONE,'-','')) LIKE '%'||#{search}||'%' OR U.NAME LIKE '%'||#{search}||'%')
+				   WHERE (U.USER_NO LIKE '%'|| #{search}||'%' OR TRIM(REPLACE(U.PHONE,'-','')) LIKE '%'||#{search}||'%' OR U.NAME LIKE '%'||#{search}||'%'
 				</if>
 				ORDER BY U.ENROLL_DATE
 			) A
 		) WHERE RN BETWEEN #{startRow} AND #{endRow}
 	</select>
+	
+	<update id="updateUser">
+		UPDATE IAG_USER SET
+		NAME = #{name},
+		RESIDENT_NO = #{residentNo},
+		PHONE = #{phone},
+		EMAIL = #{email},
+		ADDRESS = #{address},
+		ENROLL_DATE = #{enrollDate},
+		ACTIVITY_YN = #{activityYn},
+		PERSONNEL_RIGHT = #{personnelRight},
+		PAYMENT_RIGHT = #{paymentRight},
+		LEAVE_RIGHT = #{leaveRight},
+		RESERVATIONS_RIGHT = #{reservationsRight},
+		BOARD_RIGHT = #{boardRight},
+		ATTENDENCE_RIGHT = #{attendenceRight},
+		SALARY_RIGHT = #{salaryRight}
+		<if test="profile != null">
+			,PROFILE = #{profile}
+		</if>
+		<if test="endDate != null">
+			,END_DATE = #{endDate}
+		</if>
+		<if test="pwd != null">
+			,PWD = #{pwd}
+		</if>
+		<if test="positionNo != 0">
+			,POSITION_NO = #{positionNo}
+		</if>
+		<if test="departmentNo != 0">
+			,DEPARTMENT_NO = #{departmentNo}
+		</if>
+		<if test="jobNo != 0">
+			,JOB_NO = #{jobNo}
+		</if>
+		WHERE USER_NO = #{userNo}
+	</update>
 </mapper>

@@ -73,4 +73,9 @@ public class personnelDaoImpl implements personnelDao {
 		return ss.selectList("ps.getUserList", pv);
 	}
 
+	@Override
+	public int userUpdate(UserDto user) throws Exception {
+		return ss.update("ps.updateUser", user);
+	}
+
 }

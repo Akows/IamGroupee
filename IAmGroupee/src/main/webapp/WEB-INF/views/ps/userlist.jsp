@@ -11,7 +11,6 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
-
     <!-- ! Main -->
     <main class="main users chart-page" id="skip-target">
      <div class="container">
@@ -60,7 +59,7 @@
                   </thead>
                   <tbody>
                   	<c:forEach items="${userList}" var="user">
-                  		<tr class="userSelect" data-toggle="modal" data-target="#modal-default">
+                  		<tr class="userSelect" data-toggle="modal" data-target="#modal">
                       		<td>${user.userNo}</td>
                       		<td>${user.name}</td>
                       		<td>${user.phone}</td>
@@ -129,7 +128,7 @@
        </div>
       </div>
     </main>
-    <div class="modal fade" id="modal-default">
+    <div class="modal fade" id="modal">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
@@ -143,24 +142,21 @@
 			 <div class="card card-primary">
               <!-- /.card-header -->
               <div class="card-body">
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="${root}/admin/ps/userModi" method="post" enctype="multipart/form-data">
                   <div class="row">
                     <div class="col-sm-6">
                       <!-- text input -->
                       <div class="form-group">
                         <label for="userNo">사원번호</label>
-                        <input type="text" class="form-control textInput" placeholder="ID" name="userNo" id="userNo" required>
-                      </div>
-                      <div class="form-group">
-                      	<span id="idDup"></span>
+                        <input type="text" class="form-control textInput" placeholder="ID" name="userNo" id="userNo" readonly required/>
                       </div>
                       <div class="form-group">
                         <label for="pwd">비밀번호</label>
-                        <input type="password" class="form-control textInput" placeholder="PASSWORD" name="pwd" id="pwd" required>
+                        <input type="password" class="form-control textInput" placeholder="PASSWORD" name="pwd" id="pwd"/>
                       </div>
                       <div class="form-group">
                         <label for="pwdCheck">비밀번호 확인</label>
-                        <input type="password" class="form-control textInput" placeholder="PASSWORD CHECK" name="pwdCheck" id="pwdCheck" required>
+                        <input type="password" class="form-control textInput" placeholder="PASSWORD CHECK" name="pwdCheck" id="pwdCheck"/>
                       </div>
                         <div class="form-group">
                       	<span id="pwdDup"></span>
@@ -168,7 +164,7 @@
                     </div>
                     <div class="col-sm-6">
                   		<div class="box" style="background: #BDBDBD;">
-    						<a id="profile"><img class="profile" src="${root}/resources/img/ps/profile/user.png"></a>
+    						<a id="profile"><img class="profile" id="userImg" src="${root}/resources/img/ps/profile/user.png"></a>
     						<input type="file" id="file" accept=".jpg,.png" name="file"/>
 						</div>
 					</div>
@@ -178,13 +174,13 @@
                       <!-- text input -->
                       <div class="form-group">
                         <label for="name">이름</label>
-                        <input type="text" class="form-control textInput" placeholder="NAME" name="name" id="name" required>
+                        <input type="text" class="form-control textInput" placeholder="NAME" name="name" id="name" required/>
                       </div>          
                     </div>
                     <div class="col-sm-6">
                   		<div class="form-group">
                         <label for="residentNo">주민등록번호</label>
-                        <input type="text" class="form-control textInput" placeholder="주민등록번호" name="residentNo" id="residentNo" required>
+                        <input type="text" class="form-control textInput" placeholder="주민등록번호" name="residentNo" id="residentNo" required/>
                       </div>
                       <div class="form-group">
                       	<span id="resiEx"></span>
@@ -196,7 +192,7 @@
                       <!-- text input -->
                       <div class="form-group">
                         <label for="phone">전화 번호</label>
-                        <input type="text" class="form-control textInput" placeholder="PHONE" name="phone" id="phone" required>
+                        <input type="text" class="form-control textInput" placeholder="PHONE" name="phone" id="phone" required/>
                       </div>   
                       <div class="form-group">
                       	<span id="phoneEx"></span>
@@ -205,7 +201,7 @@
                     <div class="col-sm-6">
                   		<div class="form-group">
                         <label for="email">이메일</label>
-                        <input type="text" class="form-control textInput" placeholder="EMAIL" name="email" id="email" required>
+                        <input type="text" class="form-control textInput" placeholder="EMAIL" name="email" id="email" required/>
                       </div>
                       <div class="form-group">
                       	<span id="emailEx"></span>
@@ -229,7 +225,7 @@
                     <div class="col-sm-6">
                   		<div class="form-group">
                         <label for="address">주소</label>
-                        <input type="text" class="form-control textInput" placeholder="ADDRESS" name="address" id="address" required>
+                        <input type="text" class="form-control textInput" placeholder="ADDRESS" name="address" id="address" required/>
                       </div>
 					</div>
                   </div>
@@ -238,7 +234,7 @@
                       <!-- select -->
                       <div class="form-group">
                         <label>조직</label>
-                        <select class="form-control" name="departmentNo">
+                        <select class="form-control" name="departmentNo" id="departmentNo">
                           <option value="0">없음</option>
                           <c:forEach items="${deptList}" var="d">
                           	<option value="${d.departmentNo}">${d.departmentName}</option>
@@ -250,7 +246,7 @@
                       <!-- select -->
                       <div class="form-group">
                         <label>직위</label>
-                        <select class="form-control" name="positionNo">
+                        <select class="form-control" name="positionNo" id="positionNo">
                           <option value="0">없음</option>
                           <c:forEach items="${posiList}" var="p">
                           	<option value="${p.positionNo}">${p.positionName}</option>
@@ -262,7 +258,7 @@
                       <!-- select -->
                       <div class="form-group">
                         <label>직무</label>
-                        <select class="form-control" name="jobNo">
+                        <select class="form-control" name="jobNo" id="jobNo">
                           <option value="0">없음</option>
                           <c:forEach items="${jobList}" var="j">
                           	<option value="${j.jobNo}">${j.jobName}</option>
@@ -343,24 +339,34 @@
                       </div>
                     </div>
                    </div>
-                   <div class="row">
-                   		<label>계정 활성화 여부</label>
-                   </div>
+
                    <div class="row">
                    		<div class="col-sm-6">
+                   		<label>계정 활성화 여부</label>
                       		<!-- radio -->
                       		<div class="form-group">
                         		<div class="custom-control custom-radio">
-                          			<input class="custom-control-input" type="radio" id="customRadio1" name="activityYn" value="Y" checked>
+                        			<input class="custom-control-input" type="radio" id="customRadio1" name="activityYn" value="Y">
                           			<label for="customRadio1" class="custom-control-label">활성화</label>
                         		</div>
                         		<div class="custom-control custom-radio">
-                          			<input class="custom-control-input" type="radio" id="customRadio2" name="activityYn" value="N">
+                        			<input class="custom-control-input" type="radio" id="customRadio2" name="activityYn" value="N">
                           			<label for="customRadio2" class="custom-control-label">비활성화</label>
                         		</div>
                       		</div>
                     	</div>
-                   </div>
+                    	<div class="col-sm-6">
+                    		<div class="form-group">
+                      			<label for="endDate">퇴직일</label>
+                    				<div class="input-group date" id="endDate" data-target-input="nearest">
+                        			<input type="text" name="endDateStr" id="endDate" class="form-control datetimepicker-input" data-target="#endDate" placeholder="dd/MM/yyyy"/>
+                        			<div class="input-group-append" data-target="#endDate" data-toggle="datetimepicker">
+                            			<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        				</div>
+                    				</div>
+                    		</div>
+                    	</div>
+                   	</div>
 
                   <div class="row">
                   	<div class="col-sm-6 col-lg-8"></div>
@@ -368,11 +374,9 @@
                   		<button type="submit" class="btn btn-block btn-primary" id="add">추가</button>
                   	</div>
                   	<div class="col-sm-3 col-lg-2">
-                  		<button type="button" class="btn btn-block btn-secondary" id="cancle">취소</button>
+                  		<button type="button" class="btn btn-block btn-secondary"  data-dismiss="modal" id="cancle">닫기</button>
                   	</div>
-                  </div>
-                  
-                  
+                  </div> 
                 </form>
               </div>
               <!-- /.card-body -->
@@ -381,25 +385,181 @@
             <!-- /.card -->
 			</div>
             </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
             </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
+            </div>
         <!-- /.modal-dialog -->
       </div>
       <!-- /.modal -->
 
+    
+
     <%@ include file="/WEB-INF/views/common/footer.jsp" %>
+
+<!-- InputMask -->
+  <script src="${root}/resources/plugins/moment/moment.min.js"></script>
+  <!-- date-range-picker -->
+  <script src="${root}/resources/plugins/daterangepicker/daterangepicker.js"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="${root}/resources/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    
 
 	<script type="text/javascript">
 		$(document).ready(function(){
+			var pwdCheck = true;
 			$(".userSelect").click(function(){
-				
+				$("#userNo").val('');
+				$("#name").val('');
+				$("#residentNo").val('');
+				$("#phone").val('');
+				$("#email").val('');
+				$("#enrollDate").val('');
+				$("#address").val('');
+				$("#endDate").val('');
+				$("#departmentNo").val('0').prop("selected", true);
+				$("#positionNo").val('0').prop("selected", true);
+				$("#jobNo").val('0').prop("selected", true);
+				$("#check1").prop('checked', false);
+				$("#check2").prop('checked', false);
+				$("#check3").prop('checked', false);
+				$("#check4").prop('checked', false);
+				$("#check5").prop('checked', false);
+				$("#check6").prop('checked', false);
+				$("#check7").prop('checked', false);
+				var userNo1 = $(this).children().eq(0).text();
+				<c:forEach items="${userList}" var="user">
+					if(userNo1 === '${user.userNo}'){
+						var userNo = '${user.userNo}';
+						var positionNo = '${user.positionNo}';
+						var departmentNo = '${user.departmentNo}';
+						var jobNo = '${user.jobNo}';
+						var name = '${user.name}';
+						var residentNo = '${user.residentNo}';
+						var phone = '${user.phone}';
+						var email = '${user.email}';
+						var address = '${user.address}';
+						var enrollDate = '${user.enrollDateModi()}';
+						<c:if test="${user.endDate ne null}">
+							console.log("들어옴");
+							var endDate = '${user.endDateModi()}';
+							console.log(endDate);
+						</c:if>
+						var activityYn = '${user.activityYn}';
+						var profile = '${user.profile}';
+						var personnelRight = '${user.personnelRight}';
+						var paymentRight = '${user.paymentRight}';
+						var leaveRight = '${user.leaveRight}';
+						var reservationsRight = '${user.reservationsRight}';
+						var boardRight = '${user.boardRight}';
+						var attendenceRight = '${user.attendenceRight}';
+						var salaryRight = '${user.salaryRight}';
+					}
+				</c:forEach>
+				$("#userNo").val(userNo);
+				$("#name").val(name);
+				$("#residentNo").val(residentNo);
+				$("#phone").val(phone);
+				$("#email").val(email);
+				$("#enrollDate").val(enrollDate);
+				<c:if test="${user.endDate ne null}">
+
+					$("#endDate").val(endDate);
+
+				</c:if>
+					
+
+				$("#address").val(address);
+				$("#userImg").attr("src", "${root}/resources/img/ps/profile/"+profile);
+				$("#departmentNo").val(departmentNo).prop("selected", true);
+				$("#positionNo").val(positionNo).prop("selected", true);
+				$("#jobNo").val(jobNo).prop("selected", true);
+				if(activityYn === 'Y'){
+					$("#customRadio1").prop('checked', true);
+					$("#customRadio2").prop('checked', false);
+				}else {
+					$("#customRadio1").prop('checked', false);
+					$("#customRadio2").prop('checked', true);
+				}
+				if(personnelRight === 'Y'){
+					$("#check1").prop('checked', true);
+				}
+				if(paymentRight === 'Y'){
+					$("#check2").prop('checked', true);
+				}
+				if(leaveRight === 'Y'){
+					$("#check3").prop('checked', true);
+				}
+				if(reservationsRight === 'Y'){
+					$("#check4").prop('checked', true);
+				}
+				if(boardRight === 'Y'){
+					$("#check5").prop('checked', true);
+				}
+				if(attendenceRight === 'Y'){
+					$("#check6").prop('checked', true);
+				}
+				if(salaryRight === 'Y'){
+					$("#check7").prop('checked', true);
+				}
 			});
-		}
+			$("#profile").on("click",function(){
+				$("#file").click();
+			});
+			$("#file").change(function(){
+				let fileTag = document.querySelector('input[name=file]');
+				let aTag = document.querySelector('#profile');
+				if(fileTag.files.length > 0){
+					let reader = new FileReader();
+					reader.onload = function(data){
+						let imgTag = document.createElement('img');
+						imgTag.classList.add("profile");
+						imgTag.setAttribute('src', data.target.result);
+						aTag.innerHTML ='';
+						aTag.appendChild(imgTag);
+					}
+					reader.readAsDataURL(fileTag.files[0]);
+
+				}else {
+					let imgTag = document.createElement('img');
+					imgTag.classList.add("profile");
+					imgTag.setAttribute('src', "${root}/resources/img/ps/profile/user.png");
+					aTag.innerHTML ='';
+					aTag.appendChild(imgTag);
+				}
+			});
+			$('#reservationdate').datetimepicker({
+			     format: 'L'
+			});
+			$('#endDate').datetimepicker({
+			     format: 'L'
+			});
+			$("#pwdCheck").change(function(){
+				if(($("#pwdCheck").val() === null || $("#pwdCheck").val() === "") && ($("#pwd").val() === null || $("#pwd").val() === "")){
+					pwdCheck = true;
+				}else if($("#pwdCheck").val() === $("#pwd").val()){
+					pwdCheck=true;
+					$("#pwdDup").text("비밀번호가 일치합니다.");
+					$("#pwdDup").css("color", "green");
+				}else{
+					pwdCheck=false;
+					$("#pwdDup").text("비밀번호가 일치하지 않습니다.");
+					$("#pwdDup").css("color", "red");
+				}
+			});
+			$("#pwd").change(function(){
+				if(($("#pwdCheck").val() === null || $("#pwdCheck").val() === "") && ($("#pwd").val() === null || $("#pwd").val() === "")){
+					pwdCheck = true;
+					$("#pwdDup").text("");
+				}else if($("#pwdCheck").val() === $("#pwd").val()){
+					pwdCheck=true;
+					$("#pwdDup").text("비밀번호가 일치합니다.");
+					$("#pwdDup").css("color", "green");
+				}else{
+					pwdCheck=false;
+					$("#pwdDup").text("비밀번호가 일치하지 않습니다.");
+					$("#pwdDup").css("color", "red");
+				}
+			});
+		});
 	</script>
 
 	<!-- Custom scripts -->

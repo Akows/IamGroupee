@@ -326,7 +326,7 @@
 					$("#pwdDup").text("비밀번호가 일치하지 않습니다.");
 					$("#pwdDup").css("color", "red");
 				}
-			})
+			});
 			$("#userNo").change(function() {
 				let userNo = $("#userNo").val();
 				$.ajax({
