@@ -30,6 +30,8 @@ public interface EADao {
 
 	DocsDto selectDocument(ProcessDto pd) throws Exception;
 
+	DocsDto selectRejectedDocument(ProcessDto pd);
+	
 	List<ProcessDto> selectProcess(ProcessDto pd) throws Exception;
 
 	List<DocsDto> signupList(HashMap<String, String> map) throws Exception;
@@ -52,6 +54,13 @@ public interface EADao {
 
 	List<ProcessDto> processListForApprAll() throws Exception;
 
-	List<ProcessDto> processListForApprOne(String userNo) throws Exception;
+	List<ProcessDto> processListForApprUser(String userNo) throws Exception;
+
+	int updateProcessState(ProcessDto dto);
+
+	ProcessDto checkingLastProcess(ProcessDto dto);
+
+	int updateDocumentSep(ProcessDto resultDto);
+
 	
 }

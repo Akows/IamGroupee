@@ -76,9 +76,41 @@ public class EAController {
 		
 		return "ea/user/ea_signup_write";
 	}
+	// 기안신청 (연차기안)
+	@GetMapping(value = "/write_lvA")
+	public String writeA(Model model) throws Exception {
+		
+		// 부서 목록 (부서 번호, 부서명)
+		List<DeptDto> deptValues = service.deptValues();
+		model.addAttribute("deptValues", deptValues);
+		
+		return "ea/user/ea_signup_write_lvA";
+	}
+	
+	// 기안신청 (휴가기안)
+	@GetMapping(value = "/write_lvB")
+	public String writeB(Model model) throws Exception {
+		
+		// 부서 목록 (부서 번호, 부서명)
+		List<DeptDto> deptValues = service.deptValues();
+		model.addAttribute("deptValues", deptValues);
+		
+		return "ea/user/ea_signup_write_lvB";
+	}
+	
+	
 	// 기안신청 (처리)
 	@PostMapping(value = "/write")
 	public String write(Model model, HttpSession session, @ModelAttribute SignupDto dto) throws Exception {
+		
+//		if(lvCheck == A) {
+//			
+//		} else if(lvCheck == B) {
+//			
+//		} else {
+//			
+//		}
+		
 		
 		log.info(dto.toString());
 		
@@ -171,7 +203,7 @@ public class EAController {
 			pd.setDocNo(docNo);
 			
 			// 문서 정보 문서 테이블
-			DocsDto doc = service.selectDocument(pd);
+			DocsDto doc = service.selectRejectedDocument(pd);
 			Date makeDate = doc.getDocMake();
 			Date closeDate = doc.getDocClose();
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy. MM. dd.");
@@ -274,22 +306,62 @@ public class EAController {
 		model.addAttribute("processListForApprAll", processListForApprAll);
 		
 		// 진행단계 데이터 (테이블헤더에 필요, 결재순서가 로그인한 유저 순서인 문서를 찾기 위한 로그인한 유저의 결재선 정보)
-		List<ProcessDto> processListForApprOne = service.processListForApprOne(userNo);
-		model.addAttribute("processListForApprOne", processListForApprOne);
+		List<ProcessDto> processListForApprUser = service.processListForApprUser(userNo);
+		model.addAttribute("processListForApprUser", processListForApprUser);
 		
 		return "ea/user/ea_apprlist_list";
 	}
 	
-	
 	// 결재문서조회 (상세조회)
 	@PostMapping(value = "/apprlist/detail")
-	public String apprlistDetail() {
+	public String apprlistDetail(Model model, HttpSession session, String docNo) throws Exception {
+		
+		ProcessDto pd = new ProcessDto();
+		pd.setDocNo(docNo);
+		
+		// 문서 정보 문서 테이블
+		DocsDto doc = service.selectDocument(pd);
+		Date makeDate = doc.getDocMake();
+		Date closeDate = doc.getDocClose();
+		SimpleDateFormat ft = new SimpleDateFormat("yyyy. MM. dd.");
+		doc.setSimpleMakeDate(ft.format(makeDate));
+		doc.setSimpleCloseDate(ft.format(closeDate));
+		model.addAttribute("docInfo", doc);
+		
+		pd.setProcNo(doc.getProcNo());
+		
+		// 결재자 정보 결재선 테이블
+		List<ProcessDto> processList = service.selectProcess(pd);
+		model.addAttribute("processList", processList);
+		
+		// 로그인 유저 정보
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		String userNo = loginUser.getUserNo();
+		model.addAttribute("loginUserNo", userNo);
+		
 		return "ea/user/ea_apprlist_detail";
+		
+
 	}
 	// 결재문서조회 (결재진행)
 	@PostMapping(value = "/apprlist/process")
-	public String apprlisApprved(String process) {
-		System.out.println(process);
+	public String apprlisApprved(String docNo, @ModelAttribute ProcessDto dto) {
+		
+		// 결재선 테이블 업데이트
+		int result = service.updateProcessState(dto);
+		log.info("결재선테이블업데이트::::" + result);
+		
+		// 결재업데이트한 행 가지고 와서 거기에 있는 procSep이랑 procCnt가 같고, procSeq이 1이거나 4이면 승인완료된 문서로 바꿔야함 DOC_SEP = 'Y'로
+		ProcessDto resultDto = service.checkingLastProcess(dto);
+		if((resultDto.getProcSep() == resultDto.getProcCnt()) || (resultDto.getProcSeq() == 4)) {
+			if(resultDto.getProcSeq() == 1 || resultDto.getProcSeq() == 4) {
+				// EA_DOCUMENT 테이블 문서 승인완료로 돌리기
+				int result1 = service.updateDocumentSep(resultDto);
+				log.info("문서테이블업데이트::::" + result1);
+			}
+		}
+		
 		return "ea/user/ea_apprlist_list";
 	}
+//---------------------------------------------------------------- 참조문서조회
 }

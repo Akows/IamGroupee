@@ -295,3 +295,21 @@ select[name="formNo"] > option.activeForm {
 #formContents > div.activeContent {
   display: block;
 }
+#formContents table {
+  width: 100%;
+}
+#formContents > div {
+  padding: 10px;
+}
+/* 연차, 휴가 공통 */
+#lvWrap {
+  margin: 20px;
+}
+/* 연차기안 */
+select[name="halfLv"] {
+  display: none;
+}
+select[name="halfNhalfLv"] {
+  display: none;
+}
+/* 휴가기안 */

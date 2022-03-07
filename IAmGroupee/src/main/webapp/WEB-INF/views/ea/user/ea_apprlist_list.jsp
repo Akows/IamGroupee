@@ -28,7 +28,6 @@
       </div>
       <div class="ea_apprlist_list_contents">
         <!-- 제목 누르면 그냥 문서번호만 보내서 처리 -->
-        <form action="apprlist/detail" method="POST" name="reuqestForm">
         <table>
           <thead>
             <tr>
@@ -72,24 +71,68 @@
             </tr>
           </thead>
           <tbody>
-            <!-- 여기에 if문으로 내 결재순서인 게시글만 걸러서 보여주기  -->
+            
             <!-- for-each -->
             <form action="${root}/ea/apprlist/detail" method="POST" name="requestForm">
               <c:forEach items="${apprList}" var="al">
+	            
                 <tr id="listContents">
                   <td>${al.docNo}</td>
                   <td>${al.formTitle}</td>
-                  <td><a href="javascript:requestForm.submit()" class="ea_title">${al.docTitle}</a></td>
+                  <td>
+                    <a href="javascript:requestForm.submit()" class="ea_title">${al.docTitle}</a>
+                  </td>
                   <td>${al.simpleMakeDate}</td>
                   <td>${al.simpleCloseDate}</td>
-                  
-                
+                 	
+                  <c:forEach items="${processListForApprUser}" var="pl">
+                  <c:if test="${(al.docNo eq pl.docNo) && (pl.procSep eq pl.procCnt)}">
+                  <td>최종 결재</td>                  
+                  </c:if>
+                  </c:forEach>
+                  <c:forEach items="${processListForApprUser}" var="pl">
+                  <c:if test="${(al.docNo eq pl.docNo) && (pl.procSep eq 1)}">
+                  <td>1차 결재</td>
+                  </c:if>
+                  <c:if test="${(al.docNo eq pl.docNo) && (pl.procSep eq 2)}">
+                  <td>2차 결재</td>
+                  </c:if>
+                  <c:if test="${(al.docNo eq pl.docNo) && (pl.procSep eq 3)}">
+                  <td>3차 결재</td>
+                  </c:if>
+                  <c:if test="${(al.docNo eq pl.docNo) && (pl.procSep eq 4)}">
+                  <td>4차 결재</td>
+                  </c:if>
+                  </c:forEach>
                 </tr>
+                
               </c:forEach>
             </form>
           </tbody>
-          </table>
-        </form>
+        </table>
+
+        <div id="pagingBtn">
+          <!-- 페이지 start -->
+          <ul>
+            <c:if test="${page.startPage != 1}">
+              <li><a href="${page.startPage - 1}">◁</a></li>
+            </c:if>
+            
+            <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+              <c:if test="${page.currentPage != i and i <= page.lastPage}">
+                <li><a href="${root}/ea/apprlist/${i}">${i}</a></li>
+              </c:if>
+              <c:if test="${page.currentPage == i and i <= page.lastPage}">
+                <li style="background: #4081e4; color: #fff;">${i}</li>
+              </c:if>
+            </c:forEach>
+            
+            <c:if test="${page.endPage < page.lastPage}">
+              <li><a href="${page.endPage + 1}">▷</a></li>
+            </c:if>
+          </ul>
+          <!-- 페이지 end -->
+        </div>
           
         </div>
       </div>
@@ -103,15 +146,20 @@
     <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
 
 <script>
-  $('.ea_apprlist_list_contents > form > table > thead > tr > th > span').click(function() {
+  $('.ea_apprlist_list_contents > table > thead > tr > th > span').click(function() {
     $(this).siblings("ul").toggleClass('active');
   });
 
-  // 임시 페이지 접근 코드
+
+
+  // 상세페이지 이동시 문서번호, 결재절차 데이터 추가
   $('.ea_title').click(function() {
-    let x = $(this).parent().siblings().eq(4).text();
-    $(this).parent().siblings().eq(4).html(x + '<input type="hidden" name="process" value="">');
-    $(this).parent().siblings().eq(4).children().val(x);
+    let docNo = $(this).parent().parent().children().eq(0).text();
+    $('<input>', {
+      type : "hidden",
+      name: "docNo",
+      value : docNo
+    }).appendTo('form[name="requestForm"]');
   });
 
 </script>

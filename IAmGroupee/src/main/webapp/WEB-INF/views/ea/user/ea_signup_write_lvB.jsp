@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>전자결재 > 기안신청(기안작성)</title>
+  <title>전자결재 > 기안신청(휴가기안)</title>
   <!-- Favicon -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/svg/looo.png" type="image/x-icon">
   <!-- Custom styles -->

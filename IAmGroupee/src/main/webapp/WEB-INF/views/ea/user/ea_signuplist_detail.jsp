@@ -86,7 +86,7 @@
                     <td><span id="stamp1">상신</span></td>
                     <c:forEach items="${processList}" var="pl" begin="0" step="1" end="${processList[0].procCnt}" varStatus="vs">
                     <c:if test="${pl.procSeq eq 0}">
-                    <td><span id="waitApprv">결재대기</span></td>                    
+                    <td><span class="waitApprv">결재대기</span></td>                    
                     </c:if>
                     <c:if test="${pl.procSeq eq 1}">
                     <td><span id="stamp2">승인</span></td>
@@ -102,7 +102,7 @@
             </table>
         </div>
         <!-- 문서 중앙 문서 내용 -->
-        <div>
+        <div id="docContents">
             <!-- 텍스트 에디터 저장된 html 코드 -->
             ${docInfo.docContent}
             <!-- 텍스트 에디터 저장된 html 코드 -->

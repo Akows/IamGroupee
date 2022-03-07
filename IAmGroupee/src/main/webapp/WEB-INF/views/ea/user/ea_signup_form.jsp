@@ -23,6 +23,12 @@
     <div class="ea_signup_formselect_wrapper">
       <div class="ea_signup_formselect_title">
         <span>기안신청 (양식선택)</span>
+        <a href="${root}/ea/write_lvA" style="
+        position: absolute;
+        transform: translateX(300px); color: blue;">(임시)연차신청</a>
+        <a href="${root}/ea/write_lvB" style="
+        position: absolute;
+        transform: translateX(400px); color: red;">(임시)휴가신청</a>
       </div>
       <div class="ea_signup_formselect_contents">
         <form action="write" method="GET" onsubmit="return checkingSelectForm();">

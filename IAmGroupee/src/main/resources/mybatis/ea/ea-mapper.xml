@@ -249,6 +249,22 @@
 		JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
 	</select>
 	
+	<!-- 기안문서리스트에서 반려/협의요청 문서 상세보기 -->
+	<select id="selectRejectedDocument" parameterType="com.kh.iag.ea.entity.ProcessDto" resultType="eadocs">
+		SELECT PC.PROC_REJECTED, D.*, U.NAME, P.POSITION_NAME, DP.DEPARTMENT_NAME, F.FORM_TITLE
+		FROM
+		(
+		    SELECT PROC_NO, PROC_REJECTED FROM EA_PROCESS
+		    WHERE PROC_NO = (SELECT PROC_NO FROM EA_DOCUMENT WHERE DOC_NO = #{docNo}) 
+		      AND PROC_SEQ IN (2, 3)
+		) PC
+		JOIN EA_DOCUMENT D ON(PC.PROC_NO = D.PROC_NO)
+		JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+		JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
+		JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+		JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+	</select>
+	
 	
 	<!-- 기안 작성시 작성한 문서 상세 페이지 결재선 데이터 -->
 	<select id="selectProcess" parameterType="com.kh.iag.ea.entity.ProcessDto" resultType="com.kh.iag.ea.entity.ProcessDto">
@@ -258,11 +274,11 @@
 			SELECT * 
 			FROM EA_PROCESS
 			WHERE PROC_NO = ${procNo}
-			ORDER BY PROC_SEP
 		) P
 		JOIN IAG_USER U ON(P.USER_NO = U.USER_NO)
 		JOIN POSITION PS ON(U.POSITION_NO = PS.POSITION_NO)
 		JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+		ORDER BY PROC_SEP ASC
 	</select>
 	
 	
@@ -398,7 +414,7 @@
 	</select>
 	
 	<!-- 결재리스트조회 내가 결재할 결재선 정보 -->
-	<select id="processListForApprOne" parameterType="string" resultType="com.kh.iag.ea.entity.ProcessDto">
+	<select id="processListForApprUser" parameterType="string" resultType="com.kh.iag.ea.entity.ProcessDto">
 		SELECT *
 		FROM
 		(
@@ -417,4 +433,30 @@
 		    )
 		WHERE USER_NO = #{userNo}
 	</select>
+	
+	<!-- 결재상세페이지 결재상태 업데이트 -->
+	<update id="updateProcessState" parameterType="com.kh.iag.ea.entity.ProcessDto">
+		UPDATE EA_PROCESS
+		SET
+			PROC_SEQ = ${procSeq},
+			PROC_REJECTED = #{procRejected}
+		WHERE PROC_NO = ${procNo} AND USER_NO = #{userNo}
+	</update>
+	
+	<!-- 업데이트한 결재선이 마지막 결재선인지 확인 -->
+	<select id="checkingLastProcess" parameterType="com.kh.iag.ea.entity.ProcessDto" resultType="com.kh.iag.ea.entity.ProcessDto">
+		SELECT * 
+		FROM EA_PROCESS
+		WHERE PROC_NO = ${procNo}
+		  AND USER_NO = #{userNo}
+	</select>
+	
+	<!-- 결재시 최종결재이거나 전결일때 EA_DOCUMENT 승인여부 컬럼 DOC_SEP = 'Y'로 바꾸기  -->
+	<update id="updateDocumentSep" parameterType="com.kh.iag.ea.entity.ProcessDto">
+		UPDATE EA_DOCUMENT
+		SET
+			DOC_SEP = 'Y'
+		WHERE PROC_NO = ${procNo}
+	</update>
+	
 </mapper>

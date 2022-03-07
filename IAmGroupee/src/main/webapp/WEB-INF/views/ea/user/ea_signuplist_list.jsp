@@ -89,12 +89,19 @@
                       <c:if test="${pl.procSeq eq 3}">
                       <td>협의요청</td>
                       </c:if>
+                    </c:if>
+                  </c:forEach>
+
+                  <c:forEach items="${processList}" var="pl" varStatus="vs">
+                    <c:if test="${sl.docNo eq pl.docNo}">
                       <!-- 그냥... 오버플로우 히든으로 가리자... -->
                       <c:if test="${pl.procSeq ne 2 || pl.procSeq ne 3}">
-                        <td>결제대기</td>
+                        <td>결재대기</td>
                       </c:if>
                     </c:if>
                   </c:forEach>
+
+
                 </tr>
               </c:forEach>
             </form>

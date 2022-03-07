@@ -66,6 +66,11 @@ public class EADaoImpl implements EADao {
 	}
 
 	@Override
+	public DocsDto selectRejectedDocument(ProcessDto pd) {
+		return sqlSession.selectOne("ea.selectRejectedDocument", pd);
+	}
+	
+	@Override
 	public List<ProcessDto> selectProcess(ProcessDto pd) throws Exception {
 		return sqlSession.selectList("ea.selectProcess", pd);
 	}
@@ -121,8 +126,24 @@ public class EADaoImpl implements EADao {
 	}
 
 	@Override
-	public List<ProcessDto> processListForApprOne(String userNo) throws Exception {
-		return sqlSession.selectList("ea.processListForApprOne", userNo);
+	public List<ProcessDto> processListForApprUser(String userNo) throws Exception {
+		return sqlSession.selectList("ea.processListForApprUser", userNo);
 	}
+
+	@Override
+	public int updateProcessState(ProcessDto dto) {
+		return sqlSession.update("ea.updateProcessState", dto);
+	}
+
+	@Override
+	public ProcessDto checkingLastProcess(ProcessDto dto) {
+		return sqlSession.selectOne("ea.checkingLastProcess", dto);
+	}
+
+	@Override
+	public int updateDocumentSep(ProcessDto resultDto) {
+		return sqlSession.update("ea.updateDocumentSep", resultDto);
+	}
+
 
 }
