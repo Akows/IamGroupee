@@ -24,6 +24,7 @@ public class UserDto {
 	private String email;	
 	private String address;	
 	private String enrollDateStr;
+	private String endDateStr;
 	private Date enrollDate;	
 	private Date endDate;	
 	private String activityYn;	
@@ -48,9 +49,43 @@ public class UserDto {
 		}
 		this.enrollDate = date1;
 	}
+	
+	public void setEndDateStr(String endDateStr) {
+		this.endDateStr = endDateStr;
+		SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
+	    Date date1 = null;
+		try {
+			date1 = sdf1.parse(endDateStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		this.endDate = date1;
+	}
+	
 	public String enrollDateToString() {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
 		String Date = simpleDateFormat.format(enrollDate);
+
+		return Date;
+	}
+	
+	public String endDateToString() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		String Date = simpleDateFormat.format(endDate);
+
+		return Date;
+	}
+	
+	public String enrollDateModi() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy"); 
+		String Date = simpleDateFormat.format(enrollDate);
+
+		return Date;
+	}
+	
+	public String endDateModi() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy"); 
+		String Date = simpleDateFormat.format(endDate);
 
 		return Date;
 	}

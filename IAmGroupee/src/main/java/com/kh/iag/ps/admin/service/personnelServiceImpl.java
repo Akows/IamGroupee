@@ -99,6 +99,32 @@ public class personnelServiceImpl implements personnelService {
 		pv.setSearch(search);
 		return pv;
 	}
+
+	@Override
+	public int userUpdate(UserDto user, HttpServletRequest req) throws Exception {
+		if(user.getPwd() != null && !user.getPwd().isEmpty()) {
+			user.setPwd(pe.encode(user.getPwd()));
+		}else {
+			user.setPwd(null);
+		}
+		
+		MultipartFile f = user.getFile();
+		
+//		파일 여부
+		if(!f.isEmpty()) {
+//			변경된 이름
+			String changeName = user.getUserNo() +"_"+System.currentTimeMillis() + "_" + f.getOriginalFilename();
+			String path = req.getServletContext().getRealPath("/resources/img/ps/profile/");
+			File file = new File(path + changeName);
+			f.transferTo(file);
+			user.setProfile(changeName);
+		} else {
+			user.setProfile(null);
+		}
+		int result = dao.userUpdate(user);;
+		
+		return result;
+	}
 	
 
 }

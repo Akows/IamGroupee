@@ -32,4 +32,6 @@ public interface personnelDao {
 
 	List<UserDto> getUserList(PageVo pv) throws Exception;
 
+	int userUpdate(UserDto user) throws Exception;
+
 }

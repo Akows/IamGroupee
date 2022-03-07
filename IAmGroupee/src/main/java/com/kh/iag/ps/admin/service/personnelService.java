@@ -29,4 +29,6 @@ public interface personnelService {
 
 	PageVo getPageVo(String page, String search) throws Exception;
 
+	int userUpdate(UserDto user, HttpServletRequest req) throws Exception;
+
 }
