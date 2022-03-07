@@ -13,7 +13,12 @@ import com.kh.iag.attend.entity.AttendWTDTO;
 
 public interface attendService 
 {
-	//근태 메인페이지
+	//근태 메인페이지 임시데이터 삽입
+	void attendtempdatainsert(AttendDTO attendDTO) throws Exception;
+	void attendMODtempdatainserty(AttendModDTO attendModDTO) throws Exception;
+	void attendWTtempdatainsert(AttendWTDTO attendWTDTO) throws Exception;
+
+	//근태 메인페이지 정보 출력
 	List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception;
 	List<AttendModDTO> getAttendModInfo(AttendModDTO attendModDTO) throws Exception;
 	List<AttendWTDTO> getAttendWTInfo(AttendWTDTO attendWTDTO) throws Exception;
@@ -34,5 +39,6 @@ public interface attendService
 	//수정요청 승인 혹은 거절
 	int approveManageOK(AttendModDTO attendModDTO) throws Exception;
 	int approveManageNone(AttendModDTO attendModDTO) throws Exception;
-	
+
+
 }

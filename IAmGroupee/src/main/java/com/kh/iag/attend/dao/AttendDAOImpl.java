@@ -18,6 +18,27 @@ public class AttendDAOImpl implements AttendDAO
 	@Autowired
 	private SqlSession ss;
 	
+	//근태 메인페이지 임시데이터 삽입
+
+	@Override
+	public void attendtempdatainsert(AttendDTO attendDTO) 
+	{
+		ss.insert("attend.attendtempdatainsert", attendDTO);	
+	}
+
+	@Override
+	public void attendMODtempdatainserty(AttendModDTO attendModDTO) 
+	{
+		ss.insert("attend.attendMODtempdatainserty", attendModDTO);	
+	}
+
+	@Override
+	public void attendWTtempdatainsert(AttendWTDTO attendWTDTO) 
+	{
+		ss.insert("attend.attendWTtempdatainsert", attendWTDTO);	
+	}
+
+	
 	//근태메인
 	@Override
 	public List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception 

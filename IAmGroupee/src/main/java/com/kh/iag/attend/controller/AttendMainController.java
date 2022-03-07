@@ -24,15 +24,8 @@ public class AttendMainController
 	@Autowired
 	private attendService service;
 	
-	
-	@GetMapping("attendmain")
-	public String attendMain()
-	{
-		return "attend/attendmain";
-	}
-
-	@PostMapping("attendmain")
-	public String attendMainPage(Model model, HttpServletRequest req) throws Exception
+	@GetMapping("attendtempdateinsert")
+	public String attendtempdateinsert(Model model, HttpServletRequest req) throws Exception
 	{
 		AttendDTO attendDTO = new AttendDTO();
 		AttendModDTO attendModDTO = new AttendModDTO();
@@ -45,20 +38,53 @@ public class AttendMainController
 		attendModDTO.setUser_no(userno);
 		attendWTDTO.setUser_no(userno);
 		
+		service.attendtempdatainsert(attendDTO);
+		service.attendMODtempdatainserty(attendModDTO);
+		service.attendWTtempdatainsert(attendWTDTO);
+		
+		return "attend/attendmain";
+	}
+	
+	
+	
+	
+	
+	
+	@GetMapping("attendmain")
+	public String attendMain(Model model, HttpServletRequest req) throws Exception
+	{
+		AttendDTO attendDTO = new AttendDTO();
+		AttendModDTO attendModDTO = new AttendModDTO();
+		AttendWTDTO attendWTDTO = new AttendWTDTO();
+		
+		UserDto loginUser = (UserDto) req.getSession().getAttribute("loginUser");
+		String userno = loginUser.getUserNo();
+		
+		attendDTO.setUser_no(userno);
+		attendModDTO.setUser_no(userno);
+		attendWTDTO.setUser_no(userno);
+
 		List<AttendDTO> attendList = service.getAttendInfo(attendDTO);
 		List<AttendModDTO> attendModList = service.getAttendModInfo(attendModDTO);
 		List<AttendWTDTO> attendWTList = service.getAttendWTInfo(attendWTDTO);
 		
-		System.out.println(attendList);
-		System.out.println(attendModList);
-		System.out.println(attendWTList);
-
 		model.addAttribute("atInfo", attendList);
-		model.addAttribute("atModnfo", attendModList);
+		model.addAttribute("atModInfo", attendModList);
 		model.addAttribute("atWTInfo", attendWTList);
 		
 		return "attend/attendmain";
 	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@PostMapping("attendprocessin")
 	public String attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception

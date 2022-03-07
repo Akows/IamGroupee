@@ -21,6 +21,26 @@ public class attendServiceImpl implements attendService
 	@Autowired
 	private AttendDAO attendDAO;
 	
+	//근태 메인페이지 임시데이터 삽입
+	@Override
+	public void attendtempdatainsert(AttendDTO attendDTO) throws Exception 
+	{
+		attendDAO.attendtempdatainsert(attendDTO);
+	}
+
+	@Override
+	public void attendMODtempdatainserty(AttendModDTO attendModDTO) throws Exception 
+	{
+		attendDAO.attendMODtempdatainserty(attendModDTO);
+	}
+
+	@Override
+	public void attendWTtempdatainsert(AttendWTDTO attendWTDTO) throws Exception 
+	{
+		attendDAO.attendWTtempdatainsert(attendWTDTO);
+	}
+	
+	
 	//근태 메인페이지
 	@Override
 	public List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception 
@@ -119,5 +139,6 @@ public class attendServiceImpl implements attendService
 	{
 		return attendDAO.approveManageNone(attendModDTO);
 	}
+
 
 }

@@ -42,10 +42,90 @@
   <!-- 0000000000000000000000000000000000000000000000000000000000000000000 -->			
   
   <!-- 근태메인 -->
+  	   <!-- 임시데이터삽입 -->		
+  	    <select id="getATseq" resultType="int">
+	 		SELECT SEQ_ATTENDANCE.NEXTVAL
+	 		FROM DUAL
+	  	</select>
+  	   
+  	   <insert id="attendtempdatainsert" parameterType="attendance">
+	  		INSERT INTO ATTENDANCE
+	  		(
+			    ATTEND_NUM,
+			    USER_NO,
+			    USER_NAME,
+			    ATTEND_DATE,
+			    NORMAL_CHECK,
+			    IRREGULAR_REASON
+	  		)
+	  		VALUES
+	  		(
+	  			'0',
+	  			#{user_no},
+	  			'0',
+	  			SYSDATE,
+	  			'0',	  			
+	  			'0'
+	  		)
+	  	</insert>
+	  	<insert id="attendMODtempdatainserty" parameterType="attendancemod">
+	  		INSERT INTO ATTENDANCEMODIFY
+	  		(
+			    ATTEND_MOD_NUM,
+			    USER_NO,
+			    USER_NAME,
+			    REQ_DATE,
+			    MOD_REASON,
+			    ATTACH_FILE,
+			    ATTACH_FILE_SIZE,
+			    APPROVE_STATE
+	  		)
+	  		VALUES
+	  		(
+	  			'0',
+	  			#{user_no},
+	  			'0',
+	  			SYSDATE,
+	  			'0',
+	  			'0',
+	  			'0',
+	  			'0'
+	  		)
+	  	</insert>
+	  	<insert id="attendWTtempdatainsert" parameterType="attendancewt">
+	  		INSERT INTO WORKTIME
+	  		(
+			    WORKTIME_NUM,
+			    USER_NO,
+			    ATTEND_DATE,
+			    IN_TIME,
+			    OUT_TIME,
+			    TOTAL_WORK_TIME
+	  		)
+	  		VALUES
+	  		(
+	  			'0',
+	  			#{user_no},
+	  			SYSDATE,
+	  			'0',
+	  			'0',
+	  			'0'
+	  		)
+	  	</insert>
+  
+  
+  
+  
+  
+  
+  
+  
+  
 	  <select id="getAttendInfo" parameterType="attendance" resultType="attendance" resultMap="attendrm">
 		SELECT *
 		FROM ATTENDANCE
 		WHERE USER_NO = #{user_no}
+		AND ATTEND_DATE = SYSDATE
 	  </select>
 	  	
 	  <select id="getAttendModInfo" parameterType="attendancemod" resultType="attendancemod" resultMap="attendmodrm">
@@ -131,7 +211,7 @@
 	  			#{attend_mod_num},
 	  			#{user_no},
 	  			#{user_name},
-	  			SYSDATE,
+	  			TO_CHAR(SYSDATE,'YYYYMMDD'),
 	  			#{mod_reason},
 	  			'첨부파일 없음',
 	  			0,
