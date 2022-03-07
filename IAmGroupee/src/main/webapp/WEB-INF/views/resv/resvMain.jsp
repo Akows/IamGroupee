@@ -6,6 +6,8 @@ pageEncoding="UTF-8"%>
 <% 
 	List<ResvDto> roomResvList = (List<ResvDto>)request.getAttribute("roomResvList");
 	List<ResvDto> assetResvList = (List<ResvDto>)request.getAttribute("assetResvList");
+	List<ResvDto> roomList = (List<ResvDto>)request.getAttribute("roomList");
+	List<ResvDto> assetList = (List<ResvDto>)request.getAttribute("assetList");
 %>
 <!DOCTYPE html>
 <html>
@@ -22,6 +24,11 @@ pageEncoding="UTF-8"%>
 	<!-- fullcalendar 언어 CDN -->
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
 
+	<style>
+		select option[value=""][disabled] {
+			display: none;
+		}
+	</style>
 </head>
 <body>
 
@@ -61,17 +68,25 @@ pageEncoding="UTF-8"%>
 							<div class="card-body">
 								<form action="" method="post">
 									<div class="form-group">
-										<label for="asset">예약할 자산</label>
-										<select class="form-control" id="asset">
-											<option>회의실A</option>
-											<option>회의실B</option>
-											<option>회의실C</option>
+										<label>예약할 자산</label>
+										<select class="form-control" name="roomNo" >
+											<option value="" disabled selected>예약할 회의실을 선택하세요</option>
+											<c:forEach items="${roomList}" var="r">
+												<option value="${r.roomNo}">${r.roomName}</option>
+											</c:forEach>
+										</select>
+										<select class="form-control" name="assetNo" >
+											<option value="" disabled selected>예약할 자산을 선택하세요</option>
+											<c:forEach items="${assetList}" var="a">
+												<option value="${a.assetNo}">${a.assetName}</option>
+											</c:forEach>
 										</select>
 									</div>
 									  
 									<div class="form-group">
 										<label>예약자</label>
 										<input readonly class="form-control" value="${loginUser.name}"> 
+										<input type="hidden" name="userNo" value="${loginUser.userNo}">
 									</div>
 							
 									<!-- Date and time range -->
@@ -81,13 +96,13 @@ pageEncoding="UTF-8"%>
 											<div class="input-group-prepend">
 												<span class="input-group-text"><i class="far fa-clock"></i></span>
 											</div>
-											<input type="text" class="form-control float-right" id="reservationtime">
+											<input type="text" class="form-control float-right" name="period" id="reservationtime">
 										</div>
 									</div>
 									
+									<input id="addEvent" type="submit" value="예약하기" class="btn btn-primary btn-block">
 								</form> 
 
-								<input type="submit" value="예약하기" class="btn btn-primary btn-block">
 							</div>
 						</div>
 
@@ -108,6 +123,40 @@ pageEncoding="UTF-8"%>
 							<div class="card-body p-3">
 								<!-- THE CALENDAR -->
 								<div id="calendar"></div>
+								<div class="modal fade" tabindex="-1" role="dialog">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+												<h4 class="modal-title">Create new event</h4>
+											</div>
+											<div class="modal-body">
+												<div class="row">
+													<div class="col-xs-12">
+														<label class="col-xs-4" for="title">Event title</label>
+														<input type="text" name="title" id="title" />
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-xs-12">
+														<label class="col-xs-4" for="starts-at">Starts at</label>
+														<input type="text" name="starts_at" id="starts-at" />
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-xs-12">
+														<label class="col-xs-4" for="ends-at">Ends at</label>
+														<input type="text" name="ends_at" id="ends-at" />
+													</div>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+												<button type="button" class="btn btn-primary" id="save-event">Save changes</button>
+											</div>
+										</div><!-- /.modal-content -->
+									</div><!-- /.modal-dialog -->
+								</div><!-- /.modal -->
 							</div>
 						</div> 
 					</section> <!-- /.col -->
@@ -123,12 +172,18 @@ pageEncoding="UTF-8"%>
 			//Date range picker with time picker
 			$('#reservationtime').daterangepicker({
 			timePicker: true,
-			timePickerIncrement: 30,
+			timePickerIncrement: 10,
+			timePicker24Hour: true,
 			locale: {
-				format: 'MM/DD/YYYY hh:mm A'
+				"separator": "~",               // 시작일시와 종료일시 구분자
+				"format": 'YYYY-MM-DD HH:mm',     // 일시 노출 포맷
+				"applyLabel": "확인",              // 확인 버튼 텍스트
+				"cancelLabel": "취소",             // 취소 버튼 텍스트
+				"daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
+				"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
 				}
     		})
-		})
+		});
 
 		var request = $.ajax({
 			url: "<%=request.getContextPath()%>/resv/resvMain",
@@ -158,7 +213,15 @@ pageEncoding="UTF-8"%>
 				nowIndicator: true, // 현재 시간 마크
 				dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 				locale: 'ko', // 한국어 설정
-
+				
+				eventAdd: function() {
+				},
+				eventChange: function(obj) { // 이벤트가 수정되면 발생하는 이벤트
+					console.log(obj);
+				},
+				eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
+					console.log(obj);
+				},
 				events : [ 
 					<%if (roomResvList != null || assetResvList != null) {%>
 						<%for (ResvDto r : roomResvList) {%>
@@ -182,7 +245,16 @@ pageEncoding="UTF-8"%>
 			
 			});
 			calendar.render();
+	
 		});
+
+		// $("#addEvent").on("click",function(){ 
+		// 	if(confirm('예약하시겠습니까?')) {
+		// 		return true;
+		// 	} else {
+		// 		return false;
+		// 	}
+		// });
 
 	</script>
 

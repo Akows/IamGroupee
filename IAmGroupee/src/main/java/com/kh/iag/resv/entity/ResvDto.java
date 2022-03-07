@@ -1,6 +1,7 @@
 package com.kh.iag.resv.entity;
 
 import java.sql.Date;
+
 import lombok.Data;
 
 @Data
@@ -20,4 +21,5 @@ public class ResvDto {
 	private String roomName;
 	private String assetName;
 	
+	private String period;
 }

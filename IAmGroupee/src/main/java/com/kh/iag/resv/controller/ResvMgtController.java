@@ -39,9 +39,9 @@ public class ResvMgtController {
 	//회의실 리스트 보여주기
 	@ResponseBody
 	@GetMapping(value = "/room", produces = "application/json")
-    public Object rList(Model model, @RequestParam Map<String , String> filter) throws Exception {
-		
+    public Object getRoomList(Model model, @RequestParam Map<String , String> filter) throws Exception {
 		JsonResult result =  new JsonResult();
+		
 		try{
 			result.setStatus("ok");
 			result.setData(service.getRoomList(filter));
@@ -55,8 +55,7 @@ public class ResvMgtController {
 	//비품 리스트 보여주기
 	@ResponseBody
     @GetMapping(value = "/asset", produces = "application/json")
-    public Object aList(Model model, @RequestParam Map<String , String> filter) throws Exception {
-		
+    public Object getAssetList(Model model, @RequestParam Map<String , String> filter) throws Exception {
 		JsonResult result =  new JsonResult();
 		
 		try{
@@ -72,18 +71,9 @@ public class ResvMgtController {
 	//자산 추가
 	@ResponseBody
     @RequestMapping(value = "/room", produces = "application/json", method = RequestMethod.POST)
-    public Object rInsert(Model model, @RequestBody RoomDto dto) throws Exception {
+    public Object insertRoom(Model model, @RequestBody RoomDto dto) throws Exception {
 		JsonResult result =  new JsonResult();
 
-		if(dto.getActivateYn() == "true") {
-			dto.setActivateYn("Y");	
-			dto.setReserved("N");
-		}else {
-			dto.setActivateYn("N");
-			dto.setReserved("N");
-		}
-
-		System.out.println(dto);
 		try{
 			service.insertRoom(dto);
 			result.setStatus("ok");
@@ -95,16 +85,8 @@ public class ResvMgtController {
     }
 	@ResponseBody
     @PostMapping(value = "/asset", produces = "application/json")
-    public Object aInsert(Model model, @RequestBody AssetDto dto) throws Exception {
+    public Object insertAsset(Model model, @RequestBody AssetDto dto) throws Exception {
 		JsonResult result =  new JsonResult();
-		
-		if(dto.getActivateYn() == "true") {
-			dto.setActivateYn("Y");	
-			dto.setReserved("N");
-		}else {
-			dto.setActivateYn("N");
-			dto.setReserved("N");
-		}
 		
 		try{
 			service.insertAsset(dto);
@@ -119,17 +101,9 @@ public class ResvMgtController {
 	//자산 수정
 	@ResponseBody
     @PostMapping(value = "room/{roomNo}", produces = "application/json")
-    public Object rUpdate(Model model, @PathVariable int roomNo, @RequestBody RoomDto dto) throws Exception {
+    public Object updateRoom(Model model, @PathVariable int roomNo, @RequestBody RoomDto dto) throws Exception {
 		JsonResult result =  new JsonResult();
-		
-		if(dto.getActivateYn() == "true") {
-			dto.setActivateYn("Y");	
-			dto.setReserved("N");
-		}else {
-			dto.setActivateYn("N");
-			dto.setReserved("N");
-		}
-		
+	
 		try{
 			service.updateRoom(dto);
 			result.setStatus("ok");
@@ -141,16 +115,8 @@ public class ResvMgtController {
     }
 	@ResponseBody
     @PostMapping(value = "asset/{assetNo}", produces = "application/json")
-    public Object aUpdate(Model model, @PathVariable int assetNo, @RequestBody AssetDto dto) throws Exception {
+    public Object updateAsset(Model model, @PathVariable int assetNo, @RequestBody AssetDto dto) throws Exception {
 		JsonResult result =  new JsonResult();
-		
-		if(dto.getActivateYn() == "true") {
-			dto.setActivateYn("Y");	
-			dto.setReserved("N");
-		}else {
-			dto.setActivateYn("N");
-			dto.setReserved("N");
-		}
 		
 		try{
 			service.updateAsset(dto);
@@ -165,7 +131,7 @@ public class ResvMgtController {
 	//자산삭제
 	@ResponseBody
     @PutMapping(value = "room/{roomNo}", produces = "application/json")
-    public Object rDelete(Model model, @PathVariable int roomNo) throws Exception {
+    public Object deleteRoom(Model model, @PathVariable int roomNo) throws Exception {
 		JsonResult result =  new JsonResult();
 		
 		try{
@@ -181,7 +147,7 @@ public class ResvMgtController {
 	
 	@ResponseBody
     @PutMapping(value = "asset/{assetNo}", produces = "application/json")
-    public Object aDelete(Model model, @PathVariable int assetNo) throws Exception {
+    public Object deleteAsset(Model model, @PathVariable int assetNo) throws Exception {
 		JsonResult result =  new JsonResult();
 		
 		try{

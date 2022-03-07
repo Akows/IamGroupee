@@ -1,7 +1,7 @@
 package com.kh.iag.resv.controller;
 
-
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.kh.iag.leave.entity.LvUsedListDto;
 import com.kh.iag.resv.entity.ResvDto;
 import com.kh.iag.resv.service.ResvService;
 import com.kh.iag.user.entity.UserDto;
@@ -33,8 +32,11 @@ public class ResvController {
 		
 		List<ResvDto> roomResvList = service.getRoomResvList(userNo);
 		List<ResvDto> assetResvList = service.getAssetResvList(userNo);
-		System.out.println("room : " + roomResvList);
-		System.out.println("asset : " + assetResvList);
+		List<ResvDto> roomList = service.getRoomList();
+		List<ResvDto> assetList = service.getAssetList();
+		
+		model.addAttribute("roomList", roomList);
+		model.addAttribute("assetList", assetList);
 		
 		if (roomResvList != null) {
 			model.addAttribute("roomResvList", roomResvList);
@@ -46,22 +48,31 @@ public class ResvController {
 		return "resv/resvMain";
 	}
 	
-//	//일정보기
-//	@GetMapping( value = "resvList", produces = "application/json")
-//	public String data(Model model) {
-//		try {
-//			model.addAttribute("list", service.getResvList());
-//			System.out.println(service.getResvList());
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return null; 
-//    }
-	
-	
+	//예약신청
 	@PostMapping("resvMain")
-	public String resvMain(ResvDto resv) {
-		return "resv/resvMain";
+	public String insertResv(Model model, ResvDto dto) throws Exception {
+
+		String[] parts = dto.getPeriod().split("~");
+		String part1 = parts[0]; 
+		String part2 = parts[1];
+		
+		SimpleDateFormat transFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+		Date start = (Date) transFormat.parse(part1);
+		Date end = (Date) transFormat.parse(part2);
+		
+		java.util.Date utilStart = new java.util.Date();
+	    java.sql.Date sqlStart = new java.sql.Date(utilStart.getTime());
+	    
+	    java.util.Date utilEnd = new java.util.Date();
+	    java.sql.Date sqlEnd = new java.sql.Date(utilEnd.getTime());
+	    
+		dto.setResvStart(sqlStart);
+		dto.setResvEnd(sqlEnd);
+		System.out.println(dto);
+		
+		int result = service.insertResv(dto);
+
+		return "redirect:/resv/resvMain";
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////
@@ -69,7 +80,7 @@ public class ResvController {
 	//자산별예약페이지
 	@GetMapping("resvAsset")
 	public String resvAsset(Model model) throws Exception {
-//		List<ResvDto> rResvList = service.getRResvList()
+		
 		
 		return "resv/resvAsset";
 	}

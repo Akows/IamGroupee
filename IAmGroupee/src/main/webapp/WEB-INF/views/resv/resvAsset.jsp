@@ -50,9 +50,9 @@
 						<div class="card">
 							<div class="card-header"><h4 class="card-title">회의실 목록</h4></div>
 							<div class="card-body">
-								<c:forEach items="" var="i">
+								<%-- <c:forEach items="" var="i">
 									<button id="add-new-event" type="button" class="btn btn-primary">${}</button>
-								</c:forEach>
+								</c:forEach> --%>
 							</div> <!-- /.card-body -->
 						</div>
 						<div class="card">

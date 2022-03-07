@@ -28,21 +28,53 @@ public class ResvMgtServiceImpl implements ResvMgtService {
 	
 	@Override
 	public void insertRoom(RoomDto dto) throws Exception {
-		  dao.insertRoom(dto);
+		if(dto.getActivateYn() == "true") {
+			dto.setActivateYn("Y");	
+			dto.setReserved("N");
+		}else {
+			dto.setActivateYn("N");
+			dto.setReserved("N");
+		}
+		  
+		dao.insertRoom(dto);
 	}
 	
 	@Override
 	public void insertAsset(AssetDto dto) throws Exception {
-		 dao.insertAsset(dto);
+		if(dto.getActivateYn() == "true") {
+			dto.setActivateYn("Y");	
+			dto.setReserved("N");
+		}else {
+			dto.setActivateYn("N");
+			dto.setReserved("N");
+		}
+		 
+		dao.insertAsset(dto);
 	}
 	
 	@Override
 	public void updateRoom(RoomDto dto) throws Exception {
-		 dao.updateRoom(dto);
+		if(dto.getActivateYn() == "true") {
+			dto.setActivateYn("Y");	
+			dto.setReserved("N");
+		}else {
+			dto.setActivateYn("N");
+			dto.setReserved("N");
+		}
+		 
+		dao.updateRoom(dto);
 	}
 	
 	@Override
 	public void updateAsset(AssetDto dto) throws Exception {
+		if(dto.getActivateYn() == "true") {
+			dto.setActivateYn("Y");	
+			dto.setReserved("N");
+		}else {
+			dto.setActivateYn("N");
+			dto.setReserved("N");
+		}
+		
 		dao.updateAsset(dto);
 	}
 	
