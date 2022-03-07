@@ -156,10 +156,16 @@ public class EAServiceImpl implements EAService {
 	}
 
 	@Override
+	public DocsDto selectRejectedDocument(ProcessDto pd) {
+		return dao.selectRejectedDocument(pd);
+	}
+	
+	@Override
 	public List<ProcessDto> selectProcess(ProcessDto pd) throws Exception {
 		return dao.selectProcess(pd);
 	}
 
+	
 	@Override
 	public List<DocsDto> signupList(HashMap<String, String> map) throws Exception {
 		return dao.signupList(map);
@@ -211,8 +217,24 @@ public class EAServiceImpl implements EAService {
 	}
 
 	@Override
-	public List<ProcessDto> processListForApprOne(String userNo) throws Exception {
-		return dao.processListForApprOne(userNo);
+	public List<ProcessDto> processListForApprUser(String userNo) throws Exception {
+		return dao.processListForApprUser(userNo);
 	}
+
+	@Override
+	public int updateProcessState(ProcessDto dto) {
+		return dao.updateProcessState(dto);
+	}
+
+	@Override
+	public ProcessDto checkingLastProcess(ProcessDto dto) {
+		return dao.checkingLastProcess(dto);
+	}
+
+	@Override
+	public int updateDocumentSep(ProcessDto resultDto) {
+		return dao.updateDocumentSep(resultDto);
+	}
+
 
 }

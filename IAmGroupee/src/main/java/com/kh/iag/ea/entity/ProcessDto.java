@@ -10,6 +10,7 @@ public class ProcessDto {
 	private int procSeq;	// 결재 구분 0(대기), 1(승인), 2(반려 or 협의요청), 3(전결)
 	private String docNo;	// 문서번호
 	private int procCnt; 	// 결재자 몇명인지 표시하는 컬럼
+	private String procRejected; // 반려/협요 사유
 	
 	// 추가
 	private String name;

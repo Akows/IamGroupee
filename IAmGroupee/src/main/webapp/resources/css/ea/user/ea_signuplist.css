@@ -286,7 +286,10 @@ span[id^="stamp"] {
   background: #e69113;
   animation: stamp4 6s infinite linear;
 }
-#waitApprv {
+#stamp5 {
+  background: #0343a3;
+}
+.waitApprv {
   font-size: 13px;
   border: 2px solid #262626;
   padding: 2px;
@@ -302,4 +305,7 @@ span[id^="stamp"] {
   80% {
     background: rgb(0, 0, 255);
   }
+}
+#docContents table {
+  width: 100%;
 }

@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>전자결재 > 기안신청(기안작성)</title>
+  <title>전자결재 > 기안신청(연차기안)</title>
   <!-- Favicon -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/svg/looo.png" type="image/x-icon">
   <!-- Custom styles -->
@@ -31,7 +31,7 @@
   <div class="ea_wrapper">
     <div class="ea_signup_write_wrapper">
       <div class="ea_signup_write_title">
-        <span>기안신청 (기안작성)</span>
+        <span>기안신청 (연차기안)</span>
       </div>
       <div class="ea_signup_write_contents">
         <form action="" method="POST" onsubmit="return ea_write_submit();">
@@ -77,10 +77,56 @@
               <a>💬&ensp;기안서 제목</a>
               <input type="text" name="title" id="title" style="width: 30%;" placeholder="제목을 입력해주세요." required>
             </li>
-            <li>
-              <a>📝&ensp;내용</a>
-              <textarea name="content" id="editor" placeholder="내용을 입력해주세요." required>${formValue.formContent}</textarea>
-            </li>
+            <hr>
+            <div id="lvWrap">
+              
+              <!-- 연차/휴가 구분 -->
+              <input type="hidden" name="lvCheck" value="A">
+
+              <!-- 연차종류 value="ALV_XX" 연차코드 -->
+              <p>연차 종류</p>
+              <select name="lvCode">
+                <option value="ALV_00">연차</option>
+                <option value="ALV_01">일차</option>
+                <option value="ALV_02">반차</option>
+                <option value="ALV_03">반반차</option>
+                <option value="ALV_04">월차</option>
+                <option value="ALV_05">조정연차</option>
+              </select>
+
+              <!-- 반차 선택시 -->
+              <select name="halfLv">
+                <option value="">오전</option>
+                <option value="">오후</option>
+              </select>
+
+              <!-- 반반차 선택시 -->
+              <select name="halfNhalfLv">
+                <option value="">오전 전</option>
+                <option value="">오전 후</option>
+                <option value="">오후 전</option>
+                <option value="">오후 후</option>
+              </select>
+
+              <!-- 날짜 -->
+              <p>날짜 및 일시</p>
+              <div class="form-group" style="width:200px; margin:5px;">
+                <div class="input-group date" id="reservationdate1" data-target-input="nearest">
+                    <input type="text" name="deadlineDate" class="form-control datetimepicker-input" data-target="#reservationdate1"/>
+                    <div class="input-group-append" data-target="#reservationdate1" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+              </div>	
+
+              <!-- 사유 -->
+              <p>사유</p>
+              <textarea name="content" cols="30" rows="10" placeholder="사유를 입력해주세요.">
+              </textarea>
+
+
+            </div>
+
           </ul>
           <input type="submit" value="기안 신청">
           <input type="button" onclick="ea_signup_back();" value="돌아가기">
@@ -315,9 +361,18 @@
       };
     };
 
-	  //Date picker
+	  // Date picker
     $('#reservationdate').datetimepicker({
         format: 'L'
+    });
+    $('#reservationdate1').datetimepicker({
+        format: 'L'
+    });
+
+    // 연차관련
+    $('option[value="ALV_02"]').click(function() {
+      alert('클릭');
+      $('select[name="halfLv"]').attr('display', 'block');
     });
   </script>
 </body>

@@ -40,31 +40,40 @@
   position: relative;
   float: left;
 }
-.ea_apprlist_list_contents > form > input {
-  background: #fff;
-  display: block;
-  margin: 10px;
-  width: 300px;
-}
-.ea_apprlist_list_contents > form > table {
+.ea_apprlist_list_contents > table {
   width: 98%;
-  margin: auto;
+  margin: 10px;
   text-align: center;
   border: 1px solid gainsboro;
 }
-.ea_apprlist_list_contents > form > table > thead > tr {
+.ea_apprlist_list_contents > table > thead > tr > th:nth-child(1) {
+  width: 20%;
+}
+.ea_apprlist_list_contents > table > thead > tr > th:nth-child(2) {
+  width: 10%;
+}
+.ea_apprlist_list_contents > table > thead > tr > th:nth-child(4) {
+  width: 10%;
+}
+.ea_apprlist_list_contents > table > thead > tr > th:nth-child(5) {
+  width: 10%;
+}
+.ea_apprlist_list_contents > table > thead > tr > th:nth-child(6) {
+  width: 10%;
+}
+.ea_apprlist_list_contents > table > thead > tr {
   height: 40px;
   color: #fff;
   background: #0343a3;
 }
-.ea_apprlist_list_contents > form > table > tbody > tr {
+.ea_apprlist_list_contents > table > tbody > tr {
   height: 30px;
   font-size: 12px;
 }
-.ea_apprlist_list_contents > form > table > tbody > tr > td {
+.ea_apprlist_list_contents > table > tbody > tr > td {
   border-bottom: 1px solid gainsboro;
 }
-.ea_apprlist_list_contents > form > table > tbody > tr:hover {
+.ea_apprlist_list_contents > table > tbody > tr:hover {
   background: #89b0eb;
   color: #fff;
 }
@@ -98,13 +107,13 @@
   background: #0343a3;
   font-weight: bold;
 }
-.ea_apprlist_list_contents > form > table > thead > tr > th {
+.ea_apprlist_list_contents > table > thead > tr > th {
   position: relative;
 }
-.ea_apprlist_list_contents > form > table > thead > tr > th > span {
+.ea_apprlist_list_contents > table > thead > tr > th > span {
   cursor: pointer;
 }
-.ea_apprlist_list_contents > form > table > thead > tr > th > ul {
+.ea_apprlist_list_contents > table > thead > tr > th > ul {
   display: none;
   position: absolute;
   color: #262626;
@@ -113,28 +122,57 @@
   top: 100%;
   border: 1px solid gainsboro;
 }
-.ea_apprlist_list_contents > form > table > thead > tr > th > ul > li {
+.ea_apprlist_list_contents > table > thead > tr > th > ul > li {
   font-size: 14px;
   padding: 5px;
   font-weight: lighter;
 }
-.ea_apprlist_list_contents > form > table > thead > tr > th > ul > li > a {
+.ea_apprlist_list_contents > table > thead > tr > th > ul > li > a {
   display: block;
 }
-.ea_apprlist_list_contents
-  > form
-  > table
-  > thead
-  > tr
-  > th
-  > ul
-  > li
-  > a:hover {
+.ea_apprlist_list_contents > table > thead > tr > th > ul > li > a:hover {
   color: #fff;
   background: #89b0eb;
 }
-.ea_apprlist_list_contents > form > table > thead > tr > th > ul.active {
+.ea_apprlist_list_contents > table > thead > tr > th > ul.active {
   display: block;
+}
+#pagingBtn {
+  margin-bottom: 10px;
+  width: 100%;
+  position: relative;
+}
+#pagingBtn > ul {
+  display: flex;
+  justify-content: center;
+}
+#pagingBtn > ul > li {
+  padding: 7px;
+  padding-right: 10px;
+  padding-left: 10px;
+  background: #fff;
+  color: #4081e4;
+  float: left;
+  border: 1px solid gainsboro;
+}
+#pagingBtn > ul > li:hover {
+  background: #4081e4;
+  color: #fff;
+  transition: 0s;
+}
+#listContents {
+  background: #fff;
+}
+#listContents:hover {
+  background: #89b0eb;
+  color: #fff;
+}
+#listContents > td:nth-child(7),
+#listContents > td:nth-child(8),
+#listContents > td:nth-child(9),
+#listContents > td:nth-child(10),
+#listContents > td:nth-child(11) {
+  display: none;
 }
 /* 전자결재 > 결재문서조회 (상세조회) */
 .ea_apprlist_detail_contents {
@@ -145,21 +183,33 @@
   position: relative;
   float: left;
 }
+.ea_apprlist_detail_contents > form > div:nth-child(1) > table > * > * > * {
+  border: 1px solid #262626;
+  background: #fff;
+  padding: 3px;
+  text-align: center;
+  overflow: hidden;
+}
 .ea_apprlist_detail_contents > form > div:nth-child(1) > table {
-  font-style: italic;
   float: left;
   margin: 20px;
+  width: 300px;
+}
+.ea_apprlist_detail_contents > form > div:nth-child(1) > table th {
+  background: gray;
 }
 .ea_apprlist_detail_contents > form > div:nth-child(2) > table {
   float: right;
   margin: 20px;
-  width: 300px;
   height: 100px;
   text-align: center;
 }
 .ea_apprlist_detail_contents > form > div:nth-child(2) > table > * > * > * {
   border: 1px solid #262626;
   background: #fff;
+  padding: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 .ea_apprlist_detail_contents > form > div:nth-child(2) th {
   background: gray;
@@ -193,6 +243,7 @@
   margin: auto;
   cursor: pointer;
   font-weight: bold;
+  width: 70px;
 }
 .ea_apprlist_detail_contents div:nth-child(2) a:hover {
   color: #fff;
@@ -209,8 +260,15 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 20px;
   z-index: 1000;
+}
+#layer > div:nth-child(1) {
+  background: #0343a3;
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 #layer > .btn {
   width: 100%;
@@ -226,10 +284,11 @@
   float: left;
   margin-top: 5%;
   margin-bottom: 5%;
+  text-align: center;
 }
 #layer input[type="radio"] {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 13px;
   margin-right: 5px;
 }
 #layer textarea {
@@ -250,26 +309,49 @@
   position: absolute;
   z-index: 10;
 }
-#stamp {
-  display: none;
+span[id^="stamp"] {
   font-size: 12px;
   color: #fff;
   padding: 10px;
   padding-top: 12px;
   padding-bottom: 12px;
-  background: red;
   border-radius: 50%;
   font-weight: bold;
-  animation: stamp 6s infinite linear;
+  text-shadow: 1px 1px 1px #262626;
 }
-@keyframes stamp {
+#stamp1 {
+  background: #31ac0b;
+}
+#stamp2 {
+  background: #d403e7;
+  animation: stamp2 1s infinite linear;
+}
+#stamp3 {
+  background: #e00909;
+}
+#stamp4 {
+  background: #e69113;
+}
+#stamp5 {
+  background: #0343a3;
+}
+.waitApprv {
+  font-size: 13px;
+  border: 2px solid #262626;
+  padding: 2px;
+  text-shadow: 0.5px 0.5px 0.5px gray;
+}
+@keyframes stamp2 {
   0% {
     background: rgb(255, 0, 0);
   }
-  50% {
+  30% {
     background: rgb(0, 255, 0);
   }
-  100% {
+  80% {
     background: rgb(0, 0, 255);
   }
+}
+#docContents table {
+  width: 100%;
 }

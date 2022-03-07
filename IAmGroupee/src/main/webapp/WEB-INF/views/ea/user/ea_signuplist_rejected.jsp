@@ -68,7 +68,7 @@
                     </tr>
                     <tr>
                         <th>반려/협의요청 사유</th>
-                        <td>${docInfo.docRejected}</td>
+                        <td>${docInfo.procRejected}</td>
                     </tr>
                 </table>
             </div>
@@ -102,7 +102,7 @@
                         <td><span id="stamp1">상신</span></td>
                         <c:forEach items="${processList}" var="pl" begin="0" step="1" end="${processList[0].procCnt}" varStatus="vs">
                         <c:if test="${pl.procSeq eq 0}">
-                        <td><span id="waitApprv">결재대기</span></td>                    
+                        <td><span class="waitApprv">결재대기</span></td>                    
                         </c:if>
                         <c:if test="${pl.procSeq eq 1}">
                         <td><span id="stamp2">승인</span></td>

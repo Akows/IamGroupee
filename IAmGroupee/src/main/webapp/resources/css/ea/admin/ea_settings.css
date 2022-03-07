@@ -265,3 +265,9 @@ div[id$="Layer"] > div:nth-child(3) > a {
   position: absolute;
   z-index: 10;
 }
+#formContents table {
+  width: 100%;
+}
+#formContents > div {
+  padding: 10px;
+}
