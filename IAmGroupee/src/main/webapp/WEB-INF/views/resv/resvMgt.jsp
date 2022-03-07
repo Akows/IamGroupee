@@ -166,7 +166,7 @@
 				paging: true,
 				autoload: true,
 				deleteConfirm: function(item) {
-					return item.roomName + "을 정말 삭제하시겠습니까?"
+					return item.assetName + "을 정말 삭제하시겠습니까?"
 				},
 				fields: [ 
 					{	name: "assetNo", type: "hidden",  css: 'hide'},

@@ -5,6 +5,7 @@
   
   <mapper namespace="resv">
   
+  		<!-- 예약관리 -->
   		<select id="getRoomList" parameterType="map" resultType="room">
   			SELECT * FROM MEETING_ROOM
   			WHERE DELETE_YN = 'N'
@@ -76,7 +77,7 @@
   		<update id="updateAsset">
   			UPDATE ASSET
   			SET
-  				  ASEET_NO = #{assetNo}
+  				  ASSET_NO = #{assetNo}
   				<if test="assetName != null and assetName != '' ">  
   					, ASSET_NAME = #{assetName}	
 				</if>
@@ -90,7 +91,7 @@
   					, RESERVED = #{reserved}
   				</if>
   					, MOD_DATE = SYSDATE	
-  			WHERE ROOM_NO = #{roomNo}	
+  			WHERE ASSET_NO = #{assetNo}	
   		</update>
   		
   		<update id="deleteRoom">
@@ -107,11 +108,74 @@
   			WHERE ASSET_NO = #{assetNo}
   		</update>
   		
-  	<!-- 내예약  -->
+  		<!-- 내예약페이지 -->
+  		<select id="getRoomResvList" resultType="resv">
+  			SELECT * FROM RESERVATION R
+  			JOIN MEETING_ROOM M ON (M.ROOM_NO = R.ROOM_NO)
+  			WHERE R.USER_NO = #{userNo}
+  		</select>
   		
-  		<select id="getResvList"  parameterType="map" resultType="resv">
+  		<select id="getAssetResvList" resultType="resv">
+  			SELECT * FROM RESERVATION R
+  			JOIN ASSET A ON (A.ASSET_NO = R.ASSET_NO)
+  			WHERE R.USER_NO = #{userNo}
+  		</select>
+  		
+  		<select id="getAllResvList" resultType="resv">
   			SELECT * FROM RESERVATION
   			WHERE DELETE_YN = 'N'
   		</select>
+  		
+  		<insert id="insertResv">
+  			<if test="roomNo != null and roomNo != '' ">
+	  			INSERT INTO RESERVATION (
+	  				  RESV_NO
+	  				, USER_NO
+	  				, ROOM_NO
+	  				, RESV_START
+	  				, RESV_END
+	  				, CREATE_DATE
+	  				, MOD_DATE
+	  				, RETURN_YN
+	  				, DELETE_YN
+	  			)VALUES(
+	  				  SEQ_RESERVATION.NEXTVAL
+	  				, #{userNo}
+		  			, #{roomNo}
+	  				, #{resvStart}
+	  				, #{resvEnd}
+	  				, SYSDATE
+	  				, #{modDate}
+	  				, DEFAULT
+	  				, DEFAULT
+	  			)
+  			</if>
+  			<if test="assetNo != null and assetNo != '' ">
+	  			INSERT INTO RESERVATION (
+	  				  RESV_NO
+	  				, USER_NO
+	  				, ASSET_NO
+	  				, RESV_START
+	  				, RESV_END
+	  				, CREATE_DATE
+	  				, MOD_DATE
+	  				, RETURN_YN
+	  				, DELETE_YN
+	  			)VALUES(
+	  				  SEQ_RESERVATION.NEXTVAL
+	  				, #{userNo}
+		  			, #{assetNo}
+	  				, #{resvStart}
+	  				, #{resvEnd}
+	  				, SYSDATE
+	  				, #{modDate}
+	  				, DEFAULT
+	  				, DEFAULT
+	  			)
+  			</if>
+  		</insert>
+  		
+  		
+  		
   		
   </mapper>
