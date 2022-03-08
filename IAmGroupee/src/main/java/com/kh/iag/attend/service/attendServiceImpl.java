@@ -44,6 +44,12 @@ public class attendServiceImpl implements attendService
 	{
 		return attendDAO.getAttendInfo(attendDTO);
 	}
+	
+	@Override
+	public List<AttendDTO> getPreAttendInfo(AttendDTO attendDTO) throws Exception 
+	{
+		return attendDAO.getPreAttendInfo(attendDTO);
+	}
 
 	@Override
 	public List<AttendModDTO> getAttendModInfo(AttendModDTO attendModDTO) throws Exception
@@ -135,6 +141,7 @@ public class attendServiceImpl implements attendService
 	{
 		return attendDAO.approveManageNone(attendModDTO);
 	}
+
 
 
 }

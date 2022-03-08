@@ -28,16 +28,17 @@ public class AttendMainController
 	public String attendtempdateinsert(Model model, HttpServletRequest req) throws Exception
 	{
 		AttendDTO attendDTO = new AttendDTO();
-		AttendModDTO attendModDTO = new AttendModDTO();
 		AttendWTDTO attendWTDTO = new AttendWTDTO();
 		
 		UserDto loginUser = (UserDto) req.getSession().getAttribute("loginUser");
-		String userno = loginUser.getUserNo();
 		
-		attendDTO.setUser_no(userno);
-		attendModDTO.setUser_no(userno);
-		attendWTDTO.setUser_no(userno);
+		String userNo = loginUser.getUserNo();
+		String userName = loginUser.getName();
 		
+		attendDTO.setUser_no(userNo);
+		attendDTO.setUser_name(userName);
+		attendWTDTO.setUser_no(userNo);
+
 		service.attendtempdatainsert(attendDTO);
 		service.attendWTtempdatainsert(attendWTDTO);
 		
@@ -59,10 +60,12 @@ public class AttendMainController
 		attendWTDTO.setUser_no(userno);
 
 		List<AttendDTO> attendList = service.getAttendInfo(attendDTO);
-		
 		List<AttendModDTO> attendModinfo = service.getAttendModInfo(attendModDTO);
-		
 		List<AttendWTDTO> attendWTList = service.getAttendWTInfo(attendWTDTO);
+		
+		List<AttendDTO> preAttendList = service.getPreAttendInfo(attendDTO);
+		
+		model.addAttribute("preAtInfo", preAttendList);
 		
 		model.addAttribute("atInfo", attendList);
 		model.addAttribute("atModInfo", attendModinfo);
@@ -74,10 +77,6 @@ public class AttendMainController
 	@PostMapping("attendprocessin")
 	public String attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception
 	{
-		UserDto loginUser = (UserDto) req.getSession().getAttribute("loginUser");
-		String userno = loginUser.getUserNo();
-		attendWTDTO.setUser_no(userno);
-		
 		int result = service.attendprocessIN(attendWTDTO, req);
 		
 		if(result > 0) 

@@ -18,6 +18,7 @@ public interface AttendDAO
 	
 	//근태 메인
 	List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception;
+	List<AttendDTO> getPreAttendInfo(AttendDTO attendDTO) throws Exception;
 	List<AttendModDTO> getAttendModInfo(AttendModDTO attendModDTO) throws Exception;
 	List<AttendWTDTO> getAttendWTInfo(AttendWTDTO attendWTDTO) throws Exception;
 	
@@ -40,6 +41,7 @@ public interface AttendDAO
 	//수정요청 승인 혹은 거절
 	int approveManageOK(AttendModDTO attendModDTO) throws Exception;;
 	int approveManageNone(AttendModDTO attendModDTO) throws Exception;
+
 
 
 

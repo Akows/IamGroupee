@@ -44,6 +44,12 @@ public class AttendDAOImpl implements AttendDAO
 	{
 		return ss.selectList("attend.getAttendInfo", attendDTO);
 	}
+	
+	@Override
+	public List<AttendDTO> getPreAttendInfo(AttendDTO attendDTO) throws Exception 
+	{
+		return ss.selectList("attend.getPreAttendInfo", attendDTO);
+	}
 
 	@Override
 	public List<AttendModDTO> getAttendModInfo(AttendModDTO attendModDTO) throws Exception 
@@ -132,6 +138,8 @@ public class AttendDAOImpl implements AttendDAO
 	{
 		return ss.update("attend.approveManageNone", attendModDTO);
 	}
+
+
 
 
 

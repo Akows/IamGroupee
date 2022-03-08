@@ -62,10 +62,10 @@
 	  		(
 	  			#{attend_num},
 	  			#{user_no},
-	  			'0',
+	  			#{user_name},
 	  			SYSDATE,
-	  			'0',	  			
-	  			'0'
+	  			'결근',	  			
+	  			'무단결근'
 	  		)
 	  	</insert>
 
@@ -84,50 +84,62 @@
 	  			'0',
 	  			#{user_no},
 	  			SYSDATE,
-	  			'0',
-	  			'0',
+	  			'출근시간없음',
+	  			'퇴근시간없음',
 	  			'0'
 	  		)
 	  	</insert>
   
-  
-  
-  
-  
-  
-  
-  
-  
-	  <select id="getAttendInfo" parameterType="attendance" resultType="attendance" resultMap="attendrm">
-		SELECT *
-		FROM ATTENDANCE
-		WHERE USER_NO = #{user_no}
-		AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
-	  </select>
+  		<!-- 메인페이지 출력 정보 조회 -->
+	  	<select id="getAttendInfo" parameterType="attendance" resultType="attendance" resultMap="attendrm">
+			SELECT *
+			FROM ATTENDANCE
+			WHERE USER_NO = #{user_no}
+			AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	 	</select>
+	 	
+	 	<select id="getPreAttendInfo" parameterType="attendance" resultType="attendance" resultMap="attendrm">
+			SELECT *
+			FROM ATTENDANCE
+			WHERE USER_NO = #{user_no}
+			AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE - 1,'YYYYMMDD')
+	 	</select>
+	 	
+	  	<select id="getAttendModInfo" parameterType="attendancemod" resultType="attendancemod" resultMap="attendmodrm">
+			SELECT COUNT(*) AS MODREQNUM
+			FROM ATTENDANCEMODIFY
+			WHERE USER_NO = #{user_no}
+			AND TO_CHAR(REQ_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+			AND APPROVE_STATE != '승인됨'
+	  	</select>
 	  	
-	  <select id="getAttendModInfo" parameterType="attendancemod" resultType="attendancemod" resultMap="attendmodrm">
-		SELECT COUNT(*) AS MODREQNUM
-		FROM ATTENDANCEMODIFY
-		WHERE USER_NO = #{user_no}
-		AND TO_CHAR(REQ_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
-		AND APPROVE_STATE != '승인됨'
-	  </select>
+	  	<select id="getAttendWTInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
+			SELECT *
+			FROM WORKTIME
+			WHERE USER_NO = #{user_no}
+			AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	 	</select>
 	  	
-	  <select id="getAttendWTInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
-		SELECT *
-		FROM WORKTIME
-		WHERE USER_NO = #{user_no}
-		AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
-	  </select>
 	  	
-	  <select id="attendmainscreen">
-	  	SELECT A.ATTEND_DATE, A.WORK_NUMOFDATE, M.ATTEND_MOD_NUM, W.TOTAL_WORK_TIME
-		FROM ATTENDANCE A
-		INNER JOIN ATTENDANCEMODIFY M 
-		ON(A.ATTEND_NUM = M.ATTEND_NUM)
-		INNER JOIN WORKTIME W
-		ON(M.ATTEND_NUM = W.ATTEND_NUM)
-	  </select>
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	<!-- 근태 테이블 모두를 조인하여 데이터를 조회하는 구문 (미사용) -->
+		<select id="attendmainscreen">
+			SELECT A.ATTEND_DATE, A.WORK_NUMOFDATE, M.ATTEND_MOD_NUM, W.TOTAL_WORK_TIME
+			FROM ATTENDANCE A
+			INNER JOIN ATTENDANCEMODIFY M 
+			ON(A.ATTEND_NUM = M.ATTEND_NUM)
+			INNER JOIN WORKTIME W
+			ON(M.ATTEND_NUM = W.ATTEND_NUM)
+		</select>
+  
+  
+  
+  
+  
   
   <!-- 근태 출퇴근 -->  
   		<select id="getWTseq" resultType="int">
@@ -140,13 +152,14 @@
 	   		SET 
 	   		WORKTIME_NUM = #{worktime_num},
 	   		IN_TIME = TO_CHAR(SYSDATE,'HH24MISS')
-	   		WHERE WORKTIME_NUM = #{worktime_num};
+	   		WHERE WORKTIME_NUM = 0;
 	  	</update>
 	
 	  	<update id="attendprocessOUT" parameterType="attendancewt">
-	  		UPDATE ATTENDANCEMODIFY
-	   		SET ATTACH_FILE = #{attach_file}
-	   		WHERE ATTEND_MOD_NUM = #{attend_mod_num}
+	   		UPDATE WORKTIME
+	   		SET 
+	   		OUT_TIME = TO_CHAR(SYSDATE,'HH24MISS')
+	   		WHERE WORKTIME_NUM = #{worktime_num};
 	  	</update>
   
   	

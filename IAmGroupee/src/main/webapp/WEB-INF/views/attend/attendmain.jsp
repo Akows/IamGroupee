@@ -44,97 +44,99 @@
 		<form action="attendtempdateinsert" method="get">
 			<button type="submit" value="임시데이터삽입">button</button>
 		</form>
-		
+
 		<div class="row stat-cards">
 		
 		 <c:forEach items="${atWTInfo}" var="modinfo">
+
+			 <c:choose>
+			 	<c:when test="${modinfo.in_time eq '출근시간없음'}">
+			 	
+			 		<div class="col-md-6 col-xl-3">
+						<article class="stat-cards-item">
+					    	<div class="stat-cards-icon primary">
+					        	<i data-feather="bar-chart-2" aria-hidden="true"></i>
+					        </div>
+					        <div class="stat-cards-info">
+						    	<table>
+									<tr>
+							        	<td>
+								            <p class="stat-cards-info__num">춭퇴근 체크</p>
+										    <p class="stat-cards-info__title">금일 출퇴근 상황</p>
+
+													<p class="stat-cards-info__title"> 
+													
+														<c:set target="${preAtInfo}" property="proAtinfo"/>
+														<c:out value="${proAtinfo.out_time}"></c:out>
+													</p>
+
+	
+										    <p class="stat-cards-info__progress">
+										    <span class="stat-cards-info__profit danger">
+										    	<i data-feather="trending-down" aria-hidden="true"></i>출근하지 않음
+										    </span>
+										    </p>
+							            </td>
+							            <td>
+							            	<hr>
+							            </td>
+							            <td>
+										    <form action="attendprocessin" method="post">
+												<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="출근">
+										    </form>
+							            </td>
+							        </tr>
+								</table>
+								
+					            <hr>
+					                
+					        </div>
+					    </article>
+					</div>
+					
+			 	</c:when>
+			 	
+			 	<c:otherwise>
+			 		<div class="col-md-6 col-xl-3">
+						<article class="stat-cards-item">
+					    	<div class="stat-cards-icon primary">
+					        	<i data-feather="bar-chart-2" aria-hidden="true"></i>
+					        </div>
+					        <div class="stat-cards-info">
+						    	<table>
+									<tr>
+							        	<td>
+								            <p class="stat-cards-info__num">춭퇴근 체크</p>
+										    <p class="stat-cards-info__title">금일 출퇴근 상황</p>
+	
+										    	<p class="stat-cards-info__title">출근시간 : ${modinfo.in_time}</p>
+	
+										    <p class="stat-cards-info__progress">
+										    <span class="stat-cards-info__profit danger">
+										                    <i data-feather="trending-down" aria-hidden="true"></i>현재 근무중
+										    </span>
+										    </p>
+							            </td>
+							            <td>
+							            	<hr>
+							            </td>
+							            <td>
+										    <form action="attendprocessin" method="post">
+												<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="퇴근">
+										    </form>
+							            </td>
+							        </tr>
+								</table>
+								
+					            <hr>
+					                
+					        </div>
+					    </article>
+					</div>
+			 	</c:otherwise>
+			 	
+			 </c:choose>
 		 
-		 <c:choose>
-		 	<c:when test="${modinfo.in_time eq 0}">
-		 	
-		 		<div class="col-md-6 col-xl-3">
-					<article class="stat-cards-item">
-				    	<div class="stat-cards-icon primary">
-				        	<i data-feather="bar-chart-2" aria-hidden="true"></i>
-				        </div>
-				        <div class="stat-cards-info">
-					    	<table>
-								<tr>
-						        	<td>
-							            <p class="stat-cards-info__num">춭퇴근 체크</p>
-									    <p class="stat-cards-info__title">금일 출퇴근 상황</p>
-
-									    	<p class="stat-cards-info__title">퇴근시간 : ${modinfo.out_time}</p>
-
-									    <p class="stat-cards-info__progress">
-									    <span class="stat-cards-info__profit danger">
-									                    <i data-feather="trending-down" aria-hidden="true"></i>퇴근 처리됨
-									    </span>
-									    </p>
-						            </td>
-						            <td>
-						            	<hr>
-						            </td>
-						            <td>
-									    <form action="attendprocessin" method="post">
-											<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="출근">
-									    </form>
-						            </td>
-						        </tr>
-							</table>
-							
-				            <hr>
-				                
-				        </div>
-				    </article>
-				</div>
-				
-		 	</c:when>
-		 	
-		 	<c:when test="${modinfo.in_time ne 0}">
-		 	
-		 		<div class="col-md-6 col-xl-3">
-					<article class="stat-cards-item">
-				    	<div class="stat-cards-icon primary">
-				        	<i data-feather="bar-chart-2" aria-hidden="true"></i>
-				        </div>
-				        <div class="stat-cards-info">
-					    	<table>
-								<tr>
-						        	<td>
-							            <p class="stat-cards-info__num">춭퇴근 체크</p>
-									    <p class="stat-cards-info__title">금일 출퇴근 상황</p>
-
-									    	<p class="stat-cards-info__title">출근시간 : ${modinfo.in_time}</p>
-
-									    <p class="stat-cards-info__progress">
-									    <span class="stat-cards-info__profit danger">
-									                    <i data-feather="trending-down" aria-hidden="true"></i>현재 근무중
-									    </span>
-									    </p>
-						            </td>
-						            <td>
-						            	<hr>
-						            </td>
-						            <td>
-									    <form action="attendprocessin" method="post">
-											<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="퇴근">
-									    </form>
-						            </td>
-						        </tr>
-							</table>
-							
-				            <hr>
-				                
-				        </div>
-				    </article>
-				</div>
-				
-		 	</c:when>
-		 
-		 </c:choose>
-		 
-		
 		</c:forEach>
 		
 		
