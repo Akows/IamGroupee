@@ -31,4 +31,6 @@ public interface personnelService {
 
 	int userUpdate(UserDto user, HttpServletRequest req) throws Exception;
 
+	int getLastLevel(List<positionDto> posiList) throws Exception;
+
 }
