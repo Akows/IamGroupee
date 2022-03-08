@@ -78,22 +78,36 @@ public class EAController {
 	}
 	// 기안신청 (연차기안)
 	@GetMapping(value = "/write_lvA")
-	public String writeA(Model model) throws Exception {
+	public String writeA(Model model, HttpSession session) throws Exception {
 		
 		// 부서 목록 (부서 번호, 부서명)
 		List<DeptDto> deptValues = service.deptValues();
 		model.addAttribute("deptValues", deptValues);
+		
+		// 사원 목록 (사원 번호, 이름, 부서(번호,이름), 직급(번호,이름) 데이터 가져오기 - ACTIVITY_YN = 'Y'인 사원만)
+		// 로그인한 사용자를 제외한다.
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		String userNo = loginUser.getUserNo();
+		List<EAUserDto> userValues = service.userValue(userNo);
+		model.addAttribute("userValues", userValues);
 		
 		return "ea/user/ea_signup_write_lvA";
 	}
 	
 	// 기안신청 (휴가기안)
 	@GetMapping(value = "/write_lvB")
-	public String writeB(Model model) throws Exception {
+	public String writeB(Model model, HttpSession session) throws Exception {
 		
 		// 부서 목록 (부서 번호, 부서명)
 		List<DeptDto> deptValues = service.deptValues();
 		model.addAttribute("deptValues", deptValues);
+
+		// 사원 목록 (사원 번호, 이름, 부서(번호,이름), 직급(번호,이름) 데이터 가져오기 - ACTIVITY_YN = 'Y'인 사원만)
+		// 로그인한 사용자를 제외한다.
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		String userNo = loginUser.getUserNo();
+		List<EAUserDto> userValues = service.userValue(userNo);
+		model.addAttribute("userValues", userValues);
 		
 		return "ea/user/ea_signup_write_lvB";
 	}
@@ -101,30 +115,58 @@ public class EAController {
 	
 	// 기안신청 (처리)
 	@PostMapping(value = "/write")
-	public String write(Model model, HttpSession session, @ModelAttribute SignupDto dto) throws Exception {
-		
-//		if(lvCheck == A) {
-//			
-//		} else if(lvCheck == B) {
-//			
-//		} else {
-//			
-//		}
-		
+	public String write(Model model, HttpSession session, @ModelAttribute SignupDto dto, String leavePeriod) throws Exception {
 		
 		log.info(dto.toString());
 		
 		// 결재선 번호 테이블 인서트(문서번호, 결재선번호)
 		int result1 = service.insertProcessNo(session, dto);
-		
 		// 결재선 번호 테이블 셀렉트(위에서 인서트한 데이터)
 		ProcessDto pd = service.selectProcessNo();
-		
 		// 결재선 테이블 인서트 (결재자 수만큼)
 		int result2 = service.insertProcess(dto, pd);
 		
-		// 문서 테이블 인서트
-		int result3 = service.insertDocument(dto, pd);
+		
+		CategoryDto categoryLeave = null;
+		FormDto formLeave = null;
+		if("A".equals(dto.getLvCheck())) {
+			
+			categoryLeave = service.selectCategoryLeave(dto);
+			if(categoryLeave == null) {
+				int insertCategoryLeave = service.insertCategoryLeave(dto);
+				System.out.println("insertCategoryLeave:::" + insertCategoryLeave);
+			}
+			
+			formLeave = service.selectProcessLeave(dto);
+			if(formLeave == null) {
+				int insertFormLeave = service.insertFormLeave(dto);
+				System.out.println("insertFormLeave:::" + insertFormLeave);
+			}
+			
+			// 연차 문서 인서트
+			int result3 = service.insertDocumentAlv(dto, pd);
+			
+		} else if("B".equals(dto.getLvCheck())) {
+			
+			categoryLeave = service.selectCategoryLeave(dto);
+			if(categoryLeave == null) {
+				int insertCategoryLeave = service.insertCategoryLeave(dto);
+				System.out.println("insertCategoryLeave:::" + insertCategoryLeave);
+			}
+			
+			formLeave = service.selectProcessLeave(dto);
+			if(formLeave == null) {
+				int insertFormLeave = service.insertFormLeave(dto);
+				System.out.println("insertFormLeave:::" + insertFormLeave);
+			}
+			
+			// 휴가 문서 인서트
+			int result3 = service.insertDocumentLv(leavePeriod, dto, pd);
+			
+		} else {
+			// 문서 테이블 인서트
+			int result3 = service.insertDocument(dto, pd);
+		}
 		
 		// 참조자 테이블 인서트 
 		if(dto.getReferNo().length > 0) {			
@@ -138,12 +180,33 @@ public class EAController {
 		SimpleDateFormat ft = new SimpleDateFormat("yyyy. MM. dd.");
 		doc.setSimpleMakeDate(ft.format(makeDate));
 		doc.setSimpleCloseDate(ft.format(closeDate));
+		
+		if("A".equals(dto.getLvCheck())) {
+			Date appliDate = doc.getAlvAppli();
+			Date startDate = doc.getAlvStart();
+			Date endDate = doc.getAlvEnd();
+			
+			doc.setSimpleAppliDate(ft.format(appliDate));
+			doc.setSimpleStartDate(ft.format(startDate));
+			doc.setSimpleEndDate(ft.format(endDate));
+			
+		} else if("B".equals(dto.getLvCheck())) {
+			Date appliDate = doc.getLvAppli();
+			Date startDate = doc.getLvStart();
+			Date endDate = doc.getLvEnd();
+			
+			doc.setSimpleAppliDate(ft.format(appliDate));
+			doc.setSimpleStartDate(ft.format(startDate));
+			doc.setSimpleEndDate(ft.format(endDate));
+		}
+		
 		model.addAttribute("docInfo", doc);
 		
 		// 결재자 정보 결재선 테이블
 		List<ProcessDto> processList = service.selectProcess(pd);
 		model.addAttribute("processList", processList);
 		
+		log.info(doc.toString());
 		// 완료후 기안문서조회 상세 페이지로
 		return "ea/user/ea_signuplist_detail";
 	}
@@ -209,7 +272,29 @@ public class EAController {
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy. MM. dd.");
 			doc.setSimpleMakeDate(ft.format(makeDate));
 			doc.setSimpleCloseDate(ft.format(closeDate));
+			
+			if("A".equals(doc.getLvCheck())) {
+				Date appliDate = doc.getAlvAppli();
+				Date startDate = doc.getAlvStart();
+				Date endDate = doc.getAlvEnd();
+				
+				doc.setSimpleAppliDate(ft.format(appliDate));
+				doc.setSimpleStartDate(ft.format(startDate));
+				doc.setSimpleEndDate(ft.format(endDate));
+				
+			} else if("B".equals(doc.getLvCheck())) {
+				Date appliDate = doc.getLvAppli();
+				Date startDate = doc.getLvStart();
+				Date endDate = doc.getLvEnd();
+				
+				doc.setSimpleAppliDate(ft.format(appliDate));
+				doc.setSimpleStartDate(ft.format(startDate));
+				doc.setSimpleEndDate(ft.format(endDate));
+			}
+			
+			
 			model.addAttribute("docInfo", doc);
+			
 			
 			pd.setProcNo(doc.getProcNo());
 			
@@ -230,6 +315,26 @@ public class EAController {
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy. MM. dd.");
 			doc.setSimpleMakeDate(ft.format(makeDate));
 			doc.setSimpleCloseDate(ft.format(closeDate));
+			
+			if("A".equals(doc.getLvCheck())) {
+				Date appliDate = doc.getAlvAppli();
+				Date startDate = doc.getAlvStart();
+				Date endDate = doc.getAlvEnd();
+				
+				doc.setSimpleAppliDate(ft.format(appliDate));
+				doc.setSimpleStartDate(ft.format(startDate));
+				doc.setSimpleEndDate(ft.format(endDate));
+				
+			} else if("B".equals(doc.getLvCheck())) {
+				Date appliDate = doc.getLvAppli();
+				Date startDate = doc.getLvStart();
+				Date endDate = doc.getLvEnd();
+				
+				doc.setSimpleAppliDate(ft.format(appliDate));
+				doc.setSimpleStartDate(ft.format(startDate));
+				doc.setSimpleEndDate(ft.format(endDate));
+			}
+			
 			model.addAttribute("docInfo", doc);
 			
 			pd.setProcNo(doc.getProcNo());
@@ -246,20 +351,26 @@ public class EAController {
 	@RequestMapping(value = "deleteSignupDoc", method = RequestMethod.GET)
 	@ResponseBody
 	public int deleteSignupDoc(String docNo) throws Exception {
-		System.out.println(docNo);
 		return service.deleteSignupDoc(docNo);		
 	}
 	
 	// 반려/협의요청 문서 재기안하기
 	@RequestMapping(value = "reSignup", method = RequestMethod.POST)
-	public String reSignup(@ModelAttribute DocsDto dto) throws Exception {
+	public String reSignup(@ModelAttribute DocsDto dto, String leavePeriod) throws Exception {
 		
-		// docTitle, docClose, docContent, docMake(SYSDATE) EA_DOCUMENT 테이블 수정사항 업데이트
-		int result = service.reSignup(dto);
+		if("A".equals(dto.getLvCheck())) {
+			int result1 = service.reSignupAlv(dto);
+		} else if("B".equals(dto.getLvCheck())) {
+			int result2 = service.reSignupLv(dto, leavePeriod);
+		} else {
+			// docTitle, docClose, docContent, docMake(SYSDATE) EA_DOCUMENT 테이블 수정사항 업데이트
+			int result3 = service.reSignup(dto);			
+		}
+		
 		
 		// procNo으로 EA_PROCESS 테이블에서 반려자나 협의요청자의 PROC_SEQ = 0 으로 바꿔주기
 		String procNo = dto.getProcNo();
-		int result1 = service.reSignupUpdateProcess(procNo);
+		int result4 = service.reSignupUpdateProcess(procNo);
 		
 		return "ea/user/ea_signuplist_list";
 	}
@@ -326,6 +437,26 @@ public class EAController {
 		SimpleDateFormat ft = new SimpleDateFormat("yyyy. MM. dd.");
 		doc.setSimpleMakeDate(ft.format(makeDate));
 		doc.setSimpleCloseDate(ft.format(closeDate));
+		
+		if("A".equals(doc.getLvCheck())) {
+			Date appliDate = doc.getAlvAppli();
+			Date startDate = doc.getAlvStart();
+			Date endDate = doc.getAlvEnd();
+			
+			doc.setSimpleAppliDate(ft.format(appliDate));
+			doc.setSimpleStartDate(ft.format(startDate));
+			doc.setSimpleEndDate(ft.format(endDate));
+			
+		} else if("B".equals(doc.getLvCheck())) {
+			Date appliDate = doc.getLvAppli();
+			Date startDate = doc.getLvStart();
+			Date endDate = doc.getLvEnd();
+			
+			doc.setSimpleAppliDate(ft.format(appliDate));
+			doc.setSimpleStartDate(ft.format(startDate));
+			doc.setSimpleEndDate(ft.format(endDate));
+		}
+		
 		model.addAttribute("docInfo", doc);
 		
 		pd.setProcNo(doc.getProcNo());
@@ -364,4 +495,11 @@ public class EAController {
 		return "ea/user/ea_apprlist_list";
 	}
 //---------------------------------------------------------------- 참조문서조회
+	//참조문서조회 (리스트)
+	@GetMapping(value = "/reflist")
+	public String reflist() {
+		
+		return "ea/user/ea_reflist_list";
+	}
+	
 }

@@ -34,7 +34,7 @@
         <span>기안신청 (연차기안)</span>
       </div>
       <div class="ea_signup_write_contents">
-        <form action="" method="POST" onsubmit="return ea_write_submit();">
+        <form action="${root}/ea/write" method="POST" onsubmit="return ea_write_submit();">
           <ul>
             <li id="approverList">
               <a>👩‍🌾&ensp;결재자 선택 
@@ -84,35 +84,32 @@
               <input type="hidden" name="lvCheck" value="A">
 
               <!-- 연차종류 value="ALV_XX" 연차코드 -->
-              <p>연차 종류</p>
-              <select name="lvCode">
-                <option value="ALV_00">연차</option>
+              <p>🏖&ensp;연차 종류</p>
+              <select name="lvCode" onchange="halfBtn(this);">
                 <option value="ALV_01">일차</option>
                 <option value="ALV_02">반차</option>
                 <option value="ALV_03">반반차</option>
-                <option value="ALV_04">월차</option>
-                <option value="ALV_05">조정연차</option>
               </select>
 
               <!-- 반차 선택시 -->
               <select name="halfLv">
-                <option value="">오전</option>
-                <option value="">오후</option>
+                <option value="morning">오전</option>
+                <option value="afternoon">오후</option>
               </select>
 
               <!-- 반반차 선택시 -->
               <select name="halfNhalfLv">
-                <option value="">오전 전</option>
-                <option value="">오전 후</option>
-                <option value="">오후 전</option>
-                <option value="">오후 후</option>
+                <option value="morningB">오전 전</option>
+                <option value="morningA">오전 후</option>
+                <option value="afternoonB">오후 전</option>
+                <option value="afternoonA">오후 후</option>
               </select>
 
               <!-- 날짜 -->
-              <p>날짜 및 일시</p>
+              <p>⏰&ensp;날짜 및 일시</p>
               <div class="form-group" style="width:200px; margin:5px;">
                 <div class="input-group date" id="reservationdate1" data-target-input="nearest">
-                    <input type="text" name="deadlineDate" class="form-control datetimepicker-input" data-target="#reservationdate1"/>
+                    <input type="text" name="alvStart" class="form-control datetimepicker-input" data-target="#reservationdate1"/>
                     <div class="input-group-append" data-target="#reservationdate1" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
@@ -120,9 +117,8 @@
               </div>	
 
               <!-- 사유 -->
-              <p>사유</p>
-              <textarea name="content" cols="30" rows="10" placeholder="사유를 입력해주세요.">
-              </textarea>
+              <p>😏&ensp;사유</p>
+              <textarea name="alvReason" cols="30" rows="3" placeholder="사유를 입력해주세요."></textarea>
 
 
             </div>
@@ -132,10 +128,11 @@
           <input type="button" onclick="ea_signup_back();" value="돌아가기">
           
           <!-- hidden values -->
-          <input type="hidden" name="formTitle" value="${formValue.formTitle}">
-          <input type="hidden" name="formYears" value="${formValue.formYears}">
-          <input type="hidden" name="categoryNo" value="${formValue.categoryNo}">
-          <input type="hidden" name="categoryName" value="${formValue.categoryName}">
+          <input type="hidden" name="formNo" value="9998">
+          <input type="hidden" name="formTitle" value="연차">
+          <input type="hidden" name="formYears" value="1">
+          <input type="hidden" name="categoryNo" value="9999">
+          <input type="hidden" name="categoryName" value="연차/휴가">
           <input type="hidden" name="userNo" value="${loginUser.userNo}">
         </form>
       </div>
@@ -223,7 +220,7 @@
     } );
 
     function ea_signup_back() {
-      window.location.href = "signup";
+      window.location.href = "/iag/leave/leaveMain";
     }
 
     function ea_write_submit() {
@@ -370,10 +367,20 @@
     });
 
     // 연차관련
-    $('option[value="ALV_02"]').click(function() {
-      alert('클릭');
-      $('select[name="halfLv"]').attr('display', 'block');
-    });
+    // 반차/반반차 선택시 오전 오후 선택 태그 나오게
+    function halfBtn(e) {
+      let value = $(e).val();
+      if(value === 'ALV_02') {
+        $('select[name="halfNhalfLv"]').css('display', 'none');
+        $('select[name="halfLv"]').css('display', 'inline-block');
+      } else if(value === 'ALV_03') {
+        $('select[name="halfLv"]').css('display', 'none');
+        $('select[name="halfNhalfLv"]').css('display', 'inline-block');
+      } else {
+        $('select[name="halfLv"]').css('display', 'none');
+        $('select[name="halfNhalfLv"]').css('display', 'none');
+      }
+    };
   </script>
 </body>
 </html>

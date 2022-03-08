@@ -162,8 +162,10 @@
               <div><span>🗂 카테고리</span></div>
               <select name="categoryNo" size="15">
 	              <c:forEach items="${categoryValues}" var="cv">
-	                <option value="${cv.categoryNo}" onclick="seletedCategory(this);" ondblclick="updateCategoryName();">${cv.categoryName}</option>
-	              </c:forEach>
+                  <c:if test="${cv.categoryNo ne 9999}">
+                    <option value="${cv.categoryNo}" onclick="seletedCategory(this);" ondblclick="updateCategoryName();">${cv.categoryName}</option>
+                  </c:if>
+                </c:forEach>
               </select>
               <div>
                 <span id="categoryM" onclick="categoryMinus();">-</span>

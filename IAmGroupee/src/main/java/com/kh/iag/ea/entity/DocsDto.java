@@ -38,11 +38,15 @@ public class DocsDto {
 	private Date alvStart;		// 연차시작일
 	private Date alvEnd;		// 연차종료일
 	private String alvReason; 	// 연차사유
-	private String alvMinus;	// 연차사용개수
 	
 	// 휴가 - 휴가관련문서여부(휴가) 휴가코드(휴가) 시작날짜(휴가) 끝날짜(휴가)
 	private Date lvAppli;		// 휴가신청일
 	private Date lvStart;		// 휴가시작일
 	private Date lvEnd;			// 휴가종료일
-	private Date lvReason;		// 휴가사용
+	private String lvReason;	// 휴가사용
+	
+	// 연차, 휴가 시작일/종료일 날짜 포맷변경
+	private String simpleAppliDate; // 데이트 포맷 신청일
+	private String simpleStartDate; // 데이트 포맷 시작일
+	private String simpleEndDate;	// 데이트 포맷 종료일
 }

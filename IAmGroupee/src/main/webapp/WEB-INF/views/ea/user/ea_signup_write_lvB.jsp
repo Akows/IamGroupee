@@ -31,10 +31,10 @@
   <div class="ea_wrapper">
     <div class="ea_signup_write_wrapper">
       <div class="ea_signup_write_title">
-        <span>기안신청 (기안작성)</span>
+        <span>기안신청 (휴가기안)</span>
       </div>
       <div class="ea_signup_write_contents">
-        <form action="" method="POST" onsubmit="return ea_write_submit();">
+        <form action="${root}/ea/write" method="POST" onsubmit="return ea_write_submit();">
           <ul>
             <li id="approverList">
               <a>👩‍🌾&ensp;결재자 선택 
@@ -77,19 +77,67 @@
               <a>💬&ensp;기안서 제목</a>
               <input type="text" name="title" id="title" style="width: 30%;" placeholder="제목을 입력해주세요." required>
             </li>
-            <li>
-              <a>📝&ensp;내용</a>
-              <textarea name="content" id="editor" placeholder="내용을 입력해주세요." required>${formValue.formContent}</textarea>
-            </li>
+            <hr>
+            <div id="lvWrap">
+              
+              <!-- 연차/휴가 구분 A:연차 B:휴가 -->
+              <input type="hidden" name="lvCheck" value="B">
+
+              <!-- 연차종류 value="ALV_XX" 연차코드 -->
+              <p>🏖&ensp;휴가 종류</p>
+              <select name="lvCode" onchange="halfBtn(this);">
+                <option value="LV_01">병가</option>
+                <option value="LV_02">경조사</option>
+                <option value="LV_03">여름휴가</option>
+                <option value="LV_04">출산전후휴가</option>
+                <option value="LV_05">육아휴가</option>
+                <option value="LV_06">예비군</option>
+              </select>
+
+              <!-- 반차 선택시 -->
+              <select name="halfLv">
+                <option value="morning">오전</option>
+                <option value="afternoon">오후</option>
+              </select>
+
+              <!-- 반반차 선택시 -->
+              <select name="halfNhalfLv">
+                <option value="morningB">오전 전</option>
+                <option value="morningA">오전 후</option>
+                <option value="afternoonB">오후 전</option>
+                <option value="afternoonA">오후 후</option>
+              </select>
+
+              <!-- 날짜 -->
+              <p>⏰&ensp;날짜 및 일시</p>
+              <div class="form-group" style="width:290px;">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="far fa-calendar-alt"></i>
+                    </span>
+                  </div>
+                  <input type="text" name="leavePeriod" class="form-control float-right" id="reservation">
+                </div>
+                <!-- /.input group -->
+              </div>
+
+              <!-- 사유 -->
+              <p>😏&ensp;사유</p>
+              <textarea name="lvReason" cols="30" rows="3" placeholder="사유를 입력해주세요."></textarea>
+
+
+            </div>
           </ul>
           <input type="submit" value="기안 신청">
           <input type="button" onclick="ea_signup_back();" value="돌아가기">
           
           <!-- hidden values -->
-          <input type="hidden" name="formTitle" value="${formValue.formTitle}">
-          <input type="hidden" name="formYears" value="${formValue.formYears}">
-          <input type="hidden" name="categoryNo" value="${formValue.categoryNo}">
-          <input type="hidden" name="categoryName" value="${formValue.categoryName}">
+          <input type="hidden" name="formNo" value="9999">
+          <input type="hidden" name="formTitle" value="휴가">
+          <input type="hidden" name="formYears" value="1">
+          <input type="hidden" name="categoryNo" value="9999">
+          <input type="hidden" name="categoryName" value="연차/휴가">
           <input type="hidden" name="userNo" value="${loginUser.userNo}">
         </form>
       </div>
@@ -168,6 +216,8 @@
   <script src="${root}/resources/plugins/daterangepicker/daterangepicker.js"></script>
   <!-- Tempusdominus Bootstrap 4 -->
   <script src="${root}/resources/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+
+  <link rel="stylesheet" href="${root}/resources/plugins/daterangepicker/daterangepicker.css">
   
   <script>
     ClassicEditor
@@ -177,7 +227,7 @@
     } );
 
     function ea_signup_back() {
-      window.location.href = "signup";
+      window.location.href = "/iag/leave/leaveMain";
     }
 
     function ea_write_submit() {
@@ -319,6 +369,7 @@
     $('#reservationdate').datetimepicker({
         format: 'L'
     });
+    $('#reservation').daterangepicker();
   </script>
 </body>
 </html>

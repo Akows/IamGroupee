@@ -184,11 +184,12 @@
   float: left;
 }
 .ea_apprlist_detail_contents > form > div:nth-child(1) > table > * > * > * {
-  border: 1px solid #262626;
+  border: 1px solid gainsboro;
   background: #fff;
   padding: 3px;
   text-align: center;
   overflow: hidden;
+  font-size: 14px;
 }
 .ea_apprlist_detail_contents > form > div:nth-child(1) > table {
   float: left;
@@ -196,7 +197,9 @@
   width: 300px;
 }
 .ea_apprlist_detail_contents > form > div:nth-child(1) > table th {
-  background: gray;
+  background: navy;
+  color: #fff;
+  width: 25%;
 }
 .ea_apprlist_detail_contents > form > div:nth-child(2) > table {
   float: right;
@@ -205,14 +208,16 @@
   text-align: center;
 }
 .ea_apprlist_detail_contents > form > div:nth-child(2) > table > * > * > * {
-  border: 1px solid #262626;
+  border: 1px solid gainsboro;
   background: #fff;
   padding: 5px;
   padding-top: 3px;
   padding-bottom: 3px;
+  font-size: 14px;
 }
 .ea_apprlist_detail_contents > form > div:nth-child(2) th {
-  background: gray;
+  background: navy;
+  color: #fff;
 }
 .ea_apprlist_detail_contents > form > div:nth-child(3) {
   float: left;
@@ -354,4 +359,27 @@ span[id^="stamp"] {
 }
 #docContents table {
   width: 100%;
+}
+#docContentsLv {
+  width: 100%;
+  height: auto;
+  background: transparent;
+  text-align: center;
+}
+#docContentsLv > table {
+  width: 300px;
+}
+#docContentsLv > table * {
+  padding: 3px;
+  border: 1px solid gainsboro;
+}
+#docContentsLv > table th {
+  background: navy;
+  color: #fff;
+  font-size: 14px;
+  width: 25%;
+}
+#docContentsLv > table td {
+  background: #fff;
+  font-size: 14px;
 }

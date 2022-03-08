@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.kh.iag.ea.entity.CategoryDto;
 import com.kh.iag.ea.entity.DeptDto;
 import com.kh.iag.ea.entity.DocsDto;
 import com.kh.iag.ea.entity.FormDto;
@@ -28,6 +29,10 @@ public interface EAService {
 
 	int insertDocument(SignupDto dto, ProcessDto pd) throws Exception;
 
+	int insertDocumentAlv(SignupDto dto, ProcessDto pd);
+
+	int insertDocumentLv(String leavePeriod, SignupDto dto, ProcessDto pd);
+
 	int insertRef(SignupDto dto, ProcessDto pd) throws Exception;
 
 	DocsDto selectDocument(ProcessDto pd) throws Exception;
@@ -48,6 +53,10 @@ public interface EAService {
 
 	int reSignup(DocsDto dto) throws Exception;
 
+	int reSignupAlv(DocsDto dto);
+
+	int reSignupLv(DocsDto dto, String leavePeriod);
+
 	int reSignupUpdateProcess(String procNo) throws Exception;
 
 	int getApprListCnt(String userNo) throws Exception;
@@ -63,6 +72,14 @@ public interface EAService {
 	ProcessDto checkingLastProcess(ProcessDto dto);
 
 	int updateDocumentSep(ProcessDto resultDto);
+
+	CategoryDto selectCategoryLeave(SignupDto dto);
+
+	FormDto selectProcessLeave(SignupDto dto);
+
+	int insertCategoryLeave(SignupDto dto);
+
+	int insertFormLeave(SignupDto dto);
 
 	
 }

@@ -44,7 +44,9 @@
                     </tr>
                     <tr>
                         <th>문서 제목</th>
-                        <td><input type="text" name="docTitle" value="${docInfo.docTitle}"></td>
+                        <td>
+                            <input class="form-control form-control-sm" type="text" name="docTitle" placeholder="문서 제목을 입력해주세요." value="${docInfo.docTitle}">
+                        </td>
                     </tr>
                     <tr>
                         <th>상신 날짜</th>
@@ -52,15 +54,16 @@
                     </tr>
                     <tr>
                         <th>마감 날짜</th>
-                        <td style="overflow: visible; display: flex; justify-content: center; border: none; border-right: 1px solid #262626;">
+                        <td style="overflow: visible; display: flex; justify-content: center; border: none; border-right: 1px solid gainsboro;">
                             <div class="form-group" style="width:200px; margin:5px;">
-                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                <input type="text" name="docClose" class="form-control datetimepicker-input" data-target="#reservationdate"/>
-                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                    <input type="text" name="docClose" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>	</td>
+                            </div>	
+                        </td>
                     </tr>
                     <tr>
                         <th>보안 등급</th>
@@ -118,11 +121,113 @@
                 </table>
             </div>
             <!-- 문서 중앙 문서 내용 -->
-            <div>
-                <textarea name="docContent" id="editor" placeholder="내용을 입력해주세요." required>
-                    ${docInfo.docContent}
-                </textarea>
-            </div>
+            <c:if test="${(docInfo.lvCheck ne 'A') && (docInfo.lvCheck ne 'B')}">
+                <div>
+                    <textarea name="docContent" id="editor" placeholder="내용을 입력해주세요." required>
+                        ${docInfo.docContent}
+                    </textarea>
+                </div>
+            </c:if>
+            <!-- 연차기안일경우 -->
+            <c:if test="${docInfo.lvCheck eq 'A'}">
+                <div id="lvWrap">
+              
+                    <!-- 연차/휴가 구분 -->
+                    <input type="hidden" name="lvCheck" value="A">
+      
+                    <!-- 연차종류 value="ALV_XX" 연차코드 -->
+                    <p>🏖&ensp;연차 종류</p>
+                    <select name="lvCode" onchange="halfBtn(this);">
+                      <option value="ALV_01">일차</option>
+                      <option value="ALV_02">반차</option>
+                      <option value="ALV_03">반반차</option>
+                    </select>
+      
+                    <!-- 반차 선택시 -->
+                    <select name="halfLv">
+                      <option value="morning">오전</option>
+                      <option value="afternoon">오후</option>
+                    </select>
+      
+                    <!-- 반반차 선택시 -->
+                    <select name="halfNhalfLv">
+                      <option value="morningB">오전 전</option>
+                      <option value="morningA">오전 후</option>
+                      <option value="afternoonB">오후 전</option>
+                      <option value="afternoonA">오후 후</option>
+                    </select>
+      
+                    <!-- 날짜 -->
+                    <p>⏰&ensp;날짜 및 일시</p>
+                    <div class="form-group" style="width:200px; margin:5px;">
+                      <div class="input-group date" id="reservationdate1" data-target-input="nearest">
+                          <input type="text" name="alvStart" class="form-control datetimepicker-input" data-target="#reservationdate1"/>
+                          <div class="input-group-append" data-target="#reservationdate1" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                      </div>
+                    </div>	
+      
+                    <!-- 사유 -->
+                    <p>😏&ensp;사유</p>
+                    <textarea name="alvReason" cols="30" rows="3" placeholder="사유를 입력해주세요."></textarea>
+      
+      
+                  </div>
+            </c:if>
+            <!-- 휴가기안일경우 -->
+            <c:if test="${docInfo.lvCheck eq 'B'}">
+                <div id="lvWrap">
+              
+                    <!-- 연차/휴가 구분 A:연차 B:휴가 -->
+                    <input type="hidden" name="lvCheck" value="B">
+      
+                    <!-- 연차종류 value="ALV_XX" 연차코드 -->
+                    <p>🏖&ensp;휴가 종류</p>
+                    <select name="lvCode" onchange="halfBtn(this);">
+                      <option value="LV_01">병가</option>
+                      <option value="LV_02">경조사</option>
+                      <option value="LV_03">여름휴가</option>
+                      <option value="LV_04">출산전후휴가</option>
+                      <option value="LV_05">육아휴가</option>
+                      <option value="LV_06">예비군</option>
+                    </select>
+      
+                    <!-- 반차 선택시 -->
+                    <select name="halfLv">
+                      <option value="morning">오전</option>
+                      <option value="afternoon">오후</option>
+                    </select>
+      
+                    <!-- 반반차 선택시 -->
+                    <select name="halfNhalfLv">
+                      <option value="morningB">오전 전</option>
+                      <option value="morningA">오전 후</option>
+                      <option value="afternoonB">오후 전</option>
+                      <option value="afternoonA">오후 후</option>
+                    </select>
+      
+                    <!-- 날짜 -->
+                    <p>⏰&ensp;날짜 및 일시</p>
+                    <div class="form-group" style="width:290px;">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="far fa-calendar-alt"></i>
+                          </span>
+                        </div>
+                        <input type="text" name="leavePeriod" class="form-control float-right" id="reservation">
+                      </div>
+                      <!-- /.input group -->
+                    </div>
+      
+                    <!-- 사유 -->
+                    <p>😏&ensp;사유</p>
+                    <textarea name="lvReason" cols="30" rows="3" placeholder="사유를 입력해주세요."></textarea>
+      
+      
+                  </div>
+            </c:if>
             <div>
                 <a href="javascript:reuqestForm.submit()"  onclick="return confirmCheck();">재기안 하기</a>
                 <a href="/iag/ea/signuplist" onclick="return deleteSignupDoc();">삭제하기</a>
@@ -140,7 +245,7 @@
   <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <!-- Icons library -->
 <script src="${pageContext.request.contextPath}/resources/plugins/feather.min.js"></script>
-
+  
 <!-- Custom scripts -->
 <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
 
@@ -150,6 +255,8 @@
 <script src="${root}/resources/plugins/daterangepicker/daterangepicker.js"></script>
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="${root}/resources/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<link rel="stylesheet" href="${root}/resources/plugins/daterangepicker/daterangepicker.css">
 
 <script>
     ClassicEditor
@@ -162,6 +269,10 @@
     $('#reservationdate').datetimepicker({
         format: 'L'
     });
+    $('#reservationdate1').datetimepicker({
+        format: 'L'
+    });
+    $('#reservation').daterangepicker();
 
     // 문서 삭제
     function deleteSignupDoc() {
@@ -194,6 +305,22 @@
             return false;
         }
     }
+
+    // 연차관련
+    // 반차/반반차 선택시 오전 오후 선택 태그 나오게
+    function halfBtn(e) {
+      let value = $(e).val();
+      if(value === 'ALV_02') {
+        $('select[name="halfNhalfLv"]').css('display', 'none');
+        $('select[name="halfLv"]').css('display', 'inline-block');
+      } else if(value === 'ALV_03') {
+        $('select[name="halfLv"]').css('display', 'none');
+        $('select[name="halfNhalfLv"]').css('display', 'inline-block');
+      } else {
+        $('select[name="halfLv"]').css('display', 'none');
+        $('select[name="halfNhalfLv"]').css('display', 'none');
+      }
+    };
 </script>
 </body>
 </html>

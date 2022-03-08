@@ -101,12 +101,98 @@
                 </tr>
             </table>
         </div>
-        <!-- 문서 중앙 문서 내용 -->
-        <div id="docContents">
-            <!-- 텍스트 에디터 저장된 html 코드 -->
-            ${docInfo.docContent}
-            <!-- 텍스트 에디터 저장된 html 코드 -->
-        </div>
+
+        <c:if test="${docInfo.lvCheck eq null}">
+            <!-- 문서 중앙 문서 내용 -->
+            <div id="docContents">
+                <!-- 텍스트 에디터 저장된 html 코드 -->
+                ${docInfo.docContent}
+                <!-- 텍스트 에디터 저장된 html 코드 -->
+            </div>
+        </c:if>
+        <!-- 연차기안일때 -->
+        <c:if test="${docInfo.lvCheck eq 'A'}">
+            <div id="docContentsLv">
+                <table>
+                    <tr>
+                        <th>연차코드</th>
+                        <c:if test="${docInfo.lvCode eq 'ALV_01'}">
+                            <td>
+                                일차 (${docInfo.lvCode})
+                            </td>
+                        </c:if>
+                        <c:if test="${docInfo.lvCode eq 'ALV_02'}">
+                            <td>
+                                반차 (${docInfo.lvCode})
+                            </td>
+                        </c:if>
+                        <c:if test="${docInfo.lvCode eq 'ALV_03'}">
+                            <td>
+                                반반차 (${docInfo.lvCode})
+                            </td>
+                        </c:if>
+                    </tr>
+                    <tr>
+                        <th>사용날짜</th>
+                        <td>${docInfo.simpleStartDate}</td>
+                    </tr>
+                    <tr>
+                        <th>사유</th>
+                        <td>${docInfo.alvReason}</td>
+                    </tr>
+                </table>
+            </div>
+        </c:if>
+        <!-- 휴가기안일때 -->
+        <c:if test="${docInfo.lvCheck eq 'B'}">
+            <div id="docContentsLv">
+                <table>
+                    <tr>
+                        <th>휴가코드</th>
+                        <c:if test="${docInfo.lvCode eq 'LV_01'}">
+                            <td>
+                                병가 (${docInfo.lvCode})
+                            </td>
+                        </c:if>
+                        <c:if test="${docInfo.lvCode eq 'LV_02'}">
+                            <td>
+                                경조사 (${docInfo.lvCode})
+                            </td>
+                        </c:if>
+                        <c:if test="${docInfo.lvCode eq 'LV_03'}">
+                            <td>
+                                여름휴가 (${docInfo.lvCode})
+                            </td>
+                        </c:if>
+                        <c:if test="${docInfo.lvCode eq 'LV_04'}">
+                            <td>
+                                출산전후휴가 (${docInfo.lvCode})
+                            </td>
+                        </c:if>
+                        <c:if test="${docInfo.lvCode eq 'LV_05'}">
+                            <td>
+                                육아휴가 (${docInfo.lvCode})
+                            </td>
+                        </c:if>
+                        <c:if test="${docInfo.lvCode eq 'LV_06'}">
+                            <td>
+                                예비군 (${docInfo.lvCode})
+                            </td>
+                        </c:if>
+                    </tr>
+                    <tr>
+                        <th>사용기간</th>
+                        <td>${docInfo.simpleStartDate} - ${docInfo.simpleEndDate}</td>
+                    </tr>
+                    <tr>
+                        <th>사유</th>
+                        <td>${docInfo.lvReason}</td>
+                    </tr>
+                </table>
+            </div>
+        </c:if>
+
+
         <div>
             <a href="/iag/ea/signuplist">목록으로</a>
         </div>
