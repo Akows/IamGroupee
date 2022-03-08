@@ -1,7 +1,5 @@
 package com.kh.iag.resv.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -12,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.iag.resv.entity.ResvDto;
 import com.kh.iag.resv.service.ResvService;
@@ -34,7 +33,11 @@ public class ResvController {
 		List<ResvDto> assetResvList = service.getAssetResvList(userNo);
 		List<ResvDto> roomList = service.getRoomList();
 		List<ResvDto> assetList = service.getAssetList();
+		List<ResvDto> allRoomResv = service.getAllRoomResvList();
+		List<ResvDto> allAssetResv = service.getAllAssetResvList();
 		
+		model.addAttribute("allRoomResv", allRoomResv);
+		model.addAttribute("allAssetResv", allAssetResv);
 		model.addAttribute("roomList", roomList);
 		model.addAttribute("assetList", assetList);
 		
@@ -53,26 +56,38 @@ public class ResvController {
 	public String insertResv(Model model, ResvDto dto) throws Exception {
 
 		String[] parts = dto.getPeriod().split("~");
-		String part1 = parts[0]; 
-		String part2 = parts[1];
-		
-		SimpleDateFormat transFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm");
-		Date start = (Date) transFormat.parse(part1);
-		Date end = (Date) transFormat.parse(part2);
-		
-		java.util.Date utilStart = new java.util.Date();
-	    java.sql.Date sqlStart = new java.sql.Date(utilStart.getTime());
-	    
-	    java.util.Date utilEnd = new java.util.Date();
-	    java.sql.Date sqlEnd = new java.sql.Date(utilEnd.getTime());
-	    
-		dto.setResvStart(sqlStart);
-		dto.setResvEnd(sqlEnd);
-		System.out.println(dto);
+		String start = parts[0]; 
+		String end = parts[1];
+    
+		dto.setResvStart(start);
+		dto.setResvEnd(end);
+		System.out.println("insert dto ::::" + dto);
 		
 		int result = service.insertResv(dto);
 
 		return "redirect:/resv/resvMain";
+	}
+	
+	//예약수정
+	@PostMapping("mod")
+	@ResponseBody
+	public String modResv() {
+		return "mod";
+	}
+	
+	//예약반납
+	@PostMapping("return")
+	@ResponseBody
+	public String returnResv() {
+		return "return";
+	}
+	
+	
+	//예약삭제
+	@PostMapping("delete")
+	@ResponseBody
+	public String deleteResv() {
+		return "delete";
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////

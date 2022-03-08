@@ -1,7 +1,6 @@
 package com.kh.iag.resv.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,30 @@ public class ResvDaoImpl implements ResvDao {
 	private SqlSession ss;
 
 	@Override
+	public List<ResvDto> getAllRoomResvList() throws Exception {
+		return ss.selectList("resv.getAllRoomResvList");
+	}
+
+	@Override
+	public List<ResvDto> getAllAssetResvList() throws Exception {
+		return ss.selectList("resv.getAllAssetResvList");
+	}
+	
+	@Override
+	public List<ResvDto> getRoomList() throws Exception {
+		return ss.selectList("resv.getRoomList");
+	}
+
+	@Override
+	public List<ResvDto> getAssetList() throws Exception {
+		return ss.selectList("resv.getAssetList");
+	}
+	
+	@Override
 	public List<ResvDto> getRoomResvList(String userNo) throws Exception {
 		return ss.selectList("resv.getRoomResvList", userNo);
 	}
+
 
 	@Override
 	public List<ResvDto> getAssetResvList(String userNo) throws Exception {
@@ -30,14 +50,7 @@ public class ResvDaoImpl implements ResvDao {
 		return ss.insert("resv.insertResv", dto);
 	}
 
-	@Override
-	public List<ResvDto> getRoomList() throws Exception {
-		return ss.selectList("resv.getRoomList");
-	}
+	
 
-	@Override
-	public List<ResvDto> getAssetList() throws Exception {
-		return ss.selectList("resv.getAssetList");
-	}
 
 }
