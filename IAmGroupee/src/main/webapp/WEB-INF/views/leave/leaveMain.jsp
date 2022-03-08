@@ -32,11 +32,11 @@
         <div class="row stat-cards">
           <div class="col-md-6 col-xl-12" style="width: 20%; height: 150px;">
             <article class="stat-cards-item" style="text-align: center; margin: auto;">
-              	<div style="width: 10%; height: 100%; float: left; line-height: 5.5em; font-weight: bolder; font-size: large;">
+              	<div style="width: 13%; height: 100%; float: left; line-height: 5.5em; font-weight: bolder; font-size: large;">
               		<div style="margin-left: 20px;"> ${loginUser.name} </div>
               	</div>
-              	<div class="border-right" style="width: 10%; height: 100%; float: left; text-align: left; font-weight: bold; font-size: medium;">
-              		<div style="margin-top: 25px; margin-left: 30px;"> ${loginUser.departmentName}<br>${loginUser.positionName} </div>
+              	<div class="border-right" style="width: 7%; height: 100%; float: left; text-align: left; font-weight: bold; font-size: medium;">
+              		<div style="margin-top: 25px; margin-left: 20px;"> ${loginUser.departmentName}<br>${loginUser.positionName} </div>
               	</div>
               	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
               		<span style="font-weight: bolder; line-height: 1.7em;">
@@ -101,8 +101,8 @@
         	<div style="width: 45%; height: 100%; float: left;"></div>
         	<div style="width: 30%; height: 100%; float: left; text-align: right;">
         		<!-- 사용가능한 연차가 없을 시 알림창 띄우고 leaveMain으로 돌아오기 -->
-        		<input type="button" onclick="location.href='${root}/ea/signup'" value="연차 신청" style="background-color: rgb(14, 104, 225); margin-right: 6px; font-weight: bold; color: white;">
-        		<input type="button" onclick="location.href='${root}/ea/signup'" value="휴가 신청" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white;">
+        		<input type="button" onclick="location.href='${root}/ea/write_lvA'" value="연차 신청" style="background-color: rgb(14, 104, 225); margin-right: 6px; font-weight: bold; color: white;">
+        		<input type="button" onclick="location.href='${root}/ea/write_lvB'" value="휴가 신청" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white;">
         	</div>
         </div>
        

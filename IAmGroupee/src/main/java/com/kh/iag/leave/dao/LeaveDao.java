@@ -69,7 +69,7 @@ public interface LeaveDao {
 
 	List<UserDto> getAllUserInfo() throws Exception;
 
-	int Test(AlvOccurHistoryDto historyDto) throws Exception;
+	int Test(String date) throws Exception;
 
 
 }

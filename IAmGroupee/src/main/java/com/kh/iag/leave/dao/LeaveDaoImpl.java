@@ -188,8 +188,8 @@ public class LeaveDaoImpl implements LeaveDao {
 	}
 
 	@Override
-	public int Test(AlvOccurHistoryDto historyDto) throws Exception {
-		return session.insert("leave.Test", historyDto);
+	public int Test(String date) throws Exception {
+		return session.insert("leave.Test", date);
 	}	
 	
 }
