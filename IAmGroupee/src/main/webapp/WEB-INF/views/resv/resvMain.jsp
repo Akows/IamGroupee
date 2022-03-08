@@ -4,8 +4,10 @@ pageEncoding="UTF-8"%>
 <%@ page import="java.util.List"%>
 <%@ page import="com.kh.iag.resv.entity.ResvDto"%>
 <% 
+	List<ResvDto> allRoomResvList = (List<ResvDto>)request.getAttribute("allRoomResvList");	
+	List<ResvDto> allAssetResvList = (List<ResvDto>)request.getAttribute("allAssetResvList");	
 	List<ResvDto> roomResvList = (List<ResvDto>)request.getAttribute("roomResvList");
-	List<ResvDto> assetResvList = (List<ResvDto>)request.getAttribute("assetResvList");
+	List<ResvDto> assetResvList = (List<ResvDto>)request.getAttribute("assetResvList"); 
 	List<ResvDto> roomList = (List<ResvDto>)request.getAttribute("roomList");
 	List<ResvDto> assetList = (List<ResvDto>)request.getAttribute("assetList");
 %>
@@ -66,7 +68,7 @@ pageEncoding="UTF-8"%>
 							</div>
 							
 							<div class="card-body">
-								<form action="" method="post">
+								<form action="delete" method="post">
 									<div class="form-group">
 										<label>예약할 자산</label>
 										<select class="form-control" name="roomNo" >
@@ -108,14 +110,48 @@ pageEncoding="UTF-8"%>
 
 						<!-- 내 예약 현황 -->
 						<div class="card">
+							<form name="form" method="post"> 
 							<div class="card-header">
-								<h3 class="card-title">내 예약 현황</h3>
+								<h3 class="card-title">
+									내 예약 현황
+									<button onclick="updateCheck()" name="action" value="update" class="btn btn-primary btn-sm">수정</button>
+									<button onclick="returnCheck()" name="action" value="return" class="btn btn-primary btn-sm">반납</button>
+									<button onclick="deleteCheck()" name="action" value="delete" class="btn btn-primary btn-sm">취소</button>
+								</h3>
 							</div>
 							<div class="card-body">
-
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th></th>
+											<th>항목</th>
+											<th>기간</th>
+											<th>상태</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach  items="${roomResvList}" var="r">
+											<tr>
+												<td><input name="resvNo" value="${r.resvNo}" type="checkbox"></td>
+												<td>
+													<c:set var="m" value="${r.roomName}"></c:set>
+													<c:if test="${m ne ''}">
+														${r.roomName}
+													</c:if>
+													<c:set var="a" value="${r.assetName}"></c:set>
+													<c:if test="${a ne ''}">
+														${r.assetName}
+													</c:if>
+												</td>
+												<td>${r.period}</td>
+												<td>${r.returnYn}</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
 							</div>
+							</form>
 						</div>
-
 					</section>
 	
 					<section class="col-lg-8 connectedSortable">
@@ -162,6 +198,11 @@ pageEncoding="UTF-8"%>
 					</section> <!-- /.col -->
 
 				</div>  <!-- /.row -->
+
+				<section>
+					
+				</section>
+
 	        </div> <!-- /.container-fluid -->
 	    </section>
 	</div>
@@ -225,8 +266,8 @@ pageEncoding="UTF-8"%>
 				},
 				events : 
 				[ 
-					<%if (roomResvList != null || assetResvList != null) {%>
-						<%for (ResvDto r : roomResvList) {%>
+					<%if (allRoomResvList != null || allAssetResvList != null ) {%>
+						<%for (ResvDto r : allRoomResvList) {%>
 							{
 								title : '<%=r.getRoomName()%>',
 								start : '<%=r.getResvStart()%>',
@@ -234,7 +275,7 @@ pageEncoding="UTF-8"%>
 								color : '#2D82D7'
 							},
 						<%}%>
-						<%for (ResvDto a : assetResvList) {%>
+						<%for (ResvDto a : allAssetResvList) {%>
 							{
 								title : '<%=a.getAssetName()%>',
 								start : '<%=a.getResvStart()%>',
@@ -251,14 +292,29 @@ pageEncoding="UTF-8"%>
 	
 		});
 
-		// $("#addEvent").on("click",function(){ 
-		// 	if(confirm('예약하시겠습니까?')) {
-		// 		return true;
-		// 	} else {
-		// 		return false;
-		// 	}
-		// });
+		function updateCheck(){
+			if(confirm("선택한 예약을 수정하시겠습니까?") == true){
+				document.update.submit();
+			}else {
+				return false;
+			}
+		}
 
+		function returnCheck(){
+			if(confirm("선택한 예약을 미리 반납하시겠습니까?") == true){
+				document.return.submit();
+			}else {
+				return false;
+			}
+		}
+
+		function deleteCheck(){
+			if(confirm("선택한 예약을 취소하시겠습니까?") == true){
+				document.delete.submit();
+			}else {
+				return false;
+			}
+		}
 	</script>
 
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.iag.resv.entity.ResvDto;
 import com.kh.iag.resv.service.ResvService;
@@ -32,12 +33,16 @@ public class ResvController {
 		List<ResvDto> assetResvList = service.getAssetResvList(userNo);
 		List<ResvDto> roomList = service.getRoomList();
 		List<ResvDto> assetList = service.getAssetList();
+		List<ResvDto> allRoomResv = service.getAllRoomResvList();
+		List<ResvDto> allAssetResv = service.getAllAssetResvList();
 		
+		model.addAttribute("allRoomResv", allRoomResv);
+		model.addAttribute("allAssetResv", allAssetResv);
 		model.addAttribute("roomList", roomList);
 		model.addAttribute("assetList", assetList);
 		
 		if (roomResvList != null) {
-		model.addAttribute("roomResvList", roomResvList);
+			model.addAttribute("roomResvList", roomResvList);
 		}
 		if (assetResvList != null) {
 			model.addAttribute("assetResvList", assetResvList);
@@ -53,34 +58,36 @@ public class ResvController {
 		String[] parts = dto.getPeriod().split("~");
 		String start = parts[0]; 
 		String end = parts[1];
-		//par1 =  '2022-03-08 08:00'
-		
-//		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//		java.util.Date start = transFormat.parse(part1);
-//		java.util.Date end = transFormat.parse(part2);
-//		System.out.println("start : "+ start);
-//		
-//		long timeInMilliSeconds1 = start.getTime();
-//		long timeInMilliSeconds2 = start.getTime();
-//		java.sql.Date sqlStart = new java.sql.Date(timeInMilliSeconds1);
-//		java.sql.Date sqlEnd = new java.sql.Date(timeInMilliSeconds2);
-		
-		
-//	    Date sqlStart = new Date(start.getTime());
-//	    Date sqlEnd = new Date(end.getTime());
-//	    System.out.println("sqlStart : "+ sqlStart);
-		
-//		Timestamp tStart = new Timestamp(start.getTime());
-//		Timestamp tEnd =  new Timestamp(end.getTime());
-//		System.out.println("tstart : "+ tStart);
-//	    
+    
 		dto.setResvStart(start);
 		dto.setResvEnd(end);
-		System.out.println(dto);
+		System.out.println("insert dto ::::" + dto);
 		
 		int result = service.insertResv(dto);
 
-		return "/resv/resvMain";
+		return "redirect:/resv/resvMain";
+	}
+	
+	//예약수정
+	@PostMapping("mod")
+	@ResponseBody
+	public String modResv() {
+		return "mod";
+	}
+	
+	//예약반납
+	@PostMapping("return")
+	@ResponseBody
+	public String returnResv() {
+		return "return";
+	}
+	
+	
+	//예약삭제
+	@PostMapping("delete")
+	@ResponseBody
+	public String deleteResv() {
+		return "delete";
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////
