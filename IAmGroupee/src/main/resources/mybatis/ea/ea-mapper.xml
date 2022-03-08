@@ -220,6 +220,127 @@
 			'N'
 		)
 	</insert>
+	<!-- 연차/휴가 category 있는지 확인 -->
+	<select id="selectCategoryLeave" parameterType="com.kh.iag.ea.entity.SignupDto" resultType="com.kh.iag.ea.entity.CategoryDto">
+		SELECT * FROM EA_CATEGORY WHERE CATEGORY_NO = ${categoryNo}
+	</select>
+	
+	<!-- 연차/휴가 category insert -->
+	<insert id="insertCategoryLeave" parameterType="com.kh.iag.ea.entity.SignupDto">
+		INSERT INTO EA_CATEGORY (CATEGORY_NO, CATEGORY_NAME) VALUES (${categoryNo}, #{categoryName})
+	</insert>
+	
+	<!-- 연차/휴가 form 있는지 확인 -->
+	<select id="selectProcessLeave" parameterType="com.kh.iag.ea.entity.SignupDto" resultType="com.kh.iag.ea.entity.FormDto">
+		SELECT * FROM EA_FORM WHERE FORM_NO = ${formNo}
+	</select>
+	
+	<!-- 연차/휴가 form insert -->
+	<insert id="insertFormLeave" parameterType="com.kh.iag.ea.entity.SignupDto">
+		INSERT INTO EA_FORM 
+		(
+			FORM_NO, 
+			FORM_TITLE, 
+			FORM_CONTENT, 
+			FORM_YEARS, 
+			CATEGORY_NO
+		) 
+		VALUES 
+		(
+			${formNo},
+			#{formTitle},
+			'연차/휴가',
+			${formYears},
+			${categoryNo}
+		)
+	</insert>
+	
+	<!-- 연차기안신청 -->
+	<insert id="insertDocumentAlv" parameterType="eadocs">
+		
+		INSERT INTO EA_DOCUMENT
+		(
+			DOC_NO,
+			USER_NO,
+			FORM_NO,
+			PROC_NO,
+			DOC_TITLE,
+			DOC_CONTENT,
+			DOC_SLV,
+			DOC_MAKE,
+			DOC_CLOSE,
+			DOC_SEP,
+			LV_CHECK,
+			LV_CODE,
+			ALV_APPLI,
+			ALV_START,
+			ALV_END,
+			ALV_REASON
+		)
+		VALUES
+		(
+			#{docNo},
+			#{userNo},
+			${formNo},
+			${procNo},
+			#{docTitle},
+			'연차신청',
+			#{docSlv},
+			SYSDATE,
+			#{docClose},
+			'N',
+			#{lvCheck},
+			#{lvCode},
+			SYSDATE,
+			#{alvStart},
+			#{alvEnd},
+			#{alvReason}
+		)
+	</insert>
+	
+	<!-- 휴가기안신청 -->
+	<insert id="insertDocumentLv" parameterType="eadocs">
+		
+		INSERT INTO EA_DOCUMENT
+		(
+			DOC_NO,
+			USER_NO,
+			FORM_NO,
+			PROC_NO,
+			DOC_TITLE,
+			DOC_CONTENT,
+			DOC_SLV,
+			DOC_MAKE,
+			DOC_CLOSE,
+			DOC_SEP,
+			LV_CHECK,
+			LV_CODE,
+			LV_APPLI,
+			LV_START,
+			LV_END,
+			LV_REASON
+		)
+		VALUES
+		(
+			#{docNo},
+			#{userNo},
+			${formNo},
+			${procNo},
+			#{docTitle},
+			'휴가신청',
+			#{docSlv},
+			SYSDATE,
+			#{docClose},
+			'N',
+			#{lvCheck},
+			#{lvCode},
+			SYSDATE,
+			#{lvStart},
+			#{lvEnd},
+			#{lvReason}
+			
+		)
+	</insert>
 	
 	<!-- 기안 작성시 참조자 테이블 인서트 -->
 	<insert id="insertRef" parameterType="com.kh.iag.ea.entity.RefDto">
@@ -356,6 +477,36 @@
 		WHERE DOC_NO = #{docNo}
 	</update>
 	
+	<!-- 반려/협의 문서중 연차문서 재기안하기 -->
+	<update id="reSignupAlv" parameterType="eadocs">
+		UPDATE EA_DOCUMENT
+		SET
+			DOC_TITLE = #{docTitle},
+			DOC_MAKE = SYSDATE,
+			DOC_CLOSE = #{docClose},
+			LV_CODE = #{lvCode},
+			ALV_APPLI = SYSDATE,
+			ALV_START = #{alvStart},
+			ALV_END = #{alvEnd},
+			ALV_REASON = #{alvReason}
+		WHERE DOC_NO = #{docNo}
+	</update>
+	
+	<!-- 반려/협의 문서중 휴가문서 재기안하기 -->
+	<update id="reSignupLv" parameterType="eadocs">
+		UPDATE EA_DOCUMENT
+		SET
+			DOC_TITLE = #{docTitle},
+			DOC_MAKE = SYSDATE,
+			DOC_CLOSE = #{docClose},
+			LV_CODE = #{lvCode},
+			LV_APPLI = SYSDATE,
+			LV_START = #{lvStart},
+			LV_END = #{lvEnd},
+			LV_REASON = #{lvReason}
+		WHERE DOC_NO = #{docNo}
+	</update>
+	
 	<!-- 반려/합의 문서 재기안하기 결재선테이블 반려/협의자 PROC_SEQ 0으로 업데이트 -->
 	<update id="reSignupUpdateProcess" parameterType="string">
 		UPDATE EA_PROCESS
@@ -455,6 +606,7 @@
 	<update id="updateDocumentSep" parameterType="com.kh.iag.ea.entity.ProcessDto">
 		UPDATE EA_DOCUMENT
 		SET
+			DOC_FINISH = SYSDATE,
 			DOC_SEP = 'Y'
 		WHERE PROC_NO = ${procNo}
 	</update>

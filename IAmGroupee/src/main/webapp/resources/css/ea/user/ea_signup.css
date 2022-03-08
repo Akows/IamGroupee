@@ -303,13 +303,31 @@ select[name="formNo"] > option.activeForm {
 }
 /* 연차, 휴가 공통 */
 #lvWrap {
-  margin: 20px;
+  margin: 5px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+  background: transparent;
+}
+#lvWrap > p {
+  padding: 5px;
+  padding-top: 25px;
+  padding-bottom: 10px;
+  font-weight: 600;
+  font-size: 15px;
+}
+#lvWrap > textarea {
+  resize: none;
 }
 /* 연차기안 */
+select[name="lvCode"] {
+  width: 100px;
+}
 select[name="halfLv"] {
   display: none;
+  width: 100px;
 }
 select[name="halfNhalfLv"] {
   display: none;
+  width: 100px;
 }
-/* 휴가기안 */

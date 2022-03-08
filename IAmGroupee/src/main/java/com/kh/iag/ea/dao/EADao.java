@@ -3,11 +3,13 @@ package com.kh.iag.ea.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import com.kh.iag.ea.entity.CategoryDto;
 import com.kh.iag.ea.entity.DeptDto;
 import com.kh.iag.ea.entity.DocsDto;
 import com.kh.iag.ea.entity.FormDto;
 import com.kh.iag.ea.entity.ProcessDto;
 import com.kh.iag.ea.entity.RefDto;
+import com.kh.iag.ea.entity.SignupDto;
 import com.kh.iag.ea.entity.EAUserDto;
 
 public interface EADao {
@@ -25,6 +27,10 @@ public interface EADao {
 	int insertProcess(ProcessDto pd) throws Exception;
 
 	int insertDocument(DocsDto dd) throws Exception;
+
+	int insertDocumentAlv(DocsDto dd);
+
+	int insertDocumentLv(DocsDto dd);
 
 	int insertRef(RefDto rd) throws Exception;
 
@@ -46,6 +52,10 @@ public interface EADao {
 
 	int reSignup(DocsDto dto) throws Exception;
 
+	int reSignupAlv(DocsDto dto);
+
+	int reSignupLv(DocsDto dto);
+
 	int reSignupUpdateProcess(String procNo) throws Exception;
 
 	int getApprListCnt(String userNo) throws Exception;
@@ -61,6 +71,14 @@ public interface EADao {
 	ProcessDto checkingLastProcess(ProcessDto dto);
 
 	int updateDocumentSep(ProcessDto resultDto);
+
+	FormDto selectProcessLeave(SignupDto dto);
+
+	CategoryDto selectCategoryLeave(SignupDto dto);
+
+	int insertCategoryLeave(SignupDto dto);
+
+	int insertFormLeave(SignupDto dto);
 
 	
 }

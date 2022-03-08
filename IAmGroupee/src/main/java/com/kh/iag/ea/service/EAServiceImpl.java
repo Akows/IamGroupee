@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.iag.ea.admin.dao.AdminEADao;
 import com.kh.iag.ea.dao.EADao;
+import com.kh.iag.ea.entity.CategoryDto;
 import com.kh.iag.ea.entity.DeptDto;
 import com.kh.iag.ea.entity.DocsDto;
 import com.kh.iag.ea.entity.FormDto;
@@ -21,9 +22,13 @@ import com.kh.iag.ea.entity.RefDto;
 import com.kh.iag.ea.entity.SettingsDto;
 import com.kh.iag.ea.entity.SignupDto;
 import com.kh.iag.user.entity.UserDto;
+
+import lombok.extern.slf4j.Slf4j;
+
 import com.kh.iag.ea.entity.EAUserDto;
 
 @Service
+@Slf4j
 public class EAServiceImpl implements EAService {
 	
 	@Autowired
@@ -134,6 +139,67 @@ public class EAServiceImpl implements EAService {
 	}
 
 	@Override
+	public int insertDocumentAlv(SignupDto dto, ProcessDto pd) {
+		
+		DocsDto dd = new DocsDto();
+		dd.setDocNo(pd.getDocNo());
+		dd.setUserNo(dto.getUserNo());
+		dd.setFormNo(dto.getFormNo());
+		dd.setProcNo(pd.getProcNo());
+		dd.setDocTitle(dto.getTitle());
+		dd.setDocSlv(dto.getSecurityLevel());
+		dd.setDocClose(dto.getDeadlineDate());
+		
+		// 연차관련데이터
+		dd.setLvCheck(dto.getLvCheck());
+		dd.setLvCode(dto.getLvCode());
+		
+		dd.setAlvStart(dto.getAlvStart());
+		dd.setAlvEnd(dto.getAlvStart());
+		dd.setAlvReason(dto.getAlvReason());
+		
+		return dao.insertDocumentAlv(dd);
+	}
+
+	@Override
+	public int insertDocumentLv(String leavePeriod, SignupDto dto, ProcessDto pd) {
+		
+		DocsDto dd = new DocsDto();
+		dd.setDocNo(pd.getDocNo());
+		dd.setUserNo(dto.getUserNo());
+		dd.setFormNo(dto.getFormNo());
+		dd.setProcNo(pd.getProcNo());
+		dd.setDocTitle(dto.getTitle());
+		dd.setDocSlv(dto.getSecurityLevel());
+		dd.setDocClose(dto.getDeadlineDate());
+		
+		// 휴가관련데이터
+		dd.setLvCheck(dto.getLvCheck());
+		dd.setLvCode(dto.getLvCode());
+		
+		String[] leavePeriodSplit = leavePeriod.split(" - ");
+		String[] startSplit = leavePeriodSplit[0].split("/");
+		String[] endSplit = leavePeriodSplit[1].split("/");
+		
+		Date start = new Date();
+		start.setMonth(Integer.valueOf(startSplit[0]) - 1);
+		start.setDate(Integer.valueOf(startSplit[1]));
+		start.setYear(Integer.valueOf(startSplit[2]) - 1900);
+		
+		Date end = new Date();
+		end.setMonth(Integer.valueOf(endSplit[0]) - 1);
+		end.setDate(Integer.valueOf(endSplit[1]));
+		end.setYear(Integer.valueOf(endSplit[2]) - 1900);
+		
+		dd.setLvStart(start);
+		dd.setLvEnd(end);
+		dd.setLvReason(dto.getLvReason());
+		
+		return dao.insertDocumentLv(dd);
+	}
+
+
+	@Override
 	public int insertRef(SignupDto dto, ProcessDto pd) throws Exception {
 		
 		RefDto rd = new RefDto();
@@ -197,6 +263,36 @@ public class EAServiceImpl implements EAService {
 	}
 
 	@Override
+	public int reSignupAlv(DocsDto dto) {
+		dto.setAlvEnd(dto.getAlvStart());
+		
+		return dao.reSignupAlv(dto);
+	}
+
+	@Override
+	public int reSignupLv(DocsDto dto, String leavePeriod) {
+		
+		String[] leavePeriodSplit = leavePeriod.split(" - ");
+		String[] startSplit = leavePeriodSplit[0].split("/");
+		String[] endSplit = leavePeriodSplit[1].split("/");
+		
+		Date start = new Date();
+		start.setMonth(Integer.valueOf(startSplit[0]) - 1);
+		start.setDate(Integer.valueOf(startSplit[1]));
+		start.setYear(Integer.valueOf(startSplit[2]) - 1900);
+		
+		Date end = new Date();
+		end.setMonth(Integer.valueOf(endSplit[0]) - 1);
+		end.setDate(Integer.valueOf(endSplit[1]));
+		end.setYear(Integer.valueOf(endSplit[2]) - 1900);
+		
+		dto.setLvStart(start);
+		dto.setLvEnd(end);
+		
+		return dao.reSignupLv(dto);
+	}
+
+	@Override
 	public int reSignupUpdateProcess(String procNo) throws Exception {
 		return dao.reSignupUpdateProcess(procNo);
 	}
@@ -236,5 +332,24 @@ public class EAServiceImpl implements EAService {
 		return dao.updateDocumentSep(resultDto);
 	}
 
+	@Override
+	public CategoryDto selectCategoryLeave(SignupDto dto) {
+		return dao.selectCategoryLeave(dto);
+	}
+
+	@Override
+	public FormDto selectProcessLeave(SignupDto dto) {
+		return dao.selectProcessLeave(dto);
+	}
+
+	@Override
+	public int insertCategoryLeave(SignupDto dto) {
+		return dao.insertCategoryLeave(dto);
+	}
+
+	@Override
+	public int insertFormLeave(SignupDto dto) {
+		return dao.insertFormLeave(dto);
+	}
 
 }

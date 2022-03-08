@@ -23,10 +23,10 @@
     <div class="ea_signup_formselect_wrapper">
       <div class="ea_signup_formselect_title">
         <span>기안신청 (양식선택)</span>
-        <a href="${root}/ea/write_lvA" style="
+        <a href="/iag/ea/write_lvA" style="
         position: absolute;
         transform: translateX(300px); color: blue;">(임시)연차신청</a>
-        <a href="${root}/ea/write_lvB" style="
+        <a href="/iag/ea/write_lvB" style="
         position: absolute;
         transform: translateX(400px); color: red;">(임시)휴가신청</a>
       </div>
@@ -37,7 +37,9 @@
             <select name="categoryNo" size="15">
               <!-- 반복문으로 카테고리테이블에서 카테고리 가져 오기 -->
               <c:forEach items="${categoryValues}" var="cv">
-                <option value="${cv.categoryNo}" onclick="return seletedCategory(this);">${cv.categoryName}</option>
+                <c:if test="${cv.categoryNo ne 9999}">
+                  <option value="${cv.categoryNo}" onclick="return seletedCategory(this);">${cv.categoryName}</option>
+                </c:if>
               </c:forEach>
             </select>
           </div>

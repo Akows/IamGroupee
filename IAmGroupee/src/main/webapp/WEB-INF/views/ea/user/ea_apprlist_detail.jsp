@@ -111,12 +111,52 @@
                 </tr>
             </table>
         </div>
-        <!-- 문서 중앙 문서 내용 -->
-        <div id="docContents">
-            <!-- 텍스트 에디터 저장된 html 코드 -->
-            ${docInfo.docContent}
-            <!-- 텍스트 에디터 저장된 html 코드 -->
-        </div>
+        <c:if test="${docInfo.lvCheck eq null}">
+            <!-- 문서 중앙 문서 내용 -->
+            <div id="docContents">
+                <!-- 텍스트 에디터 저장된 html 코드 -->
+                ${docInfo.docContent}
+                <!-- 텍스트 에디터 저장된 html 코드 -->
+            </div>
+        </c:if>
+        <!-- 연차기안일때 -->
+        <c:if test="${docInfo.lvCheck eq 'A'}">
+            <div id="docContentsLv">
+                <table>
+                    <tr>
+                        <th>연차코드</th>
+                        <td>${docInfo.lvCode}</td>
+                    </tr>
+                    <tr>
+                        <th>사용날짜</th>
+                        <td>${docInfo.simpleStartDate}</td>
+                    </tr>
+                    <tr>
+                        <th>사유</th>
+                        <td>${docInfo.alvReason}</td>
+                    </tr>
+                </table>
+            </div>
+        </c:if>
+        <!-- 휴가기안일때 -->
+        <c:if test="${docInfo.lvCheck eq 'B'}">
+            <div id="docContentsLv">
+                <table>
+                    <tr>
+                        <th>휴가코드</th>
+                        <td>${docInfo.lvCode}</td>
+                    </tr>
+                    <tr>
+                        <th>사용기간</th>
+                        <td>${docInfo.simpleStartDate} - ${docInfo.simpleEndDate}</td>
+                    </tr>
+                    <tr>
+                        <th>사유</th>
+                        <td>${docInfo.lvReason}</td>
+                    </tr>
+                </table>
+            </div>
+        </c:if>
         <div>
             <a href="javascript:reuqestForm.submit()" onclick="return ea_appr_submit();">결재 진행</a>
             <a href="/iag/ea/apprlist">목록으로</a>

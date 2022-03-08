@@ -7,11 +7,13 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.iag.ea.entity.CategoryDto;
 import com.kh.iag.ea.entity.DeptDto;
 import com.kh.iag.ea.entity.DocsDto;
 import com.kh.iag.ea.entity.FormDto;
 import com.kh.iag.ea.entity.ProcessDto;
 import com.kh.iag.ea.entity.RefDto;
+import com.kh.iag.ea.entity.SignupDto;
 import com.kh.iag.ea.entity.EAUserDto;
 
 @Service
@@ -53,6 +55,16 @@ public class EADaoImpl implements EADao {
 	@Override
 	public int insertDocument(DocsDto dd) throws Exception {
 		return sqlSession.insert("ea.insertDocument", dd);
+	}
+
+	@Override
+	public int insertDocumentAlv(DocsDto dd) {
+		return sqlSession.insert("ea.insertDocumentAlv", dd);
+	}
+
+	@Override
+	public int insertDocumentLv(DocsDto dd) {
+		return sqlSession.insert("ea.insertDocumentLv", dd);
 	}
 
 	@Override
@@ -106,6 +118,16 @@ public class EADaoImpl implements EADao {
 	}
 
 	@Override
+	public int reSignupAlv(DocsDto dto) {
+		return sqlSession.update("ea.reSignupAlv", dto);
+	}
+
+	@Override
+	public int reSignupLv(DocsDto dto) {
+		return sqlSession.update("ea.reSignupLv", dto);
+	}
+
+	@Override
 	public int reSignupUpdateProcess(String procNo) throws Exception {
 		return sqlSession.update("ea.reSignupUpdateProcess", procNo);
 	}
@@ -143,6 +165,26 @@ public class EADaoImpl implements EADao {
 	@Override
 	public int updateDocumentSep(ProcessDto resultDto) {
 		return sqlSession.update("ea.updateDocumentSep", resultDto);
+	}
+
+	@Override
+	public CategoryDto selectCategoryLeave(SignupDto dto) {
+		return sqlSession.selectOne("ea.selectCategoryLeave", dto);
+	}
+
+	@Override
+	public FormDto selectProcessLeave(SignupDto dto) {
+		return sqlSession.selectOne("ea.selectProcessLeave", dto);
+	}
+
+	@Override
+	public int insertCategoryLeave(SignupDto dto) {
+		return sqlSession.insert("ea.insertCategoryLeave", dto);
+	}
+
+	@Override
+	public int insertFormLeave(SignupDto dto) {
+		return sqlSession.insert("ea.insertFormLeave", dto);
 	}
 
 
