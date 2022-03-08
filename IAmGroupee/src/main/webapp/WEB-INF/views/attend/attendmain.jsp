@@ -42,15 +42,25 @@
 		<hr>
 		
 		<form action="attendtempdateinsert" method="get">
-			<button type="submit" value="임시데이터삽입">button</button>
+			<button type="submit" value="임시데이터삽입">출퇴근테이블컬럼생성</button>
 		</form>
+
+		
+		<p class="stat-cards-info__title"> 
+			<c:forEach items="${preAtInfo}" var="preAtIn">
+		
+				어제 날짜 : ${preAtIn.attend_date}
+			
+			</c:forEach>
+		</p>
 
 		<div class="row stat-cards">
 		
-		 <c:forEach items="${atWTInfo}" var="modinfo">
+		 <c:forEach items="${atWTInfo}" var="wtinfo">
 
 			 <c:choose>
-			 	<c:when test="${modinfo.in_time eq '출근시간없음'}">
+			 
+			 	<c:when test="${wtinfo.in_time eq '00시 00분 00초'}">
 			 	
 			 		<div class="col-md-6 col-xl-3">
 						<article class="stat-cards-item">
@@ -65,9 +75,7 @@
 										    <p class="stat-cards-info__title">금일 출퇴근 상황</p>
 
 													<p class="stat-cards-info__title"> 
-													
-														<c:set target="${preAtInfo}" property="proAtinfo"/>
-														<c:out value="${proAtinfo.out_time}"></c:out>
+														전일 퇴근시각 : ${wtinfo.attend_date}
 													</p>
 
 	
@@ -96,8 +104,9 @@
 					
 			 	</c:when>
 			 	
-			 	<c:otherwise>
-			 		<div class="col-md-6 col-xl-3">
+			    <c:when test="${wtinfo.in_time ne '00시 00분 00초'}">
+			 	
+					<div class="col-md-6 col-xl-3">
 						<article class="stat-cards-item">
 					    	<div class="stat-cards-icon primary">
 					        	<i data-feather="bar-chart-2" aria-hidden="true"></i>
@@ -108,12 +117,10 @@
 							        	<td>
 								            <p class="stat-cards-info__num">춭퇴근 체크</p>
 										    <p class="stat-cards-info__title">금일 출퇴근 상황</p>
-	
-										    	<p class="stat-cards-info__title">출근시간 : ${modinfo.in_time}</p>
-	
+										    <p class="stat-cards-info__title">출근시간 : ${wtinfo.in_time}</p>
 										    <p class="stat-cards-info__progress">
-										    <span class="stat-cards-info__profit danger">
-										                    <i data-feather="trending-down" aria-hidden="true"></i>현재 근무중
+										    <span class="stat-cards-info__profit success">
+										    <i data-feather="trending-up" aria-hidden="true"></i>현재 근무중
 										    </span>
 										    </p>
 							            </td>
@@ -121,7 +128,7 @@
 							            	<hr>
 							            </td>
 							            <td>
-										    <form action="attendprocessin" method="post">
+										    <form action="attendprocessout" method="post">
 												<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="퇴근">
 										    </form>
 							            </td>
@@ -133,6 +140,11 @@
 					        </div>
 					    </article>
 					</div>
+					
+			 	</c:when>
+			 	
+			 	<c:otherwise>
+			 		
 			 	</c:otherwise>
 			 	
 			 </c:choose>
@@ -163,31 +175,60 @@
             </article>
           </div>
           
+          <c:forEach items="${atModInfo}" var="modInfo">
           
-          <div class="col-md-6 col-xl-3">
-            <article class="stat-cards-item">
-              <div class="stat-cards-icon purple">
-                <i data-feather="file" aria-hidden="true"></i>
-              </div>
-              <div class="stat-cards-info">
-                <p class="stat-cards-info__num">근태수정요청</p>
-                
-                <c:forEach items="${atModInfo}" var="modInfo">
-                	
-                	<p class="stat-cards-info__title">${modInfo.MODREQNUM}건</p>
-                	
-                </c:forEach>
-                
-                <p class="stat-cards-info__progress">
-                  <span class="stat-cards-info__profit danger">
-                    <i data-feather="trending-down" aria-hidden="true"></i>미처리됨
-                  </span>
-                  심사중
-                </p>
-                <hr>
-              </div>
-            </article>
-          </div>
+	          <c:choose>
+	          
+		          <c:when test="${modInfo.attend_mod_num eq 0}">
+		          	<div class="col-md-6 col-xl-3">
+			            <article class="stat-cards-item">
+			              <div class="stat-cards-icon purple">
+			                <i data-feather="file" aria-hidden="true"></i>
+			              </div>
+			              <div class="stat-cards-info">
+			                <p class="stat-cards-info__num">근태수정요청</p>
+			                <p class="stat-cards-info__title">승인되지 않은 수정요청</p>              
+			                <p class="stat-cards-info__title">0건</p>
+			                <p class="stat-cards-info__progress">
+			                  <span class="stat-cards-info__profit success">
+			                    <i data-feather="trending-up" aria-hidden="true"></i>이상없음
+			                  </span>
+			                </p>
+			                <hr>
+			              </div>
+			            </article>
+			          </div>	
+		          </c:when>
+		          
+		          <c:when test="${modInfo.attend_mod_num ne 0}">
+		          	<div class="col-md-6 col-xl-3">
+			            <article class="stat-cards-item">
+			              <div class="stat-cards-icon purple">
+			                <i data-feather="file" aria-hidden="true"></i>
+			              </div>
+			              <div class="stat-cards-info">
+			                <p class="stat-cards-info__num">근태수정요청</p>
+			                <p class="stat-cards-info__title">승인되지 않은 수정요청</p>              
+			                <p class="stat-cards-info__title">${modInfo.attend_mod_num}건</p>
+			                <p class="stat-cards-info__progress">
+			                  <span class="stat-cards-info__profit danger">
+			                    <i data-feather="trending-down" aria-hidden="true"></i>요청심사중
+			                  </span>
+			                </p>
+			                <hr>
+			              </div>
+			            </article>
+			          </div>
+		          </c:when>
+	          
+	          </c:choose>
+          
+		  </c:forEach>
+          
+
+
+
+
 
         </div>
         

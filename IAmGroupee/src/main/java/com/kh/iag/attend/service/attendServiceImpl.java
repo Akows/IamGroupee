@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.iag.attend.controller.AttendPageVo;
@@ -23,6 +24,7 @@ public class attendServiceImpl implements attendService
 	
 	//근태 메인페이지 임시데이터 삽입
 	@Override
+	@Transactional
 	public void attendtempdatainsert(AttendDTO attendDTO) throws Exception 
 	{
 		int no = attendDAO.getAttendSeq();
@@ -32,6 +34,7 @@ public class attendServiceImpl implements attendService
 	}
 
 	@Override
+	@Transactional
 	public void attendWTtempdatainsert(AttendWTDTO attendWTDTO) throws Exception 
 	{
 		attendDAO.attendWTtempdatainsert(attendWTDTO);
@@ -65,17 +68,17 @@ public class attendServiceImpl implements attendService
 	
 	//근태 출퇴근처리
 	@Override
-	public int attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception 
+	@Transactional
+	public void attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception 
 	{
 		int no = attendDAO.getAttendWtSeq();
 		attendWTDTO.setWorktime_num(no);
 		
-		int result = attendDAO.attendprocessIN(attendWTDTO);
-
-		return result;
+		attendDAO.attendprocessIN(attendWTDTO);
 	}
 
 	@Override
+	@Transactional
 	public void attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception 
 	{
 		attendDAO.attendprocessOUT(attendWTDTO, req);

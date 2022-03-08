@@ -77,28 +77,18 @@ public class AttendMainController
 	@PostMapping("attendprocessin")
 	public String attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception
 	{
-		int result = service.attendprocessIN(attendWTDTO, req);
+		service.attendprocessIN(attendWTDTO, req);
 		
-		if(result > 0) 
-		{
-			return "attend/attendmain";
-		}
-		else 
-		{
-			return "attend/attendmain";
-		}
+		return "redirect:/attend/attendmain";
+		
 	}
 	
 	@PostMapping("attendprocessout")
 	public String attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception
 	{
-		UserDto loginUser = (UserDto) req.getSession().getAttribute("loginUser");
-		String userno = loginUser.getUserNo();
-		attendWTDTO.setUser_no(userno);
-		
 		service.attendprocessOUT(attendWTDTO, req);
 		
-		return "attend/attendmain";
+		return "redirect:/attend/attendmain";
 	}
 }
 

@@ -7,6 +7,7 @@ public class AttendWTDTO
 {
 	private long worktime_num;
 	private String user_no;
+	private String attend_date;	
 	private String in_time;
 	private String out_time;
 	private String total_work_time;

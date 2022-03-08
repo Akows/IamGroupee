@@ -23,9 +23,8 @@ public interface attendService
 	List<AttendWTDTO> getAttendWTInfo(AttendWTDTO attendWTDTO) throws Exception;
 	
 	//근태 출퇴근처리
-	int attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
+	void attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
 	void attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
-	
 	
 	//근태 상태조회 - 근로상황 수정요청페이지
 	int attendModify(AttendModDTO attendmodDTO, HttpServletRequest req, MultipartFile file) throws Exception;

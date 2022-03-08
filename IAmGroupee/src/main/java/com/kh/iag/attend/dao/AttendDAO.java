@@ -24,7 +24,7 @@ public interface AttendDAO
 	
 	//근태 출퇴근
 	int getAttendWtSeq() throws Exception;
-	int attendprocessIN(AttendWTDTO attendWTDTO);
+	void attendprocessIN(AttendWTDTO attendWTDTO);
 	void attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req);
 
 	//근태 조회

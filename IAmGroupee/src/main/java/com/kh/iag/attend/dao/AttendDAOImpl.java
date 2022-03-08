@@ -70,9 +70,9 @@ public class AttendDAOImpl implements AttendDAO
 		return ss.selectOne("attend.getWTseq");
 	}
 	@Override
-	public int attendprocessIN(AttendWTDTO attendWTDTO) 
+	public void attendprocessIN(AttendWTDTO attendWTDTO) 
 	{
-		return ss.update("attend.attendprocessIN", attendWTDTO);	
+		ss.update("attend.attendprocessIN", attendWTDTO);	
 	}
 
 	@Override

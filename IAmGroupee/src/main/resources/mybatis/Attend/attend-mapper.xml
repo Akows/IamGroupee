@@ -64,8 +64,8 @@
 	  			#{user_no},
 	  			#{user_name},
 	  			SYSDATE,
-	  			'결근',	  			
-	  			'무단결근'
+	  			'근무정보없음',	  			
+	  			'근무정보없음'
 	  		)
 	  	</insert>
 
@@ -84,8 +84,8 @@
 	  			'0',
 	  			#{user_no},
 	  			SYSDATE,
-	  			'출근시간없음',
-	  			'퇴근시간없음',
+	  			'000000',
+	  			'000000',
 	  			'0'
 	  		)
 	  	</insert>
@@ -98,15 +98,15 @@
 			AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	 	</select>
 	 	
-	 	<select id="getPreAttendInfo" parameterType="attendance" resultType="attendance" resultMap="attendrm">
+	 	<select id="getPreAttendInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
 			SELECT *
-			FROM ATTENDANCE
+			FROM WORKTIME
 			WHERE USER_NO = #{user_no}
 			AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE - 1,'YYYYMMDD')
 	 	</select>
 	 	
 	  	<select id="getAttendModInfo" parameterType="attendancemod" resultType="attendancemod" resultMap="attendmodrm">
-			SELECT COUNT(*) AS MODREQNUM
+			SELECT COUNT(*) AS ATTEND_MOD_NUM
 			FROM ATTENDANCEMODIFY
 			WHERE USER_NO = #{user_no}
 			AND TO_CHAR(REQ_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
@@ -114,7 +114,7 @@
 	  	</select>
 	  	
 	  	<select id="getAttendWTInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
-			SELECT *
+			SELECT WORKTIME_NUM, USER_NO, ATTEND_DATE, REGEXP_REPLACE(IN_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS IN_TIME, REGEXP_REPLACE(OUT_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS OUT_TIME, TOTAL_WORK_TIME
 			FROM WORKTIME
 			WHERE USER_NO = #{user_no}
 			AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
@@ -152,14 +152,14 @@
 	   		SET 
 	   		WORKTIME_NUM = #{worktime_num},
 	   		IN_TIME = TO_CHAR(SYSDATE,'HH24MISS')
-	   		WHERE WORKTIME_NUM = 0;
+	   		WHERE WORKTIME_NUM = 0
 	  	</update>
 	
 	  	<update id="attendprocessOUT" parameterType="attendancewt">
 	   		UPDATE WORKTIME
 	   		SET 
 	   		OUT_TIME = TO_CHAR(SYSDATE,'HH24MISS')
-	   		WHERE WORKTIME_NUM = #{worktime_num};
+	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	  	</update>
   
   	
