@@ -55,6 +55,7 @@
        					<th>직무</th>
        					<th>입사일</th>
        					<th>상태</th>
+       					<th>퇴직상태</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -87,6 +88,12 @@
                       		</c:if>
                       		<c:if test="${user.activityYn eq 'N'}">
                       			<td>비활성화</td>
+                      		</c:if>
+                      		<c:if test="${empty user.endDate}">
+                      			<td>근무중</td>
+                      		</c:if>
+                      		<c:if test="${not empty user.endDate}">
+                      			<td>퇴직일/${user.endDateToString()}</td>
                       		</c:if>
                     	</tr>
                   	</c:forEach>
@@ -358,9 +365,9 @@
                     	<div class="col-sm-6">
                     		<div class="form-group">
                       			<label for="endDate">퇴직일</label>
-                    				<div class="input-group date" id="endDate" data-target-input="nearest">
-                        			<input type="text" name="endDateStr" id="endDate" class="form-control datetimepicker-input" data-target="#endDate" placeholder="dd/MM/yyyy"/>
-                        			<div class="input-group-append" data-target="#endDate" data-toggle="datetimepicker">
+                    				<div class="input-group date" id="endDateDiv" data-target-input="nearest">
+                        			<input type="text" name="endDateStr" id="endDate" class="form-control datetimepicker-input" data-target="#endDateDiv" placeholder="dd/MM/yyyy"/>
+                        			<div class="input-group-append" data-target="#endDateDiv" data-toggle="datetimepicker">
                             			<div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         				</div>
                     				</div>
@@ -371,7 +378,7 @@
                   <div class="row">
                   	<div class="col-sm-6 col-lg-8"></div>
                   	<div class="col-sm-3 col-lg-2">
-                  		<button type="submit" class="btn btn-block btn-primary" id="add">추가</button>
+                  		<button type="submit" class="btn btn-block btn-primary" id="add">수정</button>
                   	</div>
                   	<div class="col-sm-3 col-lg-2">
                   		<button type="button" class="btn btn-block btn-secondary"  data-dismiss="modal" id="cancle">닫기</button>
@@ -406,7 +413,17 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			var pwdCheck = true;
+			var idCheck =true;
+			var resiCheck =true;
+			var emailCheck =true;
+			var phoneCheck =true;
 			$(".userSelect").click(function(){
+				pwdCheck = true;
+				idCheck =true;
+				resiCheck =true;
+				emailCheck =true;
+				phoneCheck =true;
+				check = false;
 				$("#userNo").val('');
 				$("#name").val('');
 				$("#residentNo").val('');
@@ -439,9 +456,8 @@
 						var address = '${user.address}';
 						var enrollDate = '${user.enrollDateModi()}';
 						<c:if test="${user.endDate ne null}">
-							console.log("들어옴");
 							var endDate = '${user.endDateModi()}';
-							console.log(endDate);
+							check = true;
 						</c:if>
 						var activityYn = '${user.activityYn}';
 						var profile = '${user.profile}';
@@ -460,13 +476,9 @@
 				$("#phone").val(phone);
 				$("#email").val(email);
 				$("#enrollDate").val(enrollDate);
-				<c:if test="${user.endDate ne null}">
-
+				if(check){
 					$("#endDate").val(endDate);
-
-				</c:if>
-					
-
+				}
 				$("#address").val(address);
 				$("#userImg").attr("src", "${root}/resources/img/ps/profile/"+profile);
 				$("#departmentNo").val(departmentNo).prop("selected", true);
@@ -529,7 +541,7 @@
 			$('#reservationdate').datetimepicker({
 			     format: 'L'
 			});
-			$('#endDate').datetimepicker({
+			$('#endDateDiv').datetimepicker({
 			     format: 'L'
 			});
 			$("#pwdCheck").change(function(){
@@ -558,6 +570,54 @@
 					$("#pwdDup").text("비밀번호가 일치하지 않습니다.");
 					$("#pwdDup").css("color", "red");
 				}
+			});
+			$("#add").on("click", function(){
+				if(!(pwdCheck && idCheck && resiCheck && emailCheck && phoneCheck)){
+					alert("입력을 확인해주세요.");
+					return false;
+				}
+			});
+			var regex1= /^\d{2}([0]\d|[1][0-2])([0][1-9]|[1-2]\d|[3][0-1])[-]*[1-4]\d{6}/g;
+			var regex2= /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			var regex3= /^\d{2,3}-\d{3,4}-\d{4}$/;
+			$("#residentNo").change(function(){
+				if(!regex1.test($(this).val())){
+					resiCheck = false;
+					$("#resiEx").text("올바르지 않은 주민등록번호입니다.");
+					$("#resiEx").css("color", "red");
+				} else{
+					resiCheck = true;
+					$("#resiEx").text("올바른 주민등록번호입니다.");
+					$("#resiEx").css("color", "green");
+				}
+			});
+			$("#email").change(function(){
+				if(!regex2.test($(this).val())){
+					emailCheck = false;
+					$("#emailEx").text("올바르지 않은 이메일입니다.");
+					$("#emailEx").css("color", "red");
+				} else{
+					emailCheck = true;
+					$("#emailEx").text("올바른 이메일입니다.");
+					$("#emailEx").css("color", "green");
+				}
+			});
+			$("#phone").change(function(){
+				if(!regex3.test($(this).val())){
+					phoneCheck = false;
+					$("#phoneEx").text("올바르지 않은 전화번호입니다.");
+					$("#phoneEx").css("color", "red");
+				} else{
+					phoneCheck = true;
+					$("#phoneEx").text("올바른 전화번호입니다.");
+					$("#phoneEx").css("color", "green");
+				}
+			});
+			$("#residentNo").keyup(function(){
+				$(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(\d{6})(\d+)/g,"$1-$2").replace("--", "-") );
+			})
+			$("#phone").keyup(function() { 
+				$(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") ); 
 			});
 		});
 	</script>

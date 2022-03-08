@@ -125,6 +125,17 @@ public class personnelServiceImpl implements personnelService {
 		
 		return result;
 	}
+
+	@Override
+	public int getLastLevel(List<positionDto> posiList) throws Exception {
+		int lastLevel = 0;
+		for(positionDto posi : posiList) {
+			if(lastLevel < posi.getPositionLevel()) {
+				lastLevel = posi.getPositionLevel();
+			}
+		}
+		return lastLevel;
+	}
 	
 
 }

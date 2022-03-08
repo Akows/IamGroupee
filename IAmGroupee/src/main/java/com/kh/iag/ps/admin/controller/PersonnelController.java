@@ -55,13 +55,21 @@ public class PersonnelController {
 	
 //	부서 관리
 	@GetMapping("/deptmanage")
-	public String deptmanage(){
+	public String deptmanage(Model model) throws Exception{
+		List<departmentDto> deptList = service.deptList();
+		model.addAttribute("deptList", deptList);
 		return "ps/deptmanage";
 	}
 	
 //	직무/직위 관리
 	@GetMapping("/jobposimanage")
-	public String jobmanage(){
+	public String jobposimanage(Model model) throws Exception{
+		List<positionDto> posiList = service.posiList();
+		List<jobDto> jobList = service.jobList();
+		int lastLevel = service.getLastLevel(posiList);
+		model.addAttribute("posiList", posiList);
+		model.addAttribute("jobList", jobList);
+		model.addAttribute("lastLevel", lastLevel);
 		return "ps/jobposimanage";
 	}
 	
