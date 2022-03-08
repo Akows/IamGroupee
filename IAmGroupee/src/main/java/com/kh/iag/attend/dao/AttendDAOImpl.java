@@ -19,17 +19,16 @@ public class AttendDAOImpl implements AttendDAO
 	private SqlSession ss;
 	
 	//근태 메인페이지 임시데이터 삽입
-
 	@Override
 	public void attendtempdatainsert(AttendDTO attendDTO) 
 	{
 		ss.insert("attend.attendtempdatainsert", attendDTO);	
 	}
-
+	
 	@Override
-	public void attendMODtempdatainserty(AttendModDTO attendModDTO) 
+	public int getAttendSeq() throws Exception 
 	{
-		ss.insert("attend.attendMODtempdatainserty", attendModDTO);	
+		return ss.selectOne("attend.getATseq");
 	}
 
 	@Override
@@ -67,7 +66,7 @@ public class AttendDAOImpl implements AttendDAO
 	@Override
 	public int attendprocessIN(AttendWTDTO attendWTDTO) 
 	{
-		return ss.insert("attend.attendprocessIN", attendWTDTO);	
+		return ss.update("attend.attendprocessIN", attendWTDTO);	
 	}
 
 	@Override
@@ -133,6 +132,8 @@ public class AttendDAOImpl implements AttendDAO
 	{
 		return ss.update("attend.approveManageNone", attendModDTO);
 	}
+
+
 
 
 

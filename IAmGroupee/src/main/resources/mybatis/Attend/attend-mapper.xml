@@ -42,8 +42,8 @@
   <!-- 0000000000000000000000000000000000000000000000000000000000000000000 -->			
   
   <!-- 근태메인 -->
-  	   <!-- 임시데이터삽입 -->		
-  	    <select id="getATseq" resultType="int">
+  	   <!-- 임시데이터삽입 -->
+  	     <select id="getATseq" resultType="int">
 	 		SELECT SEQ_ATTENDANCE.NEXTVAL
 	 		FROM DUAL
 	  	</select>
@@ -60,7 +60,7 @@
 	  		)
 	  		VALUES
 	  		(
-	  			'0',
+	  			#{attend_num},
 	  			#{user_no},
 	  			'0',
 	  			SYSDATE,
@@ -68,30 +68,7 @@
 	  			'0'
 	  		)
 	  	</insert>
-	  	<insert id="attendMODtempdatainserty" parameterType="attendancemod">
-	  		INSERT INTO ATTENDANCEMODIFY
-	  		(
-			    ATTEND_MOD_NUM,
-			    USER_NO,
-			    USER_NAME,
-			    REQ_DATE,
-			    MOD_REASON,
-			    ATTACH_FILE,
-			    ATTACH_FILE_SIZE,
-			    APPROVE_STATE
-	  		)
-	  		VALUES
-	  		(
-	  			'0',
-	  			#{user_no},
-	  			'0',
-	  			SYSDATE,
-	  			'0',
-	  			'0',
-	  			'0',
-	  			'0'
-	  		)
-	  	</insert>
+
 	  	<insert id="attendWTtempdatainsert" parameterType="attendancewt">
 	  		INSERT INTO WORKTIME
 	  		(
@@ -125,19 +102,22 @@
 		SELECT *
 		FROM ATTENDANCE
 		WHERE USER_NO = #{user_no}
-		AND ATTEND_DATE = SYSDATE
+		AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	  </select>
 	  	
 	  <select id="getAttendModInfo" parameterType="attendancemod" resultType="attendancemod" resultMap="attendmodrm">
-		SELECT *
+		SELECT COUNT(*) AS MODREQNUM
 		FROM ATTENDANCEMODIFY
 		WHERE USER_NO = #{user_no}
+		AND TO_CHAR(REQ_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+		AND APPROVE_STATE != '승인됨'
 	  </select>
 	  	
 	  <select id="getAttendWTInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
 		SELECT *
 		FROM WORKTIME
 		WHERE USER_NO = #{user_no}
+		AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	  </select>
 	  	
 	  <select id="attendmainscreen">
@@ -154,27 +134,14 @@
 	 		SELECT SEQ_WORKTIME.NEXTVAL
 	 		FROM DUAL
 	  	</select>
-  
-  	  	<insert id="attendprocessIN" parameterType="attendancewt">
-	  		INSERT INTO WORKTIME
-	  		(
-			    WORKTIME_NUM,
-			    USER_NO,
-			    ATTEND_DATE,
-			    IN_TIME,
-			    OUT_TIME,
-			    TOTAL_WORK_TIME
-	  		)
-	  		VALUES
-	  		(
-	  			#{worktime_num},
-	  			#{user_no},
-	  			SYSDATE,
-	  			TO_CHAR(SYSDATE,'HH24MISS'),
-	  			'0',
-	  			'0'
-	  		)
-	  	</insert>
+
+  	  	<update id="attendprocessIN" parameterType="attendancewt">
+	   		UPDATE WORKTIME
+	   		SET 
+	   		WORKTIME_NUM = #{worktime_num},
+	   		IN_TIME = TO_CHAR(SYSDATE,'HH24MISS')
+	   		WHERE WORKTIME_NUM = #{worktime_num};
+	  	</update>
 	
 	  	<update id="attendprocessOUT" parameterType="attendancewt">
 	  		UPDATE ATTENDANCEMODIFY

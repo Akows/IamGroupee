@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.iag.attend.controller.AttendPageVo;
 import com.kh.iag.attend.entity.AttendDTO;
 import com.kh.iag.attend.entity.AttendModDTO;
 import com.kh.iag.attend.entity.AttendWTDTO;
@@ -15,7 +14,6 @@ public interface attendService
 {
 	//근태 메인페이지 임시데이터 삽입
 	void attendtempdatainsert(AttendDTO attendDTO) throws Exception;
-	void attendMODtempdatainserty(AttendModDTO attendModDTO) throws Exception;
 	void attendWTtempdatainsert(AttendWTDTO attendWTDTO) throws Exception;
 
 	//근태 메인페이지 정보 출력

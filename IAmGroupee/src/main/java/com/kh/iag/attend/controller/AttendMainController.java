@@ -39,16 +39,10 @@ public class AttendMainController
 		attendWTDTO.setUser_no(userno);
 		
 		service.attendtempdatainsert(attendDTO);
-		service.attendMODtempdatainserty(attendModDTO);
 		service.attendWTtempdatainsert(attendWTDTO);
 		
-		return "attend/attendmain";
+		return "redirect:/attend/attendmain";
 	}
-	
-	
-	
-	
-	
 	
 	@GetMapping("attendmain")
 	public String attendMain(Model model, HttpServletRequest req) throws Exception
@@ -65,27 +59,18 @@ public class AttendMainController
 		attendWTDTO.setUser_no(userno);
 
 		List<AttendDTO> attendList = service.getAttendInfo(attendDTO);
-		List<AttendModDTO> attendModList = service.getAttendModInfo(attendModDTO);
+		
+		List<AttendModDTO> attendModinfo = service.getAttendModInfo(attendModDTO);
+		
 		List<AttendWTDTO> attendWTList = service.getAttendWTInfo(attendWTDTO);
 		
 		model.addAttribute("atInfo", attendList);
-		model.addAttribute("atModInfo", attendModList);
+		model.addAttribute("atModInfo", attendModinfo);
 		model.addAttribute("atWTInfo", attendWTList);
 		
 		return "attend/attendmain";
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	@PostMapping("attendprocessin")
 	public String attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception
 	{
@@ -104,17 +89,6 @@ public class AttendMainController
 			return "attend/attendmain";
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	@PostMapping("attendprocessout")
 	public String attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception

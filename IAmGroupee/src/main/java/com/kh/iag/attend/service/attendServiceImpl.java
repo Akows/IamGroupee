@@ -25,13 +25,10 @@ public class attendServiceImpl implements attendService
 	@Override
 	public void attendtempdatainsert(AttendDTO attendDTO) throws Exception 
 	{
-		attendDAO.attendtempdatainsert(attendDTO);
-	}
+		int no = attendDAO.getAttendSeq();
+		attendDTO.setAttend_num(no);
 
-	@Override
-	public void attendMODtempdatainserty(AttendModDTO attendModDTO) throws Exception 
-	{
-		attendDAO.attendMODtempdatainserty(attendModDTO);
+		attendDAO.attendtempdatainsert(attendDTO);
 	}
 
 	@Override
@@ -65,7 +62,6 @@ public class attendServiceImpl implements attendService
 	public int attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception 
 	{
 		int no = attendDAO.getAttendWtSeq();
-
 		attendWTDTO.setWorktime_num(no);
 		
 		int result = attendDAO.attendprocessIN(attendWTDTO);

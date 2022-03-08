@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class AttendDTO 
 {
-	private String attend_num;
+	private long attend_num;
 	private String user_no;
 	private String user_name;
 	private String attend_date;

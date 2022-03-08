@@ -12,7 +12,8 @@ public interface AttendDAO
 {
 	//근태 메인페이지 임시데이터 삽입
 	void attendtempdatainsert(AttendDTO attendDTO);
-	void attendMODtempdatainserty(AttendModDTO attendModDTO);
+	int getAttendSeq() throws Exception;
+	
 	void attendWTtempdatainsert(AttendWTDTO attendWTDTO);
 	
 	//근태 메인
@@ -39,6 +40,7 @@ public interface AttendDAO
 	//수정요청 승인 혹은 거절
 	int approveManageOK(AttendModDTO attendModDTO) throws Exception;;
 	int approveManageNone(AttendModDTO attendModDTO) throws Exception;
+
 
 
 
