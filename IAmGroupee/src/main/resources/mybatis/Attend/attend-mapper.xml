@@ -92,10 +92,10 @@
   
   		<!-- 메인페이지 출력 정보 조회 -->
 	  	<select id="getAttendInfo" parameterType="attendance" resultType="attendance" resultMap="attendrm">
-			SELECT *
+			SELECT COUNT(ATTEND_NUM) AS "ATTEND_NUM"
 			FROM ATTENDANCE
 			WHERE USER_NO = #{user_no}
-			AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+			AND NORMAL_CHECK != '정상근무'
 	 	</select>
 	 	
 	 	<select id="getPreAttendInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">

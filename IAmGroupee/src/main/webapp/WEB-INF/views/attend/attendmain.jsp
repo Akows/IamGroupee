@@ -156,24 +156,55 @@
 		
 		
 
-
-          <div class="col-md-6 col-xl-3">
-            <article class="stat-cards-item">
-              <div class="stat-cards-icon warning">
-                <i data-feather="file" aria-hidden="true"></i>
-              </div>
-              <div class="stat-cards-info">
-                <p class="stat-cards-info__num">정상 근무일수</p>
-                <p class="stat-cards-info__title">dd</p>
-                <p class="stat-cards-info__progress">
-                  <span class="stat-cards-info__profit success">
-                    <i data-feather="trending-up" aria-hidden="true"></i>이상없음
-                  </span>
-                </p>
-                <hr>
-              </div>
-            </article>
-          </div>
+          <c:forEach items="${atInfo}" var="atInf">
+	          <c:choose>
+		          
+			          <c:when test="${atInf.attend_num eq 0}">
+				          <div class="col-md-6 col-xl-3">
+				            <article class="stat-cards-item">
+				              <div class="stat-cards-icon warning">
+				                <i data-feather="file" aria-hidden="true"></i>
+				              </div>
+				              <div class="stat-cards-info">
+				                <p class="stat-cards-info__num">비정상 근무일수</p>
+				                <p class="stat-cards-info__title">0일</p>
+				                <p class="stat-cards-info__progress">
+				                  <span class="stat-cards-info__profit success">
+				                    <i data-feather="trending-up" aria-hidden="true"></i>이상없음
+				                  </span>
+				                </p>
+				                <hr>
+				              </div>
+				            </article>
+				          </div>	
+			          </c:when>
+			          
+			          <c:when test="${atInf.attend_num ne 0}">
+				          <div class="col-md-6 col-xl-3">
+				            <article class="stat-cards-item">
+				              <div class="stat-cards-icon warning">
+				                <i data-feather="file" aria-hidden="true"></i>
+				              </div>
+				              <div class="stat-cards-info">
+				                <p class="stat-cards-info__num">비정상 근무일수</p>
+				                <p class="stat-cards-info__title">${atInf.attend_num}일</p>
+				                <p class="stat-cards-info__progress">
+				                  <span class="stat-cards-info__profit danger">
+				                    <i data-feather="trending-down" aria-hidden="true"></i>이상있음
+				                  </span>
+				                </p>
+				                <hr>
+				              </div>
+				            </article>
+				          </div>
+			          </c:when>
+		          
+		          </c:choose>
+          </c:forEach>
+          
+          
+          
+          
           
           <c:forEach items="${atModInfo}" var="modInfo">
           
@@ -235,29 +266,30 @@
         <hr>
         <br>
 
-        <div class="row stat-cards">
-        	<div class="col-md-9 col-xl-6">
-				<article class="stat-cards-item">
-			    	<div class="stat-cards-icon warning">
-			        	<i data-feather="file" aria-hidden="true"></i>
-			            </div>
-			            	<div class="stat-cards-info">
-				                <p class="stat-cards-info__num">이번달 근무상황</p>
-				                <p class="stat-cards-info__title">총 근무시간 : </p>
-				                <p class="stat-cards-info__progress">
-				                  <span class="stat-cards-info__profit success">
-				                    <i data-feather="trending-up" aria-hidden="true"></i>근무 시간 초과됨
-				                  </span>
-				                  1시간 30분
-				                </p>
-				                <hr>
-				                이 위치에 직선형 그래프 배치하면 좋을듯?
-			    			</div>
-				</article>
-        	</div>
-
-		</div> 
-
+        <c:forEach items="${atWTInfo}" var="wtInfo">
+	        <div class="row stat-cards">
+	        	<div class="col-md-9 col-xl-6">
+					<article class="stat-cards-item">
+				    	<div class="stat-cards-icon warning">
+				        	<i data-feather="file" aria-hidden="true"></i>
+				            </div>
+				            	<div class="stat-cards-info">
+					                <p class="stat-cards-info__num">이번달 근무상황</p>
+					                <p class="stat-cards-info__title">총 근무시간 : ${wtInfo.total_work_time}</p>
+					                <p class="stat-cards-info__progress">
+					                  <span class="stat-cards-info__profit success">
+					                    <i data-feather="trending-up" aria-hidden="true"></i>근무 시간 초과됨
+					                  </span>
+					                  1시간 30분
+					                </p>
+					                <hr>
+					                이 위치에 직선형 그래프 배치하면 좋을듯?
+				    			</div>
+					</article>
+	        	</div>
+			</div> 
+		</c:forEach>
+		
 	</div>
 </main>
 
