@@ -19,9 +19,6 @@
   
     <select id="getAllUserInfo" resultType="user">
     	SELECT * FROM IAG_USER IU
-    	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
-    	JOIN POSITION P ON (IU.POSITION_NO = P.POSITION_NO)
-    	JOIN JOB J ON (IU.JOB_NO = J.JOB_NO)
     </select>
   
     <select id="getAllUserAD" parameterType="hashmap" resultType="user">
@@ -63,7 +60,9 @@
     	JOIN USAGE_LV UL ON (L.LV_CODE = UL.LV_CODE)
     	JOIN IAG_USER IU ON (UL.USER_NO = IU.USER_NO)
     	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
-    	WHERE IU.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'ALV%' AND UL.LV_END BETWEEN TO_CHAR(ADD_MONTHS(SYSDATE, -12), 'yyyy-mm-dd') AND TO_CHAR(SYSDATE-1, 'yyyy-mm-dd') AND UL.USE_THIS_YEAR = 'Y'
+    	WHERE IU.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'ALV%' 
+    	AND UL.LV_END BETWEEN TO_CHAR(ADD_MONTHS(SYSDATE, -12), 'yyyy-mm-dd') 
+    	AND TO_CHAR(SYSDATE-1, 'yyyy-mm-dd') AND UL.USE_THIS_YEAR = 'Y'
     	ORDER BY UL.LV_END ASC
     </select>
   
@@ -292,16 +291,59 @@
     	WHERE USER_NO = #{userNo} AND
     	LV_END BETWEEN TO_DATE(ADD_MONTHS(TO_DATE(#{todayDate},'YY-MM-DD'), -12), 'YY-MM-DD') AND TO_DATE(#{todayDate}, 'YY-MM-DD')
     </update>
-    
-    <select id="checkOccuredAlvToday" resultType="int">
+   
+    <select id="checkOccuredAlvToday" parameterType="hashmap" resultType="int">
     	SELECT COUNT(*) FROM ALV_OCCUR_HISTORY
-    	WHERE USER_NO = #{userNo} AND ALV_OCCUR_DATE = TO_DATE(#{todayDate},'YY-MM-DD') AND LV_CODE = 'ALV_00'
+    	WHERE USER_NO = #{userNo} AND TO_CHAR(ALV_OCCUR_DATE, 'YY/MM/DD') = TO_CHAR(TO_DATE(#{todayDate}, 'YY/MM/DD'), 'YY/MM/DD') AND LV_CODE = 'ALV_00'
     </select>
     
+    <update id="createAlvCount" parameterType="hashmap">
+    	UPDATE IAG_USER SET
+    	ALV_COUNT = #{createAlvCount}
+    	WHERE USER_NO = #{userNo}
+    </update>
     
+    <insert id="addAlvHistory" parameterType="hashmap">
+    	INSERT INTO ALV_OCCUR_HISTORY
+    	VALUES
+    	(
+    		#{userNo},
+    		'ALV_00',
+    		#{createAlvCount},
+    		SYSDATE,
+    		'1년 이상 근로자 연차 발생'
+    	)
+    </insert>
+   
+    <select id="checkOccurMlvToday" parameterType="hashmap" resultType="int">
+    	SELECT COUNT(*) FROM ALV_OCCUR_HISTORY
+    	WHERE USER_NO = #{userNo} AND TO_CHAR(ALV_OCCUR_DATE, 'YY/MM/DD') = TO_CHAR(TO_DATE(#{todayDate}, 'YY/MM/DD'), 'YY/MM/DD') AND LV_CODE = 'ALV_04'
+    </select>
     
+    <select id="checkAttendAll" parameterType="hashmap" resultType="int">
+	  		SELECT COUNT(*) FROM ATTENDANCE
+		  	WHERE USER_NO = #{userNo} 
+		  	AND NORMAL_CHECK = 'Y'
+		  	AND ATTEND_DATE BETWEEN TO_DATE(ADD_MONTHS(TO_DATE(#{todayDate},'YY-MM-DD'), -1), 'YY-MM-DD') AND TO_DATE(#{todayDate}, 'YY-MM-DD')-1
+	</select>
     
+    <update id="addMlvCount" parameterType="string">
+    	UPDATE IAG_USER SET
+    	MLV_COUNT = MLV_COUNT + 1
+    	WHERE USER_NO = #{userNo}
+    </update>
     
+    <insert id="addMlvHistory" parameterType="string">
+    	INSERT INTO ALV_OCCUR_HISTORY
+    	VALUES
+    	(
+    		#{userNo},
+    		'ALV_04',
+    		1,
+    		SYSDATE,
+    		'이전달 개근에 의한 월차 발생'
+    	)
+    </insert>
     
     
     

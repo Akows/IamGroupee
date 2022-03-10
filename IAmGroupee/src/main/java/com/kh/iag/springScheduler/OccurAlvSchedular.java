@@ -26,9 +26,7 @@ public class OccurAlvSchedular {
 
 	@Autowired
 	private LeaveService service;
-	@Autowired
-	private SqlSession sqlSession;
-
+	
 	// 전체 사원목록 구하기
 	public List<UserDto> getAllUserInfo() throws Exception {
 
@@ -38,13 +36,14 @@ public class OccurAlvSchedular {
 	}
 
 
-	@Scheduled(cron = "0 5 0 * * *")
+//	@Scheduled(cron = "0 0 0 * * *")
+//	@Scheduled(fixedRate = 3000)
 	public void createAnnualLeave() throws Exception {
+
 		List<UserDto> allUserInfo = getAllUserInfo();
 		//		연차생성로직
 		for (UserDto userDto : allUserInfo) {
 			String userNo = userDto.getUserNo();
-
 //			============입사일 기준 연차 발생
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			Calendar today = Calendar.getInstance(); 
@@ -56,7 +55,7 @@ public class OccurAlvSchedular {
 			String todayMonth = todayDate.split("-")[1]; // 현재날짜의 월"MM"
 			String todayDay = todayDate.split("-")[2]; // 현재날짜의 일"dd"
 			String todayMonthDate = todayMonth + "-" + todayDay; // 현재날짜의 월일"MM-dd"
-
+			
 			// 입사일의 년월일
 			String enrollDate = String.valueOf(format.format(userDto.getEnrollDate()));// 입사 날짜"yyyy-MM-dd"
 			String enrollYear = enrollDate.split("-")[0]; // 입사연도"YYYY"
@@ -67,8 +66,7 @@ public class OccurAlvSchedular {
 			
 
 //==============연차발생로직 시작==============
-			String returnUrl = "";
-
+			
 //--------- 조건1. 현재날짜 - 입사일 ==> 1년 미만/이상
 			Date todayNow = new SimpleDateFormat("yyyy-MM-dd").parse(todayDate);
 			Date enroll = new SimpleDateFormat("yyyy-MM-dd").parse(enrollDate);
@@ -85,8 +83,6 @@ public class OccurAlvSchedular {
 			//일자수 차이
 			long diffDays = ((todayCal.getTimeInMillis() - enrollCal.getTimeInMillis()) / 1000) / (24*60*60);
 
-			System.out.println(diffYears + "연 차이");
-			System.out.println(diffDays + "일 차이");
 
 			switch (Long.valueOf(Optional.ofNullable(diffYears).orElse(0L)).intValue()) {
 			case 1: case 2: case 3:
@@ -135,35 +131,60 @@ public class OccurAlvSchedular {
 				
 //--------- 전년도 근속일수 80% 이상 -> 조건2 (연차)				
 				if (result >= (workingDaysOfYear/10)*8) {
+					
 			// 조건2. 연차조건
 					isValidate = conditionAlv(todayDate, todayMonthDate, enrollMonthDate, userNo, createAlvCount);
 					if (isValidate == 1) {
+						System.out.println("------");
+						System.out.println(userNo);
 						System.out.println("연차 생성 성공");
+						System.out.println("------");
 					} else if (isValidate == 0) {
-						System.out.println("근무연수 1년 이상 연차 생성 조건에 부합하지 않는다.");
+						System.out.println("------");
+						System.out.println(userNo);
+						System.out.println("근무연수 1년 이상 연차 생성 조건에 부합하지 않는다.139");
+						System.out.println("------");
 					}
 					
 //--------- 전년도 근속일수 80% 미만 -> 조건3 (월차)							
 				} else {
 			// 조건3. 월차조건
-					isValidate = conditionMlv(enrollMonthDate, todayMonthDate, todayDate, enrollDay, userNo, enMonth);;
+					isValidate = conditionMlv(enrollMonthDate, todayMonthDate, todayDate, enrollDay, userNo, enMonth, enrollDate);
 					if (isValidate == 1) {
+						System.out.println("------");
+						System.out.println(userNo);
 						System.out.println("월차 생성 성공");
+						System.out.println("------");
 					} else if (isValidate == 0) {
-						System.out.println("근무연수 1년 이상 월차 생성 조건에 부합하지 않는다.");
+						System.out.println("------");
+						System.out.println(userNo);
+						System.out.println("근무연수 1년 이상 월차 생성 조건에 부합하지 않는다.149");
+						System.out.println("------");
 					}
 				}
 				
 //========= 근무연수 1년 미만 -> 조건3 (월차)						
 			} else {
 			// 조건3. 월차조건
-				isValidate = conditionMlv(enrollMonthDate, todayMonthDate, todayDate, enrollDay, userNo, enMonth);
+				isValidate = conditionMlv(enrollMonthDate, todayMonthDate, todayDate, enrollDay, userNo, enMonth, enrollDate);
+				if (isValidate == 1) {
+					System.out.println("------");
+					System.out.println(userNo);
+					System.out.println("월차 생성 성공");
+					System.out.println("------");
+				} else if (isValidate == 0) {
+					System.out.println("------");
+					System.out.println(userNo);
+					System.out.println("근무연수 1년 미만 월차 생성 조건에 부합하지 않는다.160");
+					System.out.println("------");
+				}
 			}
 		}
 	}
 
 //== 조건2. 연차조건
 	public int conditionAlv(String todayDate, String todayMonthDate, String enrollMonthDate, String userNo, int createAlvCount) throws Exception {
+		int isValidate= 0;
 		// 오늘 발생한 연차가 있는지 (없어야한다)
 		int occurToday = service.checkOccuredAlvToday(userNo, todayDate);
 
@@ -172,25 +193,22 @@ public class OccurAlvSchedular {
 			resetAlvData(todayDate, userNo);
 			System.out.println("173리셋됨");
 			// 로그인 유저의 총월차개수 update +1 IAG_USER
-			int result1 = service.addAlvCount(userNo, createAlvCount);
+			int result1 = service.createAlvCount(userNo, createAlvCount);
 			// 로그인 유저의 연차발생 HISTORY
 			int result2 = service.addAlvHistory(userNo, createAlvCount);
 			
 			if (result1 > 0 && result2 > 0) {
-				return 1;
-			} 
+				isValidate = 1;
+			} else {
+				isValidate = 0;
+			}
 		} 
-			return 0;
+			return isValidate;
 	}
 
 //== 조건3. 월차조건	
-	public int conditionMlv(String enrollMonthDate,String todayMonthDate, String todayDate, String enrollDay, String userNo, int enMonth) throws Exception {
-//		오늘 월일이랑 입사월일이랑 같으면
-		if (todayMonthDate.equals(enrollMonthDate)) {
-			// 리셋
-			resetAlvData(todayDate, userNo);
-			System.out.println("192리셋됨");
-		}
+	public int conditionMlv(String enrollMonthDate,String todayMonthDate, String todayDate, String enrollDay, String userNo, int enMonth, String enrollDate) throws Exception {
+
 		
 		int isValidate = 0;
 
@@ -198,25 +216,25 @@ public class OccurAlvSchedular {
 		case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10:
 			for (int i = 1; i < 12 - enMonth; i++) {
 				String dueDate = AddDate("MM-dd",enrollMonthDate,0,i,0);
-				isValidate = checkMlvPossibility(dueDate, todayMonthDate, todayDate, userNo);
+				isValidate = checkMlvPossibility(dueDate, todayMonthDate, todayDate, userNo, enrollDate);
 			}
 			for (int i = enMonth - 1; i > 0; i--) {
 				String dueDate = AddDate("MM-dd",enrollMonthDate,0,-i,0);
-				isValidate = checkMlvPossibility(dueDate,todayMonthDate, todayDate, userNo);
+				isValidate = checkMlvPossibility(dueDate,todayMonthDate, todayDate, userNo, enrollDate);
 			}
 			break;
 			
 		case 1:
 			for (int i = 1; i < 12 - enMonth; i++) {
 				String dueDate = AddDate("MM-dd",enrollMonthDate,0,i,0);
-				isValidate = checkMlvPossibility(dueDate,todayMonthDate, todayDate, userNo);
+				isValidate = checkMlvPossibility(dueDate,todayMonthDate, todayDate, userNo, enrollDate);
 			}
 			break;
 			
 		case 2:
 			for (int i = 1; i < 12 - enMonth; i++) {
 				String dueDate = AddDate("MM-dd",enrollMonthDate,0,i,0);
-				isValidate = checkMlvPossibility(dueDate,todayMonthDate, todayDate, userNo);
+				isValidate = checkMlvPossibility(dueDate,todayMonthDate, todayDate, userNo, enrollDate);
 			}
 			if (todayMonthDate.equals("01" + "-" + enrollDay)) {
 				// 오늘 발생한 월차가 있는지 (없어야한다)
@@ -242,7 +260,7 @@ public class OccurAlvSchedular {
 		case 11:
 			for (int i = enMonth - 1; i > 0; i--) {
 				String dueDate = AddDate("MM-dd",enrollMonthDate,0,-i,0);
-				isValidate = checkMlvPossibility(dueDate,todayMonthDate, todayDate, userNo);
+				isValidate = checkMlvPossibility(dueDate,todayMonthDate, todayDate, userNo, enrollDate);
 			}
 			if (todayMonthDate.equals("12" + "-" + enrollDay)) {
 				// 오늘 발생한 월차가 있는지 (없어야한다)
@@ -268,7 +286,7 @@ public class OccurAlvSchedular {
 		case 12:
 			for (int i = enMonth - 1; i > 0; i--) {
 				String dueDate = AddDate("MM-dd",enrollMonthDate,0,-i,0);
-				isValidate = checkMlvPossibility(dueDate,todayMonthDate, todayDate, userNo);
+				isValidate = checkMlvPossibility(dueDate,todayMonthDate, todayDate, userNo, enrollDate);
 			}
 			break;
 		}
@@ -277,43 +295,56 @@ public class OccurAlvSchedular {
 
 	
 //  월차가 발생할 수 있는 조건인지 체크해주는 메소드
-	public int checkMlvPossibility(String dueDate, String todayMonthDate, String todayDate, String userNo) throws Exception {
+	public int checkMlvPossibility(String dueDate, String todayMonthDate, String todayDate, String userNo, String enrollDate) throws Exception {
 		int isValidate = 0;
-
-		if (todayMonthDate.equals(dueDate)) {
+		// 평일 수
+		if (todayMonthDate.equals(dueDate) && !todayDate.equals(enrollDate)) {
+			int workingDays = checkWorkingDays(AddDate("yyyy-MM-dd", todayDate, 0, -1, 0), AddDate("yyyy-MM-dd", todayDate, 0, 0, -1));
+			System.out.println("workingDays : " + workingDays);
+			// 리셋
+			resetAlvData(todayDate, userNo);
+			System.out.println("303리셋됨");
 			// 오늘 발생한 월차가 있는지 (없어야한다)
 			int occurToday = service.checkOccurMlvToday(userNo, todayDate);
-			// 이전 달에 개근을 했는지 (했어야한다) -- NORMAL_CHECK가 'N'인 컬럼의 수가 0이어야함
+			// 이전 달에 개근을 했는지 (했어야한다) -- NORMAL_CHECK가 'Y'인 컬럼의 수가 평일 수와 같아야한다
 			int attendAll = service.checkAttendAll(userNo, todayDate);
-			
-			if (occurToday == 0 && attendAll == 1) {
+			System.out.println("occurToday : " + occurToday + "//attendAll : " + attendAll);
+			if (occurToday == 0 && attendAll == workingDays) {
 				// 로그인 유저의 총월차개수 update +1 IAG_USER
 				int result1 = service.addMlvCount(userNo);
 				// 로그인 유저의 월차발생 HISTORY
 				int result2 = service.addMlvHistory(userNo);
 				
-				if (result1 > 0 && result2 > 0) {
+				if (result1 == 1 && result2 == 1) {
 					isValidate = 1;
 				}else {
 					isValidate = 0;
 				}
 			}
 		}
-		
+		System.out.println("월차생성 isValidate : " + isValidate);
 		return isValidate;
 	}
 	
 //	리셋할 데이터 3가지
-	public void resetAlvData(String todayDate, String userNo) throws Exception {
+	public int resetAlvData(String todayDate, String userNo) throws Exception {
+		
+		int result = 0;
 		
 		// 1. IAG_USER의 ALV_COUNT, MLV_COUNT,  ALV_USED_COUNT, ALV_LEFT_COUNT, ALV_ADD_COUNT 컬럼 0으로 리셋 (UPDATE)
-		service.resetIagUserAlv(userNo);
+		int con1 = service.resetIagUserAlv(userNo);
 		
 		// 2. ALV_OCCUR_HISTORY테이블에서 userNo의 데이터 리셋 리셋 (DELETE)
-		service.resetAlvHistory(userNo);
+		int con2 = service.resetAlvHistory(userNo);
 		
 		// 3. USAGE_LV테이블 THIS_YEAR컬럼 'N'으로 리셋 (UPDATE)
-		service.resetUsageLv(userNo, todayDate);
+		int con3 = service.resetUsageLv(userNo, todayDate);
+		
+		if(con1 == 1 && con2 == 1 && con3 == 1 ) {
+			result = 1;
+			return result;
+		}
+		return result;
 		
 	}
 

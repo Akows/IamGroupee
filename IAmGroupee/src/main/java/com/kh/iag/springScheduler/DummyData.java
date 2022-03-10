@@ -36,113 +36,82 @@ public class DummyData {
 
 		AttendDTO attendDTO = new AttendDTO();
 
-		//	=== 임시로직 === 사원의 근속일수 데이터 채우기 (근태 도메인 구현 완료 시 수정 및 삭제)
-
-		// 평일 수 구하기
-		// todayYear 현재 연도, enrollMonthDay 입사월일 =====> 파라미터로 넘길 거 lastDueDate 작년 업데이트일, thisDueDate 이번업데이트예정일
-		// todayYear 현재 연도, enrollMonthDay 입사월일 =====> 파라미터로 넘길 거 lastDueDay,  작년 업데이트일, thisDueDay 이번업데이트예정일
-
-		// =====Date to String=====	
-		// SimpleDateFormat format = new SimpleDateFormat("yyyy-M-d");
-		// Calendar today = Calendar.getInstance(); 
-		String todayDate = "2022-3-10"; // 오늘 날짜"yyyy-M-d"
-		String enrollDate1 = "2020-3-10";// 입사 날짜"yyyy-M-d"1년이상
-		String enrollDate2 = "2021-12-9";// 입사 날짜"yyyy-M-d"1년미만
-
 // ========연차========	
-		String todayYear = todayDate.substring(0,4); // 오늘 연도"yyyy"
-		String enrollMonthDay = enrollDate1.substring(5); // 입사 월일 "M-d"
-		int lastYear = Integer.parseInt(todayYear) - 1;
-		String lastDueDate = String.valueOf(lastYear) + "-" + enrollMonthDay; // 작년도 업데이트일 "yyyy-M-d"
-		String thisDueDate = todayYear + "-" + enrollMonthDay; // 이번년도 업데이트일 "yyyy-M-d"
-
 		// 평일 수
-		int workDayOfLastYear = checkWorkingDays(lastDueDate, thisDueDate);
+		int workDayOfLastYear = checkWorkingDays("2021-03-18", "2022-03-17");
+		System.out.println("workDayOfLastYear : " + workDayOfLastYear);
 
 // ========월차========	lastDueDay/thisDueDay"2021-12-9""yyyy-M-d"thisDueDate
-		String todayMonth = "";
-		String enrollDay = "";
-
-		// 입사일의 일
-		if (enrollDate2.length() == 9 && !enrollDate2.substring(7, 8).equals("-")) {
-			enrollDay = enrollDate2.substring(6); // 입사 일 "-d"
-		} else if (enrollDate2.length() == 9 && enrollDate2.substring(7, 8).equals("-")) {
-			enrollDay = enrollDate2.substring(7); // 입사 일 "-d"
-		} else if (enrollDate2.length() == 10 && enrollDate2.substring(7, 8).equals("-")) {
-			enrollDay = enrollDate2.substring(7); // 입사 일 "-d"
-		} else {
-			enrollDay = enrollDate2.substring(6); // 입사 일 "-d"
-		}
-		// 현재날짜의 월
-		if (todayDate.length() == 9 && !todayDate.substring(7, 8).equals("-")) {
-			todayMonth = todayDate.substring(5,6); // 오늘 월"M"
-		} else if (todayDate.length() == 9 && todayDate.substring(7, 8).equals("-")) {
-			todayMonth = todayDate.substring(5,7); // 오늘 월"M"
-		} else if (todayDate.length() == 10 && todayDate.substring(7, 8).equals("-")) {
-			todayMonth = todayDate.substring(5,7); // 오늘 월"M"
-		} else {
-			todayMonth = todayDate.substring(5,6); // 오늘 월"M"
-		}
-		int lastMonth = 0;
-
-		if(todayMonth.equals("1")){
-			lastMonth = 12;
-			lastYear = Integer.parseInt(todayYear) - 1;
-		} else{
-			lastMonth = Integer.parseInt(todayMonth) - 1;
-			lastYear = Integer.parseInt(todayYear);
-		}
-
-		String lastDueDay = String.valueOf(lastYear) + "-" + String.valueOf(lastMonth) + enrollDay; // 저번달 업데이트일 "yyyy-M-d"
-		String thisDueDay = String.valueOf(lastYear) + "-" + todayMonth + enrollDay; // 이번달 업데이트일 "yyyy-M-d"
-
 		// 평일 수
-		int workDayOfLastMonth = checkWorkingDays(lastDueDay, thisDueDay);
-		System.out.println("workDayOfLastMonth : " + workDayOfLastMonth);
+		int workDayOfLastMonth1 = checkWorkingDays("2022-03-18", "2022-04-17");
+		System.out.println("workDayOfLastMonth1 : " + workDayOfLastMonth1);
+		int workDayOfLastMonth2 = checkWorkingDays("2022-04-18", "2022-05-17");
+		System.out.println("workDayOfLastMonth2 : " + workDayOfLastMonth2);
 
 // ========연차========	
 		// 근속일수 80% 기준 개수
 		int workDay80PerOfYear = (workDayOfLastYear / 10) * 8;
 		System.out.println("workDay80PerOfYear : " + workDay80PerOfYear);
-
+		int count1 = 0;
+		int count2 = 0;
+		int count3 = 0;
+		int count4 = 0;
+		int count5 = 0;
 		// 전년도 근속일 수 80%이상
 		for(int i = 0; i < workDay80PerOfYear + 20; i++){
-			String strAttendDate = AddDate("yyyy-MM-dd", lastDueDate, 0, 0, i);
+			String strAttendDate = AddDate("yyyy-MM-dd", "2021-03-18", 0, 0, i);
 			attendDTO.setAttend_date(strAttendDate);
-			attendDTO.setUser_no("9999");
-			attendDTO.setUser_name("미뇽");
+			attendDTO.setUser_no("2222");
+			attendDTO.setUser_name("연차관리자");
 			sqlSession.insert("leave.attendtempInsert", attendDTO);
+			count1++;
 		}
-/**
+		System.out.println("count1 : " + count1);
 		// 전년도 근속일 수 80%미만
 		for(int i = 0; i < workDay80PerOfYear - 20; i++){
-			String strAttendDate = AddDate("yyyy-MM-dd", lastDueDate, 0, 0, i);
+			String strAttendDate = AddDate("yyyy-MM-dd", "2021-03-18", 0, 0, i);
 			attendDTO.setAttend_date(strAttendDate);
-			attendDTO.setUser_no("222");
-			attendDTO.setUser_name("1년이상80미만");
+			attendDTO.setUser_no("3333");
+			attendDTO.setUser_name("김다혜");
 			sqlSession.insert("leave.attendtempInsert", attendDTO);
+			count2++;
 		}
+		System.out.println("count2 : " + count2);
+
 
 // ========월차========	lastDueDay/thisDueDay
 
 		// 개근일 때
-		for(int i = 0; i < workDayOfLastMonth; i++){
-			String strAttendDate = AddDate("yyyy-MM-dd", lastDueDay, 0, 0, i);
+		for(int i = 0; i < workDayOfLastMonth1; i++){
+			String strAttendDate = AddDate("yyyy-MM-dd", "2022-03-18", 0, 0, i);
 			attendDTO.setAttend_date(strAttendDate);
-			attendDTO.setUser_no("22");
-			attendDTO.setUser_name("1년미만개근O");
+			attendDTO.setUser_no("3333");
+			attendDTO.setUser_name("김다혜");
 			sqlSession.insert("leave.attendtempInsert", attendDTO);
+			count3++;
 		}
+		System.out.println("count3 : " + count3);
 
 		// 개근아닐때
-		for(int i = 0; i < workDayOfLastMonth - 5; i++){
-			String strAttendDate = AddDate("yyyy-MM-dd", lastDueDay, 0, 0, i);
+		for(int i = 0; i < workDayOfLastMonth1 - 5; i++){
+			String strAttendDate = AddDate("yyyy-MM-dd", "2022-03-18", 0, 0, i);
 			attendDTO.setAttend_date(strAttendDate);
-			attendDTO.setUser_no("2");
-			attendDTO.setUser_name("1년미만개근X");
+			attendDTO.setUser_no("4444");
+			attendDTO.setUser_name("코코미뇽");
 			sqlSession.insert("leave.attendtempInsert", attendDTO);
+			count4++;
 		}
-**/
+		System.out.println("count4 : " + count4);
+		for(int i = 0; i < workDayOfLastMonth2; i++){
+			String strAttendDate = AddDate("yyyy-MM-dd", "2022-04-18", 0, 0, i);
+			attendDTO.setAttend_date(strAttendDate);
+			attendDTO.setUser_no("4444");
+			attendDTO.setUser_name("코코미뇽");
+			sqlSession.insert("leave.attendtempInsert", attendDTO);
+			count5++;
+		}
+		System.out.println("count5 : " + count5);
+		
 		System.out.println("실행됨");
 	}
 

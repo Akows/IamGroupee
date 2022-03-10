@@ -204,18 +204,32 @@ public class LeaveDaoImpl implements LeaveDao {
 	public int resetIagUserAlv(String userNo) throws Exception {
 		int result = 0;
 		int count = session.update("leave.resetIagUserAlv", userNo);
+		log.info(String.valueOf(count));
+		log.info(String.valueOf(userNo));
 
 		if (count>0) {
 			result = 1;
+		}else {
+			result = 0;
 		}
-		result = 0;
 		
 		return result;
 	}
 
 	@Override
 	public int resetAlvHistory(String userNo) throws Exception {
-		return session.delete("leave.resetAlvHistory", userNo);
+		int result = 0;
+		int count = session.delete("leave.resetAlvHistory", userNo);
+		log.info(String.valueOf(count));
+		log.info(String.valueOf(userNo));
+
+		if (count>0) {
+			result = 1;
+		}else {
+			result = 0;
+		}
+		
+		return result;
 	}
 
 	@Override
@@ -225,54 +239,91 @@ public class LeaveDaoImpl implements LeaveDao {
 		resetUsageLv.put("userNo", userNo);
 		resetUsageLv.put("todayDate", todayDate);
 		int count = session.update("leave.resetUsageLv", resetUsageLv);
+		log.info(String.valueOf(count));
+		log.info(String.valueOf(userNo));
 		
 		if (count>0) {
 			result = 1;
+		}else {
+			result = 0;
 		}
-		result = 0;
 		
 		return result;
 	}
 
-	//==========mapper작성하기
-	@Override  // =====다시=====
+	@Override
 	public int checkOccuredAlvToday(String userNo, String todayDate) throws Exception {
 		int result = 0;
 		Map<String, Object> checkOccuredAlvToday = new HashMap<String, Object>();
 		checkOccuredAlvToday.put("userNo", userNo);
 		checkOccuredAlvToday.put("todayDate", todayDate);
 		int count = session.selectOne("leave.checkOccuredAlvToday", checkOccuredAlvToday);
+		log.info(String.valueOf(count));
+		log.info(String.valueOf(userNo));
 
 		if (count>0) {
 			result = 1;
+		}else {
+			result = 0;
 		}
-		result = 0;
 		
 		return result;
 	}
 
 	@Override
-	public int addAlvCount(String userNo, int createAlvCount) throws Exception {
+	public int createAlvCount(String userNo, int createAlvCount) throws Exception {
+		int result = 0;
 		Map<String, Object> addAlvCount = new HashMap<String, Object>();
 		addAlvCount.put("userNo", userNo);
 		addAlvCount.put("createAlvCount", createAlvCount);
-		return 0;
+		int count = session.update("leave.createAlvCount", addAlvCount);
+		log.info(String.valueOf(count));
+		log.info(String.valueOf(userNo));
+		if (count>0) {
+			result = 1;
+		}else {
+			result = 0;
+		}
+		
+		return result;
 	}
 
 	@Override
 	public int addAlvHistory(String userNo, int createAlvCount) throws Exception {
+		int result = 0;
 		Map<String, Object> addAlvHistory = new HashMap<String, Object>();
 		addAlvHistory.put("userNo", userNo);
 		addAlvHistory.put("createAlvCount", createAlvCount);
-		return 0;
+		int count = session.insert("leave.addAlvHistory", addAlvHistory);
+		log.info(String.valueOf(count));
+		log.info(String.valueOf(userNo));
+
+		if (count>0) {
+			result = 1;
+		}else {
+			result = 0;
+		}
+		
+		return result;
 	}
 
 	@Override
 	public int checkOccurMlvToday(String userNo, String todayDate) throws Exception {
+		int result = 0;
 		Map<String, Object> checkOccurMlvToday = new HashMap<String, Object>();
 		checkOccurMlvToday.put("userNo", userNo);
 		checkOccurMlvToday.put("todayDate", todayDate);
-		return 0;
+		int count = session.selectOne("leave.checkOccurMlvToday", checkOccurMlvToday);
+		log.info(String.valueOf(count));
+		log.info(String.valueOf(userNo));
+
+		if (count>0) {
+			result = 1;
+		}else {
+			result = 0;
+		}
+		
+		return result;
 	}
 
 	@Override
@@ -280,17 +331,42 @@ public class LeaveDaoImpl implements LeaveDao {
 		Map<String, Object> checkAttendAll = new HashMap<String, Object>();
 		checkAttendAll.put("userNo", userNo);
 		checkAttendAll.put("todayDate", todayDate);
-		return 0;
+		int result = session.selectOne("leave.checkAttendAll", checkAttendAll);
+		log.info(String.valueOf(userNo));
+
+		return result;
 	}
 
 	@Override
 	public int addMlvCount(String userNo) throws Exception {
-		return 0;
+		int result = 0;
+		int count = session.update("leave.addMlvCount", userNo);
+		log.info(String.valueOf(count));
+		log.info(String.valueOf(userNo));
+
+		if (count>0) {
+			result = 1;
+		}else {
+			result = 0;
+		}
+		
+		return result;
 	}
 
 	@Override
 	public int addMlvHistory(String userNo) throws Exception {
-		return 0;
+		int result = 0;
+		int count = session.insert("leave.addMlvHistory", userNo);
+		log.info(String.valueOf(count));
+		log.info(String.valueOf(userNo));
+
+		if (count>0) {
+			result = 1;
+		}else {
+			result = 0;
+		}
+		
+		return result;
 	}	
 	
 }

@@ -71,15 +71,15 @@ public interface LeaveService {
 
 	int checkOverEighty(String userNo, String start, String end) throws Exception;
 
-	void resetIagUserAlv(String userNo) throws Exception;
+	int resetIagUserAlv(String userNo) throws Exception;
 
-	void resetAlvHistory(String userNo) throws Exception;
+	int resetAlvHistory(String userNo) throws Exception;
 
-	void resetUsageLv(String userNo, String todayDate) throws Exception;
+	int resetUsageLv(String userNo, String todayDate) throws Exception;
 
 	int checkOccuredAlvToday(String userNo, String todayDate) throws Exception;
 
-	int addAlvCount(String userNo, int createAlvCount) throws Exception;
+	int createAlvCount(String userNo, int createAlvCount) throws Exception;
 
 	int addAlvHistory(String userNo, int createAlvCount) throws Exception;
 
