@@ -31,7 +31,7 @@
   				, #{detail}
   				, #{activateYn}
   				, DEFAULT
-  				, SYSDATE
+  				, CURRENT_DATE	
   				, DEFAULT
   			)
   		</insert>
@@ -51,7 +51,7 @@
   				, #{detail}
   				, #{activateYn}
   				, DEFAULT
-  				, SYSDATE
+  				, CURRENT_DATE	
   				, DEFAULT
   			)
   		</insert>
@@ -70,7 +70,7 @@
 	  				, ACTIVATE_YN = #{activateYn}
   				</if>
   					, RESERVED = #{reserved}
-  					, MOD_DATE = SYSDATE	
+  					, MOD_DATE = CURRENT_DATE		
   			WHERE ROOM_NO = #{roomNo}	
   		</update>
   		
@@ -90,7 +90,7 @@
   				<if test="reserved != null and reserved != '' ">
   					, RESERVED = #{reserved}
   				</if>
-  					, MOD_DATE = SYSDATE	
+  					, MOD_DATE = CURRENT_DATE	
   			WHERE ASSET_NO = #{assetNo}	
   		</update>
   		
@@ -109,47 +109,34 @@
   		</update>
   		
   		<!-- 내예약페이지 -->
-  		<select id="getRoomResvList" resultType="resv">
-  			SELECT 
-				  R.RESV_NO
-				, R.USER_NO 
-				, M.ROOM_NO
-				, M.ROOM_NAME
-				, A.ASSET_NO
-				, A.ASSET_NAME
-				, TO_CHAR(R.RESV_START, 'YYYY-MM-DD"T"HH24:MI:SS') RESV_START
-				, TO_CHAR(R.RESV_END, 'YYYY-MM-DD"T"HH24:MI:SS') RESV_END
-				, R.PERIOD
-				, R.CREATE_DATE
-				, R.MOD_DATE
-				, R.RETURN_YN
-				, R.DELETE_YN
-			FROM RESERVATION R
-			LEFT OUTER JOIN ASSET A ON (R.ASSET_NO = A.ASSET_NO)
-			LEFT OUTER JOIN MEETING_ROOM M ON (R.ROOM_NO = M.ROOM_NO)
-			WHERE R.USER_NO = #{userNo}
-			AND R.DELETE_YN = 'N'
+  		<select id="getMyResvList" resultType="resv">
+  			SELECT * FROM (	
+ 				SELECT ROWNUM RN, MY.*
+ 				FROM(
+	  			SELECT 
+					  R.RESV_NO
+					, R.USER_NO 
+					, M.ROOM_NO
+					, M.ROOM_NAME
+					, A.ASSET_NO
+					, A.ASSET_NAME
+					, TO_CHAR(R.RESV_START, 'YYYY-MM-DD"T"HH24:MI:SS')
+					, TO_CHAR(R.RESV_END, 'YYYY-MM-DD"T"HH24:MI:SS')
+					, R.RESV_START
+					, R.RESV_END
+					, R.CREATE_DATE
+					, R.MOD_DATE
+					, R.RETURN_YN
+					, R.DELETE_YN
+				FROM RESERVATION R
+				LEFT OUTER JOIN ASSET A ON (R.ASSET_NO = A.ASSET_NO)
+				LEFT OUTER JOIN MEETING_ROOM M ON (R.ROOM_NO = M.ROOM_NO)
+				WHERE R.USER_NO = #{userNo} AND R.DELETE_YN = 'N'
+				ORDER BY R.RESV_START DESC
+				) MY
+  			) WHERE RN BETWEEN #{vo.startRow} AND #{vo.endRow}
   		</select>
-  		
-  		<select id="getAssetResvList" resultType="resv">
-  			SELECT 
-  				  R.RESV_NO
-				, R.USER_NO 
-				, R.ASSET_NO
-				, A.ASSET_NAME
-				, TO_CHAR(R.RESV_START, 'YYYY-MM-DD"T"HH24:MI:SS') RESV_START
-				, TO_CHAR(R.RESV_END, 'YYYY-MM-DD"T"HH24:MI:SS') RESV_END
-				, R.PERIOD
-				, R.CREATE_DATE
-				, R.MOD_DATE
-				, R.RETURN_YN
-				, R.DELETE_YN
-  			FROM RESERVATION R
-  			JOIN ASSET A ON (A.ASSET_NO = R.ASSET_NO)
-  			WHERE R.USER_NO = #{userNo}
-  			AND R.DELETE_YN = 'N'
-  		</select>
-  		
+  	
   		<select id="getAllRoomResvList" resultType="resv">
   			SELECT 
 				  R.RESV_NO
@@ -190,16 +177,16 @@
 	  				  RESV_NO
 	  				, USER_NO
 	  				, ROOM_NO
+	  				, CREATE_DATE
 	  				, RESV_START
 					, RESV_END
-					, PERIOD
 	  			)VALUES(
 	  				  SEQ_RESERVATION.NEXTVAL
 	  				, #{userNo}
 		  			, #{roomNo}
+		  			, CURRENT_DATE
 	  				, TO_DATE(#{resvStart}, 'YYYY-MM-DD HH24:MI')
 	  				, TO_DATE(#{resvEnd}, 'YYYY-MM-DD HH24:MI')
-	  				, #{period}
 	  			)
   			</if>
   			<if test="assetNo != null and assetNo != '' ">
@@ -207,21 +194,56 @@
 	  				  RESV_NO
 	  				, USER_NO
 	  				, ASSET_NO
+	  				, CREATE_DATE
 	  				, RESV_START
 					, RESV_END
-					, PERIOD
 	  			)VALUES(
 	  				  SEQ_RESERVATION.NEXTVAL
 	  				, #{userNo}
 		  			, #{assetNo}
+		  			, CURRENT_DATE
 		  			, TO_DATE(#{resvStart}, 'YYYY-MM-DD HH24:MI:SS')
 	  				, TO_DATE(#{resvEnd}, 'YYYY-MM-DD HH24:MI:SS')
-	  				, #{period}
 	  			)
   			</if>
   		</insert>
   		
+  		<update id="modResv">
+  			UPDATE RESERVATION
+  			SET
+  			  RESV_START = TO_DATE(#{resvStart}, 'YYYY-MM-DD HH24:MI:SS')
+  			, RESV_END = TO_DATE(#{resvEnd}, 'YYYY-MM-DD HH24:MI:SS')
+  			, MOD_DATE = CURRENT_DATE
+  			WHERE RESV_NO = #{resvNo}
+  			AND RETURN_YN = 'N'
+  		</update>
   		
+  		<update id="deleteResv">
+  			UPDATE RESERVATION
+  			SET 
+  			DELETE_YN = 'Y'
+ 			WHERE RESV_NO IN 
+ 			<foreach collection="array" item="n" open="(" close=")" separator=",">
+ 			#{n}</foreach>
+  		</update>
+  		
+  		<update id="returnResv">
+  			UPDATE RESERVATION
+  			SET
+  				  RETURN_YN = 'Y'
+  				, RESV_END = CURRENT_DATE
+ 			WHERE RESV_NO IN
+ 			<foreach collection="array" item="n" open="(" close=")" separator=",">
+				#{n} 
+			</foreach>
+  		</update>
+  		
+  		<select id="getResvCnt" resultType="int">
+  			SELECT COUNT(*)
+  			FROM RESERVATION
+  			WHERE DELETE_YN = 'N'
+  			AND USER_NO = #{userNo}
+  		</select>
   		
   		
   </mapper>

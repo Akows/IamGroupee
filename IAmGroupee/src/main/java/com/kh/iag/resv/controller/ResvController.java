@@ -1,21 +1,31 @@
 package com.kh.iag.resv.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.iag.resv.entity.PageVo;
 import com.kh.iag.resv.entity.ResvDto;
 import com.kh.iag.resv.service.ResvService;
 import com.kh.iag.user.entity.UserDto;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("resv")
 public class ResvController {
@@ -24,36 +34,55 @@ public class ResvController {
 	private ResvService service;
 	
 	//내예약페이지
-	@GetMapping("resvMain")
-	public String resvMain(HttpSession session, Model model) throws Exception {
+	@GetMapping(value = {"/resvMain/{page}", "resvMain"})
+	public String resvMain(HttpSession session, Model model, @PathVariable(required = false) String page) throws Exception {
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
 		String userNo = loginUser.getUserNo();
 		
-		List<ResvDto> roomResvList = service.getRoomResvList(userNo);
-		List<ResvDto> assetResvList = service.getAssetResvList(userNo);
+		//페이징
+		if(page == null) {
+			return "redirect:resvMain/1";
+		}
+		
+		int cntPerPage = 5; //한 페이지당 5개씩 보여주기
+		int pageBtnCnt = 3;  //한번에 보여줄 페이지버튼 갯수
+		int totalRow = service.getResvCnt(userNo);   //DB 에 있는 모든 row 갯수
+		PageVo vo = new PageVo(page, cntPerPage, pageBtnCnt, totalRow);
+
+		//내 예약현황
+		List<ResvDto> myResvList = service.getMyResvList(userNo, vo);
+		
+		if (myResvList != null) {
+			for (ResvDto r : myResvList) {
+				r.setPeriod(r.getResvStart() + " ~ " + r.getResvEnd());
+			}
+			model.addAttribute("myResvList", myResvList);
+			model.addAttribute("page", vo);
+		}
+		
+		//신청폼 option
 		List<ResvDto> roomList = service.getRoomList();
 		List<ResvDto> assetList = service.getAssetList();
-		List<ResvDto> allRoomResv = service.getAllRoomResvList();
-		List<ResvDto> allAssetResv = service.getAllAssetResvList();
-		
-		model.addAttribute("allRoomResv", allRoomResv);
-		model.addAttribute("allAssetResv", allAssetResv);
 		model.addAttribute("roomList", roomList);
 		model.addAttribute("assetList", assetList);
 		
-		if (roomResvList != null) {
-			model.addAttribute("roomResvList", roomResvList);
+		//캘린더에 표시될 전체 예약현황
+		List<ResvDto> allRoomResvList = service.getAllRoomResvList();
+		List<ResvDto> allAssetResvList = service.getAllAssetResvList();
+		if(allRoomResvList != null) {
+			model.addAttribute("allRoomResvList", allRoomResvList);
 		}
-		if (assetResvList != null) {
-			model.addAttribute("assetResvList", assetResvList);
+		if(allAssetResvList != null) {
+			model.addAttribute("allAssetResvList", allAssetResvList);
+			
 		}
 		
 		return "resv/resvMain";
 	}
 	
 	//예약신청
-	@PostMapping("resvMain")
-	public String insertResv(Model model, ResvDto dto) throws Exception {
+	@RequestMapping(value="resvMain", method = RequestMethod.POST)
+	public String insertResv(ResvDto dto, HttpServletRequest req) throws Exception {
 
 		String[] parts = dto.getPeriod().split("~");
 		String start = parts[0]; 
@@ -61,33 +90,66 @@ public class ResvController {
     
 		dto.setResvStart(start);
 		dto.setResvEnd(end);
-		System.out.println("insert dto ::::" + dto);
-		
 		int result = service.insertResv(dto);
-
+		
 		return "redirect:/resv/resvMain";
 	}
 	
 	//예약수정
-	@PostMapping("mod")
-	@ResponseBody
-	public String modResv() {
-		return "mod";
+	@PostMapping(value="mod")
+	public String modResv(ResvDto dto, @RequestParam("no")String no, @RequestParam("period")String period) throws Exception {
+		
+		System.out.println(no);
+		System.out.println(period);
+		
+		String[] parts = period.split("~");
+		String start = parts[0]; 
+		String end = parts[1];
+		
+		dto.setResvStart(start);
+		dto.setResvEnd(end);
+		dto.setResvNo(Integer.parseInt(no));
+		
+		System.out.println("after:::" + dto);
+
+		int result = service.modResv(dto);
+		
+		return "redirect:/resv/resvMain";
+		
 	}
 	
 	//예약반납
 	@PostMapping("return")
 	@ResponseBody
-	public String returnResv() {
-		return "return";
+	public String returnResv(String str) throws Exception {
+		int result = service.returnResv(str);
+		System.out.println(str);
+		
+		log.warn("return column : {}", result);
+		
+		if(result == str.length()/2) {
+			return "ok";
+		}else {
+			return "fail_" + result;
+		}
 	}
 	
 	
 	//예약삭제
 	@PostMapping("delete")
 	@ResponseBody
-	public String deleteResv() {
-		return "delete";
+	public String deleteResv(String str) throws Exception {
+		int result = service.deleteResv(str);
+		
+		//삭제된 컬럼 수 
+		log.warn("delete column : {}", result);
+		
+		if(result == str.length()/2) {
+			return "ok";
+		}else {
+			return "fail_" + result;
+		}
+		
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////
@@ -100,5 +162,4 @@ public class ResvController {
 		return "resv/resvAsset";
 	}
 
-	
 }
