@@ -298,7 +298,6 @@
 	        request.done(function( data ) {
 	            console.log(data);
 	            close_pop();
-	           /*  $('.abc').load(location.href+' .abc'); */
 	            window.location.reload();
 	        });
 	 

@@ -69,7 +69,29 @@ public interface LeaveDao {
 
 	List<UserDto> getAllUserInfo() throws Exception;
 
-	int Test(String date) throws Exception;
+//	int Test(String date) throws Exception;
+
+	int checkOverEighty(String userNo, String start, String end) throws Exception;
+
+	int resetIagUserAlv(String userNo) throws Exception;
+
+	int resetAlvHistory(String userNo) throws Exception;
+
+	int resetUsageLv(String userNo, String todayDate) throws Exception;
+
+	int checkOccuredAlvToday(String userNo, String todayDate) throws Exception;
+
+	int addAlvCount(String userNo, int createAlvCount) throws Exception;
+
+	int addAlvHistory(String userNo, int createAlvCount) throws Exception;
+
+	int checkOccurMlvToday(String userNo, String todayDate) throws Exception;
+
+	int checkAttendAll(String userNo, String todayDate) throws Exception;
+
+	int addMlvCount(String userNo) throws Exception;
+
+	int addMlvHistory(String userNo) throws Exception;
 
 
 }

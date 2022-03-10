@@ -69,4 +69,26 @@ public interface LeaveService {
 
 	List<UserDto> getAllUserInfo() throws Exception;
 
+	int checkOverEighty(String userNo, String start, String end) throws Exception;
+
+	void resetIagUserAlv(String userNo) throws Exception;
+
+	void resetAlvHistory(String userNo) throws Exception;
+
+	void resetUsageLv(String userNo, String todayDate) throws Exception;
+
+	int checkOccuredAlvToday(String userNo, String todayDate) throws Exception;
+
+	int addAlvCount(String userNo, int createAlvCount) throws Exception;
+
+	int addAlvHistory(String userNo, int createAlvCount) throws Exception;
+
+	int checkOccurMlvToday(String userNo, String todayDate) throws Exception;
+
+	int checkAttendAll(String userNo, String todayDate) throws Exception;
+
+	int addMlvCount(String userNo) throws Exception;
+
+	int addMlvHistory(String userNo) throws Exception;
+	
 }
