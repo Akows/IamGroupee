@@ -1,5 +1,6 @@
 package com.kh.iag.attend.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -62,10 +63,6 @@ public class AttendMainController
 		List<AttendDTO> attendList = service.getAttendInfo(attendDTO);
 		List<AttendModDTO> attendModinfo = service.getAttendModInfo(attendModDTO);
 		List<AttendWTDTO> attendWTList = service.getAttendWTInfo(attendWTDTO);
-		
-		List<AttendDTO> preAttendList = service.getPreAttendInfo(attendDTO);
-		
-		model.addAttribute("preAtInfo", preAttendList);
 		
 		model.addAttribute("atInfo", attendList);
 		model.addAttribute("atModInfo", attendModinfo);

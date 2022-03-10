@@ -79,6 +79,7 @@ public class AttendDAOImpl implements AttendDAO
 	public void attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) 
 	{
 		ss.update("attend.attendprocessOUT", attendWTDTO);
+		ss.update("attend.attendprocessOUTAttend", attendWTDTO);
 	}
 	
 	

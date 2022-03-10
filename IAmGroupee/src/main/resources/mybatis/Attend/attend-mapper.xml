@@ -34,6 +34,7 @@
 			<result property="user_no" column="USER_NO"/>
 			<result property="in_time" column="IN_TIME"/>
 			<result property="out_time" column="OUT_TIME"/>
+			<result property="workcheck" column="WORKCHECK"/>
 			<result property="total_work_time" column="TOTAL_WORK_TIME"/>
 		</resultMap>
 		
@@ -77,6 +78,7 @@
 			    ATTEND_DATE,
 			    IN_TIME,
 			    OUT_TIME,
+			    WORKCHECK,
 			    TOTAL_WORK_TIME
 	  		)
 	  		VALUES
@@ -86,6 +88,7 @@
 	  			SYSDATE,
 	  			'000000',
 	  			'000000',
+	  			'퇴근',
 	  			'0'
 	  		)
 	  	</insert>
@@ -114,7 +117,7 @@
 	  	</select>
 	  	
 	  	<select id="getAttendWTInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
-			SELECT WORKTIME_NUM, USER_NO, ATTEND_DATE, REGEXP_REPLACE(IN_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS IN_TIME, REGEXP_REPLACE(OUT_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS OUT_TIME, TOTAL_WORK_TIME
+			SELECT WORKTIME_NUM, USER_NO, ATTEND_DATE, REGEXP_REPLACE(IN_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS IN_TIME, REGEXP_REPLACE(OUT_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS OUT_TIME, WORKCHECK, TOTAL_WORK_TIME
 			FROM WORKTIME
 			WHERE USER_NO = #{user_no}
 			AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
@@ -151,14 +154,24 @@
 	   		UPDATE WORKTIME
 	   		SET 
 	   		WORKTIME_NUM = #{worktime_num},
-	   		IN_TIME = TO_CHAR(SYSDATE,'HH24MISS')
+	   		IN_TIME = TO_CHAR(SYSDATE,'HH24MISS'),
+	   		WORKCHECK = '출근'
 	   		WHERE WORKTIME_NUM = 0
 	  	</update>
 	
 	  	<update id="attendprocessOUT" parameterType="attendancewt">
 	   		UPDATE WORKTIME
 	   		SET 
-	   		OUT_TIME = TO_CHAR(SYSDATE,'HH24MISS')
+	   		OUT_TIME = TO_CHAR(SYSDATE,'HH24MISS'),
+	   		WORKCHECK = '퇴근'
+	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	  	</update>
+	  	
+	  	<update id="attendprocessOUTAttend" parameterType="attendancewt">
+	   		UPDATE ATTENDANCE
+	   		SET 
+	   		NORMAL_CHECK = '정상근무',
+	   		IRREGULAR_REASON = '이상없음'
 	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	  	</update>
   

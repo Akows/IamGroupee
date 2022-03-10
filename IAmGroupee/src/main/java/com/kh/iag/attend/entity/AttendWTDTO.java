@@ -10,5 +10,6 @@ public class AttendWTDTO
 	private String attend_date;	
 	private String in_time;
 	private String out_time;
+	private String workcheck;
 	private String total_work_time;
 }

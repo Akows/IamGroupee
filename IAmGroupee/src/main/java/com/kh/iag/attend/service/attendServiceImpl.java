@@ -145,6 +145,18 @@ public class attendServiceImpl implements attendService
 		return attendDAO.approveManageNone(attendModDTO);
 	}
 
+	@Override
+	public List<AttendWTDTO> getAllAttendINfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AttendWTDTO> getAllAttendWTInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 }

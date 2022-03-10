@@ -42,17 +42,8 @@
 		<hr>
 		
 		<form action="attendtempdateinsert" method="get">
-			<button type="submit" value="임시데이터삽입">출퇴근테이블컬럼생성</button>
+			<button type="submit" value="임시데이터삽입">근태테이블생성</button>
 		</form>
-
-		
-		<p class="stat-cards-info__title"> 
-			<c:forEach items="${preAtInfo}" var="preAtIn">
-		
-				어제 날짜 : ${preAtIn.attend_date}
-			
-			</c:forEach>
-		</p>
 
 		<div class="row stat-cards">
 		
@@ -60,7 +51,51 @@
 
 			 <c:choose>
 			 
-			 	<c:when test="${wtinfo.in_time eq '00시 00분 00초'}">
+			 	<c:when test="${empty wtinfo}">
+			 	
+			 		<div class="col-md-6 col-xl-3">
+						<article class="stat-cards-item">
+					    	<div class="stat-cards-icon primary">
+					        	<i data-feather="bar-chart-2" aria-hidden="true"></i>
+					        </div>
+					        <div class="stat-cards-info">
+						    	<table>
+									<tr>
+							        	<td>
+								            <p class="stat-cards-info__num">춭퇴근 체크</p>
+										    <p class="stat-cards-info__title">금일 출퇴근 상황</p>
+
+													<p class="stat-cards-info__title"> 
+														근태정보존재하지않음
+													</p>
+
+	
+										    <p class="stat-cards-info__progress">
+										    <span class="stat-cards-info__profit danger">
+										    	<i data-feather="trending-down" aria-hidden="true"></i>근태정보없음
+										    </span>
+										    </p>
+							            </td>
+							            <td>
+							            	<hr>
+							            </td>
+							            <td>
+										    <form action="attendprocessin" method="post">
+												<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="출근">
+										    </form>
+							            </td>
+							        </tr>
+								</table>
+								
+					            <hr>
+					                
+					        </div>
+					    </article>
+					</div>
+					
+			 	</c:when>
+			 
+			 	<c:when test="${wtinfo.workcheck == '퇴근'}">
 			 	
 			 		<div class="col-md-6 col-xl-3">
 						<article class="stat-cards-item">
@@ -104,7 +139,7 @@
 					
 			 	</c:when>
 			 	
-			    <c:when test="${wtinfo.in_time ne '00시 00분 00초'}">
+			    <c:when test="${wtinfo.workcheck == '출근'}">
 			 	
 					<div class="col-md-6 col-xl-3">
 						<article class="stat-cards-item">
@@ -144,7 +179,40 @@
 			 	</c:when>
 			 	
 			 	<c:otherwise>
-			 		
+			 	
+			 		<div class="col-md-6 col-xl-3">
+						<article class="stat-cards-item">
+					    	<div class="stat-cards-icon primary">
+					        	<i data-feather="bar-chart-2" aria-hidden="true"></i>
+					        </div>
+					        <div class="stat-cards-info">
+						    	<table>
+									<tr>
+							        	<td>
+								            <p class="stat-cards-info__num">UI 출력 이상 발생</p>
+										    <p class="stat-cards-info__title">View 출력에 이상이 발생함</p>
+										    <p class="stat-cards-info__title">코드 확인바람</p>
+										    <p class="stat-cards-info__progress">
+										    <span class="stat-cards-info__profit success">
+										    <i data-feather="trending-up" aria-hidden="true"></i>이상발생
+										    </span>
+										    </p>
+							            </td>
+							            <td>
+							            	<hr>
+							            </td>
+							            <td>
+											
+							            </td>
+							        </tr>
+								</table>
+								
+					            <hr>
+					                
+					        </div>
+					    </article>
+					</div>
+					
 			 	</c:otherwise>
 			 	
 			 </c:choose>
@@ -175,6 +243,8 @@
 				                </p>
 				                <hr>
 				              </div>
+							  <input type="button" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="근태현황조회" onclick="location.href='#toattendstate'">
+				              <a id="toattendstate" href="attend/attendstate"></a>
 				            </article>
 				          </div>	
 			          </c:when>
@@ -195,6 +265,8 @@
 				                </p>
 				                <hr>
 				              </div>
+				              <input type="button" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="근태현황조회" onclick="location.href='#toattendstate'">
+				              <a id="toattendstate" href="attend/attendstate"></a>
 				            </article>
 				          </div>
 			          </c:when>
@@ -267,6 +339,7 @@
         <br>
 
         <c:forEach items="${atWTInfo}" var="wtInfo">
+        
 	        <div class="row stat-cards">
 	        	<div class="col-md-9 col-xl-6">
 					<article class="stat-cards-item">
@@ -288,6 +361,7 @@
 					</article>
 	        	</div>
 			</div> 
+			
 		</c:forEach>
 		
 	</div>
