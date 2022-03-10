@@ -14,6 +14,7 @@ import com.kh.iag.ea.entity.FormDto;
 import com.kh.iag.ea.entity.ProcessDto;
 import com.kh.iag.ea.entity.RefDto;
 import com.kh.iag.ea.entity.SignupDto;
+import com.kh.iag.ps.admin.entity.departmentDto;
 import com.kh.iag.ea.entity.EAUserDto;
 
 @Service
@@ -58,12 +59,12 @@ public class EADaoImpl implements EADao {
 	}
 
 	@Override
-	public int insertDocumentAlv(DocsDto dd) {
+	public int insertDocumentAlv(DocsDto dd) throws Exception {
 		return sqlSession.insert("ea.insertDocumentAlv", dd);
 	}
 
 	@Override
-	public int insertDocumentLv(DocsDto dd) {
+	public int insertDocumentLv(DocsDto dd) throws Exception {
 		return sqlSession.insert("ea.insertDocumentLv", dd);
 	}
 
@@ -78,7 +79,7 @@ public class EADaoImpl implements EADao {
 	}
 
 	@Override
-	public DocsDto selectRejectedDocument(ProcessDto pd) {
+	public DocsDto selectRejectedDocument(ProcessDto pd) throws Exception {
 		return sqlSession.selectOne("ea.selectRejectedDocument", pd);
 	}
 	
@@ -118,12 +119,12 @@ public class EADaoImpl implements EADao {
 	}
 
 	@Override
-	public int reSignupAlv(DocsDto dto) {
+	public int reSignupAlv(DocsDto dto) throws Exception {
 		return sqlSession.update("ea.reSignupAlv", dto);
 	}
 
 	@Override
-	public int reSignupLv(DocsDto dto) {
+	public int reSignupLv(DocsDto dto) throws Exception {
 		return sqlSession.update("ea.reSignupLv", dto);
 	}
 
@@ -153,38 +154,88 @@ public class EADaoImpl implements EADao {
 	}
 
 	@Override
-	public int updateProcessState(ProcessDto dto) {
+	public int updateProcessState(ProcessDto dto) throws Exception {
 		return sqlSession.update("ea.updateProcessState", dto);
 	}
 
 	@Override
-	public ProcessDto checkingLastProcess(ProcessDto dto) {
+	public ProcessDto checkingLastProcess(ProcessDto dto) throws Exception {
 		return sqlSession.selectOne("ea.checkingLastProcess", dto);
 	}
 
 	@Override
-	public int updateDocumentSep(ProcessDto resultDto) {
+	public int updateDocumentSep(ProcessDto resultDto) throws Exception {
 		return sqlSession.update("ea.updateDocumentSep", resultDto);
 	}
 
 	@Override
-	public CategoryDto selectCategoryLeave(SignupDto dto) {
+	public CategoryDto selectCategoryLeave(SignupDto dto) throws Exception {
 		return sqlSession.selectOne("ea.selectCategoryLeave", dto);
 	}
 
 	@Override
-	public FormDto selectProcessLeave(SignupDto dto) {
+	public FormDto selectProcessLeave(SignupDto dto) throws Exception {
 		return sqlSession.selectOne("ea.selectProcessLeave", dto);
 	}
 
 	@Override
-	public int insertCategoryLeave(SignupDto dto) {
+	public int insertCategoryLeave(SignupDto dto) throws Exception {
 		return sqlSession.insert("ea.insertCategoryLeave", dto);
 	}
 
 	@Override
-	public int insertFormLeave(SignupDto dto) {
+	public int insertFormLeave(SignupDto dto) throws Exception {
 		return sqlSession.insert("ea.insertFormLeave", dto);
+	}
+
+	@Override
+	public int getRefListCnt(String userNo) throws Exception {
+		return sqlSession.selectOne("ea.getRefListCnt", userNo);
+	}
+
+	@Override
+	public List<DocsDto> refList(HashMap<String, String> map) throws Exception {
+		return sqlSession.selectList("ea.refList",map);
+	}
+
+	@Override
+	public List<ProcessDto> processListRef(String userNo) throws Exception {
+		return sqlSession.selectList("ea.processListRef", userNo);
+	}
+
+	@Override
+	public List<DocsDto> selectRelatedDocs(String userNo) throws Exception {
+		return sqlSession.selectList("ea.selectRelatedDocs", userNo);
+	}
+
+	@Override
+	public int selectSecA() throws Exception {
+		return sqlSession.selectOne("ea.selectSecA");
+	}
+
+	@Override
+	public int selectSecB() throws Exception {
+		return sqlSession.selectOne("ea.selectSecB");
+	}
+
+	@Override
+	public List<DocsDto> selectNotRelatedDocs(String userNo) throws Exception {
+		return sqlSession.selectList("ea.selectNotRelatedDocs", userNo);
+	}
+
+	@Override
+	public List<departmentDto> departmentList() throws Exception {
+		return sqlSession.selectList("ea.departmentList");
+	}
+
+	@Override
+	public DocsDto selectDocumentEntire(ProcessDto pd) throws Exception {
+		return sqlSession.selectOne("ea.selectDocumentEntire", pd);
+	}
+
+	@Override
+	public List<DocsDto> signupListForFilter(String userNo) {
+		return sqlSession.selectList("ea.signupListForFilter", userNo);
 	}
 
 

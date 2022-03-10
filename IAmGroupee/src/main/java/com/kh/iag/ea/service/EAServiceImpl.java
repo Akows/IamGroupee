@@ -21,6 +21,7 @@ import com.kh.iag.ea.entity.ProcessDto;
 import com.kh.iag.ea.entity.RefDto;
 import com.kh.iag.ea.entity.SettingsDto;
 import com.kh.iag.ea.entity.SignupDto;
+import com.kh.iag.ps.admin.entity.departmentDto;
 import com.kh.iag.user.entity.UserDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -139,7 +140,7 @@ public class EAServiceImpl implements EAService {
 	}
 
 	@Override
-	public int insertDocumentAlv(SignupDto dto, ProcessDto pd) {
+	public int insertDocumentAlv(SignupDto dto, ProcessDto pd) throws Exception {
 		
 		DocsDto dd = new DocsDto();
 		dd.setDocNo(pd.getDocNo());
@@ -162,7 +163,7 @@ public class EAServiceImpl implements EAService {
 	}
 
 	@Override
-	public int insertDocumentLv(String leavePeriod, SignupDto dto, ProcessDto pd) {
+	public int insertDocumentLv(String leavePeriod, SignupDto dto, ProcessDto pd) throws Exception {
 		
 		DocsDto dd = new DocsDto();
 		dd.setDocNo(pd.getDocNo());
@@ -222,7 +223,7 @@ public class EAServiceImpl implements EAService {
 	}
 
 	@Override
-	public DocsDto selectRejectedDocument(ProcessDto pd) {
+	public DocsDto selectRejectedDocument(ProcessDto pd) throws Exception {
 		return dao.selectRejectedDocument(pd);
 	}
 	
@@ -263,14 +264,14 @@ public class EAServiceImpl implements EAService {
 	}
 
 	@Override
-	public int reSignupAlv(DocsDto dto) {
+	public int reSignupAlv(DocsDto dto) throws Exception {
 		dto.setAlvEnd(dto.getAlvStart());
 		
 		return dao.reSignupAlv(dto);
 	}
 
 	@Override
-	public int reSignupLv(DocsDto dto, String leavePeriod) {
+	public int reSignupLv(DocsDto dto, String leavePeriod) throws Exception {
 		
 		String[] leavePeriodSplit = leavePeriod.split(" - ");
 		String[] startSplit = leavePeriodSplit[0].split("/");
@@ -318,38 +319,88 @@ public class EAServiceImpl implements EAService {
 	}
 
 	@Override
-	public int updateProcessState(ProcessDto dto) {
+	public int updateProcessState(ProcessDto dto) throws Exception {
 		return dao.updateProcessState(dto);
 	}
 
 	@Override
-	public ProcessDto checkingLastProcess(ProcessDto dto) {
+	public ProcessDto checkingLastProcess(ProcessDto dto) throws Exception {
 		return dao.checkingLastProcess(dto);
 	}
 
 	@Override
-	public int updateDocumentSep(ProcessDto resultDto) {
+	public int updateDocumentSep(ProcessDto resultDto) throws Exception {
 		return dao.updateDocumentSep(resultDto);
 	}
 
 	@Override
-	public CategoryDto selectCategoryLeave(SignupDto dto) {
+	public CategoryDto selectCategoryLeave(SignupDto dto) throws Exception {
 		return dao.selectCategoryLeave(dto);
 	}
 
 	@Override
-	public FormDto selectProcessLeave(SignupDto dto) {
+	public FormDto selectProcessLeave(SignupDto dto) throws Exception {
 		return dao.selectProcessLeave(dto);
 	}
 
 	@Override
-	public int insertCategoryLeave(SignupDto dto) {
+	public int insertCategoryLeave(SignupDto dto) throws Exception {
 		return dao.insertCategoryLeave(dto);
 	}
 
 	@Override
-	public int insertFormLeave(SignupDto dto) {
+	public int insertFormLeave(SignupDto dto) throws Exception {
 		return dao.insertFormLeave(dto);
+	}
+
+	@Override
+	public int getRefListCnt(String userNo) throws Exception {
+		return dao.getRefListCnt(userNo);
+	}
+
+	@Override
+	public List<DocsDto> refList(HashMap<String, String> map) throws Exception {
+		return dao.refList(map);
+	}
+
+	@Override
+	public List<ProcessDto> processListRef(String userNo) throws Exception {
+		return dao.processListRef(userNo);
+	}
+
+	@Override
+	public List<DocsDto> selectRelatedDocs(String userNo) throws Exception {
+		return dao.selectRelatedDocs(userNo);
+	}
+
+	@Override
+	public int selectSecA() throws Exception {
+		return dao.selectSecA();
+	}
+
+	@Override
+	public int selectSecB() throws Exception {
+		return dao.selectSecB();
+	}
+
+	@Override
+	public List<DocsDto> selectNotRelatedDocs(String userNo) throws Exception {
+		return dao.selectNotRelatedDocs(userNo);
+	}
+
+	@Override
+	public List<departmentDto> departmentList() throws Exception {
+		return dao.departmentList();
+	}
+
+	@Override
+	public DocsDto selectDocumentEntire(ProcessDto pd) throws Exception {
+		return dao.selectDocumentEntire(pd);
+	}
+
+	@Override
+	public List<DocsDto> signupListForFilter(String userNo) {
+		return dao.signupListForFilter(userNo);
 	}
 
 }

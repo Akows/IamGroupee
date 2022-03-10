@@ -73,16 +73,16 @@
           <tbody>
             <!-- for-each -->
             <form action="${root}/ea/reflist/detail" method="POST" name="requestForm">
-              <c:forEach items="${signupList}" var="sl">
+              <c:forEach items="${refList}" var="rl">
                 <tr id="listContents">
-                  <td>${sl.docNo}</td>
-                  <td>${sl.formTitle}</td>
-                  <td><a href="javascript:requestForm.submit()" class="ea_title">${sl.docTitle}</a></td>
-                  <td>${sl.simpleMakeDate}</td>
-                  <td>${sl.simpleCloseDate}</td>
+                  <td>${rl.docNo}</td>
+                  <td>${rl.formTitle}</td>
+                  <td><a href="javascript:requestForm.submit()" class="ea_title">${rl.docTitle}</a></td>
+                  <td>${rl.simpleMakeDate}</td>
+                  <td>${rl.simpleCloseDate}</td>
                   
                   <c:forEach items="${processList}" var="pl" varStatus="vs">
-                    <c:if test="${sl.docNo eq pl.docNo}">
+                    <c:if test="${rl.docNo eq pl.docNo}">
                       <c:if test="${pl.procSeq eq 2}">
                       <td>반려</td>
                       </c:if>
@@ -93,7 +93,7 @@
                   </c:forEach>
 
                   <c:forEach items="${processList}" var="pl" varStatus="vs">
-                    <c:if test="${sl.docNo eq pl.docNo}">
+                    <c:if test="${rl.docNo eq pl.docNo}">
                       <!-- 그냥... 오버플로우 히든으로 가리자... -->
                       <c:if test="${pl.procSeq ne 2 || pl.procSeq ne 3}">
                         <td>결재대기</td>

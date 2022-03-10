@@ -10,18 +10,18 @@
   box-sizing: border-box;
 }
 /* 전자결재 > 기안문서조회 (리스트) */
-.ea_signuplist_wrapper {
+.ea_entirelist_wrapper {
   width: 90%;
   position: absolute;
   left: 50%;
   transform: translate(-50%);
 }
-.ea_signuplist_title {
+.ea_entirelist_title {
   height: 65px;
   width: 100%;
   position: relative;
 }
-.ea_signuplist_title > span {
+.ea_entirelist_title > span {
   background: #4081e4;
   color: #fff;
   padding: 10px;
@@ -32,7 +32,7 @@
   position: absolute;
   bottom: 0;
 }
-.ea_signuplist_list_contents {
+.ea_entirelist_list_contents {
   width: 100%;
   border: 3px solid gainsboro;
   border-radius: 10px;
@@ -40,7 +40,7 @@
   position: relative;
   float: left;
 }
-.ea_signuplist_list_contents > table {
+.ea_entirelist_list_contents > table {
   width: 98%;
   margin: auto;
   margin-top: 10px;
@@ -48,44 +48,44 @@
   text-align: center;
   border: 1px solid gainsboro;
 }
-.ea_signuplist_list_contents > table > thead > tr {
+.ea_entirelist_list_contents > table > thead > tr {
   height: 40px;
   color: #fff;
   background: #0343a3;
 }
-.ea_signuplist_list_contents > table > thead > tr > th:nth-child(1) {
+.ea_entirelist_list_contents > table > thead > tr > th:nth-child(1) {
   width: 20%;
 }
-.ea_signuplist_list_contents > table > thead > tr > th:nth-child(2) {
+.ea_entirelist_list_contents > table > thead > tr > th:nth-child(2) {
   width: 10%;
 }
-.ea_signuplist_list_contents > table > thead > tr > th:nth-child(4) {
+.ea_entirelist_list_contents > table > thead > tr > th:nth-child(4) {
   width: 10%;
 }
-.ea_signuplist_list_contents > table > thead > tr > th:nth-child(5) {
+.ea_entirelist_list_contents > table > thead > tr > th:nth-child(5) {
   width: 10%;
 }
-.ea_signuplist_list_contents > table > thead > tr > th:nth-child(6) {
+.ea_entirelist_list_contents > table > thead > tr > th:nth-child(6) {
   width: 10%;
 }
-.ea_signuplist_list_contents > table > tbody > tr {
+.ea_entirelist_list_contents > table > tbody > tr {
   height: 30px;
   font-size: 12px;
 }
-.ea_signuplist_list_contents > table > tbody > tr > td {
+.ea_entirelist_list_contents > table > tbody > tr > td {
   border-bottom: 1px solid gainsboro;
 }
-.ea_signuplist_list_contents > table > tbody > tr:hover {
+.ea_entirelist_list_contents > table > tbody > tr:hover {
   background: #89b0eb;
   color: #fff;
 }
-.ea_signuplist_list_contents > table > thead > tr > th {
+.ea_entirelist_list_contents > table > thead > tr > th {
   position: relative;
 }
-.ea_signuplist_list_contents > table > thead > tr > th > span {
+.ea_entirelist_list_contents > table > thead > tr > th > span {
   cursor: pointer;
 }
-.ea_signuplist_list_contents > table > thead > tr > th > ul {
+.ea_entirelist_list_contents > table > thead > tr > th > ul {
   display: none;
   position: absolute;
   color: #262626;
@@ -93,17 +93,17 @@
   width: 100%;
   top: 100%;
 }
-.ea_signuplist_list_contents > table > thead > tr > th > ul > li {
+.ea_entirelist_list_contents > table > thead > tr > th > ul > li {
   font-size: 14px;
   padding: 5px;
   font-weight: lighter;
   background: aliceblue;
   border: 1px solid gainsboro;
 }
-.ea_signuplist_list_contents > table > thead > tr > th > ul > li > form > a {
+.ea_entirelist_list_contents > table > thead > tr > th > ul > li > form > a {
   display: block;
 }
-.ea_signuplist_list_contents
+.ea_entirelist_list_contents
   > table
   > thead
   > tr
@@ -115,10 +115,10 @@
   color: #fff;
   background: #89b0eb;
 }
-.ea_signuplist_list_contents > table > thead > tr > th > ul.active {
+.ea_entirelist_list_contents > table > thead > tr > th > ul.active {
   display: block;
 }
-.ea_signuplist_list_contents > table > tbody {
+.ea_entirelist_list_contents > table > tbody {
   background: #fff;
 }
 #pagingBtn {
@@ -147,7 +147,7 @@
   display: none;
 }
 /* 전자결재 > 기안문서조회 (상세조회) */
-.ea_signuplist_detail_contents {
+.ea_entirelist_detail_contents {
   width: 100%;
   border: 3px solid gainsboro;
   border-radius: 10px;
@@ -160,7 +160,7 @@
   color: #fff;
   transition: 0s;
 }
-.ea_signuplist_detail_contents > div:nth-child(1) > table > * > * > * {
+.ea_entirelist_detail_contents > div:nth-child(1) > table > * > * > * {
   border: 1px solid gainsboro;
   background: #fff;
   padding: 3px;
@@ -168,23 +168,23 @@
   overflow: hidden;
   font-size: 14px;
 }
-.ea_signuplist_detail_contents > div:nth-child(1) > table {
+.ea_entirelist_detail_contents > div:nth-child(1) > table {
   float: left;
   margin: 20px;
   width: 300px;
 }
-.ea_signuplist_detail_contents > div:nth-child(1) > table th {
+.ea_entirelist_detail_contents > div:nth-child(1) > table th {
   background: navy;
   color: #fff;
   width: 25%;
 }
-.ea_signuplist_detail_contents > div:nth-child(2) > table {
+.ea_entirelist_detail_contents > div:nth-child(2) > table {
   float: right;
   margin: 20px;
   height: 100px;
   text-align: center;
 }
-.ea_signuplist_detail_contents > div:nth-child(2) > table > * > * > * {
+.ea_entirelist_detail_contents > div:nth-child(2) > table > * > * > * {
   border: 1px solid gainsboro;
   background: #fff;
   padding: 5px;
@@ -192,11 +192,11 @@
   padding-bottom: 3px;
   font-size: 14px;
 }
-.ea_signuplist_detail_contents > div:nth-child(2) th {
+.ea_entirelist_detail_contents > div:nth-child(2) th {
   background: navy;
   color: #fff;
 }
-.ea_signuplist_detail_contents > div:nth-child(3) {
+.ea_entirelist_detail_contents > div:nth-child(3) {
   float: left;
   width: 100%;
   height: 500px;
@@ -205,7 +205,7 @@
   padding: 20px;
   overflow: scroll;
 }
-.ea_signuplist_detail_contents > div:nth-child(4) {
+.ea_entirelist_detail_contents > div:nth-child(4) {
   float: right;
   margin: 20px;
   padding: 8px;
@@ -213,70 +213,7 @@
   color: #fff;
   border-radius: 5px;
 }
-/* 전자결재 > 기안문서조회 (반려문서 수정) */
-.ea_signuplist_wrapper_rejected {
-  width: 90%;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.ea_signuplist_rejected_contents {
-  width: 100%;
-  border: 3px solid gainsboro;
-  border-radius: 10px;
-  border-top-left-radius: 0;
-  position: relative;
-  float: left;
-}
-.ea_signuplist_rejected_contents > form > div:nth-child(1) > table > * > * > * {
-  border: 1px solid gainsboro;
-  background: #fff;
-  padding: 3px;
-  text-align: center;
-  overflow: hidden;
-  font-size: 14px;
-}
-.ea_signuplist_rejected_contents > form > div:nth-child(1) > table {
-  float: left;
-  margin: 20px;
-  width: 350px;
-}
-.ea_signuplist_rejected_contents > form > div:nth-child(1) > table th {
-  background: navy;
-  color: #fff;
-}
-.ea_signuplist_rejected_contents > form > div:nth-child(2) > table {
-  float: right;
-  margin: 20px;
-  height: 100px;
-  text-align: center;
-}
-.ea_signuplist_rejected_contents > form > div:nth-child(2) > table > * > * > * {
-  border: 1px solid gainsboro;
-  background: #fff;
-  padding: 5px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  font-size: 14px;
-}
-.ea_signuplist_rejected_contents > form > div:nth-child(2) th {
-  background: navy;
-  color: #fff;
-}
-.ea_signuplist_rejected_contents > form > div:nth-child(3) {
-  float: left;
-  width: 100%;
-  border-top: 1px solid gainsboro;
-}
-.ea_signuplist_rejected_contents > form > div:nth-child(4) a {
-  float: right;
-  margin: 20px;
-  margin-left: 0;
-  padding: 8px;
-  background: #4081e4;
-  color: #fff;
-  border-radius: 5px;
-}
+
 span[id^="stamp"] {
   font-size: 12px;
   color: #fff;

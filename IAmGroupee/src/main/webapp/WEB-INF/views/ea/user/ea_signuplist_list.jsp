@@ -33,39 +33,76 @@
             <tr>
               <th>문서 번호</th>
               <th>
-                양식<span> ▾</span>
+                <span>양식 ▾</span>
                 <ul>
-                <% int i = 1; %>
-                <c:forEach items="${formList}" var="fl">
-                  <li>
-                    <a href="#">${fl.formTitle}</a>
-                    <input type="hidden" name="formNo" value="${fl.formNo}">
-                  </li>
-                  <% i++; %>
-                </c:forEach>
+                  <% int i = 1; %>
+                  <c:forEach items="${formList}" var="fl">
+                    <li>
+                      <form action="${root}/ea/signuplistByFilter" method="POST" name="signuplistByFilterF<%=i%>">
+                        <a href="javascript:signuplistByFilterF<%=i%>.submit()">${fl.formTitle}</a>
+                        <input type="hidden" name="formNo" value="${fl.formNo}">
+                      </form>
+                    </li>
+                    <% i++; %>
+                  </c:forEach>
                 </ul>
               </th>
               <th>문서 제목</th>
               <th>
-                상신 날짜<span> ▾</span>
+                <span>상신 날짜 ▾</span>
                 <ul>
-                  <li><a href="#">빠른순</a></li>
-                  <li><a href="#">늦은순</a></li>
+                  <li>
+                    <form action="${root}/ea/signuplistByFilter" method="POST" name="signuplistByFilterM1">
+                      <a href="javascript:signuplistByFilterM1.submit()">빠른순</a>
+                      <input type="hidden" name="make" value="old">
+                    </form>
+                  </li>
+                  <li>
+                    <form action="${root}/ea/signuplistByFilter" method="POST" name="signuplistByFilterM2">
+                      <a href="javascript:signuplistByFilterM2.submit()">늦은순</a>
+                      <input type="hidden" name="make" value="new">
+                    </form>
+                  </li>
                 </ul>
               </th>
               <th>
-                마감 날짜<span> ▾</span>
+                <span>마감 날짜 ▾</span>
                 <ul>
-                  <li><a href="#">빠른순</a></li>
-                  <li><a href="#">늦은순</a></li>
+                  <li>
+                    <form action="${root}/ea/signuplistByFilter" method="POST" name="signuplistByFilterC1">
+                      <a href="javascript:signuplistByFilterC1.submit()">빠른순</a>
+                      <input type="hidden" name="close" value="old">
+                    </form>
+                  </li>
+                  <li>
+                    <form action="${root}/ea/signuplistByFilter" method="POST" name="signuplistByFilterC2">
+                      <a href="javascript:signuplistByFilterC2.submit()">늦은순</a>
+                      <input type="hidden" name="close" value="new">
+                    </form>
+                  </li>
                 </ul>
               </th>
               <th>
-                진행 단계<span> ▾</span>
+                <span>진행 단계 ▾</span>
                 <ul>
-                  <li><a href="#">결재대기</a></li>
-                  <li><a href="#">반려</a></li>
-                  <li><a href="#">협의요청</a></li>
+                  <li>
+                    <form action="${root}/ea/signuplistByFilter" method="POST" name="signuplistByFilterP1">
+                      <a href="javascript:signuplistByFilterP1.submit()">결재대기</a>
+                      <input type="hidden" name="procSeq" value="1">
+                    </form>
+                  </li>
+                  <li>
+                    <form action="${root}/ea/signuplistByFilter" method="POST" name="signuplistByFilterP2">
+                      <a href="javascript:signuplistByFilterP2.submit()">반려</a>
+                      <input type="hidden" name="procSeq" value="2">
+                    </form>
+                  </li>
+                  <li>
+                    <form action="${root}/ea/signuplistByFilter" method="POST" name="signuplistByFilterP3">
+                      <a href="javascript:signuplistByFilterP3.submit()">협의요청</a>
+                      <input type="hidden" name="procSeq" value="3">
+                    </form>
+                  </li>
                 </ul>
               </th>
             </tr>
@@ -112,6 +149,7 @@
         
         <div id="pagingBtn">
           <!-- 페이지 start -->
+          <c:if test="${page ne null}">
           <ul>
             <c:if test="${page.startPage != 1}">
               <li><a href="${page.startPage - 1}">◁</a></li>
@@ -130,6 +168,7 @@
               <li><a href="${page.endPage + 1}">▷</a></li>
             </c:if>
           </ul>
+        </c:if>
           <!-- 페이지 end -->
         </div>
           
