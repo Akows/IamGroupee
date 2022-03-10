@@ -6,11 +6,8 @@ pageEncoding="UTF-8"%>
 <% 
 	List<ResvDto> allRoomResvList = (List<ResvDto>)request.getAttribute("allRoomResvList");	
 	List<ResvDto> allAssetResvList = (List<ResvDto>)request.getAttribute("allAssetResvList");	
-	List<ResvDto> roomResvList = (List<ResvDto>)request.getAttribute("roomResvList");
-	List<ResvDto> assetResvList = (List<ResvDto>)request.getAttribute("assetResvList"); 
-	List<ResvDto> roomList = (List<ResvDto>)request.getAttribute("roomList");
-	List<ResvDto> assetList = (List<ResvDto>)request.getAttribute("assetList");
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,19 +20,29 @@ pageEncoding="UTF-8"%>
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
 
-	<!-- fullcalendar 언어 CDN -->
+	<!-- FullCalendar -->
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.3.0/main.min.js"></script>
+	
 
 	<style>
 		select option[value=""][disabled] {
 			display: none;
 		}
+
+		.hidden{
+			display:none;
+		}
+
 	</style>
 </head>
 <body>
 
 	<%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
-	  
+	
+	<div id="deleteOK" class="alert alert-danger hidden"  role="alert">예약이 삭제되었습니다.</div>	
+	<div id="registerOK" class="alert alert-info hidden"  role="alert">새 글이 등록되었습니다.</div>	
+	
 	<main class="main">
 	<div class="container">
 		
@@ -68,17 +75,17 @@ pageEncoding="UTF-8"%>
 							</div>
 							
 							<div class="card-body">
-								<form action="delete" method="post">
+								<form action="/iag/resv/resvMain" method="post">
 									<div class="form-group">
 										<label>예약할 자산</label>
-										<select class="form-control" name="roomNo" >
+										<select class="form-control" name="roomNo">
 											<option value="" disabled selected>예약할 회의실을 선택하세요</option>
 											<c:forEach items="${roomList}" var="r">
 												<option value="${r.roomNo}">${r.roomName}</option>
 											</c:forEach>
 										</select>
-										<select class="form-control" name="assetNo" >
-											<option value="" disabled selected>예약할 자산을 선택하세요</option>
+										<select class="form-control" name="assetNo">
+											<option value="" disabled selected>예약할 비품을 선택하세요</option>
 											<c:forEach items="${assetList}" var="a">
 												<option value="${a.assetNo}">${a.assetName}</option>
 											</c:forEach>
@@ -98,11 +105,11 @@ pageEncoding="UTF-8"%>
 											<div class="input-group-prepend">
 												<span class="input-group-text"><i class="far fa-clock"></i></span>
 											</div>
-											<input type="text" class="form-control float-right" name="period" id="reservationtime">
+											<input type="text" class="form-control float-right" name="period" id="reservationtime2" required>
 										</div>
 									</div>
 									
-									<input id="addEvent" type="submit" value="예약하기" class="btn btn-primary btn-block">
+									<input type="submit" value="예약하기" class="btn btn-primary btn-block">
 								</form> 
 
 							</div>
@@ -110,13 +117,12 @@ pageEncoding="UTF-8"%>
 
 						<!-- 내 예약 현황 -->
 						<div class="card">
-							<form name="form" method="post"> 
 							<div class="card-header">
 								<h3 class="card-title">
 									내 예약 현황
-									<button onclick="updateCheck()" name="action" value="update" class="btn btn-primary btn-sm">수정</button>
-									<button onclick="returnCheck()" name="action" value="return" class="btn btn-primary btn-sm">반납</button>
-									<button onclick="deleteCheck()" name="action" value="delete" class="btn btn-primary btn-sm">취소</button>
+									<button data-toggle="modal" data-target="#modResv" type="button" class="btn btn-primary btn-sm">변경</button>
+									<button onclick="returnCheck();" type="button" class="btn btn-primary btn-sm">반납</button>
+									<button onclick="deleteCheck();" type="button" class="btn btn-primary btn-sm">취소</button>
 								</h3>
 							</div>
 							<div class="card-body">
@@ -130,15 +136,15 @@ pageEncoding="UTF-8"%>
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach  items="${roomResvList}" var="r">
+										<c:forEach  items="${myResvList}" var="r">
 											<tr>
-												<td><input name="resvNo" value="${r.resvNo}" type="checkbox"></td>
+												<td><input value="${r.resvNo}" type="checkbox" class="check"></td>
 												<td>
-													<c:set var="m" value="${r.roomName}"></c:set>
+													<c:set var="m" value="${r.roomName}"/>
 													<c:if test="${m ne ''}">
 														${r.roomName}
 													</c:if>
-													<c:set var="a" value="${r.assetName}"></c:set>
+													<c:set var="a" value="${r.assetName}"/>
 													<c:if test="${a ne ''}">
 														${r.assetName}
 													</c:if>
@@ -150,7 +156,61 @@ pageEncoding="UTF-8"%>
 									</tbody>
 								</table>
 							</div>
-							</form>
+							<!-- modal start -->
+							<div class="modal fade" id="modResv" tabindex="-1" role="dialog">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h4 class="modal-title">예약 변경</h4>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<label for="reservationtime">변경할 일정을 선택해주세요</label>
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"><i class="far fa-clock"></i></span>
+													</div>
+													<input type="text" class="form-control float-right" class="period" id="reservationtime" required>
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+											<button type="button" class="btn btn-primary" onclick="modCheck();">수정</button>
+										</div>
+									</div><!-- /.modal-content -->
+								</div><!-- /.modal-dialog -->
+							</div><!-- /.modal -->
+
+							<div class="card-footer">
+								<!-- paging start -->
+								<ul class="pagination pagination-sm">
+									<c:if test="${page.currentPage != 1}"> 
+										<li class="page-item"><a class="page-link" href="${root}/resv/resvMain/${page.currentPage - 1}">&laquo;</a></li>
+									</c:if>
+									<c:if test="${page.currentPage == 1}">
+										<li class="page-item disabled"><a class="page-link">&laquo;</a></li>&nbsp;
+									</c:if>
+									
+									<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+										<c:if test="${page.currentPage != i and i <= page.lastPage}">
+											<li class="page-item"><a class="page-link" href="${root}/resv/resvMain/${i}">${i}&nbsp;</a></li>
+										</c:if>
+										
+										<c:if test="${page.currentPage == i and i <= page.lastPage}">
+											<li class="page-item disabled"><a class="page-link">${i}&nbsp;</a></li>
+										</c:if>
+									</c:forEach>
+									
+									<c:if test="${page.currentPage < page.lastPage}"> 
+										<li class="page-item"><a class="page-link" href="${root}/resv/resvMain/${page.currentPage + 1}">&raquo;</a></li>
+									</c:if>
+									<c:if test="${!(page.currentPage < page.lastPage) || page.currentPage == page.lastPage}">
+										<li class="page-item disabled"><a class="page-link">&raquo;</a></li>
+									</c:if>
+								</ul>
+								<!-- paging end -->
+							</div>
 						</div>
 					</section>
 	
@@ -159,40 +219,7 @@ pageEncoding="UTF-8"%>
 							<div class="card-body p-3">
 								<!-- THE CALENDAR -->
 								<div id="calendar"></div>
-								<div class="modal fade" tabindex="-1" role="dialog">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-												<h4 class="modal-title">Create new event</h4>
-											</div>
-											<div class="modal-body">
-												<div class="row">
-													<div class="col-xs-12">
-														<label class="col-xs-4" for="title">Event title</label>
-														<input type="text" name="title" id="title" />
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-xs-12">
-														<label class="col-xs-4" for="starts-at">Starts at</label>
-														<input type="text" name="starts_at" id="starts-at" />
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-xs-12">
-														<label class="col-xs-4" for="ends-at">Ends at</label>
-														<input type="text" name="ends_at" id="ends-at" />
-													</div>
-												</div>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-												<button type="button" class="btn btn-primary" id="save-event">Save changes</button>
-											</div>
-										</div><!-- /.modal-content -->
-									</div><!-- /.modal-dialog -->
-								</div><!-- /.modal -->
+							
 							</div>
 						</div> 
 					</section> <!-- /.col -->
@@ -206,16 +233,117 @@ pageEncoding="UTF-8"%>
 	        </div> <!-- /.container-fluid -->
 	    </section>
 	</div>
+
+	
 	</main>
 
+	<script type="text/javascript">
+		function modCheck(){
+			if(confirm("예약 일정을 변경하시겠습니까?") == true){
+				
+				var no = getElementsByClassName('check').value;
+				var period = getElementsByClassName('period').value;
+
+				$.ajax({
+					url : "${root}/resv/mod",
+					data : {"no":no,"period":period},
+					type : 'POST',
+					success : function(data){
+						alert("예약이 변경 되었습니다.");
+					},
+					error : function(e){
+						alert("예약이 변경에 실패하였습니다.");
+					},
+					complete : function(){
+						window.location.reload();
+					}
+				});
+			}else {
+				return false;
+			}
+		}
+		
+		function returnCheck(){
+			if(confirm("선택한 예약을 미리 반납하시겠습니까?") == true){
+				let result = "";
+				let delArr = document.getElementsByClassName('check');
+				
+				for(let i=0; i<delArr.length; ++i){
+					let t = delArr[i];
+					if(t.checked){
+						console.log(t.value);
+						result += t.value + ',';
+					}
+				}
+
+				$.ajax({
+					url : "${root}/resv/return",
+					data : {"str": result},
+					type : 'post',
+					success : function(data){
+						alert("반납 처리 되었습니다.");
+					},
+					error : function(e){
+						alert("반납에 실패하였습니다.");
+					},
+					complete : function(){
+						window.location.reload();
+					}
+				});
+			}else {
+				return false;
+			}
+		}
+
+		function deleteCheck(){
+			if(confirm("선택한 예약을 취소하시겠습니까?") == true){
+				//취소할 번호를 가져오기
+				//가져온 번호들을 하나의 문자열로 합치기
+				let result = "";
+				let delArr = document.getElementsByClassName('check');
+				
+				for(let i=0; i<delArr.length; ++i){
+					let t = delArr[i];
+					if(t.checked){
+						console.log(t.value);
+						result += t.value + ',';
+					}
+				}
+
+				//취소 요청 보내기(취소할 번호들 전달)
+				$.ajax({
+					url : "${root}/resv/delete",
+					data : {"str": result},
+					type : 'post',
+					success : function(data){
+						alert("예약이 취소되었습니다.");
+					},
+					error : function(e){
+						alert("예약이 취소되지않았습니다.");
+					},
+					complete : function(){
+						window.location.reload();
+						$("#deleteOK").removeClass('hidden');
+						$("#deleteOK").fadeOut(3000);
+
+					}
+				})
+			}else {
+				return false;
+			}
+		}
+
+
+	</script>
+	
 	<script>
 		$(function () {
-			//Date range picker with time picker
-			$('#reservationtime').daterangepicker({
+			let today = new Date(); // 이전시간 예약 불가.
+			$('#reservationtime2').daterangepicker({
 			timePicker: true,
 			timePickerIncrement: 10,
 			timePicker24Hour: true,
-			timePickerSeconds: true,
+			minDate: new Date(today),
 			locale: {
 				"separator": "~",               // 시작일시와 종료일시 구분자
 				"format": 'YYYY-MM-DD HH:mm',     // 일시 노출 포맷
@@ -226,11 +354,23 @@ pageEncoding="UTF-8"%>
 				}
     		})
 		});
-
-		var request = $.ajax({
-			url: "<%=request.getContextPath()%>/resv/resvMain",
-			method: "GET",
-			dataType: "json"
+	
+		$(function () {
+			let today = new Date(); // 이전시간 예약 불가.
+			$('#reservationtime').daterangepicker({
+			timePicker: true,
+			timePickerIncrement: 10,
+			timePicker24Hour: true,
+			minDate: new Date(today),
+			locale: {
+				"separator": "~",               // 시작일시와 종료일시 구분자
+				"format": 'YYYY-MM-DD HH:mm',     // 일시 노출 포맷
+				"applyLabel": "확인",              // 확인 버튼 텍스트
+				"cancelLabel": "취소",             // 취소 버튼 텍스트
+				"daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
+				"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+				}
+    		})
 		});
 
 		document.addEventListener('DOMContentLoaded', function() {
@@ -256,17 +396,9 @@ pageEncoding="UTF-8"%>
 				dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 				locale: 'ko', // 한국어 설정
 				
-				eventAdd: function() {
-				},
-				eventChange: function(obj) { // 이벤트가 수정되면 발생하는 이벤트
-					console.log(obj);
-				},
-				eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
-					console.log(obj);
-				},
 				events : 
 				[ 
-					<%if (allRoomResvList != null || allAssetResvList != null ) {%>
+					<%if (allRoomResvList != null || allAssetResvList != null) {%>
 						<%for (ResvDto r : allRoomResvList) {%>
 							{
 								title : '<%=r.getRoomName()%>',
@@ -274,7 +406,7 @@ pageEncoding="UTF-8"%>
 								end : '<%=r.getResvEnd()%>',
 								color : '#2D82D7'
 							},
-						<%}%>
+						<%}%>	
 						<%for (ResvDto a : allAssetResvList) {%>
 							{
 								title : '<%=a.getAssetName()%>',
@@ -284,6 +416,7 @@ pageEncoding="UTF-8"%>
 							}
 						<%}
 					}%>
+
 				]
 				
 			
@@ -291,41 +424,12 @@ pageEncoding="UTF-8"%>
 			calendar.render();
 	
 		});
-
-		function updateCheck(){
-			if(confirm("선택한 예약을 수정하시겠습니까?") == true){
-				document.update.submit();
-			}else {
-				return false;
-			}
-		}
-
-		function returnCheck(){
-			if(confirm("선택한 예약을 미리 반납하시겠습니까?") == true){
-				document.return.submit();
-			}else {
-				return false;
-			}
-		}
-
-		function deleteCheck(){
-			if(confirm("선택한 예약을 취소하시겠습니까?") == true){
-				document.delete.submit();
-			}else {
-				return false;
-			}
-		}
 	</script>
 
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
-
-	<!-- FullCalendar -->
-	<link rel="stylesheet" href="${root}/resources/plugins/fullcalendar/main.css">
-	<script src="${root}/resources/plugins/moment/moment.min.js"></script>
-	<script src="${root}/resources/plugins/fullcalendar/main.js"></script>
 
 	<!-- InputMask -->
 	<script src="${root}/resources/plugins/moment/moment.min.js"></script>
@@ -334,6 +438,9 @@ pageEncoding="UTF-8"%>
     <!-- date-range-picker -->
 	<link rel="stylesheet" href="${root}/resources/plugins/daterangepicker/daterangepicker.css">
 	<script src="${root}/resources/plugins/daterangepicker/daterangepicker.js"></script> 
-
+	
+	<!-- FullCalendar -->
+	<link rel="stylesheet" href="${root}/resources/plugins/fullcalendar/main.css">
+	
 </body>
 </html>
