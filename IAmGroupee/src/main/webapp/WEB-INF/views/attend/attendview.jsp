@@ -16,9 +16,6 @@
   <!-- Custom styles -->
   <link rel="stylesheet" href="../resources/css/style.min.css">
 
-<script>
-
-</script>
 <style>
 
 </style>
@@ -40,9 +37,36 @@
 		<br>
 		<br>
 		<hr>
-
+		
 		<div class="row stat-cards">
-          <div class="col-md-12 col-xl-12">
+			<c:forEach items="${ATInfo}" var="atin">
+	        	<div class="col-md-6 col-xl-3">
+					<article class="stat-cards-item">
+						<div class="stat-cards-icon success">
+							<i data-feather="file" aria-hidden="true"></i>
+						</div>
+							<div class="stat-cards-info">
+							<p class="stat-cards-info__num">사용자정보</p>
+							<p class="stat-cards-info__title">이름 : ${atin.user_name}</p>
+							<p class="stat-cards-info__title">사번 : ${atin.user_no}</p>
+							<p class="stat-cards-info__progress">
+								<span class="stat-cards-info__profit success">
+									<i data-feather="trending-up" aria-hidden="true"></i>좋은 하루 되세요
+								</span>
+							</p>
+							<hr>
+							<form action="attendstate" method="get">
+								<button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">출퇴근현황조회</button>
+							</form>	
+						</div>
+					</article>
+				</div>
+			</c:forEach>
+		</div>
+		
+		<div class="row stat-cards">
+
+          <div class="col-md-12 col-xl-9">
             <article class="stat-cards-item">
               <div class="stat-cards-icon primary">
                 <i data-feather="bar-chart-2" aria-hidden="true"></i>
@@ -56,47 +80,14 @@
                 </p>
                 <hr>
                 
-                달력이 들어갈 위치
-                
+    			
                 
                 <hr>
               </div>
             </article>
           </div>
+          
         </div>
-        
-
-        <hr>
-
-        
-        <div class="row stat-cards">
-          <div class="col-md-12 col-xl-12">
-            <article class="stat-cards-item">
-              <div class="stat-cards-info">
-                <p class="stat-cards-info__num">근무상황 수정요청</p>
-                <p class="stat-cards-info__title">천재지변/긴급한 용무 등으로 정상출근 처리가 필요한 경우 요청</p>
-                <p class="stat-cards-info__title">사유서 혹은 진단서 등 관련 서류 양식에 맞추어 반드시 자료 첨부할 것!</p>
-                <hr>
-                
-                <form action="attendmodify" method="post" enctype="multipart/form-data">
-                
-	                <input type="text" placeholder="내용작성하여 제출" name="mod_reason">
-	                <br>
-	                <br>
-	                <input type="file" name="file" multiple="multiple" accept=".jpg,.png">
-	                
-	                <hr>
-	                
-	                <input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="수정요청">
-                
-                </form>
-                
-              </div>
-            </article>
-          </div>
-        </div>
-
-
 
 	</div>
 </main>
@@ -105,6 +96,7 @@
 
 
 <script type="text/javascript">
+	//현재 날짜 출력 스크립트
 	let today = new Date();
 	let year = today.getFullYear(); 
 	let month = today.getMonth() + 1
@@ -112,7 +104,14 @@
 
 	document.getElementById("currentDate").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
 	document.getElementById("currentDate2").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
+	
+	//캘린더 스크립트
+
 </script>
+
+
+
+
 
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>

@@ -49,22 +49,28 @@ public class AttendMainController
 	@GetMapping("attendmain")
 	public String attendMain(Model model, HttpServletRequest req) throws Exception
 	{
-		AttendDTO attendDTO = new AttendDTO();
+		AttendDTO attendDTO1 = new AttendDTO();
+		AttendDTO attendDTO2 = new AttendDTO();
 		AttendModDTO attendModDTO = new AttendModDTO();
 		AttendWTDTO attendWTDTO = new AttendWTDTO();
 		
 		UserDto loginUser = (UserDto) req.getSession().getAttribute("loginUser");
 		String userno = loginUser.getUserNo();
+		String username = loginUser.getName();
 		
-		attendDTO.setUser_no(userno);
+		attendDTO1.setUser_no(userno);
+		attendDTO2.setUser_no(userno);
+		attendDTO2.setUser_name(username);
 		attendModDTO.setUser_no(userno);
 		attendWTDTO.setUser_no(userno);
 
-		List<AttendDTO> attendList = service.getAttendInfo(attendDTO);
+		List<AttendDTO> attendList1 = service.getAttendInfo(attendDTO1);
+		List<AttendDTO> attendList2 = service.getAttendNumandName(attendDTO2);
 		List<AttendModDTO> attendModinfo = service.getAttendModInfo(attendModDTO);
 		List<AttendWTDTO> attendWTList = service.getAttendWTInfo(attendWTDTO);
 		
-		model.addAttribute("atInfo", attendList);
+		model.addAttribute("atInfo", attendList1);
+		model.addAttribute("atInfo2", attendList2);
 		model.addAttribute("atModInfo", attendModinfo);
 		model.addAttribute("atWTInfo", attendWTList);
 		
@@ -84,6 +90,14 @@ public class AttendMainController
 	public String attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception
 	{
 		service.attendprocessOUT(attendWTDTO, req);
+		
+		return "redirect:/attend/attendmain";
+	}
+	
+	@PostMapping("attendprocessrein")
+	public String attendprocessReIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception
+	{
+		service.attendprocessReIN(attendWTDTO, req);
 		
 		return "redirect:/attend/attendmain";
 	}

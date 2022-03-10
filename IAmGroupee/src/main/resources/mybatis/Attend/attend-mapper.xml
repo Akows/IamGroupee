@@ -4,52 +4,56 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="attend">
-  <!-- resultMap -->
-  		<!-- ATTENDANCE -->
-	    <resultMap type="attendance" id="attendrm">
-			<result property="attend_num" column="ATTEND_NUM"/>
-			<result property="user_no" column="USER_NO"/>
-			<result property="user_name" column="USER_NAME"/>
-			<result property="attend_date" column="ATTEND_DATE"/>
-			<result property="normal_check" column="NORMAL_CHECK"/>
-			<result property="irregular_reason" column="IRREGULAR_REASON"/>
-			<result property="work_numofdate" column="WORK_NUMOFDATE"/>
-		</resultMap>
   
-      	<!-- ATTENDANCEMODIFY -->
-	    <resultMap type="attendancemod" id="attendmodrm">
-			<result property="attend_mod_num" column="ATTEND_MOD_NUM"/>
-			<result property="user_no" column="USER_NO"/>
-			<result property="user_name" column="USER_NAME"/>
-			<result property="req_date" column="REQ_DATE"/>
-			<result property="mod_reason" column="MOD_REASON"/>
-			<result property="attach_file" column="ATTACH_FILE"/>
-			<result property="attach_file_size" column="ATTACH_FILE_SIZE"/>
-			<result property="approve_state" column="APPROVE_STATE"/>
-		</resultMap>
-		
-		<!-- WORKTIME -->
-	    <resultMap type="attendancewt" id="attendwtrm">
-			<result property="worktime_num" column="WORKTIME_NUM"/>
-			<result property="user_no" column="USER_NO"/>
-			<result property="in_time" column="IN_TIME"/>
-			<result property="out_time" column="OUT_TIME"/>
-			<result property="workcheck" column="WORKCHECK"/>
-			<result property="total_work_time" column="TOTAL_WORK_TIME"/>
-		</resultMap>
-		
-  <!-- 0000000000000000000000000000000000000000000000000000000000000000000 -->	
-  <!-- 0000000000000000000000000000000000000000000000000000000000000000000 -->	
-  <!-- 0000000000000000000000000000000000000000000000000000000000000000000 -->			
+  <!-- =================================================================== -->	
+  <!-- =================================================================== -->		
   
-  <!-- 근태메인 -->
-  	   <!-- 임시데이터삽입 -->
-  	     <select id="getATseq" resultType="int">
+	  <!-- resultMap -->
+	  		<!-- ATTENDANCE -->
+		    <resultMap type="attendance" id="attendrm">
+				<result property="attend_num" column="ATTEND_NUM"/>
+				<result property="user_no" column="USER_NO"/>
+				<result property="user_name" column="USER_NAME"/>
+				<result property="attend_date" column="ATTEND_DATE"/>
+				<result property="normal_check" column="NORMAL_CHECK"/>
+				<result property="irregular_reason" column="IRREGULAR_REASON"/>
+				<result property="work_numofdate" column="WORK_NUMOFDATE"/>
+			</resultMap>
+	  
+	      	<!-- ATTENDANCEMODIFY -->
+		    <resultMap type="attendancemod" id="attendmodrm">
+				<result property="attend_mod_num" column="ATTEND_MOD_NUM"/>
+				<result property="user_no" column="USER_NO"/>
+				<result property="user_name" column="USER_NAME"/>
+				<result property="req_date" column="REQ_DATE"/>
+				<result property="mod_reason" column="MOD_REASON"/>
+				<result property="attach_file" column="ATTACH_FILE"/>
+				<result property="attach_file_size" column="ATTACH_FILE_SIZE"/>
+				<result property="approve_state" column="APPROVE_STATE"/>
+			</resultMap>
+			
+			<!-- WORKTIME -->
+		    <resultMap type="attendancewt" id="attendwtrm">
+				<result property="worktime_num" column="WORKTIME_NUM"/>
+				<result property="user_no" column="USER_NO"/>
+				<result property="attend_date" column="ATTEND_DATE"/>
+				<result property="in_time" column="IN_TIME"/>
+				<result property="out_time" column="OUT_TIME"/>
+				<result property="workcheck" column="WORKCHECK"/>
+				<result property="total_work_time" column="TOTAL_WORK_TIME"/>
+			</resultMap>
+		
+  <!-- =================================================================== -->	
+  <!-- =================================================================== -->			
+  
+  <!--근태관리 메인페이지 -->
+  		<!-- 임시데이터 삽입 -->
+  	    <select id="getATseq" resultType="int">
 	 		SELECT SEQ_ATTENDANCE.NEXTVAL
 	 		FROM DUAL
 	  	</select>
   	   
-  	   <insert id="attendtempdatainsert" parameterType="attendance">
+  	    <insert id="attendtempdatainsert" parameterType="attendance">
 	  		INSERT INTO ATTENDANCE
 	  		(
 			    ATTEND_NUM,
@@ -86,14 +90,16 @@
 	  			'0',
 	  			#{user_no},
 	  			SYSDATE,
-	  			'000000',
-	  			'000000',
-	  			'퇴근',
+	  			'0',
+	  			'0',
+	  			'근무정보없음',
 	  			'0'
 	  		)
 	  	</insert>
+	  		
+  		<!-- =================================================================== -->			
   
-  		<!-- 메인페이지 출력 정보 조회 -->
+  		<!-- 메인페이지 정보 출력 -->
 	  	<select id="getAttendInfo" parameterType="attendance" resultType="attendance" resultMap="attendrm">
 			SELECT COUNT(ATTEND_NUM) AS "ATTEND_NUM"
 			FROM ATTENDANCE
@@ -101,6 +107,15 @@
 			AND NORMAL_CHECK != '정상근무'
 	 	</select>
 	 	
+	 	<select id="getAttendNumandName" parameterType="attendance" resultType="attendance" resultMap="attendrm">
+			SELECT USER_NO, USER_NAME
+			FROM ATTENDANCE
+			WHERE USER_NO = #{user_no}
+			AND USER_NAME = #{user_name}
+	 	</select>
+	 	
+	 	
+	 	<!-- 하루 전 메인페이지 정보 출력 (작동하지않음, 미사용)-->
 	 	<select id="getPreAttendInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
 			SELECT *
 			FROM WORKTIME
@@ -117,18 +132,22 @@
 	  	</select>
 	  	
 	  	<select id="getAttendWTInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
-			SELECT WORKTIME_NUM, USER_NO, ATTEND_DATE, REGEXP_REPLACE(IN_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS IN_TIME, REGEXP_REPLACE(OUT_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS OUT_TIME, WORKCHECK, TOTAL_WORK_TIME
+			SELECT 
+			WORKTIME_NUM, 
+			USER_NO, 
+			ATTEND_DATE, 
+			REGEXP_REPLACE(IN_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS IN_TIME, 
+			REGEXP_REPLACE(OUT_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS OUT_TIME, 
+			WORKCHECK, 
+			ROUND(TOTAL_WORK_TIME / 60, 3) AS TOTAL_WORK_TIME
 			FROM WORKTIME
 			WHERE USER_NO = #{user_no}
 			AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	 	</select>
 	  	
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	
+	  	<!-- =================================================================== -->
+	  	<!-- =================================================================== -->	
+
 	  	<!-- 근태 테이블 모두를 조인하여 데이터를 조회하는 구문 (미사용) -->
 		<select id="attendmainscreen">
 			SELECT A.ATTEND_DATE, A.WORK_NUMOFDATE, M.ATTEND_MOD_NUM, W.TOTAL_WORK_TIME
@@ -139,12 +158,10 @@
 			ON(M.ATTEND_NUM = W.ATTEND_NUM)
 		</select>
   
+  	  	<!-- =================================================================== -->
+	  	<!-- =================================================================== -->	
   
-  
-  
-  
-  
-  <!-- 근태 출퇴근 -->  
+  		<!-- 출퇴근처리 -->  
   		<select id="getWTseq" resultType="int">
 	 		SELECT SEQ_WORKTIME.NEXTVAL
 	 		FROM DUAL
@@ -155,7 +172,7 @@
 	   		SET 
 	   		WORKTIME_NUM = #{worktime_num},
 	   		IN_TIME = TO_CHAR(SYSDATE,'HH24MISS'),
-	   		WORKCHECK = '출근'
+	   		WORKCHECK = '출근처리됨'
 	   		WHERE WORKTIME_NUM = 0
 	  	</update>
 	
@@ -163,7 +180,21 @@
 	   		UPDATE WORKTIME
 	   		SET 
 	   		OUT_TIME = TO_CHAR(SYSDATE,'HH24MISS'),
-	   		WORKCHECK = '퇴근'
+	   		WORKCHECK = '퇴근처리됨',
+	   		TOTAL_WORK_TIME = 
+	   		(
+				SUBSTR(OUT_TIME, 1, 2) * 60 * 60 +
+				SUBSTR(OUT_TIME, 3, 2) * 60 +
+				SUBSTR(OUT_TIME, 5, 2)
+			)
+			
+			-
+			
+			(
+				SUBSTR(IN_TIME, 1, 2) * 60 * 60 +
+				SUBSTR(IN_TIME, 3, 2) * 60 +
+				SUBSTR(IN_TIME, 5, 2)
+			)
 	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	  	</update>
 	  	
@@ -174,14 +205,21 @@
 	   		IRREGULAR_REASON = '이상없음'
 	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	  	</update>
+	  	
+	  	<update id="attendprocessReIN" parameterType="attendancewt">
+	   		UPDATE WORKTIME
+	   		SET 
+	   		WORKCHECK = '출근처리됨'
+	   		WHERE WORKCHECK = '퇴근처리됨'
+	   		AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD') 
+	  	</update>
+	  	
+	  	<!-- =================================================================== -->	
   
+  	<!-- 근태현황 조회페이지 -->
+  		<!-- 캘린더 -->
   	
-  <!-- 0000000000000000000000000000000000000000000000000000000000000000000 -->	
-  <!-- 0000000000000000000000000000000000000000000000000000000000000000000 -->	
-  <!-- 0000000000000000000000000000000000000000000000000000000000000000000 -->	
-  	
-  <!-- 근태조회 -->
-      	<!-- 업무상황 수정요청 쿼리 -->
+      	<!-- 근태현황 수정요청 -->
 	 	<select id="getreq" resultType="int">
 	 		SELECT SEQ_ATTENDANCEMODIFY.NEXTVAL
 	 		FROM DUAL
@@ -218,14 +256,31 @@
 	   		ATTACH_FILE_SIZE = #{attach_file_size}
 	   		WHERE ATTEND_MOD_NUM = #{attend_mod_num}
 	  	</update>
-  	
-  	
-  <!-- 0000000000000000000000000000000000000000000000000000000000000000000 -->	
-  <!-- 0000000000000000000000000000000000000000000000000000000000000000000 -->	
-  <!-- 0000000000000000000000000000000000000000000000000000000000000000000 -->	 	
+	  	
+	  	<!-- 일일 근태현황조회 -->
+	  	<select id="getAllAttendINfo" parameterType="attendance" resultType="attendance" resultMap="attendrm">
+			SELECT USER_NO, USER_NAME
+			FROM ATTENDANCE
+			WHERE USER_NO = #{user_no}
+		</select>
+		
+		<select id="getAllAttendWTInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
+			SELECT 
+			REGEXP_REPLACE(TO_CHAR(ATTEND_DATE,'YYYYMMDD'), '(.{4})(.{2})(.{2})', '\1년 \2월 \3일') AS ATTEND_DATE, 
+			REGEXP_REPLACE(IN_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS IN_TIME, 
+			REGEXP_REPLACE(OUT_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS OUT_TIME,
+			CASE WHEN WORKCHECK = '퇴근처리됨' THEN '정상'
+			     WHEN WORKCHECK = '출근처리됨' THEN '비정상'
+			     END AS WORKCHECK
+			FROM WORKTIME
+			WHERE USER_NO = #{user_no}
+		</select>
+	  	
+	  	<!-- =================================================================== -->
+  		<!-- =================================================================== -->
   	
   <!-- 근태관리 -->
-		<!-- 업무상황 수정요청관리 쿼리 -->
+		<!-- 수정요청 조회 -->
 	  	<select id="getModList" resultType="attendancemod" resultMap="attendmodrm">
 			SELECT ATTEND_MOD_NUM, TO_CHAR(REQ_DATE,'YYYYMMDD') AS REQ_DATE, USER_NAME, MOD_REASON, ATTACH_FILE, APPROVE_STATE
 			FROM ATTENDANCEMODIFY
@@ -239,6 +294,7 @@
 			WHERE APPROVE_STATE != '0'
 		</select>
 		
+		<!-- 첨부파일 조회-출력 -->
 		<select id="getFile" resultType="attendancemod" resultMap="attendmodrm">
 			SELECT ATTEND_MOD_NUM, ATTACH_FILE
 			FROM ATTENDANCEMODIFY
@@ -251,7 +307,7 @@
 			WHERE ATTACH_FILE = #{attach_file}
 		</select>
   	
-  		<!--수정요청 승인 혹은 거절 -->
+  		<!-- 수정요청처리 -->
   		<update id="approveManageOK" parameterType="attendancemod">
 	  		UPDATE ATTENDANCEMODIFY
 	   		SET APPROVE_STATE = '승인됨'
@@ -264,6 +320,7 @@
 	   		WHERE ATTEND_MOD_NUM = #{attend_mod_num}
 	  	</update>
   	
-  	
+  		<!-- =================================================================== -->
+  		<!-- =================================================================== -->
   	
   </mapper>

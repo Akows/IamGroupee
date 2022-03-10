@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>근태현황 조회페이지</title>
+  <title>근태현황 조회페이지 - 일일출퇴근현황</title>
   
   <c:set var="root" value="${pageContext.request.contextPath}"/>
   
@@ -34,7 +34,7 @@
 	       
 		<hr>     
 		<div style="height: 40px; text-align: left;">
-			<h1>근태현황 조회페이지</h1> <br> 오늘 날짜 <h4 style="color: rgb(50, 48, 48); font-weight: 600;" id="currentDate"></h4>
+			<h1>근태현황 조회페이지 (일일출퇴근현황)</h1> <br> 오늘 날짜 <h4 style="color: rgb(50, 48, 48); font-weight: 600;" id="currentDate"></h4>
 		</div>
 		<br>
 		<br>
@@ -43,72 +43,125 @@
 	<div class="row stat-cards">
 		<div class="col-lg-12">
             <div class="users-table table-wrapper">
-            
-            <c:forEach items="${ATList}" var="atin">
-	            <div class="col-md-6 col-xl-3">
-					<article class="stat-cards-item">
-						<div class="stat-cards-icon primary">
-							<i data-feather="bar-chart-2" aria-hidden="true"></i>
-						</div>
-							<div class="stat-cards-info">
-							    <table>
-									<tr>
-								    	<td>
-									    	<p class="stat-cards-info__num">사용자정보</p>
-											<p class="stat-cards-info__title">이름 : ${atin.user_name}</p>
-											<p class="stat-cards-info__title">사번 : ${atin.user_no}</p>
-											<p class="stat-cards-info__progress">
-											<span class="stat-cards-info__profit success">
-												<i data-feather="trending-up" aria-hidden="true"></i>좋은 하루 되세요
-											</span>
-											</p>
-								        </td>
-								            
-								        <td>
-								        	<hr>
-								        </td>
-								        <td>
-												
-								    	</td>
-									</tr>
-								</table>
-									
-						            <hr>
-						                
-						    </div>
-					</article>
-				</div>
-			</c:forEach>
-			
-			<c:forEach items="${WTInfo}" var="wtin">
+
 				<table class="posts-table">
 		            <thead>
 		            	<tr class="users-table-info">
 		                	<th>날짜</th>
 		                    <th>출근시간</th>
 		                    <th>퇴근시간</th>
+		                    <th>정상근무여부</th>
 		            	</tr>
 		            </thead>
-		                
-		            <tbody>
-		            	<tr>
-		            		<td></td>
-		            	</tr>
+			
+		       		<tbody>
+		       			<c:forEach items="${WTInfo}" var="wtin">
+		       				
+		       				
+		       				
+		       				
+		       				<form action="attendstatesearch" method="post">
+		       					<span>
+									<input type="date" name="date"> 		  
+									<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger; width: 150px" value="검색">	     					
+		       					</span>
+		       					
+		       					<span>
+												       					
+		       					</span>		       				
+		       				
+		       					
+				                
+				                	                		       							       				
+		       				</form>
+		       		
+		       			
+		       			
+		       			
+			            	<tr>
+			            		<td>${wtin.attend_date}</td>
+			            		<td>${wtin.in_time}</td>
+			            		<td>${wtin.out_time}</td>		            		
+			            		
+			            		<c:choose>
+			            			<c:when test="${wtin.workcheck == '정상'}">
+										<td>
+											<div class="badge-active">
+												${wtin.workcheck}
+											</div>									
+										</td>
+			            			</c:when>
+			            			
+			            			<c:when test="${wtin.workcheck == '비정상'}">
+										<td>
+											<div class="badge-pending">
+												${wtin.workcheck}
+											</div>
+										</td>
+			            			</c:when>
+			            			
+			            			<c:otherwise>
+			            				<td>근무정보없음</td>
+			            			</c:otherwise>
+			            		</c:choose>	
+			            				            		
+			            	</tr>
+			            	
+			            	
+		            	</c:forEach>
 		            </tbody>
 	            </table>
-			</c:forEach>
+			
             
-
             </div>
           </div>
-        </div>
+    </div>
+        
+    <hr>
+    
+    <div class="row stat-cards">
+    	<div class="col-md-12 col-xl-6">
+            <article class="stat-cards-item">
+              <div class="stat-cards-info">
+                <p class="stat-cards-info__num">근무상황 수정요청</p>
+                <p class="stat-cards-info__title">천재지변/긴급한 용무 등으로 정상출근 처리가 필요한 경우 요청</p>
+                <p class="stat-cards-info__title">사유서 혹은 진단서 등 관련 서류 양식에 맞추어 반드시 자료 첨부할 것!</p>
+                <hr>
+                
+                <form action="attendmodify" method="post" enctype="multipart/form-data">
+                	
+                	<textarea name="mod_reason" placeholder="내용작성하여 제출" style="width: 400px; height: 200px; resize: none;" required></textarea>
+                
+	                <br>
+	                
+	                <input type="file" name="file" multiple="multiple" accept=".jpg,.png">
+	                
+	                <hr>
+	                
+	                <input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="수정요청">
+                
+                </form>
+                
+              </div>
+            </article>
+    	</div>       
+    </div>    
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 		
-
-
-		
-
-	
-
 	</div>
 </main>
 
@@ -125,8 +178,6 @@
 	document.getElementById("currentDate").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
 
 </script>
-
-
 
 <!-- Custom scripts -->
 <script src="${root}/resources/js/script.js"></script>

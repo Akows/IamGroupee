@@ -29,212 +29,185 @@
 <!-- 메인 메뉴바(좌측 사이드) -->
 <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 
-<!-- ! Main -->
+<!-- Main -->
+		<%!
+			int a = 0;
+		%>
+
 <main class="main users chart-page" id="skip-target">
 	<div class="container">
 	       
-		<hr>     
+		<hr> 
+		    
 		<div style="height: 40px; text-align: left;">
 			<h1>근태관리 메인페이지</h1> <br> 오늘 날짜 <h4 style="color: rgb(50, 48, 48); font-weight: 600;" id="currentDate"></h4>
 		</div>
+
 		<br>
 		<br>
 		<hr>
 		
-		<form action="attendtempdateinsert" method="get">
-			<button type="submit" value="임시데이터삽입">근태테이블생성</button>
-		</form>
+		<!-- ===================================================================================================== -->
+		<!-- 근태 테이블 임시 칼럼 생성 -->
+		<c:if test="<%= a == 0 %>">
+			<div class="stat-cards-info" style="height: 40px; width: 130px;">	
+				<form action="attendtempdateinsert" method="get">
+					<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: small;" value="근태테이블생성">
+				</form>
+			</div>			
+		</c:if>
+		
+		<br>
 
+		<!-- ===================================================================================================== -->
+		<!-- ===================================================================================================== -->
+		<!-- ===================================================================================================== -->
+		<!-- 사용자 정보 UI -->
 		<div class="row stat-cards">
 		
-		 <c:forEach items="${atWTInfo}" var="wtinfo">
-
-			 <c:choose>
-			 
-			 	<c:when test="${empty wtinfo}">
-			 	
-			 		<div class="col-md-6 col-xl-3">
-						<article class="stat-cards-item">
-					    	<div class="stat-cards-icon primary">
-					        	<i data-feather="bar-chart-2" aria-hidden="true"></i>
-					        </div>
-					        <div class="stat-cards-info">
-						    	<table>
-									<tr>
-							        	<td>
-								            <p class="stat-cards-info__num">춭퇴근 체크</p>
-										    <p class="stat-cards-info__title">금일 출퇴근 상황</p>
-
-													<p class="stat-cards-info__title"> 
-														근태정보존재하지않음
-													</p>
-
-	
-										    <p class="stat-cards-info__progress">
-										    <span class="stat-cards-info__profit danger">
-										    	<i data-feather="trending-down" aria-hidden="true"></i>근태정보없음
-										    </span>
-										    </p>
-							            </td>
-							            <td>
-							            	<hr>
-							            </td>
-							            <td>
-										    <form action="attendprocessin" method="post">
-												<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="출근">
-										    </form>
-							            </td>
-							        </tr>
-								</table>
-								
-					            <hr>
-					                
-					        </div>
-					    </article>
+		<c:forEach items="${atInfo2}" var="atin">
+	        <div class="col-md-6 col-xl-3">
+				<article class="stat-cards-item">
+					<div class="stat-cards-icon success">
+						<i data-feather="file" aria-hidden="true"></i>
 					</div>
-					
-			 	</c:when>
-			 
-			 	<c:when test="${wtinfo.workcheck == '퇴근'}">
-			 	
-			 		<div class="col-md-6 col-xl-3">
-						<article class="stat-cards-item">
-					    	<div class="stat-cards-icon primary">
-					        	<i data-feather="bar-chart-2" aria-hidden="true"></i>
-					        </div>
-					        <div class="stat-cards-info">
-						    	<table>
-									<tr>
-							        	<td>
-								            <p class="stat-cards-info__num">춭퇴근 체크</p>
-										    <p class="stat-cards-info__title">금일 출퇴근 상황</p>
-
-													<p class="stat-cards-info__title"> 
-														전일 퇴근시각 : ${wtinfo.attend_date}
-													</p>
-
-	
-										    <p class="stat-cards-info__progress">
-										    <span class="stat-cards-info__profit danger">
-										    	<i data-feather="trending-down" aria-hidden="true"></i>출근하지 않음
-										    </span>
-										    </p>
-							            </td>
-							            <td>
-							            	<hr>
-							            </td>
-							            <td>
-										    <form action="attendprocessin" method="post">
-												<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="출근">
-										    </form>
-							            </td>
-							        </tr>
-								</table>
-								
-					            <hr>
-					                
-					        </div>
-					    </article>
+						<div class="stat-cards-info">
+						<p class="stat-cards-info__num">사용자정보</p>
+						<p class="stat-cards-info__title">이름 : ${atin.user_name}</p>
+						<p class="stat-cards-info__title">사번 : ${atin.user_no}</p>
+						<p class="stat-cards-info__progress">
+							<span class="stat-cards-info__profit success">
+								<i data-feather="trending-up" aria-hidden="true"></i>좋은 하루 되세요
+							</span>
+						</p>
+						<hr>
+						<form action="" method="">
+							  	<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="마이페이지">
+						</form>
 					</div>
-					
-			 	</c:when>
-			 	
-			    <c:when test="${wtinfo.workcheck == '출근'}">
-			 	
+				</article>
+			</div>
+		</c:forEach>
+		
+		<!-- 출퇴근 처리 UI -->
+		<c:forEach items="${atWTInfo}" var="wtinfo">
+			<c:choose>			 
+			 	<c:when test="${wtinfo.workcheck == '근무정보없음'}">
 					<div class="col-md-6 col-xl-3">
 						<article class="stat-cards-item">
-					    	<div class="stat-cards-icon primary">
-					        	<i data-feather="bar-chart-2" aria-hidden="true"></i>
-					        </div>
-					        <div class="stat-cards-info">
-						    	<table>
-									<tr>
-							        	<td>
-								            <p class="stat-cards-info__num">춭퇴근 체크</p>
-										    <p class="stat-cards-info__title">금일 출퇴근 상황</p>
-										    <p class="stat-cards-info__title">출근시간 : ${wtinfo.in_time}</p>
-										    <p class="stat-cards-info__progress">
-										    <span class="stat-cards-info__profit success">
-										    <i data-feather="trending-up" aria-hidden="true"></i>현재 근무중
-										    </span>
-										    </p>
-							            </td>
-							            <td>
-							            	<hr>
-							            </td>
-							            <td>
-										    <form action="attendprocessout" method="post">
-												<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="퇴근">
-										    </form>
-							            </td>
-							        </tr>
-								</table>
-								
-					            <hr>
-					                
-					        </div>
+					      <div class="stat-cards-icon primary">
+					        <i data-feather="feather" aria-hidden="true"></i>
+					      </div>
+					      <div class="stat-cards-info">
+						  	<p class="stat-cards-info__num">춭퇴근 체크</p>
+							<p class="stat-cards-info__title">금일 출퇴근 상황</p>
+							<p class="stat-cards-info__title"> 
+								출근정보없음
+							</p>
+							<p class="stat-cards-info__progress">
+								<span class="stat-cards-info__profit danger">
+									<i data-feather="trending-down" aria-hidden="true"></i>출근하지 않음
+								</span>
+							</p>
+					        <hr>
+					        <form action="attendprocessin" method="post">
+						  		<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="출근">
+						  	</form>
+					      </div>					      
 					    </article>
 					</div>
-					
+			 	</c:when>
+
+			    <c:when test="${wtinfo.workcheck == '출근처리됨'}">
+			 		<div class="col-md-6 col-xl-3">
+						<article class="stat-cards-item">
+					      <div class="stat-cards-icon success">
+					        <i data-feather="feather" aria-hidden="true"></i>
+					      </div>
+					      <div class="stat-cards-info">
+							  <p class="stat-cards-info__num">춭퇴근 체크</p>
+							  <p class="stat-cards-info__title">금일 출퇴근 상황</p>
+							  <p class="stat-cards-info__title">
+							  	출근시간 : ${wtinfo.in_time}
+							  </p>
+							  <p class="stat-cards-info__progress">
+								  <span class="stat-cards-info__profit success">
+								  	<i data-feather="trending-up" aria-hidden="true"></i>현재 근무중
+								  </span>
+							  </p>
+							  <hr>
+							  <form action="attendprocessout" method="post">
+							  	<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="퇴근">
+						      </form>
+					      </div>
+					    </article>
+					</div>
+			 	</c:when>
+			 	
+			 	<c:when test="${wtinfo.workcheck == '퇴근처리됨'}">
+			 		<div class="col-md-6 col-xl-3">
+						<article class="stat-cards-item">
+					      <div class="stat-cards-icon warning">
+					        <i data-feather="feather" aria-hidden="true"></i>
+					      </div>
+					      <div class="stat-cards-info">
+							  <p class="stat-cards-info__num">춭퇴근 체크</p>
+							  <p class="stat-cards-info__title">금일 출퇴근 상황</p>
+							  <p class="stat-cards-info__title">
+							  	근무 종료
+							  </p>
+							  <p class="stat-cards-info__progress">
+								  <span class="stat-cards-info__profit danger">
+								  	<i data-feather="trending-down" aria-hidden="true"></i>퇴근 처리됨
+								  </span>
+							  </p>
+							  <hr>
+							  <form action="attendprocessrein" method="post">
+							  	<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="재출근">
+							  </form>
+					      </div>
+					    </article>
+					</div>
 			 	</c:when>
 			 	
 			 	<c:otherwise>
-			 	
-			 		<div class="col-md-6 col-xl-3">
+					<div class="col-md-6 col-xl-3">
 						<article class="stat-cards-item">
-					    	<div class="stat-cards-icon primary">
-					        	<i data-feather="bar-chart-2" aria-hidden="true"></i>
-					        </div>
-					        <div class="stat-cards-info">
-						    	<table>
-									<tr>
-							        	<td>
-								            <p class="stat-cards-info__num">UI 출력 이상 발생</p>
-										    <p class="stat-cards-info__title">View 출력에 이상이 발생함</p>
-										    <p class="stat-cards-info__title">코드 확인바람</p>
-										    <p class="stat-cards-info__progress">
-										    <span class="stat-cards-info__profit success">
-										    <i data-feather="trending-up" aria-hidden="true"></i>이상발생
-										    </span>
-										    </p>
-							            </td>
-							            <td>
-							            	<hr>
-							            </td>
-							            <td>
-											
-							            </td>
-							        </tr>
-								</table>
-								
-					            <hr>
-					                
-					        </div>
+					      <div class="stat-cards-icon purple">
+					        <i data-feather="feather" aria-hidden="true"></i>
+					      </div>
+					      <div class="stat-cards-info">
+							  <p class="stat-cards-info__num">UI 출력 오류</p>
+							  <p class="stat-cards-info__title">에러 발생</p>
+							  <p class="stat-cards-info__title">View 데이터 조회에 이상 발생</p>
+							  <p class="stat-cards-info__progress">
+								  <span class="stat-cards-info__profit success">
+								  	<i data-feather="trending-up" aria-hidden="true"></i>관리자 확인 요망
+								  </span>
+							  </p>
+					      </div>
 					    </article>
 					</div>
-					
-			 	</c:otherwise>
-			 	
+			 	</c:otherwise>			 
 			 </c:choose>
-		 
 		</c:forEach>
 		
+		<!-- ===================================================================================================== -->
+		<!-- ===================================================================================================== -->
+		<!-- ===================================================================================================== -->
 		
-		
-		
-		
-
-          <c:forEach items="${atInfo}" var="atInf">
-	          <c:choose>
-		          
-			          <c:when test="${atInf.attend_num eq 0}">
-				          <div class="col-md-6 col-xl-3">
-				            <article class="stat-cards-item">
-				              <div class="stat-cards-icon warning">
-				                <i data-feather="file" aria-hidden="true"></i>
-				              </div>
-				              <div class="stat-cards-info">
-				                <p class="stat-cards-info__num">비정상 근무일수</p>
+		<!-- 비정상 근무일 조회 UI -->
+        <c:forEach items="${atInfo}" var="atInf">
+	    	<c:choose>		       
+				<c:when test="${atInf.attend_num eq 0}">
+					<div class="col-md-6 col-xl-3">
+				    	<article class="stat-cards-item">
+				        	<div class="stat-cards-icon success">
+				            	<i data-feather="bar-chart-2" aria-hidden="true"></i>
+				            </div>
+				            <div class="stat-cards-info">
+				                <p class="stat-cards-info__num">근태현황</p>
+				                <p class="stat-cards-info__title">비정상 근무일수</p>    
 				                <p class="stat-cards-info__title">0일</p>
 				                <p class="stat-cards-info__progress">
 				                  <span class="stat-cards-info__profit success">
@@ -242,21 +215,23 @@
 				                  </span>
 				                </p>
 				                <hr>
-				              </div>
-							  <input type="button" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="근태현황조회" onclick="location.href='#toattendstate'">
-				              <a id="toattendstate" href="attend/attendstate"></a>
-				            </article>
-				          </div>	
-			          </c:when>
+				                <form action="attendstate" method="get">
+					            	<button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">확인하기</button>
+					            </form>
+				            </div>
+				    	</article>
+					</div>	
+				</c:when>
 			          
-			          <c:when test="${atInf.attend_num ne 0}">
-				          <div class="col-md-6 col-xl-3">
-				            <article class="stat-cards-item">
-				              <div class="stat-cards-icon warning">
-				                <i data-feather="file" aria-hidden="true"></i>
-				              </div>
-				              <div class="stat-cards-info">
-				                <p class="stat-cards-info__num">비정상 근무일수</p>
+				<c:when test="${atInf.attend_num ne 0}">
+					<div class="col-md-6 col-xl-3">
+				    	<article class="stat-cards-item">
+				        	<div class="stat-cards-icon warning">
+				            	<i data-feather="bar-chart-2" aria-hidden="true"></i>
+				            </div>
+				            <div class="stat-cards-info">
+				                <p class="stat-cards-info__num">근태현황</p>
+				                <p class="stat-cards-info__title">비정상 근무일수</p>     
 				                <p class="stat-cards-info__title">${atInf.attend_num}일</p>
 				                <p class="stat-cards-info__progress">
 				                  <span class="stat-cards-info__profit danger">
@@ -264,40 +239,43 @@
 				                  </span>
 				                </p>
 				                <hr>
-				              </div>
-				              <input type="button" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="근태현황조회" onclick="location.href='#toattendstate'">
-				              <a id="toattendstate" href="attend/attendstate"></a>
-				            </article>
-				          </div>
-			          </c:when>
-		          
-		          </c:choose>
-          </c:forEach>
+				                <form action="attendstate" method="get">
+					            	<button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">확인하기</button>
+					            </form>				                
+				            </div>
+				    	</article>
+					</div>
+				</c:when>
+			</c:choose>
+        </c:forEach>
           
-          
-          
-          
-          
-          <c:forEach items="${atModInfo}" var="modInfo">
-          
+        <!-- ===================================================================================================== -->
+		<!-- ===================================================================================================== -->
+		<!-- ===================================================================================================== -->
+		
+		<!-- 근태수정요청 조회 UI -->
+        <c:forEach items="${atModInfo}" var="modInfo">      
 	          <c:choose>
 	          
 		          <c:when test="${modInfo.attend_mod_num eq 0}">
 		          	<div class="col-md-6 col-xl-3">
 			            <article class="stat-cards-item">
-			              <div class="stat-cards-icon purple">
+			              <div class="stat-cards-icon success">
 			                <i data-feather="file" aria-hidden="true"></i>
 			              </div>
 			              <div class="stat-cards-info">
 			                <p class="stat-cards-info__num">근태수정요청</p>
-			                <p class="stat-cards-info__title">승인되지 않은 수정요청</p>              
+			                <p class="stat-cards-info__title">미승인 요청</p>              
 			                <p class="stat-cards-info__title">0건</p>
 			                <p class="stat-cards-info__progress">
 			                  <span class="stat-cards-info__profit success">
-			                    <i data-feather="trending-up" aria-hidden="true"></i>이상없음
+			                    <i data-feather="trending-up" aria-hidden="true"></i>요청없음
 			                  </span>
 			                </p>
 			                <hr>
+			              	<form action="attendmanage" method="get">
+				          		<button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">확인하기</button>
+				          	</form>
 			              </div>
 			            </article>
 			          </div>	
@@ -305,13 +283,13 @@
 		          
 		          <c:when test="${modInfo.attend_mod_num ne 0}">
 		          	<div class="col-md-6 col-xl-3">
-			            <article class="stat-cards-item">
-			              <div class="stat-cards-icon purple">
+			        	<article class="stat-cards-item">
+			              <div class="stat-cards-icon warning">
 			                <i data-feather="file" aria-hidden="true"></i>
 			              </div>
 			              <div class="stat-cards-info">
 			                <p class="stat-cards-info__num">근태수정요청</p>
-			                <p class="stat-cards-info__title">승인되지 않은 수정요청</p>              
+			                <p class="stat-cards-info__title">미승인 요청</p>              
 			                <p class="stat-cards-info__title">${modInfo.attend_mod_num}건</p>
 			                <p class="stat-cards-info__progress">
 			                  <span class="stat-cards-info__profit danger">
@@ -319,49 +297,103 @@
 			                  </span>
 			                </p>
 			                <hr>
+			              	<form action="attendmanage" method="get">
+				          		<button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">확인하기</button>
+				          	</form>			                
 			              </div>
 			            </article>
-			          </div>
+			        </div>
 		          </c:when>
 	          
-	          </c:choose>
+	    	</c:choose>      
+		</c:forEach>
           
-		  </c:forEach>
-          
-
-
-
-
-
         </div>
         
         <hr>
         <br>
-
-        <c:forEach items="${atWTInfo}" var="wtInfo">
         
-	        <div class="row stat-cards">
-	        	<div class="col-md-9 col-xl-6">
-					<article class="stat-cards-item">
-				    	<div class="stat-cards-icon warning">
-				        	<i data-feather="file" aria-hidden="true"></i>
-				            </div>
-				            	<div class="stat-cards-info">
-					                <p class="stat-cards-info__num">이번달 근무상황</p>
-					                <p class="stat-cards-info__title">총 근무시간 : ${wtInfo.total_work_time}</p>
-					                <p class="stat-cards-info__progress">
-					                  <span class="stat-cards-info__profit success">
-					                    <i data-feather="trending-up" aria-hidden="true"></i>근무 시간 초과됨
-					                  </span>
-					                  1시간 30분
-					                </p>
-					                <hr>
-					                이 위치에 직선형 그래프 배치하면 좋을듯?
-				    			</div>
-					</article>
-	        	</div>
-			</div> 
-			
+        <!-- ===================================================================================================== -->
+		<!-- ===================================================================================================== -->
+		<!-- ===================================================================================================== -->
+		
+		<!-- 근로시간 조회 UI -->
+        <c:forEach items="${atWTInfo}" var="wtInfo">        
+        	<c:choose>
+        	
+        		<c:when test="${wtInfo.total_work_time le 2080000}">
+	        		<div class="row stat-cards">
+			        	<div class="col-md-9 col-xl-6">
+							<article class="stat-cards-item">
+						    	<div class="stat-cards-icon success">
+						        	<i data-feather="bar-chart-2" aria-hidden="true"></i>
+						        </div>
+						        <div class="stat-cards-info">
+							    	<p class="stat-cards-info__num">이번달 근무상황</p>
+							        <p class="stat-cards-info__title">총 근무시간 : ${wtInfo.total_work_time}</p>
+							        <p class="stat-cards-info__progress">
+							        <span class="stat-cards-info__profit success">
+							        	<i data-feather="trending-up" aria-hidden="true"></i>잔여근무시간 있음
+							        </span>
+							        	${2080000 - wtInfo.total_work_time}
+							        </p>
+							        <hr>
+							        이 위치에 직선형 그래프 배치하면 좋을듯?
+						    	</div>
+							</article>
+			        	</div>
+					</div> 
+        		</c:when>
+        		
+        		<c:when test="${wtInfo.total_work_time ge 2080000}">
+	        		<div class="row stat-cards">
+			        	<div class="col-md-9 col-xl-6">
+							<article class="stat-cards-item">
+						    	<div class="stat-cards-icon success">
+						        	<i data-feather="bar-chart-2" aria-hidden="true"></i>
+						        </div>
+						        <div class="stat-cards-info">
+							    	<p class="stat-cards-info__num">이번달 근무상황</p>
+							        <p class="stat-cards-info__title">총 근무시간 : ${wtInfo.total_work_time}</p>
+							        <p class="stat-cards-info__progress">
+							        <span class="stat-cards-info__profit danger">
+							        	<i data-feather="trending-down" aria-hidden="true"></i>잔여근무시간 없음
+							        </span>
+							             000000
+							        </p>
+							        <hr>
+							        이 위치에 직선형 그래프 배치하면 좋을듯?
+						    	</div>
+							</article>
+			        	</div>
+					</div>        		
+        		</c:when>
+        		
+				<c:otherwise>
+	        		<div class="row stat-cards">
+			        	<div class="col-md-9 col-xl-6">
+							<article class="stat-cards-item">
+						    	<div class="stat-cards-icon success">
+						        	<i data-feather="bar-chart-2" aria-hidden="true"></i>
+						        </div>
+						        <div class="stat-cards-info">
+							    	<p class="stat-cards-info__num">이번달 근무상황</p>
+							        <p class="stat-cards-info__title">총 근무시간 : 데이터 없음</p>
+							        <p class="stat-cards-info__progress">
+							        <span class="stat-cards-info__profit danger">
+							        	<i data-feather="trending-down" aria-hidden="true"></i>잔여근무시간 정보 없음
+							        </span>
+							             0시간 00분
+							        </p>
+							        <hr>
+							        근무 시간 데이터가 존재하지 않습니다.
+						    	</div>
+							</article>
+			        	</div>
+					</div>     				
+				</c:otherwise>
+        		
+        	</c:choose>
 		</c:forEach>
 		
 	</div>

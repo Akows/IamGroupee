@@ -13,40 +13,50 @@ import com.kh.iag.attend.entity.AttendWTDTO;
 public interface attendService 
 {
 	//근태관리 메인페이지
-		//근태 메인페이지 임시데이터 삽입
+		//임시데이터 삽입
 		void attendtempdatainsert(AttendDTO attendDTO) throws Exception;
 		void attendWTtempdatainsert(AttendWTDTO attendWTDTO) throws Exception;
 
-		//근태 메인페이지 정보 출력
+		//메인페이지 정보 출력
 		List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception;
+		List<AttendDTO> getAttendNumandName(AttendDTO attendDTO) throws Exception;
 		List<AttendDTO> getPreAttendInfo(AttendDTO attendDTO) throws Exception;
 		List<AttendModDTO> getAttendModInfo(AttendModDTO attendModDTO) throws Exception;
 		List<AttendWTDTO> getAttendWTInfo(AttendWTDTO attendWTDTO) throws Exception;
 		
-		//근태 출퇴근처리
+		//출퇴근처리
 		void attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
 		void attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
+		void attendprocessReIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
 	
-	//근태상태조회 
+	//근태현황 조회페이지
+		//캘린더
 		
+		//근태현황 수정요청
+		int attendModify(AttendModDTO attendmodDTO, HttpServletRequest req, MultipartFile file) throws Exception;
+		int getAttendModCnt() throws Exception;
 		
-	//근태 상태조회 - 근로상황 수정요청페이지
-	int attendModify(AttendModDTO attendmodDTO, HttpServletRequest req, MultipartFile file) throws Exception;
-	int getAttendModCnt() throws Exception;
+		//일일 근태현황조회	
+		List<AttendDTO> getAllAttendINfo(AttendDTO attendDTO) throws Exception;
+		List<AttendWTDTO> getAllAttendWTInfo(AttendWTDTO attendWTDTO) throws Exception;
+		
+	//근태관리 관리페이지
+		//수정요청 조회
+		List<AttendModDTO> getModList() throws Exception;
+		
+		//첨부파일 조회-출력
+		List<AttendModDTO> getFile(String searchKey) throws Exception;
+		
+		//수정요청처리
+		int approveManageOK(AttendModDTO attendModDTO) throws Exception;
+		int approveManageNone(AttendModDTO attendModDTO) throws Exception;
+
+
 	
-	//근태관리
-	List<AttendModDTO> getModList() throws Exception;
-	List<AttendModDTO> getFile(String searchKey) throws Exception;
-	
-	//수정요청 승인 혹은 거절
-	int approveManageOK(AttendModDTO attendModDTO) throws Exception;
-	int approveManageNone(AttendModDTO attendModDTO) throws Exception;
 	
 	
 	
-	
-	List<AttendWTDTO> getAllAttendINfo();
-	List<AttendWTDTO> getAllAttendWTInfo();
+
 	
 
 
