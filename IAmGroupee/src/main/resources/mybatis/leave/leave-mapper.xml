@@ -54,7 +54,7 @@
     	JOIN USAGE_LV UL ON (L.LV_CODE = UL.LV_CODE)
     	JOIN IAG_USER IU ON (UL.USER_NO = IU.USER_NO)
     	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
-    	WHERE IU.USER_NO = #{userNo} AND UL.LV_END &lt; SYSDATE
+    	WHERE IU.USER_NO = #{userNo} AND UL.LV_END &lt; SYSDATE AND UL.USE_THIS_YEAR = 'Y'
     	ORDER BY UL.LV_END DESC
     </select>
     
@@ -63,7 +63,7 @@
     	JOIN USAGE_LV UL ON (L.LV_CODE = UL.LV_CODE)
     	JOIN IAG_USER IU ON (UL.USER_NO = IU.USER_NO)
     	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
-    	WHERE IU.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'ALV%' AND UL.LV_END BETWEEN TO_CHAR(ADD_MONTHS(SYSDATE, -12), 'yyyy-mm-dd') AND TO_CHAR(SYSDATE-1, 'yyyy-mm-dd')
+    	WHERE IU.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'ALV%' AND UL.LV_END BETWEEN TO_CHAR(ADD_MONTHS(SYSDATE, -12), 'yyyy-mm-dd') AND TO_CHAR(SYSDATE-1, 'yyyy-mm-dd') AND UL.USE_THIS_YEAR = 'Y'
     	ORDER BY UL.LV_END ASC
     </select>
   
@@ -89,7 +89,7 @@
 		    	(
 			    	SELECT * FROM USAGE_LV UL
 			    	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
-			    	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'ALV%'	AND UL.LV_END &lt; SYSDATE
+			    	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'ALV%'	AND UL.LV_END &lt; SYSDATE AND UL.USE_THIS_YEAR = 'Y'
 			    	ORDER BY UL.LV_END DESC
 		    	) ALV
 	    	) WHERE RN BETWEEN #{pageVoAlv.startRow} AND #{pageVoAlv.endRow}
@@ -103,7 +103,7 @@
 		    	(
 			    	SELECT * FROM USAGE_LV UL
 			    	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
-			    	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'LV%' AND UL.LV_END &lt; SYSDATE
+			    	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'LV%' AND UL.LV_END &lt; SYSDATE AND UL.USE_THIS_YEAR = 'Y'
 			    	ORDER BY UL.LV_END DESC
 		    	) LV
 	    	) WHERE RN BETWEEN #{pageVoAlv.startRow} AND #{pageVoAlv.endRow}
@@ -113,13 +113,13 @@
     <select id="getAlvRowCnt" resultType="int">
     	SELECT COUNT(*) FROM USAGE_LV UL
     	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
-    	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'ALV%' AND UL.LV_END &lt; SYSDATE
+    	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'ALV%' AND UL.LV_END &lt; SYSDATE AND UL.USE_THIS_YEAR = 'Y'
     </select>
   
     <select id="getLvRowCnt" resultType="int">
     	SELECT COUNT(*) FROM USAGE_LV UL
     	JOIN LEAVE L ON (UL.LV_CODE = L.LV_CODE)
-    	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'LV%' AND UL.LV_END &lt; SYSDATE
+    	WHERE UL.USER_NO = #{userNo} AND UL.LV_CODE LIKE 'LV%' AND UL.LV_END &lt; SYSDATE AND UL.USE_THIS_YEAR = 'Y'
     </select>
   
     <select id="getLvTypeList" resultType="leave">
@@ -260,5 +260,56 @@
 	  			'--'
 	  		)
 	  	</insert>
+	  	
+	  	<select id="checkOverEighty" parameterType="hashmap" resultType="int">
+	  		SELECT COUNT(*) FROM ATTENDANCE
+		  	WHERE USER_NO = #{userNo} 
+		  	AND NORMAL_CHECK = 'Y'
+		  	AND ATTEND_DATE BETWEEN TO_DATE(#{start}, 'YY-MM-DD') AND TO_DATE(#{end}, 'YY-MM-DD')
+	  	</select>
+    
+    <!-- 연차 생성 로직 부분 -->
+    
+    <!-- 연차 생성 전 리셋 -->
+    <update id="resetIagUserAlv" parameterType="string">
+    	UPDATE IAG_USER SET
+    	ALV_COUNT = 0,
+    	MLV_COUNT = 0,
+    	ALV_USED_COUNT = 0,
+    	ALV_LEFT_COUNT = 0,
+    	ALV_ADD_COUNT = 0
+    	WHERE USER_NO = #{userNo}
+    </update>
+    
+	<delete id="resetAlvHistory" parameterType="string">
+		DELETE ALV_OCCUR_HISTORY
+		WHERE USER_NO = #{userNo}
+	</delete>
+    
+    <update id="resetUsageLv" parameterType="hashmap">
+    	UPDATE USAGE_LV SET
+    	USE_THIS_YEAR = 'N'
+    	WHERE USER_NO = #{userNo} AND
+    	LV_END BETWEEN TO_DATE(ADD_MONTHS(TO_DATE(#{todayDate},'YY-MM-DD'), -12), 'YY-MM-DD') AND TO_DATE(#{todayDate}, 'YY-MM-DD')
+    </update>
+    
+    <select id="checkOccuredAlvToday" resultType="int">
+    	SELECT COUNT(*) FROM ALV_OCCUR_HISTORY
+    	WHERE USER_NO = #{userNo} AND ALV_OCCUR_DATE = TO_DATE(#{todayDate},'YY-MM-DD') AND LV_CODE = 'ALV_00'
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
   </mapper>

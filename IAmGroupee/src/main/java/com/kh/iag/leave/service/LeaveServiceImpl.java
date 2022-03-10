@@ -168,8 +168,60 @@ public class LeaveServiceImpl implements LeaveService {
 		return dao.getAllUserInfo();
 	}
 
+	@Override // 작년 근무일수가 80프로가 넘는 지
+	public int checkOverEighty(String userNo, String start, String end) throws Exception {
+		return dao.checkOverEighty(userNo, start, end);
+	}
+// =========== 연차생성 전 리셋 3가지 ===========
+	@Override // 1. IAG_USER의 ALV_COUNT, MLV_COUNT,  ALV_USED_COUNT, ALV_LEFT_COUNT, ALV_ADD_COUNT 컬럼 0으로 리셋 (UPDATE)
+	public void resetIagUserAlv(String userNo) throws Exception {
+		dao.resetIagUserAlv(userNo);
+	}
 
+	@Override // 2. ALV_OCCUR_HISTORY테이블에서 userNo의 데이터 리셋 (DELETE)
+	public void resetAlvHistory(String userNo) throws Exception {
+		dao.resetAlvHistory(userNo);
+	}
 
-	
-	
+	@Override // 3. USAGE_LV테이블 THIS_YEAR컬럼 'N'으로 리셋 (UPDATE)
+	public void resetUsageLv(String userNo, String todayDate) throws Exception {
+		dao.resetUsageLv(userNo, todayDate);
+	}
+// =========== 연차생성 ===========
+	@Override // 오늘 발생한 연차가 있는지 (없어야한다)
+	public int checkOccuredAlvToday(String userNo, String todayDate) throws Exception {
+		return dao.checkOccuredAlvToday(userNo, todayDate);
+	}
+
+	@Override // 로그인 유저의 총연차개수 update IAG_USER
+	public int addAlvCount(String userNo, int createAlvCount) throws Exception {
+		return dao.addAlvCount(userNo, createAlvCount);
+	}
+
+	@Override // 로그인 유저의 연차발생 HISTORY
+	public int addAlvHistory(String userNo, int createAlvCount) throws Exception {
+		return dao.addAlvHistory(userNo, createAlvCount);
+	}
+// =========== 월차생성 ===========	
+
+	@Override // 오늘 발생한 월차가 있는지 (없어야한다)
+	public int checkOccurMlvToday(String userNo, String todayDate) throws Exception {
+		return dao.checkOccurMlvToday(userNo, todayDate);
+	}
+
+	@Override // 이전 달에 개근을 했는지 (했어야한다)
+	public int checkAttendAll(String userNo, String todayDate) throws Exception {
+		return dao.checkAttendAll(userNo, todayDate);
+	}
+
+	@Override// 로그인 유저의 총월차개수 update +1 IAG_USER
+	public int addMlvCount(String userNo) throws Exception {
+		return dao.addMlvCount(userNo);
+	}
+
+	@Override // 로그인 유저의 월차발생 HISTORY
+	public int addMlvHistory(String userNo) throws Exception {
+		return dao.addMlvHistory(userNo);
+	}
+
 }

@@ -187,9 +187,110 @@ public class LeaveDaoImpl implements LeaveDao {
 		return session.selectList("leave.getAllUserInfo");
 	}
 
+//	@Override
+//	public int Test(String date) throws Exception {
+//		return session.insert("leave.Test", date);
+//	}
 	@Override
-	public int Test(String date) throws Exception {
-		return session.insert("leave.Test", date);
+	public int checkOverEighty(String userNo, String start, String end) throws Exception {
+		Map<String, Object> checkOverEighty = new HashMap<String, Object>();
+		checkOverEighty.put("userNo", userNo);
+		checkOverEighty.put("start", start);
+		checkOverEighty.put("end", end);
+		return session.selectOne("leave.checkOverEighty", checkOverEighty);
+	}
+
+	@Override
+	public int resetIagUserAlv(String userNo) throws Exception {
+		int result = 0;
+		int count = session.update("leave.resetIagUserAlv", userNo);
+
+		if (count>0) {
+			result = 1;
+		}
+		result = 0;
+		
+		return result;
+	}
+
+	@Override
+	public int resetAlvHistory(String userNo) throws Exception {
+		return session.delete("leave.resetAlvHistory", userNo);
+	}
+
+	@Override
+	public int resetUsageLv(String userNo, String todayDate) throws Exception {
+		int result = 0;
+		Map<String, Object> resetUsageLv = new HashMap<String, Object>();
+		resetUsageLv.put("userNo", userNo);
+		resetUsageLv.put("todayDate", todayDate);
+		int count = session.update("leave.resetUsageLv", resetUsageLv);
+		
+		if (count>0) {
+			result = 1;
+		}
+		result = 0;
+		
+		return result;
+	}
+
+	//==========mapper작성하기
+	@Override  // =====다시=====
+	public int checkOccuredAlvToday(String userNo, String todayDate) throws Exception {
+		int result = 0;
+		Map<String, Object> checkOccuredAlvToday = new HashMap<String, Object>();
+		checkOccuredAlvToday.put("userNo", userNo);
+		checkOccuredAlvToday.put("todayDate", todayDate);
+		int count = session.selectOne("leave.checkOccuredAlvToday", checkOccuredAlvToday);
+
+		if (count>0) {
+			result = 1;
+		}
+		result = 0;
+		
+		return result;
+	}
+
+	@Override
+	public int addAlvCount(String userNo, int createAlvCount) throws Exception {
+		Map<String, Object> addAlvCount = new HashMap<String, Object>();
+		addAlvCount.put("userNo", userNo);
+		addAlvCount.put("createAlvCount", createAlvCount);
+		return 0;
+	}
+
+	@Override
+	public int addAlvHistory(String userNo, int createAlvCount) throws Exception {
+		Map<String, Object> addAlvHistory = new HashMap<String, Object>();
+		addAlvHistory.put("userNo", userNo);
+		addAlvHistory.put("createAlvCount", createAlvCount);
+		return 0;
+	}
+
+	@Override
+	public int checkOccurMlvToday(String userNo, String todayDate) throws Exception {
+		Map<String, Object> checkOccurMlvToday = new HashMap<String, Object>();
+		checkOccurMlvToday.put("userNo", userNo);
+		checkOccurMlvToday.put("todayDate", todayDate);
+		return 0;
+	}
+
+	@Override
+	public int checkAttendAll(String userNo, String todayDate) throws Exception {
+		Map<String, Object> checkAttendAll = new HashMap<String, Object>();
+		checkAttendAll.put("userNo", userNo);
+		checkAttendAll.put("todayDate", todayDate);
+		return 0;
+	}
+
+	@Override
+	public int addMlvCount(String userNo) throws Exception {
+		return 0;
+	}
+
+	@Override
+	public int addMlvHistory(String userNo) throws Exception {
+		return 0;
 	}	
 	
 }
