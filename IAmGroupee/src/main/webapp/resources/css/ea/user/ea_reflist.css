@@ -205,70 +205,7 @@
   color: #fff;
   border-radius: 5px;
 }
-/* 전자결재 > 기안문서조회 (반려문서 수정) */
-.ea_reflist_wrapper_rejected {
-  width: 90%;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.ea_reflist_rejected_contents {
-  width: 100%;
-  border: 3px solid gainsboro;
-  border-radius: 10px;
-  border-top-left-radius: 0;
-  position: relative;
-  float: left;
-}
-.ea_reflist_rejected_contents > form > div:nth-child(1) > table > * > * > * {
-  border: 1px solid gainsboro;
-  background: #fff;
-  padding: 3px;
-  text-align: center;
-  overflow: hidden;
-  font-size: 14px;
-}
-.ea_reflist_rejected_contents > form > div:nth-child(1) > table {
-  float: left;
-  margin: 20px;
-  width: 350px;
-}
-.ea_reflist_rejected_contents > form > div:nth-child(1) > table th {
-  background: navy;
-  color: #fff;
-}
-.ea_reflist_rejected_contents > form > div:nth-child(2) > table {
-  float: right;
-  margin: 20px;
-  height: 100px;
-  text-align: center;
-}
-.ea_reflist_rejected_contents > form > div:nth-child(2) > table > * > * > * {
-  border: 1px solid gainsboro;
-  background: #fff;
-  padding: 5px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  font-size: 14px;
-}
-.ea_reflist_rejected_contents > form > div:nth-child(2) th {
-  background: navy;
-  color: #fff;
-}
-.ea_reflist_rejected_contents > form > div:nth-child(3) {
-  float: left;
-  width: 100%;
-  border-top: 1px solid gainsboro;
-}
-.ea_reflist_rejected_contents > form > div:nth-child(4) a {
-  float: right;
-  margin: 20px;
-  margin-left: 0;
-  padding: 8px;
-  background: #4081e4;
-  color: #fff;
-  border-radius: 5px;
-}
+
 span[id^="stamp"] {
   font-size: 12px;
   color: #fff;

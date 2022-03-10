@@ -128,6 +128,7 @@
 		WHERE FORM_NO = ${formNo}
 	</update>
 <!-- 사용자 -->
+<!-- 기안 #################################################################################################### -->
 	<!-- 기안 작성 페이지 양식 데이터 -->
 	<select id="signupFormValue" parameterType="eaform" resultType="eaform">
 		SELECT * FROM EA_FORM WHERE FORM_NO = ${formNo}
@@ -386,7 +387,6 @@
 		JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
 	</select>
 	
-	
 	<!-- 기안 작성시 작성한 문서 상세 페이지 결재선 데이터 -->
 	<select id="selectProcess" parameterType="com.kh.iag.ea.entity.ProcessDto" resultType="com.kh.iag.ea.entity.ProcessDto">
 		SELECT P.*, U.NAME, PS.POSITION_NAME, DP.DEPARTMENT_NAME
@@ -410,20 +410,35 @@
 		    SELECT ROWNUM RN, T.*
 		    FROM
 		    (
-		    SELECT D.*, U.NAME, P.POSITION_NAME, DP.DEPARTMENT_NAME, F.FORM_TITLE
-		    FROM 
-		    (
-		        SELECT * FROM EA_DOCUMENT
-		        WHERE USER_NO = #{userNo} AND DOC_SEP = 'N'
-		        ORDER BY DOC_MAKE DESC
-		    ) D
-		    JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
-		    JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
-		    JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
-		    JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+			    SELECT D.*, U.NAME, P.POSITION_NAME, DP.DEPARTMENT_NAME, F.FORM_TITLE
+			    FROM 
+			    (
+			        SELECT * FROM EA_DOCUMENT
+			        WHERE USER_NO = #{userNo} AND DOC_SEP = 'N'
+			        ORDER BY DOC_MAKE DESC
+			    ) D
+			    JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+			    JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
+			    JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+			    JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
 		    ) T
 		)
 		WHERE RN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- 필터링조회에 사용할 기안리스트 -->
+	<select id="signupListForFilter" parameterType="string" resultType="eadocs">
+	    SELECT D.*, U.NAME, P.POSITION_NAME, DP.DEPARTMENT_NAME, F.FORM_TITLE
+	    FROM 
+	    (
+	        SELECT * FROM EA_DOCUMENT
+	        WHERE USER_NO = #{userNo} AND DOC_SEP = 'N'
+	        ORDER BY DOC_MAKE DESC
+	    ) D
+	    JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+	    JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
+	    JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+	    JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
 	</select>
 	
 	<!-- 기안리스트조회 결재선 정의 데이터 -->
@@ -515,6 +530,7 @@
 		WHERE PROC_NO = ${procNo} AND PROC_SEQ IN(2, 3)
 	</update>
 	
+<!-- 결재 #################################################################################################### -->
 	<!-- 결재리스트조회 로우 카운트 -->
 	<select id="getApprListCnt" parameterType="string" resultType="int">
 		SELECT COUNT(DOC_NO) 
@@ -610,5 +626,135 @@
 			DOC_SEP = 'Y'
 		WHERE PROC_NO = ${procNo}
 	</update>
+
+<!-- 참조 #################################################################################################### -->
+	<!-- 참조문서조회 리스트 로우 개수 조회 -->
+	<select id="getRefListCnt" parameterType="string" resultType="int">
+		SELECT COUNT(DOC_NO) FROM EA_REF WHERE REF_NO = #{userNo}
+	</select>
 	
+	<!-- 참조문서조회 참조문서들 데이터 가져오기 -->
+	<select id="refList" parameterType="hashMap" resultType="eadocs">
+		SELECT * FROM
+		(
+		    SELECT ROWNUM RN, T.*
+		    FROM
+		    (
+		        SELECT D.*, F.FORM_TITLE
+		        FROM 
+		        (
+		            SELECT * FROM EA_DOCUMENT
+		            WHERE DOC_SEP = 'N' AND DOC_NO IN (SELECT DOC_NO FROM EA_REF WHERE REF_NO = #{userNo})
+		            ORDER BY DOC_MAKE DESC
+		        ) D
+		        JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+		    ) T
+		)
+		WHERE RN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- 참조문서조회 결재처리절차 비교를 위한 데이터 가져오기 -->
+	<select id="processListRef" parameterType="string" resultType="com.kh.iag.ea.entity.ProcessDto">
+		SELECT D.DOC_NO, PC.*
+		FROM 
+		(
+		    SELECT * FROM EA_DOCUMENT
+		    WHERE DOC_SEP = 'N' AND DOC_NO IN (SELECT DOC_NO FROM EA_REF WHERE REF_NO = #{userNo})
+		    ORDER BY DOC_MAKE DESC
+		) D
+		JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+		JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
+		JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+		JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+		JOIN EA_PROCESS PC ON(D.PROC_NO = PC.PROC_NO)
+	</select>
+	
+<!-- 전체 #################################################################################################### -->
+	<!-- 전체문서조회 로그인한 유저의 기안문서, 결재문서, 참고문서 데이터 -->
+	<select id="selectRelatedDocs" parameterType="string" resultType="eadocs">
+		SELECT * FROM
+		(
+			SELECT * 
+			FROM EA_DOCUMENT
+			WHERE USER_NO = #{userNo} AND DOC_SEP = 'Y'
+			
+			UNION
+			
+			SELECT * 
+			FROM EA_DOCUMENT 
+			WHERE PROC_NO IN(SELECT PROC_NO FROM EA_PROCESS WHERE USER_NO = #{userNo}) 
+			  AND DOC_SEP = 'Y'
+			
+			UNION
+			
+			SELECT * FROM EA_DOCUMENT
+			WHERE DOC_SEP = 'Y' AND DOC_NO IN (SELECT DOC_NO FROM EA_REF WHERE REF_NO = #{userNo})
+		) D
+		JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+		JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+		JOIN DEPARTMENT DT ON(U.DEPARTMENT_NO = DT.DEPARTMENT_NO)
+		ORDER BY DOC_MAKE DESC
+	</select>
+	
+	<!-- SEC_A 설정정보 -->
+	<select id="selectSecA" resultType="int">
+		SELECT SEC_MIN FROM EA_SEC_A
+	</select>
+	
+	
+	<!-- SEC_A 설정정보 -->
+	<select id="selectSecB" resultType="int">
+		SELECT SEC_MIN FROM EA_SEC_B
+	</select>
+	
+	<!-- 로그인유저가 기안,결재,참조 문서가 아닌 문서 -->
+	<select id="selectNotRelatedDocs" parameterType="string" resultType="eadocs">
+		SELECT * FROM
+		(
+			SELECT * FROM EA_DOCUMENT WHERE DOC_SEP = 'Y'
+	
+			MINUS
+			
+			(
+			SELECT * 
+			FROM EA_DOCUMENT
+			WHERE USER_NO = #{userNo} AND DOC_SEP = 'Y'
+			
+			UNION
+			
+			SELECT * 
+			FROM EA_DOCUMENT 
+			WHERE PROC_NO IN(SELECT PROC_NO FROM EA_PROCESS WHERE USER_NO = #{userNo}) 
+			  AND DOC_SEP = 'Y'
+			
+			UNION
+			
+			SELECT * FROM EA_DOCUMENT
+			WHERE DOC_SEP = 'Y' AND DOC_NO IN (SELECT DOC_NO FROM EA_REF WHERE REF_NO = #{userNo})
+			)
+		) D
+		JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+		JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+		JOIN DEPARTMENT DT ON(U.DEPARTMENT_NO = DT.DEPARTMENT_NO)
+		ORDER BY DOC_MAKE DESC
+	</select>
+	
+	<!-- 부서정보 데이터 -->
+	<select id="departmentList" resultType="dept">
+		SELECT * FROM DEPARTMENT ORDER BY DEPARTMENT_NO
+	</select>
+	
+	<!-- 전체문서조회 상세 데이터 -->
+	<select id="selectDocumentEntire" parameterType="com.kh.iag.ea.entity.ProcessDto" resultType="eadocs">
+		SELECT D.*, U.NAME, P.POSITION_NAME, DP.DEPARTMENT_NAME, F.FORM_TITLE
+		FROM 
+		(
+			SELECT * FROM EA_DOCUMENT
+			WHERE DOC_NO = #{docNo} AND DOC_SEP = 'Y'
+		) D
+		JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+		JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
+		JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+		JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+	</select>
 </mapper>

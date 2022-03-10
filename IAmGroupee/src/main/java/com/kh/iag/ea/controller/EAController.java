@@ -1,6 +1,10 @@
-package com.kh.iag.ea.controller;
 
+package com.kh.iag.ea.controller;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.iag.ea.admin.service.AdminEAService;
@@ -28,6 +33,7 @@ import com.kh.iag.ea.entity.PageDto;
 import com.kh.iag.ea.entity.ProcessDto;
 import com.kh.iag.ea.entity.SignupDto;
 import com.kh.iag.ea.service.EAService;
+import com.kh.iag.ps.admin.entity.departmentDto;
 import com.kh.iag.user.entity.UserDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -111,7 +117,6 @@ public class EAController {
 		
 		return "ea/user/ea_signup_write_lvB";
 	}
-	
 	
 	// 기안신청 (처리)
 	@PostMapping(value = "/write")
@@ -252,6 +257,97 @@ public class EAController {
 		// 진행단계 데이터 (테이블헤더에 필요)
 		List<ProcessDto> processList = service.processList(userNo);
 		model.addAttribute("processList", processList);
+		
+		return "ea/user/ea_signuplist_list";
+	}
+	
+	// 필터링
+	@RequestMapping(value = "/signuplistByFilter")
+	public String signuplistByFilter(HttpSession session, Model model, String formNo, String make, String close, String procSeq) throws Exception {
+		
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		String userNo = loginUser.getUserNo();
+		
+		// 양식전체종류 데이터 (테이블헤더에 필요)
+		List<FormDto> formList = service.formList();
+		model.addAttribute("formList", formList);
+		
+		// 진행단계 데이터 (테이블헤더에 필요)
+		List<ProcessDto> processList = service.processList(userNo);
+		model.addAttribute("processList", processList);
+		
+		// 자신이 기안한 문서들 데이터
+		List<DocsDto> signupList = service.signupListForFilter(userNo);
+		
+		System.out.println(signupList.get(0).toString());
+		
+		List<DocsDto> list = new ArrayList<>();
+		
+		// 양식
+		if(formNo != null) {
+			for(int i = 0; i < signupList.size(); i++) {
+				if(signupList.get(i).getFormNo().equals(formNo)) {
+					list.add(signupList.get(i));
+				}
+			}
+		// 상신날짜
+		} else if(make != null) {
+			for(int i = 0; i < signupList.size(); i++) {
+				list.add(signupList.get(i));
+			}
+			
+			if("old".equals(make))
+				Collections.sort(list, (d1, d2) -> d1.getDocMake().compareTo(d2.getDocMake()));
+			else
+				Collections.sort(list, (d1, d2) -> d2.getDocMake().compareTo(d1.getDocMake()));
+		// 마감날짜
+		} else if(close != null) {
+			for(int i = 0; i < signupList.size(); i++) {
+				list.add(signupList.get(i));
+			}
+			
+			if("old".equals(close))
+				Collections.sort(list, (d1, d2) -> d1.getDocClose().compareTo(d2.getDocClose()));
+			else
+				Collections.sort(list, (d1, d2) -> d2.getDocClose().compareTo(d1.getDocClose()));
+		// 진행단계
+		} else if(procSeq != null) {
+//			for(int i = 0; i < processList.size(); i++) {
+//				if(procSeq == "2") {
+//					for(int j = 0; j < signupList.size(); j++) {
+//						if(processList.get(i).getDocNo().equals(signupList.get(j).getDocNo()) && processList.get(i).getProcSeq() == 2) {
+//							list.add(signupList.get(j));
+//						}
+//					}					
+//				} else if(procSeq == "3") {
+//					for(int j = 0; j < signupList.size(); j++) {
+//						if(processList.get(i).getDocNo().equals(signupList.get(j).getDocNo()) && processList.get(i).getProcSeq() == 3) {
+//							list.add(signupList.get(j));
+//						}
+//					}	
+//				} else {
+//					for(int j = 0; j < signupList.size(); j++) {
+//						if(processList.get(i).getDocNo().equals(signupList.get(j).getDocNo())) {
+//							if(processList.get(i).getProcSep() == processList.get(i).getProcCnt()) {
+//								if(processList.get(i).getPro)
+//							}
+//						}
+//					}	
+//				}
+//			}
+		}
+		
+		for(DocsDto d : list) {
+			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+			Date makeDate = d.getDocMake();
+			Date closeDate = d.getDocClose();
+			d.setSimpleMakeDate(ft.format(makeDate));
+			d.setSimpleCloseDate(ft.format(closeDate));
+		}
+		model.addAttribute("signupList", list);
+		
+		
+		
 		
 		return "ea/user/ea_signuplist_list";
 	}
@@ -476,7 +572,7 @@ public class EAController {
 	}
 	// 결재문서조회 (결재진행)
 	@PostMapping(value = "/apprlist/process")
-	public String apprlisApprved(String docNo, @ModelAttribute ProcessDto dto) {
+	public String apprlisApprved(String docNo, @ModelAttribute ProcessDto dto) throws Exception {
 		
 		// 결재선 테이블 업데이트
 		int result = service.updateProcessState(dto);
@@ -496,10 +592,289 @@ public class EAController {
 	}
 //---------------------------------------------------------------- 참조문서조회
 	//참조문서조회 (리스트)
-	@GetMapping(value = "/reflist")
-	public String reflist() {
+	@GetMapping(value = {"/reflist/{page}", "/reflist"})
+	public String reflist(HttpSession session, Model model, @PathVariable(required = false) String page) throws Exception {
+		
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		String userNo = loginUser.getUserNo();
+		
+		if(page == null) {
+			return "redirect:reflist/1";
+		}
+		int cntPerPage = 15;
+		int pageBtnCnt = 5;
+		int totalRow = service.getRefListCnt(userNo);
+		PageDto vo = new PageDto(page, cntPerPage, pageBtnCnt, totalRow);
+		
+		HashMap<String, String> map =  new HashMap<>();
+		map.put("userNo", userNo);
+		map.put("startRow", String.valueOf(vo.getStartRow()));
+		map.put("endRow", String.valueOf(vo.getEndRow()));
+		
+		
+		// 자신이 참조하는 문서들 데이터
+		List<DocsDto> refList = service.refList(map);
+		
+		for(DocsDto d : refList) {
+			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+			Date makeDate = d.getDocMake();
+			Date closeDate = d.getDocClose();
+			d.setSimpleMakeDate(ft.format(makeDate));
+			d.setSimpleCloseDate(ft.format(closeDate));
+		}
+		model.addAttribute("refList", refList);
+		model.addAttribute("page", vo);
+		
+		// 양식전체종류 데이터 (테이블헤더에 필요)
+		List<FormDto> formList = service.formList();
+		model.addAttribute("formList", formList);
+		
+		// 진행단계 데이터 (테이블헤더에 필요)
+		List<ProcessDto> processList = service.processListRef(userNo);
+		model.addAttribute("processList", processList);
 		
 		return "ea/user/ea_reflist_list";
+	}
+	// 참조문서조회 (상세조회)
+	@PostMapping(value = "/reflist/detail")
+	public String reflistDetail(Model model, String process, String docNo) throws Exception {
+		
+		ProcessDto pd = new ProcessDto();
+		pd.setDocNo(docNo);
+		
+		// 문서 정보 문서 테이블
+		DocsDto doc = service.selectDocument(pd);
+		Date makeDate = doc.getDocMake();
+		Date closeDate = doc.getDocClose();
+		SimpleDateFormat ft = new SimpleDateFormat("yyyy. MM. dd.");
+		doc.setSimpleMakeDate(ft.format(makeDate));
+		doc.setSimpleCloseDate(ft.format(closeDate));
+		
+		if("A".equals(doc.getLvCheck())) {
+			Date appliDate = doc.getAlvAppli();
+			Date startDate = doc.getAlvStart();
+			Date endDate = doc.getAlvEnd();
+			
+			doc.setSimpleAppliDate(ft.format(appliDate));
+			doc.setSimpleStartDate(ft.format(startDate));
+			doc.setSimpleEndDate(ft.format(endDate));
+			
+		} else if("B".equals(doc.getLvCheck())) {
+			Date appliDate = doc.getLvAppli();
+			Date startDate = doc.getLvStart();
+			Date endDate = doc.getLvEnd();
+			
+			doc.setSimpleAppliDate(ft.format(appliDate));
+			doc.setSimpleStartDate(ft.format(startDate));
+			doc.setSimpleEndDate(ft.format(endDate));
+		}
+		
+		model.addAttribute("docInfo", doc);
+		
+		pd.setProcNo(doc.getProcNo());
+		
+		// 결재자 정보 결재선 테이블
+		List<ProcessDto> processList = service.selectProcess(pd);
+		model.addAttribute("processList", processList);
+		
+		return "ea/user/ea_reflist_detail";
+	}
+	
+//---------------------------------------------------------------- 전체문서조회
+	// 캡슐
+	public List<DocsDto> entireCap(HttpSession session) throws Exception {
+		
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		String userNo = loginUser.getUserNo();
+		long positionNo = loginUser.getPositionNo();
+		
+		// SEC_A, SEC_B 설정정보
+		int secA = service.selectSecA();
+		int secB = service.selectSecB();
+		
+		
+		// 로그인한 유저의 기안문서, 결재문서, 참고문서 데이터 (S등급)
+		List<DocsDto> relatedDocs = service.selectRelatedDocs(userNo);
+		
+		// 로그인한 유저와 관련없는(기안, 결재, 참고하지 않은) 문서들 (보안등급 필터링 필요)
+		List<DocsDto> notRelatedDocs = service.selectNotRelatedDocs(userNo);
+		
+		// 화면으로 보낼 문서 리스트
+		List<DocsDto> entireList = new ArrayList<>();
+		
+		// S등급
+		relatedDocs.stream()
+				   .forEach(d -> entireList.add(d));
+		
+		// C등급 문서 처리
+		notRelatedDocs.stream()
+					  .filter(d -> d.getDocSlv().equals("C"))
+					  .forEach(d -> entireList.add(d));
+		
+		// B등급 문서 처리
+		notRelatedDocs.stream()
+					  .filter(d -> d.getDocSlv().equals("B") && positionNo <= secB)
+					  .forEach(d -> entireList.add(d));
+		
+		// A등급 문서 처리
+		notRelatedDocs.stream()
+					  .filter(d -> d.getDocSlv().equals("A") && positionNo <= secA)
+					  .forEach(d -> entireList.add(d));
+		
+		
+		return entireList;
+	}
+	// 전체문서조회 (리스트) (결재승인이 완료된 문서중 --> (자신이 기안자, 결재자, 참고자인 문서 or 보안등급 상 열람 가능한 문서))
+	@GetMapping(value = {"/entirelist/{page}", "/entirelist"})
+	public String entirelist(HttpSession session, Model model, @PathVariable(required = false) String page) throws Exception {
+		
+		List<DocsDto> entireList = entireCap(session);
+		
+		if(page == null) {
+			return "redirect:entirelist/1";
+		}
+		int cntPerPage = 15;
+		int pageBtnCnt = 5;
+		int totalRow = entireList.size();
+		PageDto vo = new PageDto(page, cntPerPage, pageBtnCnt, totalRow);
+		
+		
+		List<DocsDto> list = new ArrayList<>();
+		
+		for(int i = vo.getStartRow() - 1; i < vo.getEndRow(); i++) {
+			if(i == totalRow) {
+				break;
+			}
+			list.add(entireList.get(i));
+		}
+		
+		for(DocsDto d : list) {
+			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+			Date makeDate = d.getDocMake();
+			Date closeDate = d.getDocClose();
+			d.setSimpleMakeDate(ft.format(makeDate));
+			d.setSimpleCloseDate(ft.format(closeDate));
+		}
+		model.addAttribute("entireList", list);
+		model.addAttribute("page", vo);
+		
+		// 양식전체종류 데이터 (테이블헤더에 필요)
+		List<FormDto> formList = service.formList();
+		model.addAttribute("formList", formList);
+		
+		// 부서 데이터 (테이블헤더에 필요)
+		List<departmentDto> departmentList = service.departmentList();
+		model.addAttribute("departmentList" ,departmentList);
+		
+		return "ea/user/ea_entirelist_list";
+	}
+	// 필터링
+	@RequestMapping(value = "/entirelistByFilter")
+	public String entirelistByFilter(HttpSession session, Model model, String formNo, String make, String close, String departmentName) throws Exception {
+		
+		List<DocsDto> entireList = entireCap(session);
+		
+		List<DocsDto> list = new ArrayList<>();
+		
+		// 양식
+		if(formNo != null) {
+			for(int i = 0; i < entireList.size(); i++) {
+				if(entireList.get(i).getFormNo().equals(formNo)) {
+					list.add(entireList.get(i));
+				}
+			}
+		// 상신날짜
+		} else if(make != null) {
+			for(int i = 0; i < entireList.size(); i++) {
+				list.add(entireList.get(i));
+			}
+			
+			if("old".equals(make))
+				Collections.sort(list, (d1, d2) -> d1.getDocMake().compareTo(d2.getDocMake()));
+			else
+				Collections.sort(list, (d1, d2) -> d2.getDocMake().compareTo(d1.getDocMake()));
+		// 마감날짜
+		} else if(close != null) {
+			for(int i = 0; i < entireList.size(); i++) {
+				list.add(entireList.get(i));
+			}
+			
+			if("old".equals(close))
+				Collections.sort(list, (d1, d2) -> d1.getDocClose().compareTo(d2.getDocClose()));
+			else
+				Collections.sort(list, (d1, d2) -> d2.getDocClose().compareTo(d1.getDocClose()));
+		// 부서
+		} else if(departmentName != null) {
+			for(int i = 0; i < entireList.size(); i++) {
+				if(entireList.get(i).getDepartmentName().equals(departmentName)) {
+					list.add(entireList.get(i));
+				}
+			}
+		}
+		
+		for(DocsDto d : list) {
+			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+			Date makeDate = d.getDocMake();
+			Date closeDate = d.getDocClose();
+			d.setSimpleMakeDate(ft.format(makeDate));
+			d.setSimpleCloseDate(ft.format(closeDate));
+		}
+		model.addAttribute("entireList", list);
+		
+		// 양식전체종류 데이터 (테이블헤더에 필요)
+		List<FormDto> formList = service.formList();
+		model.addAttribute("formList", formList);
+		
+		// 부서 데이터 (테이블헤더에 필요)
+		List<departmentDto> departmentList = service.departmentList();
+		model.addAttribute("departmentList" ,departmentList);
+		
+		return "ea/user/ea_entirelist_list";
+	}
+	
+	// 전체문서조회 (상세조회)
+	@PostMapping(value = "/entirelist/detail")
+	public String entirelistDetail(Model model, String docNo) throws Exception {
+		
+		ProcessDto pd = new ProcessDto();
+		pd.setDocNo(docNo);
+		
+		// 문서 정보 문서 테이블
+		DocsDto doc = service.selectDocumentEntire(pd);
+		Date makeDate = doc.getDocMake();
+		Date closeDate = doc.getDocClose();
+		SimpleDateFormat ft = new SimpleDateFormat("yyyy. MM. dd.");
+		doc.setSimpleMakeDate(ft.format(makeDate));
+		doc.setSimpleCloseDate(ft.format(closeDate));
+		
+		if("A".equals(doc.getLvCheck())) {
+			Date appliDate = doc.getAlvAppli();
+			Date startDate = doc.getAlvStart();
+			Date endDate = doc.getAlvEnd();
+			
+			doc.setSimpleAppliDate(ft.format(appliDate));
+			doc.setSimpleStartDate(ft.format(startDate));
+			doc.setSimpleEndDate(ft.format(endDate));
+			
+		} else if("B".equals(doc.getLvCheck())) {
+			Date appliDate = doc.getLvAppli();
+			Date startDate = doc.getLvStart();
+			Date endDate = doc.getLvEnd();
+			
+			doc.setSimpleAppliDate(ft.format(appliDate));
+			doc.setSimpleStartDate(ft.format(startDate));
+			doc.setSimpleEndDate(ft.format(endDate));
+		}
+		
+		model.addAttribute("docInfo", doc);
+		
+		pd.setProcNo(doc.getProcNo());
+		
+		// 결재자 정보 결재선 테이블
+		List<ProcessDto> processList = service.selectProcess(pd);
+		model.addAttribute("processList", processList);
+		
+		return "ea/user/ea_entirelist_detail";
 	}
 	
 }
