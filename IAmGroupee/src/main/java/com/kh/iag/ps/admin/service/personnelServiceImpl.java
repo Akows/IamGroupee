@@ -136,6 +136,17 @@ public class personnelServiceImpl implements personnelService {
 		}
 		return lastLevel;
 	}
+
+	@Override
+	public int deleteJob(String jobNo) throws Exception {
+		
+		return dao.deleteJob(jobNo);
+	}
+
+	@Override
+	public int deletePosi(String posiNo) throws Exception {
+		return dao.deletePosi(posiNo);
+	}
 	
 
 }

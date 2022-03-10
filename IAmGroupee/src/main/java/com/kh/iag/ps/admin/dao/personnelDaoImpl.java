@@ -78,4 +78,14 @@ public class personnelDaoImpl implements personnelDao {
 		return ss.update("ps.updateUser", user);
 	}
 
+	@Override
+	public int deleteJob(String jobNo) throws Exception {
+		return ss.delete("ps.deleteJob", jobNo);
+	}
+
+	@Override
+	public int deletePosi(String posiNo) throws Exception {
+		return ss.delete("ps.deletePosi", posiNo);
+	}
+
 }
