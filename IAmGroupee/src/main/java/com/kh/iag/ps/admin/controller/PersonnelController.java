@@ -115,4 +115,26 @@ public class PersonnelController {
 		return "redirect:/admin/ps/userlist";
 	}
 	
+	@GetMapping("/jobdelete")
+	@ResponseBody
+	public String jobdelete(String jobNo) throws Exception {
+		int result = service.deleteJob(jobNo);
+		if(result >0) {
+			return "true";
+		} else {
+			return "false";
+		}
+	}
+	
+	@GetMapping("/posidelete")
+	@ResponseBody
+	public String posidelete(String posiNo) throws Exception {
+		int result = service.deletePosi(posiNo);
+		if(result >0) {
+			return "true";
+		} else {
+			return "false";
+		}
+	}
+	
 }

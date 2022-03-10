@@ -167,4 +167,14 @@
 		</if>
 		WHERE USER_NO = #{userNo}
 	</update>
+	
+	<delete id="deleteJob">
+		DELETE FROM JOB
+		WHERE JOB_NO = #{jobNo}
+	</delete>
+	
+	<delete id="deletePosi">
+		DELETE FROM POSITION
+		WHERE POSITION_NO = #{posiNo}
+	</delete>
 </mapper>

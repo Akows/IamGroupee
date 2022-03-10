@@ -8,26 +8,34 @@
 	cursor: pointer;
 }
 
-.posi-table {
-	border-bottom: 2px solid black;
-	border-top: 2px solid black;
-	border-collapse: collapse;
+.jobAdd {
+	color : blue;
 }
 
-.posi-table td{
-	border-bottom: 1px solid black;
-	border-collapse: collapse;
-	width: 80px;
-}
-
-.posi-table th{
-	border-bottom: 1px solid black;
-	border-collapse: collapse;
-	width: 80px;
-	height: 50px;
+.jobAdd:hover {
+	color : blue;
+	cursor: pointer;
 }
 
 .posi-hidden{
 	visibility: hidden;
-	width: 0px;
+	display: none;
+}
+
+.posi-element{
+	font-size: 20px;
+	font-weight: 600;
+	margin-right:10px;
+}
+
+.job-element{
+	color:white;
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.col-row{
+	border-bottom: 1px solid gray;
+	padding-bottom: 10px;
+	padding-top: 10px;
 }

@@ -33,4 +33,8 @@ public interface personnelService {
 
 	int getLastLevel(List<positionDto> posiList) throws Exception;
 
+	int deleteJob(String jobNo) throws Exception;
+
+	int deletePosi(String posiNo) throws Exception;
+
 }
