@@ -71,7 +71,7 @@
 	</select>
 	
 	<select id="job" resultType="job">
-		SELECT * FROM JOB
+		SELECT * FROM JOB ORDER BY JOB_NO
 	</select>
 	
 	<select id="department" resultType="dept">
@@ -177,4 +177,25 @@
 		DELETE FROM POSITION
 		WHERE POSITION_NO = #{posiNo}
 	</delete>
+	
+	<insert id="addJob">
+		INSERT INTO JOB VALUES(SEQ_JOB.NEXTVAL,#{jobName})
+	</insert>
+	
+	<insert id="addPosi">
+		INSERT INTO POSITION VALUES(SEQ_POSITION.NEXTVAL,#{positionName},#{positionLevel})
+	</insert>
+	
+	<update id="modiPosi">
+		UPDATE POSITION SET 
+		POSITION_NAME = #{positionName}
+		WHERE POSITION_NO = #{positionNo}
+	</update>
+	
+	<update id="modiJob">
+		UPDATE JOB SET 
+		JOB_NAME = #{jobName}
+		WHERE JOB_NO = #{jobNo}
+	</update>
+	
 </mapper>

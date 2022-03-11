@@ -37,4 +37,12 @@ public interface personnelDao {
 	int deleteJob(String jobNo) throws Exception;
 
 	int deletePosi(String posiNo) throws Exception;
+
+	int addJob(String jobName) throws Exception;
+
+	int addPosi(positionDto posi) throws Exception;
+
+	int modiPosi(positionDto posi) throws Exception;
+
+	int modiJob(jobDto job) throws Exception;
 }

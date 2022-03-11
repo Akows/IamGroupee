@@ -137,4 +137,44 @@ public class PersonnelController {
 		}
 	}
 	
+	@GetMapping("/addJob")
+	public String addJob(String jobName)  throws Exception {
+		int result = service.addJob(jobName);
+		if(result >0) {
+			return "redirect:/admin/ps/jobposimanage";
+		}else {
+			return "redirect:/admin/ps/main";
+		}
+	}
+	
+	@GetMapping("/addPosi")
+	public String addPosi(@ModelAttribute positionDto posi)  throws Exception {
+		int result = service.addPosi(posi);
+		if(result >0) {
+			return "redirect:/admin/ps/jobposimanage";
+		}else {
+			return "redirect:/admin/ps/main";
+		}
+	}
+	
+	@GetMapping("/modiPosi")
+	public String modiPosi(@ModelAttribute positionDto posi)  throws Exception {
+		int result = service.modiPosi(posi);
+		if(result >0) {
+			return "redirect:/admin/ps/jobposimanage";
+		}else {
+			return "redirect:/admin/ps/main";
+		}
+	}
+	
+	@GetMapping("/modiJob")
+	public String modiJob(@ModelAttribute jobDto job)  throws Exception {
+		int result = service.modiJob(job);
+		if(result >0) {
+			return "redirect:/admin/ps/jobposimanage";
+		}else {
+			return "redirect:/admin/ps/main";
+		}
+	}
+	
 }

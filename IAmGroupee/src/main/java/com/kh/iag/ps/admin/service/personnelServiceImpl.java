@@ -147,6 +147,26 @@ public class personnelServiceImpl implements personnelService {
 	public int deletePosi(String posiNo) throws Exception {
 		return dao.deletePosi(posiNo);
 	}
+
+	@Override
+	public int addJob(String jobName) throws Exception {
+		return dao.addJob(jobName);
+	}
+
+	@Override
+	public int addPosi(positionDto posi) throws Exception {
+		return dao.addPosi(posi);
+	}
+
+	@Override
+	public int modiPosi(positionDto posi) throws Exception {
+		return dao.modiPosi(posi);
+	}
+
+	@Override
+	public int modiJob(jobDto job) throws Exception {
+		return dao.modiJob(job);
+	}
 	
 
 }
