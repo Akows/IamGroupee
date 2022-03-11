@@ -39,6 +39,14 @@
 		<br>
 		<br>
 		<hr>
+		
+		<form action="attendstatesearch" method="post">
+			<span>
+				<input type="date" name="date"> 		  
+				<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger; width: 150px" value="검색">	     					
+			</span>                		       							       				
+		</form>		
+		
 
 	<div class="row stat-cards">
 		<div class="col-lg-12">
@@ -53,38 +61,16 @@
 		                    <th>정상근무여부</th>
 		            	</tr>
 		            </thead>
-			
 		       		<tbody>
 		       			<c:forEach items="${WTInfo}" var="wtin">
 		       				
-		       				
-		       				
-		       				
-		       				<form action="attendstatesearch" method="post">
-		       					<span>
-									<input type="date" name="date"> 		  
-									<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger; width: 150px" value="검색">	     					
-		       					</span>
-		       					
-		       					<span>
-												       					
-		       					</span>		       				
-		       				
-		       					
-				                
-				                	                		       							       				
-		       				</form>
-		       		
-		       			
-		       			
-		       			
 			            	<tr>
 			            		<td>${wtin.attend_date}</td>
 			            		<td>${wtin.in_time}</td>
 			            		<td>${wtin.out_time}</td>		            		
 			            		
 			            		<c:choose>
-			            			<c:when test="${wtin.workcheck == '정상'}">
+			            			<c:when test="${wtin.workcheck == '정상퇴근처리'}">
 										<td>
 											<div class="badge-active">
 												${wtin.workcheck}
@@ -92,7 +78,7 @@
 										</td>
 			            			</c:when>
 			            			
-			            			<c:when test="${wtin.workcheck == '비정상'}">
+			            			<c:when test="${wtin.workcheck == '지각퇴근처리'}">
 										<td>
 											<div class="badge-pending">
 												${wtin.workcheck}
@@ -106,8 +92,7 @@
 			            		</c:choose>	
 			            				            		
 			            	</tr>
-			            	
-			            	
+			            				            	
 		            	</c:forEach>
 		            </tbody>
 	            </table>

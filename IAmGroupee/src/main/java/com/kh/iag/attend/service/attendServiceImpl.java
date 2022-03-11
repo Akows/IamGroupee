@@ -70,6 +70,13 @@ public class attendServiceImpl implements attendService
 		{
 			return attendDAO.getAttendWTInfo(attendWTDTO);
 		}
+
+		@Override
+		public List<AttendWTDTO> getWTTWTInfo(AttendWTDTO attendWTDTO2) throws Exception 
+		{
+			return attendDAO.getWTTWTInfo(attendWTDTO2);
+		}
+		
 		
 		//출퇴근처리
 		@Override
@@ -94,6 +101,12 @@ public class attendServiceImpl implements attendService
 		public void attendprocessReIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception 
 		{
 			attendDAO.attendprocessReIN(attendWTDTO, req);
+		}
+		
+		@Override
+		public void attendprocessReOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception 
+		{
+			attendDAO.attendprocessReOUT(attendWTDTO, req);
 		}
 
 	//근태현황 조회페이지
@@ -174,6 +187,9 @@ public class attendServiceImpl implements attendService
 		{
 			return attendDAO.approveManageNone(attendModDTO);
 		}
+
+
+
 
 
 

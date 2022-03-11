@@ -139,12 +139,19 @@
 			REGEXP_REPLACE(IN_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS IN_TIME, 
 			REGEXP_REPLACE(OUT_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS OUT_TIME, 
 			WORKCHECK, 
-			ROUND(TOTAL_WORK_TIME / 60, 3) AS TOTAL_WORK_TIME
+			ROUND(TOTAL_WORK_TIME / 3600, 3) AS TOTAL_WORK_TIME
 			FROM WORKTIME
 			WHERE USER_NO = #{user_no}
 			AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	 	</select>
-	  	
+	 	
+	 	<select id="getWTTWTInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
+			SELECT 
+			ROUND(SUM(TOTAL_WORK_TIME) / 3600, 3) AS TOTAL_WORK_TIME
+			FROM WORKTIME
+			WHERE USER_NO = #{user_no}
+	 	</select>
+	 	
 	  	<!-- =================================================================== -->
 	  	<!-- =================================================================== -->	
 
@@ -172,15 +179,44 @@
 	   		SET 
 	   		WORKTIME_NUM = #{worktime_num},
 	   		IN_TIME = TO_CHAR(SYSDATE,'HH24MISS'),
-	   		WORKCHECK = '출근처리됨'
+	   		WORKCHECK = 
+	   		CASE
+			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) <![CDATA[<]]> 080000 THEN '정상출근처리'
+			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) > 080000 THEN '지각출근처리'
+			END
 	   		WHERE WORKTIME_NUM = 0
 	  	</update>
-	
+	  	
+	  	<update id="attendprocessINAttend" parameterType="attendancewt">
+		   	UPDATE ATTENDANCE
+			SET 
+			NORMAL_CHECK =
+			CASE
+			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) <![CDATA[<]]> 080000 THEN '정상출근'
+			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) > 080000 THEN '지각'
+			END
+			WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	  	</update>
+	    <update id="attendprocessINAttend2" parameterType="attendancewt">
+		   	UPDATE ATTENDANCE
+			SET 
+			IRREGULAR_REASON = 
+			CASE
+			     WHEN NORMAL_CHECK = '정상출근' THEN '이상없음'
+			     WHEN NORMAL_CHECK = '지각' THEN '이상근무(지각)'
+			END
+			WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	  	</update>
+	  	
 	  	<update id="attendprocessOUT" parameterType="attendancewt">
 	   		UPDATE WORKTIME
 	   		SET 
 	   		OUT_TIME = TO_CHAR(SYSDATE,'HH24MISS'),
-	   		WORKCHECK = '퇴근처리됨',
+	   		WORKCHECK =
+	   		CASE
+			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) <![CDATA[<]]> 080000 THEN '정상퇴근처리'
+			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) > 080000 THEN '지각퇴근처리'
+			END,
 	   		TOTAL_WORK_TIME = 
 	   		(
 				SUBSTR(OUT_TIME, 1, 2) * 60 * 60 +
@@ -200,18 +236,61 @@
 	  	
 	  	<update id="attendprocessOUTAttend" parameterType="attendancewt">
 	   		UPDATE ATTENDANCE
-	   		SET 
-	   		NORMAL_CHECK = '정상근무',
-	   		IRREGULAR_REASON = '이상없음'
-	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+			SET 
+			NORMAL_CHECK = 
+			CASE
+			     WHEN NORMAL_CHECK = '정상출근' THEN '정상근무'
+			     WHEN NORMAL_CHECK = '지각' THEN '지각'
+			END
+			WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	  	</update>
+	  	
+	  	<update id="attendprocessOUTAttend2" parameterType="attendancewt">
+	   		UPDATE ATTENDANCE
+			SET
+			IRREGULAR_REASON = 
+			CASE
+			     WHEN NORMAL_CHECK = '정상근무' THEN '이상없음'
+			     WHEN NORMAL_CHECK = '지각' THEN '이상근무(지각)'
+			END
+			WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	  	</update>
 	  	
 	  	<update id="attendprocessReIN" parameterType="attendancewt">
 	   		UPDATE WORKTIME
 	   		SET 
-	   		WORKCHECK = '출근처리됨'
-	   		WHERE WORKCHECK = '퇴근처리됨'
-	   		AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD') 
+	   		WORKCHECK = 
+	   		CASE
+			     WHEN WORKCHECK = '정상퇴근처리' THEN '정상출근처리(재)'
+			     WHEN WORKCHECK = '지각퇴근처리' THEN '지각출근처리(재)'
+			END
+	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD') 
+	  	</update>
+	  	
+	  	<update id="attendprocessReOUT" parameterType="attendancewt">
+	   		UPDATE WORKTIME
+	   		SET 
+	   		OUT_TIME = TO_CHAR(SYSDATE,'HH24MISS'),
+	   		WORKCHECK = 
+	   		CASE
+			     WHEN WORKCHECK = '정상출근처리(재)' THEN '정상퇴근처리'
+			     WHEN WORKCHECK = '지각출근처리(재)' THEN '지각퇴근처리'
+			END,
+	   		TOTAL_WORK_TIME = 
+	   		(
+				SUBSTR(OUT_TIME, 1, 2) * 60 * 60 +
+				SUBSTR(OUT_TIME, 3, 2) * 60 +
+				SUBSTR(OUT_TIME, 5, 2)
+			)
+			
+			-
+			
+			(
+				SUBSTR(IN_TIME, 1, 2) * 60 * 60 +
+				SUBSTR(IN_TIME, 3, 2) * 60 +
+				SUBSTR(IN_TIME, 5, 2)
+			)
+	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	  	</update>
 	  	
 	  	<!-- =================================================================== -->	
@@ -269,9 +348,7 @@
 			REGEXP_REPLACE(TO_CHAR(ATTEND_DATE,'YYYYMMDD'), '(.{4})(.{2})(.{2})', '\1년 \2월 \3일') AS ATTEND_DATE, 
 			REGEXP_REPLACE(IN_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS IN_TIME, 
 			REGEXP_REPLACE(OUT_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS OUT_TIME,
-			CASE WHEN WORKCHECK = '퇴근처리됨' THEN '정상'
-			     WHEN WORKCHECK = '출근처리됨' THEN '비정상'
-			     END AS WORKCHECK
+			WORKCHECK
 			FROM WORKTIME
 			WHERE USER_NO = #{user_no}
 		</select>
@@ -284,14 +361,14 @@
 	  	<select id="getModList" resultType="attendancemod" resultMap="attendmodrm">
 			SELECT ATTEND_MOD_NUM, TO_CHAR(REQ_DATE,'YYYYMMDD') AS REQ_DATE, USER_NAME, MOD_REASON, ATTACH_FILE, APPROVE_STATE
 			FROM ATTENDANCEMODIFY
-			WHERE APPROVE_STATE != '0'
+			WHERE APPROVE_STATE != '승인됨'
 			ORDER BY ATTEND_MOD_NUM
 		</select>
 		
 		<select id="getAttendModCnt" resultType="int">
 			SELECT COUNT(ATTEND_MOD_NUM)
 			FROM ATTENDANCEMODIFY
-			WHERE APPROVE_STATE != '0'
+			WHERE APPROVE_STATE != '승인됨'
 		</select>
 		
 		<!-- 첨부파일 조회-출력 -->

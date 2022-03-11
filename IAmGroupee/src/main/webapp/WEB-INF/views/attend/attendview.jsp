@@ -39,7 +39,7 @@
 		<hr>
 		
 		<div class="row stat-cards">
-			<c:forEach items="${ATInfo}" var="atin">
+			<c:forEach items="${ATInfo}" var="atin" begin="0" end="0">
 	        	<div class="col-md-6 col-xl-3">
 					<article class="stat-cards-item">
 						<div class="stat-cards-icon success">

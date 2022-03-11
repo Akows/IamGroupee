@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,7 +66,7 @@
 		<!-- 사용자 정보 UI -->
 		<div class="row stat-cards">
 		
-		<c:forEach items="${atInfo2}" var="atin">
+		<c:forEach items="${atInfo2}" var="atin" begin="0" end="0">
 	        <div class="col-md-6 col-xl-3">
 				<article class="stat-cards-item">
 					<div class="stat-cards-icon success">
@@ -118,7 +119,7 @@
 					</div>
 			 	</c:when>
 
-			    <c:when test="${wtinfo.workcheck == '출근처리됨'}">
+			    <c:when test="${wtinfo.workcheck == '정상출근처리'}">
 			 		<div class="col-md-6 col-xl-3">
 						<article class="stat-cards-item">
 					      <div class="stat-cards-icon success">
@@ -129,7 +130,7 @@
 							  <p class="stat-cards-info__title">금일 출퇴근 상황</p>
 							  <p class="stat-cards-info__title">
 							  	출근시간 : ${wtinfo.in_time}
-							  </p>
+							  </p>							
 							  <p class="stat-cards-info__progress">
 								  <span class="stat-cards-info__profit success">
 								  	<i data-feather="trending-up" aria-hidden="true"></i>현재 근무중
@@ -144,7 +145,87 @@
 					</div>
 			 	</c:when>
 			 	
-			 	<c:when test="${wtinfo.workcheck == '퇴근처리됨'}">
+			    <c:when test="${wtinfo.workcheck == '지각출근처리'}">
+			 		<div class="col-md-6 col-xl-3">
+						<article class="stat-cards-item">
+					      <div class="stat-cards-icon success">
+					        <i data-feather="feather" aria-hidden="true"></i>
+					      </div>
+					      <div class="stat-cards-info">
+							  <p class="stat-cards-info__num">춭퇴근 체크</p>
+							  <p class="stat-cards-info__title">금일 출퇴근 상황</p>
+							  <p class="stat-cards-info__title">
+							  	출근시간 : ${wtinfo.in_time}
+							  </p>
+							  <p class="stat-cards-info__title"> <a style="color: red;">출근 시간 경과하여 지각 처리되었습니다.</a> </p>
+							  <p class="stat-cards-info__progress">
+								  <span class="stat-cards-info__profit danger">
+								  	<i data-feather="trending-up" aria-hidden="true"></i>현재 근무중
+								  </span>								
+							  </p>							  						  
+							  <hr>
+							  <form action="attendprocessout" method="post">
+							  	<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="퇴근">
+						      </form>
+					      </div>
+					    </article>
+					</div>
+			 	</c:when>			 	
+			 	
+			 	<c:when test="${wtinfo.workcheck == '정상출근처리(재)'}">
+			 		<div class="col-md-6 col-xl-3">
+						<article class="stat-cards-item">
+					      <div class="stat-cards-icon warning">
+					        <i data-feather="feather" aria-hidden="true"></i>
+					      </div>
+					      <div class="stat-cards-info">
+							  <p class="stat-cards-info__num">춭퇴근 체크</p>
+							  <p class="stat-cards-info__title">금일 출퇴근 상황</p>
+							  <p class="stat-cards-info__title">
+							  	출근시간 : ${wtinfo.in_time}
+							  </p>
+							  <p class="stat-cards-info__progress">
+								  <span class="stat-cards-info__profit danger">
+								  	<i data-feather="trending-down" aria-hidden="true"></i>재출근 처리됨
+								  </span>
+							  </p>
+							  <hr>
+							  <form action="attendprocessreout" method="post">
+							  	<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="퇴근">
+							  </form>
+					      </div>
+					    </article>
+					</div>
+			 	</c:when>
+			 	
+			 	<c:when test="${wtinfo.workcheck == '지각출근처리(재)'}">
+			 		<div class="col-md-6 col-xl-3">
+						<article class="stat-cards-item">
+					      <div class="stat-cards-icon warning">
+					        <i data-feather="feather" aria-hidden="true"></i>
+					      </div>
+					      <div class="stat-cards-info">
+							  <p class="stat-cards-info__num">춭퇴근 체크</p>
+							  <p class="stat-cards-info__title">금일 출퇴근 상황</p>
+							  <p class="stat-cards-info__title">
+							  	출근시간 : ${wtinfo.in_time}
+							  </p>
+							  <p class="stat-cards-info__title"> <a style="color: red;">출근 시간 경과하여 지각 처리되었습니다.</a> </p>
+							  <p class="stat-cards-info__progress">
+								  <span class="stat-cards-info__profit danger">
+								  	<i data-feather="trending-down" aria-hidden="true"></i>재출근 처리됨
+								  </span>
+							  </p>
+							  <hr>
+							  <form action="attendprocessreout" method="post">
+							  	<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="퇴근">
+							  </form>
+					      </div>
+					    </article>
+					</div>
+			 	</c:when>			 	
+			 	
+			 	<c:when test="${wtinfo.workcheck == '정상퇴근처리'}">
 			 		<div class="col-md-6 col-xl-3">
 						<article class="stat-cards-item">
 					      <div class="stat-cards-icon warning">
@@ -170,6 +251,33 @@
 					</div>
 			 	</c:when>
 			 	
+			 	<c:when test="${wtinfo.workcheck == '지각퇴근처리'}">
+			 		<div class="col-md-6 col-xl-3">
+						<article class="stat-cards-item">
+					      <div class="stat-cards-icon warning">
+					        <i data-feather="feather" aria-hidden="true"></i>
+					      </div>
+					      <div class="stat-cards-info">
+							  <p class="stat-cards-info__num">춭퇴근 체크</p>
+							  <p class="stat-cards-info__title">금일 출퇴근 상황</p>
+							  <p class="stat-cards-info__title">
+							  	근무 종료
+							  </p>
+							  <p class="stat-cards-info__title"> <a style="color: red;">출근 시간 경과하여 지각 처리되었습니다.</a> </p>
+							  <p class="stat-cards-info__progress">
+								  <span class="stat-cards-info__profit danger">
+								  	<i data-feather="trending-down" aria-hidden="true"></i>퇴근 처리됨
+								  </span>
+							  </p>
+							  <hr>
+							  <form action="attendprocessrein" method="post">
+							  	<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="재출근">
+							  </form>
+					      </div>
+					    </article>
+					</div>
+			 	</c:when>			 	
+			 				 	
 			 	<c:otherwise>
 					<div class="col-md-6 col-xl-3">
 						<article class="stat-cards-item">
@@ -273,7 +381,7 @@
 			                  </span>
 			                </p>
 			                <hr>
-			              	<form action="attendmanage" method="get">
+			              	<form action="attendmodview" method="get">
 				          		<button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">확인하기</button>
 				          	</form>
 			              </div>
@@ -297,7 +405,7 @@
 			                  </span>
 			                </p>
 			                <hr>
-			              	<form action="attendmanage" method="get">
+			              	<form action="attendmodview" method="get">
 				          		<button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">확인하기</button>
 				          	</form>			                
 			              </div>
@@ -318,10 +426,10 @@
 		<!-- ===================================================================================================== -->
 		
 		<!-- 근로시간 조회 UI -->
-        <c:forEach items="${atWTInfo}" var="wtInfo">        
+        <c:forEach items="${atWTInfo2}" var="wtInfo">        
         	<c:choose>
         	
-        		<c:when test="${wtInfo.total_work_time le 2080000}">
+        		<c:when test="${wtInfo.total_work_time le 208}">
 	        		<div class="row stat-cards">
 			        	<div class="col-md-9 col-xl-6">
 							<article class="stat-cards-item">
@@ -330,12 +438,12 @@
 						        </div>
 						        <div class="stat-cards-info">
 							    	<p class="stat-cards-info__num">이번달 근무상황</p>
-							        <p class="stat-cards-info__title">총 근무시간 : ${wtInfo.total_work_time}</p>
+							        <p class="stat-cards-info__title">총 근무시간 : ${wtInfo.total_work_time}시간</p>
 							        <p class="stat-cards-info__progress">
 							        <span class="stat-cards-info__profit success">
 							        	<i data-feather="trending-up" aria-hidden="true"></i>잔여근무시간 있음
 							        </span>
-							        	${2080000 - wtInfo.total_work_time}
+							        	<fmt:formatNumber value="${208 - wtInfo.total_work_time}" pattern=".00"/>시간 남음
 							        </p>
 							        <hr>
 							        이 위치에 직선형 그래프 배치하면 좋을듯?
@@ -345,7 +453,7 @@
 					</div> 
         		</c:when>
         		
-        		<c:when test="${wtInfo.total_work_time ge 2080000}">
+        		<c:when test="${wtInfo.total_work_time ge 208}">
 	        		<div class="row stat-cards">
 			        	<div class="col-md-9 col-xl-6">
 							<article class="stat-cards-item">
@@ -354,7 +462,7 @@
 						        </div>
 						        <div class="stat-cards-info">
 							    	<p class="stat-cards-info__num">이번달 근무상황</p>
-							        <p class="stat-cards-info__title">총 근무시간 : ${wtInfo.total_work_time}</p>
+							        <p class="stat-cards-info__title">총 근무시간 : ${wtInfo.total_work_time}시간</p>
 							        <p class="stat-cards-info__progress">
 							        <span class="stat-cards-info__profit danger">
 							        	<i data-feather="trending-down" aria-hidden="true"></i>잔여근무시간 없음

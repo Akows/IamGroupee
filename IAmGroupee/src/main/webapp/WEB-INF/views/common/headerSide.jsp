@@ -50,13 +50,13 @@
                     </a>
                     <ul class="cat-sub-menu">
                         <li>
-                            <a href="${root}/attend/attendmain">근태 관리</a>
+                            <a href="${root}/attend/attendmain">근태관리 메인페이지</a>
                         </li>
                         <li>
-                            <a href="${root}/attend/attendview">근로 현황 조회</a>
+                            <a href="${root}/attend/attendview">근태현황조회</a>
                         </li>
                         <li>
-                            <a href="${root}/attend/attendmanage">근로 현황 관리</a>
+                            <a href="${root}/attend/attendmodview">근태수정요청 확인</a>
                         </li>
                     </ul>
                 </li>
@@ -110,10 +110,10 @@
                     </a>
                     <ul class="cat-sub-menu">
                         <li>
-                            <a href="${root}/sal/salmain">급여 메인</a>
+                            <a href="${root}/sal/salmain">급여관리 메인페이지</a>
                         </li>
                         <li>
-                            <a href="${root}/sal/salview">급여 조회</a>
+                            <a href="${root}/sal/salview">급여조회</a>
                         </li>
                     </ul>
                 </li>
@@ -227,7 +227,7 @@
                           <a href="${root}/admin/ps/main">인사</a>
                       </li>
                       <li>
-                          <a href="${root}/admin/attend/main">근태</a>
+                          <a href="${root}/attend/attendmanage">근태</a>
                       </li>
                       <li>
                           <a href="${root}/admin/leave/main/1">연차</a>

@@ -23,11 +23,14 @@ public interface attendService
 		List<AttendDTO> getPreAttendInfo(AttendDTO attendDTO) throws Exception;
 		List<AttendModDTO> getAttendModInfo(AttendModDTO attendModDTO) throws Exception;
 		List<AttendWTDTO> getAttendWTInfo(AttendWTDTO attendWTDTO) throws Exception;
+		List<AttendWTDTO> getWTTWTInfo(AttendWTDTO attendWTDTO2) throws Exception;
 		
 		//출퇴근처리
 		void attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
 		void attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
 		void attendprocessReIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
+		void attendprocessReOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
+
 	
 	//근태현황 조회페이지
 		//캘린더
@@ -50,6 +53,7 @@ public interface attendService
 		//수정요청처리
 		int approveManageOK(AttendModDTO attendModDTO) throws Exception;
 		int approveManageNone(AttendModDTO attendModDTO) throws Exception;
+
 
 
 	

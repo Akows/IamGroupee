@@ -68,6 +68,13 @@ public class AttendDAOImpl implements AttendDAO
 		{
 			return ss.selectList("attend.getAttendWTInfo", attendWTDTO);
 		}
+		@Override
+		public List<AttendWTDTO> getWTTWTInfo(AttendWTDTO attendWTDTO2) throws Exception 
+		{
+			return ss.selectList("attend.getWTTWTInfo", attendWTDTO2);
+		}
+
+		
 	
 		//출퇴근처리
 		@Override
@@ -78,7 +85,9 @@ public class AttendDAOImpl implements AttendDAO
 		@Override
 		public void attendprocessIN(AttendWTDTO attendWTDTO) 
 		{
-			ss.update("attend.attendprocessIN", attendWTDTO);	
+			ss.update("attend.attendprocessIN", attendWTDTO);
+			ss.update("attend.attendprocessINAttend", attendWTDTO);
+			ss.update("attend.attendprocessINAttend2", attendWTDTO);
 		}
 	
 		@Override
@@ -86,6 +95,7 @@ public class AttendDAOImpl implements AttendDAO
 		{
 			ss.update("attend.attendprocessOUT", attendWTDTO);
 			ss.update("attend.attendprocessOUTAttend", attendWTDTO);
+			ss.update("attend.attendprocessOUTAttend2", attendWTDTO);
 		}
 		
 		@Override
@@ -93,6 +103,13 @@ public class AttendDAOImpl implements AttendDAO
 		{
 			ss.update("attend.attendprocessReIN", attendWTDTO);
 		}
+
+		@Override
+		public void attendprocessReOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) 
+		{
+			ss.update("attend.attendprocessReOUT", attendWTDTO);
+		}
+		
 	
 	//근태현황 조회페이지
 		//캘린더
@@ -168,6 +185,8 @@ public class AttendDAOImpl implements AttendDAO
 		{
 			return ss.update("attend.approveManageNone", attendModDTO);
 		}
+
+
 
 
 
