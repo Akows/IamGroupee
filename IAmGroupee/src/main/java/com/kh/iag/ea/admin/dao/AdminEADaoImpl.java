@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.iag.ea.entity.CategoryDto;
+import com.kh.iag.ea.entity.DocsDto;
 import com.kh.iag.ea.entity.FormDto;
 import com.kh.iag.ea.entity.PositionDto;
 import com.kh.iag.ea.entity.SettingsDto;
@@ -120,6 +121,21 @@ public class AdminEADaoImpl implements AdminEADao {
 	@Override
 	public int editForm(FormDto dto) throws Exception {
 		return sqlSession.update("ea.editForm", dto);
+	}
+
+	@Override
+	public List<DocsDto> preservedDocs() {
+		return sqlSession.selectList("ea.preservedDocs");
+	}
+
+	@Override
+	public int deleteDocRef(String s) {
+		return sqlSession.delete("ea.deleteDocRef", s);
+	}
+
+	@Override
+	public int deleteDoc(String s) {
+		return sqlSession.delete("ea.deleteDoc", s);
 	}
 
 }

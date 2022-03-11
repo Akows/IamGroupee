@@ -9,3 +9,11 @@
 .ea_wrapper * {
   box-sizing: border-box;
 }
+
+#thirdDiv table {
+  width: 98%;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}

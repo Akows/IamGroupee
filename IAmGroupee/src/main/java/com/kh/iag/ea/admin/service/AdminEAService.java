@@ -3,6 +3,7 @@ package com.kh.iag.ea.admin.service;
 import java.util.List;
 
 import com.kh.iag.ea.entity.CategoryDto;
+import com.kh.iag.ea.entity.DocsDto;
 import com.kh.iag.ea.entity.FormDto;
 import com.kh.iag.ea.entity.PositionDto;
 import com.kh.iag.ea.entity.SettingsDto;
@@ -50,6 +51,12 @@ public interface AdminEAService {
 	FormDto formValue(FormDto dto) throws Exception;
 
 	int editForm(FormDto dto) throws Exception;
+
+	List<DocsDto> preservedDocs();
+
+	int deleteDocRef(String s);
+
+	int deleteDoc(String s);
 
 	
 }

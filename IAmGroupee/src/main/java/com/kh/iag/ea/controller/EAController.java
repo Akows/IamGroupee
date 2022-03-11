@@ -279,8 +279,6 @@ public class EAController {
 		// 자신이 기안한 문서들 데이터
 		List<DocsDto> signupList = service.signupListForFilter(userNo);
 		
-		System.out.println(signupList.get(0).toString());
-		
 		List<DocsDto> list = new ArrayList<>();
 		
 		// 양식
@@ -312,29 +310,32 @@ public class EAController {
 				Collections.sort(list, (d1, d2) -> d2.getDocClose().compareTo(d1.getDocClose()));
 		// 진행단계
 		} else if(procSeq != null) {
-//			for(int i = 0; i < processList.size(); i++) {
-//				if(procSeq == "2") {
-//					for(int j = 0; j < signupList.size(); j++) {
-//						if(processList.get(i).getDocNo().equals(signupList.get(j).getDocNo()) && processList.get(i).getProcSeq() == 2) {
-//							list.add(signupList.get(j));
+			if("2".equals(procSeq)) {
+				for(int i = 0; i < processList.size(); i++) {
+					for(int j = 0; j < signupList.size(); j++) {
+						if(processList.get(i).getDocNo().equals(signupList.get(j).getDocNo()) && processList.get(i).getProcSeq() == 2) {
+							list.add(signupList.get(j));
+						}
+					}					
+				} 
+			} else if("3".equals(procSeq)) {
+				for(int i = 0; i < processList.size(); i++) {
+					for(int j = 0; j < signupList.size(); j++) {
+						if(processList.get(i).getDocNo().equals(signupList.get(j).getDocNo()) && processList.get(i).getProcSeq() == 3) {
+							list.add(signupList.get(j));
+						}
+					}					
+				} 
+			} else if("1".equals(procSeq)) { // 수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정
+//				for(int i = 0; i < signupList.size(); i++) {
+//					for(int j = 0; j < processList.size(); j++) {
+//						if(processList.get(j).getDocNo().equals(signupList.get(i).getDocNo()) && processList.get(j).getProcSeq() != 2 && processList.get(j).getProcSeq() != 3) {
+//							list.add(signupList.get(i));
+//							log.info(signupList.get(i).toString());
 //						}
 //					}					
-//				} else if(procSeq == "3") {
-//					for(int j = 0; j < signupList.size(); j++) {
-//						if(processList.get(i).getDocNo().equals(signupList.get(j).getDocNo()) && processList.get(i).getProcSeq() == 3) {
-//							list.add(signupList.get(j));
-//						}
-//					}	
-//				} else {
-//					for(int j = 0; j < signupList.size(); j++) {
-//						if(processList.get(i).getDocNo().equals(signupList.get(j).getDocNo())) {
-//							if(processList.get(i).getProcSep() == processList.get(i).getProcCnt()) {
-//								if(processList.get(i).getPro)
-//							}
-//						}
-//					}	
-//				}
-//			}
+//				} 
+			}
 		}
 		
 		for(DocsDto d : list) {
@@ -345,8 +346,6 @@ public class EAController {
 			d.setSimpleCloseDate(ft.format(closeDate));
 		}
 		model.addAttribute("signupList", list);
-		
-		
 		
 		
 		return "ea/user/ea_signuplist_list";
@@ -519,6 +518,93 @@ public class EAController {
 		return "ea/user/ea_apprlist_list";
 	}
 	
+	// 필터링
+	@RequestMapping(value = "/apprlistByFilter")
+	public String apprlistByFilter(HttpSession session, Model model, String formNo, String make, String close, String procSeq) throws Exception {
+		
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		String userNo = loginUser.getUserNo();
+		
+		
+		// 양식전체종류 데이터 (테이블헤더에 필요)
+		List<FormDto> formList = service.formList();
+		model.addAttribute("formList", formList);
+		
+		// 진행단계 데이터 (테이블헤더에 필요, 결재순서가 로그인한 유저 순서인 문서를 찾기 위한 모든 결재선 정보)
+		List<ProcessDto> processListForApprAll = service.processListForApprAll();
+		model.addAttribute("processListForApprAll", processListForApprAll);
+		
+		// 진행단계 데이터 (테이블헤더에 필요, 결재순서가 로그인한 유저 순서인 문서를 찾기 위한 로그인한 유저의 결재선 정보)
+		List<ProcessDto> processListForApprUser = service.processListForApprUser(userNo);
+		model.addAttribute("processListForApprUser", processListForApprUser);
+		
+		List<DocsDto> apprList = service.apprListForFilter(userNo);
+		
+		List<DocsDto> list = new ArrayList<>();
+		
+		// 양식
+		if(formNo != null) {
+			for(int i = 0; i < apprList.size(); i++) {
+				if(apprList.get(i).getFormNo().equals(formNo)) {
+					list.add(apprList.get(i));
+				}
+			}
+		// 상신날짜
+		} else if(make != null) {
+			for(int i = 0; i < apprList.size(); i++) {
+				list.add(apprList.get(i));
+			}
+			
+			if("old".equals(make))
+				Collections.sort(list, (d1, d2) -> d1.getDocMake().compareTo(d2.getDocMake()));
+			else
+				Collections.sort(list, (d1, d2) -> d2.getDocMake().compareTo(d1.getDocMake()));
+		// 마감날짜
+		} else if(close != null) {
+			for(int i = 0; i < apprList.size(); i++) {
+				list.add(apprList.get(i));
+			}
+			
+			if("old".equals(close))
+				Collections.sort(list, (d1, d2) -> d1.getDocClose().compareTo(d2.getDocClose()));
+			else
+				Collections.sort(list, (d1, d2) -> d2.getDocClose().compareTo(d1.getDocClose()));
+		// 결재분류
+		} else if(procSeq != null) {
+//			if("1".equals(procSeq)) { 수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정
+//
+//				for(int i = 0; i < apprList.size(); i++) {
+//					for(int j = 0; j < processListForApprUser.size(); i++) {
+//						if(apprList.get(i).getDocNo().equals(processListForApprUser.get(j)) && processListForApprUser.get(i).getProcSep() != processListForApprUser.get(j).getProcCnt()) {
+//							list.add(apprList.get(i));
+//						}
+//					}
+//				}
+//				
+//			} else {
+//				
+//				for(int i = 0; i < apprList.size(); i++) {
+//					for(int j = 0; j < processListForApprUser.size(); i++) {
+//						if(apprList.get(i).getDocNo().equals(processListForApprUser.get(j)) && processListForApprUser.get(i).getProcSep() == processListForApprUser.get(j).getProcCnt()) {
+//							list.add(apprList.get(i));
+//						}
+//					}
+//				}
+//			}
+		}
+		
+		for(DocsDto d : list) {
+			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+			Date makeDate = d.getDocMake();
+			Date closeDate = d.getDocClose();
+			d.setSimpleMakeDate(ft.format(makeDate));
+			d.setSimpleCloseDate(ft.format(closeDate));
+		}
+		model.addAttribute("apprList", list);
+		
+		return "ea/user/ea_apprlist_list";
+	}
+	
 	// 결재문서조회 (상세조회)
 	@PostMapping(value = "/apprlist/detail")
 	public String apprlistDetail(Model model, HttpSession session, String docNo) throws Exception {
@@ -635,6 +721,96 @@ public class EAController {
 		
 		return "ea/user/ea_reflist_list";
 	}
+	
+	// 필터링
+	@RequestMapping(value = "/reflistByFilter")
+	public String reflistByFilter(HttpSession session, Model model, String formNo, String make, String close, String procSeq) throws Exception {
+		
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		String userNo = loginUser.getUserNo();
+		
+		// 양식전체종류 데이터 (테이블헤더에 필요)
+		List<FormDto> formList = service.formList();
+		model.addAttribute("formList", formList);
+		
+		// 진행단계 데이터 (테이블헤더에 필요)
+		List<ProcessDto> processList = service.processListRef(userNo);
+		model.addAttribute("processList", processList);
+		
+		// 자신이 참조하는 문서들 데이터
+		List<DocsDto> refList = service.refListForFilter(userNo);
+		
+		List<DocsDto> list = new ArrayList<>();
+		
+		// 양식
+		if(formNo != null) {
+			for(int i = 0; i < refList.size(); i++) {
+				if(refList.get(i).getFormNo().equals(formNo)) {
+					list.add(refList.get(i));
+				}
+			}
+		// 상신날짜
+		} else if(make != null) {
+			for(int i = 0; i < refList.size(); i++) {
+				list.add(refList.get(i));
+			}
+			
+			if("old".equals(make))
+				Collections.sort(list, (d1, d2) -> d1.getDocMake().compareTo(d2.getDocMake()));
+			else
+				Collections.sort(list, (d1, d2) -> d2.getDocMake().compareTo(d1.getDocMake()));
+		// 마감날짜
+		} else if(close != null) {
+			for(int i = 0; i < refList.size(); i++) {
+				list.add(refList.get(i));
+			}
+			
+			if("old".equals(close))
+				Collections.sort(list, (d1, d2) -> d1.getDocClose().compareTo(d2.getDocClose()));
+			else
+				Collections.sort(list, (d1, d2) -> d2.getDocClose().compareTo(d1.getDocClose()));
+		// 진행단계
+		} else if(procSeq != null) {
+			if("2".equals(procSeq)) {
+				for(int i = 0; i < processList.size(); i++) {
+					for(int j = 0; j < refList.size(); j++) {
+						if(processList.get(i).getDocNo().equals(refList.get(j).getDocNo()) && processList.get(i).getProcSeq() == 2) {
+							list.add(refList.get(j));
+						}
+					}					
+				} 
+			} else if("3".equals(procSeq)) {
+				for(int i = 0; i < processList.size(); i++) {
+					for(int j = 0; j < refList.size(); j++) {
+						if(processList.get(i).getDocNo().equals(refList.get(j).getDocNo()) && processList.get(i).getProcSeq() == 3) {
+							list.add(refList.get(j));
+						}
+					}					
+				} 
+			} else if("1".equals(procSeq)) { // 수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정
+//				for(int i = 0; i < refList.size(); i++) {
+//					for(int j = 0; j < processList.size(); j++) {
+//						if(processList.get(j).getDocNo().equals(refList.get(i).getDocNo()) && processList.get(j).getProcSeq() != 2 && processList.get(j).getProcSeq() != 3) {
+//							list.add(refList.get(i));
+//							log.info(refList.get(i).toString());
+//						}
+//					}					
+//				} 
+			}
+		}
+		
+		for(DocsDto d : list) {
+			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+			Date makeDate = d.getDocMake();
+			Date closeDate = d.getDocClose();
+			d.setSimpleMakeDate(ft.format(makeDate));
+			d.setSimpleCloseDate(ft.format(closeDate));
+		}
+		model.addAttribute("refList", list);
+		
+		return "ea/user/ea_reflist_list";
+	}
+	
 	// 참조문서조회 (상세조회)
 	@PostMapping(value = "/reflist/detail")
 	public String reflistDetail(Model model, String process, String docNo) throws Exception {

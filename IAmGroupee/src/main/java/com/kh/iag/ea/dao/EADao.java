@@ -101,5 +101,9 @@ public interface EADao {
 
 	List<DocsDto> signupListForFilter(String userNo);
 
+	List<DocsDto> apprListForFilter(String userNo);
+
+	List<DocsDto> refListForFilter(String userNo);
+
 	
 }

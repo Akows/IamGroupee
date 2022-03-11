@@ -27,8 +27,7 @@
         <ul>
             <li class="active"><a href="#">기본설정</a></li>
             <li><a href="#">양식관리</a></li>
-            <li><a href="#">전체문서</a></li>
-            <li><a href="#">삭제문서</a></li>
+            <li><a href="#">문서관리</a></li>
         </ul>
       </div>
       <div class="ea_settings_list_contents">
@@ -223,6 +222,42 @@
           </div>
           <div id="layer_bg"></div>
         </div>
+
+
+        <!---------------------- 전체문서관리 탭 ---------------------->
+        <div id="thirdDiv">
+          <button onclick="del();">선택 삭제</button>
+          <table>
+            <thead>
+              <tr>
+                <th><input type="checkbox"></th>
+                <th>문서 번호</th>
+                <th>문서 양식</th>
+                <th>문서 제목</th>
+                <th>승인 날짜</th>
+                <th>부서</th>
+              </tr>
+            </thead>
+            <tbody>
+              <c:forEach items="${preservedDocs}" var="pd">
+              <tr>
+                <td><input type="checkbox" class="checkbox-del" value="${pd.docNo}"></td>
+                <td>${pd.docNo}</td>
+                <td>${pd.formTitle}</td>
+                <td>${pd.docTitle}</td>
+                <c:if test="${pd.simpleFinishDate ne null}">
+                <td>${pd.simpleFinishDate}</td>
+                </c:if>
+                <c:if test="${pd.simpleFinishDate eq null}">
+                <td>삭제/만료 문서</td>
+                </c:if>
+                <td>${pd.departmentName}</td>
+              </tr>
+              </c:forEach>
+            </tbody>
+          </table>
+        </div>
+        
         
       </div>
     </div>
@@ -538,7 +573,69 @@
         //     }
         // });
 
+        // 문서관리 체크 버튼
+        // 상단 체크박스 클릭하면, 전체 체크박스 클릭되도록
+        let topCheckBox = document.querySelector('thead input[type="checkbox"]');
+        let delArr = document.getElementsByClassName('checkbox-del');
+        
+        topCheckBox.onchange = function(e) {
+          if(this.checked) {
+            // 상단 체크박스가 체크면 전부 다 체크
+            // 모든 체크박스 다 가져오기, 그다음에 모든 체크박스 checkd값을 true로 바꿔주기
+            // delArr 안의 요소 하나씩 꺼내와서 checked값을 true로 바꿔주기
+            for(let i = 0; i < delArr.length; ++i) {
+              delArr[i].checked = true;
+            }
+          } else {
+            // 아니면 체크 해제
+            for(let i = 0; i < delArr.length; ++i) {
+              delArr[i].checked = false;
+            }
+          }
+        };
 
+        // 삭제하기 버튼 눌렀을 때
+        function del() {
+          if(confirm('선택하신 문서를 삭제하시겠습니까?')) {
+            // 삭제할 번호 가져오기
+            // 가져온 번호들을 하나의 문자열로 합치기
+            let result = "";
+            let delArr = document.getElementsByClassName('checkbox-del');
+            
+            for(let i = 0; i < delArr.length; ++i) {
+              let t = delArr[i];
+              if(t.checked) {
+                result += t.value + ',';
+              }
+            }
+            // 삭제 요청 보내기 (삭제할 번호 전달해주면서)
+            $.ajax({
+              url : "${root}/admin/ea/delete",
+              data : {"str" : result},
+              type : "post",
+              success : function(data) {
+                if(date === 2) {
+                  for(let i = 0; i < delArr.length; ++i) {
+                    let t = delArr[i];
+                    if(t.checked) {
+                      t.parentElement.parentElement.remove();
+                    }
+                  }
+                  alert('선택하신 문서가 삭제되었습니다!');
+                };
+              },
+              error : function(e) {
+                alert(e);
+              }
+            });
+          } else {
+            return false;
+          }
+
+          
+          // 새로고침
+          // window.location.reload();
+        }
 
 
 

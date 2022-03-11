@@ -403,4 +403,14 @@ public class EAServiceImpl implements EAService {
 		return dao.signupListForFilter(userNo);
 	}
 
+	@Override
+	public List<DocsDto> apprListForFilter(String userNo) {
+		return dao.apprListForFilter(userNo);
+	}
+
+	@Override
+	public List<DocsDto> refListForFilter(String userNo) {
+		return dao.refListForFilter(userNo);
+	}
+
 }

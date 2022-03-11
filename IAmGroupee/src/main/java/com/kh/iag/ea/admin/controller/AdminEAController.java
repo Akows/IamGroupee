@@ -1,5 +1,7 @@
 package com.kh.iag.ea.admin.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -15,11 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.iag.ea.admin.service.AdminEAService;
 import com.kh.iag.ea.entity.CategoryDto;
+import com.kh.iag.ea.entity.DocsDto;
 import com.kh.iag.ea.entity.FormDto;
 import com.kh.iag.ea.entity.PositionDto;
 import com.kh.iag.ea.entity.SettingsDto;
 
 import lombok.extern.slf4j.Slf4j;
+import oracle.jdbc.proxy.annotation.Post;
 
 @Slf4j
 @Controller
@@ -57,6 +61,18 @@ public class AdminEAController {
 		// 양식 데이터
 		List<FormDto> formValues = service.formValues();
 		model.addAttribute("formValues", formValues);
+		// 승인 완료된 전체 문서 데이터
+		List<DocsDto> preservedDocs = service.preservedDocs();
+		
+		for(int i = 0; i < preservedDocs.size(); i++) {
+			if(preservedDocs.get(i).getDocFinish() != null) {
+				Date finishDate = preservedDocs.get(i).getDocFinish();
+				SimpleDateFormat ft = new SimpleDateFormat("yyyy. MM. dd.");
+				preservedDocs.get(i).setSimpleFinishDate(ft.format(finishDate));
+			}
+		}
+		
+		model.addAttribute("preservedDocs", preservedDocs);
 		
 		return "ea/admin/ea_admin_main";
 	}
@@ -151,5 +167,24 @@ public class AdminEAController {
 		model.addAttribute("formValues", formValues);
 		
 		return "ea/admin/ea_admin_main";
+	}
+	
+	@PostMapping(value = "/delete")
+	@ResponseBody
+	public int delete(String str) {
+		
+		String[] strArr = str.split(",");
+		
+		int result1 = 0;
+		int result2 = 0;
+		for(String s : strArr) {
+			// ref 테이블 먼저 삭제
+			result1 = service.deleteDocRef(s);
+			
+			// doc 테이브 삭제
+			result2 = service.deleteDoc(s);
+		}
+		
+		return result1 + result2;
 	}
 }
