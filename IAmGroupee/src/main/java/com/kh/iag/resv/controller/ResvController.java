@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -96,19 +97,17 @@ public class ResvController {
 	}
 	
 	//예약수정
-	@PostMapping(value="mod")
-	public String modResv(ResvDto dto, @RequestParam("no")String no, @RequestParam("period")String period) throws Exception {
+	@PutMapping(value="mod")
+	@ResponseBody
+	public String modResv(ResvDto dto, HttpServletRequest req) throws Exception {
 		
-		System.out.println(no);
-		System.out.println(period);
-		
-		String[] parts = period.split("~");
+		String[] parts = req.getParameter("period").split("~");
 		String start = parts[0]; 
 		String end = parts[1];
 		
 		dto.setResvStart(start);
 		dto.setResvEnd(end);
-		dto.setResvNo(Integer.parseInt(no));
+		dto.setResvNo(Integer.parseInt(req.getParameter("resvNo")));
 		
 		System.out.println("after:::" + dto);
 
