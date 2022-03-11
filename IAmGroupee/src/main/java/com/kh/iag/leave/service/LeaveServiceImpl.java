@@ -22,15 +22,7 @@ public class LeaveServiceImpl implements LeaveService {
 	@Autowired
 	private LeaveDao dao;
 	
-	@Override // 로그인유저정보
-	public UserDto getThisUser(String userNo) throws Exception {
-		return dao.getThisUser(userNo);
-	}
-	
-	@Override // 메인 상단연차내역
-	public UserDto getAllAlvUsage(String userNo) throws Exception {
-		return dao.getAllAlvUsage(userNo);
-	}
+//	/////////////////////////전결에서 받아오기
 	
 	@Override // 메인 사용내역
 	public List<LvUsedListDto> getAllUsage(String userNo) throws Exception {
@@ -41,13 +33,13 @@ public class LeaveServiceImpl implements LeaveService {
 	public List<LvUsedListDto> getAlvListCalen(String userNo) throws Exception {
 		return dao.getAlvListCalen(userNo);
 	}
-
+	
 	@Override // 연차 사용대장 iframe
 	public List<LvUsedListDto> getAlvList(String userNo, PageVo pageVoAlv) throws Exception {
 		
 		return dao.getAlvList(userNo, pageVoAlv);
 	}
-
+	
 	@Override // 연차 사용대장 페이징
 	public int getAlvRowCnt(String userNo) throws Exception {
 		return dao.getAlvRowCnt(userNo);
@@ -57,16 +49,27 @@ public class LeaveServiceImpl implements LeaveService {
 	public List<LvUsedListDto> getLvListCalen(String userNo) throws Exception {
 		return dao.getLvListCalen(userNo);
 	}
-
+	
 	@Override // 휴가 사용대장 iframe
 	public List<LvUsedListDto> getLvList(String userNo, PageVo pageVoLv) throws Exception {
 		return dao.getLvList(userNo, pageVoLv);
 	}
-
+	
 	@Override // 휴가 사용대장 페이징
 	public int getLvRowCnt(String userNo) throws Exception {
 		return dao.getLvRowCnt(userNo);
 	}
+	
+	@Override // 로그인유저정보
+	public UserDto getThisUser(String userNo) throws Exception {
+		return dao.getThisUser(userNo);
+	}
+	
+	@Override // 메인 상단연차내역
+	public UserDto getAllAlvUsage(String userNo) throws Exception {
+		return dao.getAllAlvUsage(userNo);
+	}
+	
 
 	@Override // 휴가 발생 페이지 휴가목록
 	public List<LeaveDto> getLvTypeList() throws Exception {
@@ -174,18 +177,18 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 // =========== 연차생성 전 리셋 3가지 ===========
 	@Override // 1. IAG_USER의 ALV_COUNT, MLV_COUNT,  ALV_USED_COUNT, ALV_LEFT_COUNT, ALV_ADD_COUNT 컬럼 0으로 리셋 (UPDATE)
-	public void resetIagUserAlv(String userNo) throws Exception {
-		dao.resetIagUserAlv(userNo);
+	public int resetIagUserAlv(String userNo) throws Exception {
+		return dao.resetIagUserAlv(userNo);
 	}
 
 	@Override // 2. ALV_OCCUR_HISTORY테이블에서 userNo의 데이터 리셋 (DELETE)
-	public void resetAlvHistory(String userNo) throws Exception {
-		dao.resetAlvHistory(userNo);
+	public int resetAlvHistory(String userNo) throws Exception {
+		return dao.resetAlvHistory(userNo);
 	}
 
 	@Override // 3. USAGE_LV테이블 THIS_YEAR컬럼 'N'으로 리셋 (UPDATE)
-	public void resetUsageLv(String userNo, String todayDate) throws Exception {
-		dao.resetUsageLv(userNo, todayDate);
+	public int resetUsageLv(String userNo, String todayDate) throws Exception {
+		return dao.resetUsageLv(userNo, todayDate);
 	}
 // =========== 연차생성 ===========
 	@Override // 오늘 발생한 연차가 있는지 (없어야한다)
@@ -194,8 +197,8 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 
 	@Override // 로그인 유저의 총연차개수 update IAG_USER
-	public int addAlvCount(String userNo, int createAlvCount) throws Exception {
-		return dao.addAlvCount(userNo, createAlvCount);
+	public int createAlvCount(String userNo, int createAlvCount) throws Exception {
+		return dao.createAlvCount(userNo, createAlvCount);
 	}
 
 	@Override // 로그인 유저의 연차발생 HISTORY

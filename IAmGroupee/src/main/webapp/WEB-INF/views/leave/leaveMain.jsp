@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
   <!-- Favicon -->
   <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="${root}/resources/plugins/toastr/toastr.min.css">
 </head>
 
 <body>
@@ -28,69 +30,76 @@
         </div>
         
         <br>
-        
-        <div class="row stat-cards">
-          <div class="col-md-6 col-xl-12" style="width: 20%; height: 150px;">
-            <article class="stat-cards-item" style="text-align: center; margin: auto;">
-              	<div style="width: 13%; height: 100%; float: left; line-height: 5.5em; font-weight: bolder; font-size: large;">
-              		<div style="margin-left: 20px;"> ${loginUser.name} </div>
-              	</div>
-              	<div class="border-right" style="width: 7%; height: 100%; float: left; text-align: left; font-weight: bold; font-size: medium;">
-              		<div style="margin-top: 25px; margin-left: 20px;"> ${loginUser.departmentName}<br>${loginUser.positionName} </div>
-              	</div>
-              	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-              		<span style="font-weight: bolder; line-height: 1.7em;">
-              		발생 연차
-              		</span> <br>
-              		<span style="font-size: xx-large; line-height: 2.5em;">
-              		${allUsedAlvList.alvCount}
-              		</span>
-              	</div>
-              	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-              		<span style="font-weight: bolder; line-height: 1.7em;">
-              		발생 월차
-              		</span> <br>
-              		<span style="font-size: xx-large; line-height: 2.5em;">
-              		${allUsedAlvList.mlvCount}
-              		</span>
-              	</div>
-              	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-              		<span style="font-weight: bolder; line-height: 1.7em;">
-              		조정 연차
-              		</span> <br>
-              		<span style="font-size: xx-large; line-height: 2.5em;">
-              		${allUsedAlvList.alvAddCount}
-              		</span>
-              	</div>
-              	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-              		<span style="font-weight: bolder; line-height: 1.7em;">
-              		총 연차
-              		</span> <br>
-              		<span style="font-size: xx-large; line-height: 2.5em;">
-              		${allUsedAlvList.alvTotalCount}
-              		</span>
-              	</div>
-              	<div class="border-right" style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-              		<span style="font-weight: bolder; line-height: 1.7em;">
-              		사용 연차
-              		</span> <br>
-              		<span style="font-size: xx-large; line-height: 2.5em;">
-              		${allUsedAlvList.alvUsedCount}
-              		</span>
-              	</div>
-              	<div style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-              		<span style="font-weight: bolder; line-height: 1.7em;">
-              		남은 연차
-              		</span> <br>
-              		<span style="font-size: xx-large; line-height: 2.5em;">
-              		${allUsedAlvList.alvTotalCount - allUsedAlvList.alvUsedCount}
-              		</span>
-              	</div>          
-            </article>
-          </div>
-        </div>
-        
-        <br>
+
+			<div class="row stat-cards">
+				<div class="col-md-6 col-xl-12" style="width: 20%; height: 150px;">
+					<article class="stat-cards-item" style="text-align: center; margin: auto;">
+						<div style="width: 13%; height: 100%; float: left; line-height: 5.5em; font-weight: bolder; font-size: large;">
+							<button type="button" class="btn btn-default toastsDefaultDefault" style="width: 100%;float: left; line-height: 5em; font-weight: bolder; font-size: large;">
+								${loginUser.name}
+							</button>
+							<script type="text/javascript">
+								$('.toastsDefaultDefault').click(function() {
+									$(document).Toasts('create', {
+										title : '연차 발생을 위한 정보',
+										body : '1년이상근무여부/전년도근무일수(80이상여부)/저번달개근여부'
+									})
+								});
+							</script>
+						</div>
+						<div class="border-right"
+							style="width: 7%; height: 100%; float: left; text-align: left; font-weight: bold; font-size: medium;">
+							<div style="margin-top: 25px; margin-left: 15px;">
+								${loginUser.departmentName}<br>${loginUser.positionName}
+							</div>
+						</div>
+						<div class="border-right"
+							style="width: 13%; height: 100%; float: left; margin-left: 4px;">
+							<span style="font-weight: bolder; line-height: 1.7em;"> 발생
+								연차 </span> <br> <span
+								style="font-size: xx-large; line-height: 2.5em;">
+								${allUsedAlvList.alvCount} </span>
+						</div>
+						<div class="border-right"
+							style="width: 13%; height: 100%; float: left; margin-left: 4px;">
+							<span style="font-weight: bolder; line-height: 1.7em;"> 발생
+								월차 </span> <br> <span
+								style="font-size: xx-large; line-height: 2.5em;">
+								${allUsedAlvList.mlvCount} </span>
+						</div>
+						<div class="border-right"
+							style="width: 13%; height: 100%; float: left; margin-left: 4px;">
+							<span style="font-weight: bolder; line-height: 1.7em;"> 조정
+								연차 </span> <br> <span
+								style="font-size: xx-large; line-height: 2.5em;">
+								${allUsedAlvList.alvAddCount} </span>
+						</div>
+						<div class="border-right"
+							style="width: 13%; height: 100%; float: left; margin-left: 4px;">
+							<span style="font-weight: bolder; line-height: 1.7em;"> 총
+								연차 </span> <br> <span
+								style="font-size: xx-large; line-height: 2.5em;">
+								${allUsedAlvList.alvTotalCount} </span>
+						</div>
+						<div class="border-right"
+							style="width: 13%; height: 100%; float: left; margin-left: 4px;">
+							<span style="font-weight: bolder; line-height: 1.7em;"> 사용
+								연차 </span> <br> <span
+								style="font-size: xx-large; line-height: 2.5em;">
+								${allUsedAlvList.alvUsedCount} </span>
+						</div>
+						<div
+							style="width: 13%; height: 100%; float: left; margin-left: 4px;">
+							<span style="font-weight: bolder; line-height: 1.7em;"> 남은
+								연차 </span> <br> <span
+								style="font-size: xx-large; line-height: 2.5em;">
+								${allUsedAlvList.alvTotalCount - allUsedAlvList.alvUsedCount} </span>
+						</div>
+					</article>
+				</div>
+			</div>
+
+			<br>
        
         <div style="height: 40px; width: 100%;">
         	<div style="width: 25%; height: 100%; float: left;">

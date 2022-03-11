@@ -81,7 +81,7 @@ public interface LeaveDao {
 
 	int checkOccuredAlvToday(String userNo, String todayDate) throws Exception;
 
-	int addAlvCount(String userNo, int createAlvCount) throws Exception;
+	int createAlvCount(String userNo, int createAlvCount) throws Exception;
 
 	int addAlvHistory(String userNo, int createAlvCount) throws Exception;
 
