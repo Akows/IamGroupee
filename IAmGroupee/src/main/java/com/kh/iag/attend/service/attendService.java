@@ -12,12 +12,12 @@ import com.kh.iag.attend.entity.AttendWTDTO;
 
 public interface attendService 
 {
-	//±ÙÅÂ°ü¸® ¸ÞÀÎÆäÀÌÁö
-		//ÀÓ½Ãµ¥ÀÌÅÍ »ðÀÔ
+	//ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//ï¿½Ó½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		void attendtempdatainsert(AttendDTO attendDTO) throws Exception;
 		void attendWTtempdatainsert(AttendWTDTO attendWTDTO) throws Exception;
 
-		//¸ÞÀÎÆäÀÌÁö Á¤º¸ Ãâ·Â
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception;
 		List<AttendDTO> getAttendNumandName(AttendDTO attendDTO) throws Exception;
 		List<AttendDTO> getPreAttendInfo(AttendDTO attendDTO) throws Exception;
@@ -25,34 +25,34 @@ public interface attendService
 		List<AttendWTDTO> getAttendWTInfo(AttendWTDTO attendWTDTO) throws Exception;
 		List<AttendWTDTO> getWTTWTInfo(AttendWTDTO attendWTDTO2) throws Exception;
 		
-		//ÃâÅð±ÙÃ³¸®
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½
 		void attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
 		void attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
 		void attendprocessReIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
 		void attendprocessReOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
 
 	
-	//±ÙÅÂÇöÈ² Á¶È¸ÆäÀÌÁö
-		//Ä¶¸°´õ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È² ï¿½ï¿½È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//Ä¶ï¿½ï¿½ï¿½ï¿½
 		
-		//±ÙÅÂÇöÈ² ¼öÁ¤¿äÃ»
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»
 		int attendModify(AttendModDTO attendmodDTO, HttpServletRequest req, MultipartFile file) throws Exception;
 		int getAttendModCnt() throws Exception;
 		
-		//ÀÏÀÏ ±ÙÅÂÇöÈ²Á¶È¸	
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È²ï¿½ï¿½È¸	
 		List<AttendDTO> getAllAttendINfo(AttendDTO attendDTO) throws Exception;
 		List<AttendWTDTO> getAllAttendWTInfo(AttendWTDTO attendWTDTO) throws Exception;
 		
-	//±ÙÅÂ°ü¸® °ü¸®ÆäÀÌÁö
-		//¼öÁ¤¿äÃ» Á¶È¸
+	//ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã» ï¿½ï¿½È¸
 		List<AttendModDTO> getModList() throws Exception;
 		
-		//Ã·ºÎÆÄÀÏ Á¶È¸-Ãâ·Â
+		//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸-ï¿½ï¿½ï¿½
 		List<AttendModDTO> getFile(String searchKey) throws Exception;
 		
-		//¼öÁ¤¿äÃ»Ã³¸®
-		int approveManageOK(AttendModDTO attendModDTO) throws Exception;
-		int approveManageNone(AttendModDTO attendModDTO) throws Exception;
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»Ã³ï¿½ï¿½
+		void approveManageOK(AttendModDTO attendModDTO) throws Exception;
+		void approveManageNone(AttendModDTO attendModDTO) throws Exception;
 
 
 

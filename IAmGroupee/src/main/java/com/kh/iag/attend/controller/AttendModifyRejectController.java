@@ -1,7 +1,5 @@
 package com.kh.iag.attend.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,32 +9,36 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.kh.iag.attend.entity.AttendDTO;
 import com.kh.iag.attend.entity.AttendModDTO;
-import com.kh.iag.attend.entity.AttendWTDTO;
 import com.kh.iag.attend.service.attendService;
 
 @Controller
 @RequestMapping("attend")
-public class AttendManageController 
-{
+public class AttendModifyRejectController
+{	
 	@Autowired
 	private attendService service;
 	
-	@GetMapping("/attendmanage")
-	public String attendmanage(Model model) throws Exception 
+	private int keyNum;
+
+	@GetMapping("approvemanagenone")
+	public String approveManageNone(Model model, HttpServletRequest req) throws Exception
 	{
-		List<AttendModDTO> atModList = service.getModList();
-		model.addAttribute("atModList", atModList);
+		String attend_mod_num = req.getParameter("attend_mod_num");
 		
-		return "attend/attendmanage";
+		keyNum = Integer.parseInt(attend_mod_num);
+
+		return "attend/attendModReqDenialReason";
 	}
 	
-	@GetMapping("/approvemanageok")
-	public String approvemanageok(AttendModDTO attendModDTO) throws Exception 
+	@PostMapping("approvemanagenoneprocess")
+	public String approveManageNoneProcess(AttendModDTO attendModDTO) throws Exception
 	{
-		service.approveManageOK(attendModDTO);
+		attendModDTO.setAttend_mod_num(keyNum);
 		
+		service.approveManageNone(attendModDTO);
+
 		return "redirect:/attend/attendmanage";
 	}
+	
 }

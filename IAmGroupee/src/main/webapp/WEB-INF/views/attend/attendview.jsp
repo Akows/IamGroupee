@@ -40,7 +40,7 @@
 		
 		<div class="row stat-cards">
 			<c:forEach items="${ATInfo}" var="atin" begin="0" end="0">
-	        	<div class="col-md-6 col-xl-3">
+	        	<div class="col-md-12 col-xl-3">
 					<article class="stat-cards-item">
 						<div class="stat-cards-icon success">
 							<i data-feather="file" aria-hidden="true"></i>
@@ -55,37 +55,69 @@
 								</span>
 							</p>
 							<hr>
-							<form action="attendstate" method="get">
-								<button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">출퇴근현황조회</button>
+							<form action="" method="">
+							  	<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="마이페이지">
 							</form>	
 						</div>
 					</article>
 				</div>
+				
+				<div class="col-md-12 col-xl-9">
+	            	<article class="stat-cards-item">
+		              	<div class="stat-cards-icon primary">
+		                	<i data-feather="bar-chart-2" aria-hidden="true"></i>
+		              	</div>
+		              	<div class="stat-cards-info">
+		                <p class="stat-cards-info__num">근무현황 캘린더</p>
+		                <p class="stat-cards-info__progress">
+		                  <span class="stat-cards-info__profit success">
+		                    <i data-feather="trending-up" aria-hidden="true"></i>출근
+		                  </span>
+		                </p>
+		                <hr>
+		                
+		    			캘린더 위치
+		                
+		                <hr>
+		              	</div>
+	           	 	</article>
+          		</div>
+				
 			</c:forEach>
 		</div>
 		
 		<div class="row stat-cards">
+			<div class="col-md-12 col-xl-3">
+					<article class="stat-cards-item">
+						<div class="stat-cards-icon success">
+							<i data-feather="bar-chart-2" aria-hidden="true"></i>
+						</div>
+						<div class="stat-cards-info">
+							<p class="stat-cards-info__num">세부 메뉴</p>
+							<p class="stat-cards-info__title">출퇴근현황 조회</p>
+							<form action="attendstate" method="get">
+								<button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">출퇴근현황조회</button>
+							</form>	
+							
+							<hr>
+							
+							<p class="stat-cards-info__title">기능 이름</p>
+							<form action="" method="get">
+								<button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">버튼</button>
+							</form>	
+							
+							<hr>
+							
+							<p class="stat-cards-info__title">기능 이름</p>
+							<form action="" method="">
+								<button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">버튼</button>
+							</form>	
+							
+							<hr>							
+						</div>
+				</article>
+			</div>
 
-          <div class="col-md-12 col-xl-9">
-            <article class="stat-cards-item">
-              <div class="stat-cards-icon primary">
-                <i data-feather="bar-chart-2" aria-hidden="true"></i>
-              </div>
-              <div class="stat-cards-info">
-                <p class="stat-cards-info__num">근무현황 캘린더</p>
-                <p class="stat-cards-info__progress">
-                  <span class="stat-cards-info__profit success">
-                    <i data-feather="trending-up" aria-hidden="true"></i>출근
-                  </span>
-                </p>
-                <hr>
-                
-    			
-                
-                <hr>
-              </div>
-            </article>
-          </div>
           
         </div>
 

@@ -72,7 +72,6 @@ public class AttendManageAttachFileController
 		
 		if (attendModDTO == null)
 		{
-			System.out.println("if~~~");
 			return ResponseEntity.notFound().build();
 		}
 		
@@ -82,17 +81,10 @@ public class AttendManageAttachFileController
 		
 		File file = new File(req.getServletContext().getRealPath("/resources/upload/files/"), String.valueOf(attach_file));
 		
-		System.out.println("exist ::: " + file.exists());
-		
 		byte[] data = FileUtils.readFileToByteArray(file);
 		
 		ByteArrayResource res = new ByteArrayResource(data);
-		
-		System.out.println("res=====");
-		System.out.println(res);
-		
-		System.out.println("size : "  + attendModDTO.getAttach_file_size());
-		
+
 		return ResponseEntity
 			   .ok()
 			   .contentType(MediaType.APPLICATION_OCTET_STREAM)

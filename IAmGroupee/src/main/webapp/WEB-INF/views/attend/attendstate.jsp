@@ -46,7 +46,8 @@
 				<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger; width: 150px" value="검색">	     					
 			</span>                		       							       				
 		</form>		
-		
+	
+	<form action="attendmodify" method="post" enctype="multipart/form-data">	
 
 	<div class="row stat-cards">
 		<div class="col-lg-12">
@@ -55,7 +56,11 @@
 				<table class="posts-table">
 		            <thead>
 		            	<tr class="users-table-info">
-		                	<th>날짜</th>
+		                	<th>
+			                	<label class="users-table__checkbox ms-20">
+			                    	<input type="checkbox" disabled="disabled"> 날짜
+			                    </label>		                		
+		                	</th>
 		                    <th>출근시간</th>
 		                    <th>퇴근시간</th>
 		                    <th>정상근무여부</th>
@@ -65,7 +70,11 @@
 		       			<c:forEach items="${WTInfo}" var="wtin">
 		       				
 			            	<tr>
-			            		<td>${wtin.attend_date}</td>
+			            		<td>
+				                    <label class="users-table__checkbox">
+				                    	<input type="checkbox" name="modify_req_date" value="${wtin.attend_date}">${wtin.attend_date}
+				                    </label>				                    			            		
+			            		</td>
 			            		<td>${wtin.in_time}</td>
 			            		<td>${wtin.out_time}</td>		            		
 			            		
@@ -109,12 +118,11 @@
             <article class="stat-cards-item">
               <div class="stat-cards-info">
                 <p class="stat-cards-info__num">근무상황 수정요청</p>
-                <p class="stat-cards-info__title">천재지변/긴급한 용무 등으로 정상출근 처리가 필요한 경우 요청</p>
-                <p class="stat-cards-info__title">사유서 혹은 진단서 등 관련 서류 양식에 맞추어 반드시 자료 첨부할 것!</p>
+                <p class="stat-cards-info__title">천재지변/전산미숙/긴급업무처리 등의 이유로 정상출근 처리를 요청할 경우 사용</p>
+                <p class="stat-cards-info__title">사유서 혹은 진단서 등의 추가 자료가 있으면 반드시 첨부해주세요</p>
+                <p class="stat-cards-info__title">수정요청 시 상단 일일 근태조회 목록에서 수정을 요청할 대상을 체크한 뒤 내용작성하여 요청 바람</p>
                 <hr>
                 
-                <form action="attendmodify" method="post" enctype="multipart/form-data">
-                	
                 	<textarea name="mod_reason" placeholder="내용작성하여 제출" style="width: 400px; height: 200px; resize: none;" required></textarea>
                 
 	                <br>
@@ -125,28 +133,13 @@
 	                
 	                <input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="수정요청">
                 
-                </form>
-                
               </div>
             </article>
     	</div>       
-    </div>    
+    </div>
+    
+    </form>    
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-		
 	</div>
 </main>
 
@@ -162,6 +155,62 @@
 	
 	document.getElementById("currentDate").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
 
+	<!-- 체크된 값을 가져와서 ajax로 controller로 넘기는 스크립트 -->
+	<!-- 로직 변경으로 미사용 -->
+	function getCheckboxValue(event)  
+	{
+		var value = '';
+		
+		if(event.target.checked)
+		{
+			value = event.target.value;
+		}
+		else
+		{
+			value = '';
+		}
+		
+		var valueCut1 = value.substr(0, 4);
+		var valueCut2 = value.substr(6, 2);
+		var valueCut3 = value.substr(10, 2);
+		
+		var sumValue = valueCut1 + valueCut2 + valueCut3;
+		var resultValue = String(sumValue);
+		
+		if(value = '')
+		{
+			console.log("값이 없으면 ajax로 가지않아요");
+		}
+		else
+		{
+			$.ajax
+			({
+		        url : "attendmodify",
+		        type : 'POST',
+		        data : {'zz' : resultValue},
+		        dataType:'text',
+		        success : function()
+		        {
+		            console.log("전달완료");
+		        },
+		        error : function()
+		        {
+		        	console.log("전달실패");
+		        }
+		    });			
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </script>
 
 <!-- Custom scripts -->

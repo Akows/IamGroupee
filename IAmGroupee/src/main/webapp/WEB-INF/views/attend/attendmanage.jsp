@@ -49,6 +49,7 @@
                   <tr class="users-table-info">
                     <th>신청일</th>
                     <th>신청자</th>
+					<th><b>수정요청일자</b></th>                    
                     <th>신청사유</th>
                     <th>첨부파일</th>
                     <th>현재상태</th>
@@ -61,6 +62,7 @@
 						<tr>
 							<td>${modlist.req_date}</td>
 							<td>${modlist.user_name}</td>
+							<td><b>${modlist.modify_req_date}</b></td>							
 							<td>${modlist.mod_reason}</td>
 							<td>
 								<form action="attachfile" method="get" id="auform">
@@ -91,22 +93,23 @@
 							</td>
 							<td>
 		                    	<span class="p-relative">
-			                        <button class="dropdown-btn transparent-btn" type="button" title="More info">
-			                          <div class="sr-only">More info</div>
+			                        <button class="dropdown-btn transparent-btn" type="button">
+			                          <div class="sr-only"></div>
 			                          <i data-feather="more-horizontal" aria-hidden="true"></i>
 			                        </button>
+			                        
 			                        <ul class="users-item-dropdown dropdown">
 			                          <li>
 			                          	<form action="approvemanageok" method="get">
 									        <input type="hidden" name="attend_mod_num" value="${modlist.attend_mod_num}">
+									        <input type="hidden" name="modify_req_date" value="${modlist.modify_req_date}">
 									        <input type="submit" value="요청 승인">
 										</form>
 			                          </li>
 			                          <li>
 			                          	<form action="approvemanagenone" method="get">
-									        <input type="hidden" name="attend_mod_num" value="${modlist.attend_mod_num}">
-									        <input type="submit" value="요청 반려">
-										</form>	                         	 
+							        		<input type="button" class="rejectBtn" value="요청 반려">	
+										</form>                        	 
 			                          </li>
 			                        </ul>
 			                    </span>
@@ -167,7 +170,34 @@
 		
 		//document.getElementById('auform').submit(); 
     };
+    
+    <!-- 반려처리 페이지로 이동하는 스크립트 -->
+    <!-- 파일 검색용 modnum을 전송하는 스크립트도 겸함 -->
+	let rejectbtn = document.getElementsByClassName("rejectBtn");
+	
+	$(rejectbtn).each(function(idx, element)
+	{
+		element.addEventListener('click', rejectbtnclickEventHandler);
+	});
 
+	function rejectbtnclickEventHandler(e) 
+	{	
+		var url = "http://127.0.0.1:8989/iag/attend/approvemanagenone?attend_mod_num=";
+		let no = e.currentTarget.previousSibling.previousSibling.value;
+		url += no;
+		
+		var name = "반려처리페이지";
+		var specs = "width=1000, height=1000, scrollbars=yes, menubar=no";
+
+		window.open(url, name, specs);
+    };
+    
+
+    
+    
+    
+    
+    
     
     
     

@@ -21,8 +21,8 @@ public class attendServiceImpl implements attendService
 	@Autowired
 	private AttendDAO attendDAO;
 	
-	//±ÙÅÂ°ü¸® ¸ÞÀÎÆäÀÌÁö
-		//ÀÓ½Ãµ¥ÀÌÅÍ »ðÀÔ
+	//ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//ï¿½Ó½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		@Override
 		@Transactional
 		public void attendtempdatainsert(AttendDTO attendDTO) throws Exception 
@@ -40,7 +40,7 @@ public class attendServiceImpl implements attendService
 			attendDAO.attendWTtempdatainsert(attendWTDTO);
 		}
 	
-		//¸ÞÀÎÆäÀÌÁö Á¤º¸ Ãâ·Â
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		@Override
 		public List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception 
 		{
@@ -78,7 +78,7 @@ public class attendServiceImpl implements attendService
 		}
 		
 		
-		//ÃâÅð±ÙÃ³¸®
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½
 		@Override
 		@Transactional
 		public void attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception 
@@ -109,10 +109,10 @@ public class attendServiceImpl implements attendService
 			attendDAO.attendprocessReOUT(attendWTDTO, req);
 		}
 
-	//±ÙÅÂÇöÈ² Á¶È¸ÆäÀÌÁö
-		//Ä¶¸°´õ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È² ï¿½ï¿½È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//Ä¶ï¿½ï¿½ï¿½ï¿½
 		
-		//±ÙÅÂÇöÈ² ¼öÁ¤¿äÃ»
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»
 		@Override
 		public int attendModify(AttendModDTO attendmodDTO, HttpServletRequest req, MultipartFile mpfile) throws Exception 
 		{
@@ -147,7 +147,7 @@ public class attendServiceImpl implements attendService
 			return attendDAO.getAttendModCnt();
 		}
 		
-		//ÀÏÀÏ ±ÙÅÂÇöÈ²Á¶È¸	
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È²ï¿½ï¿½È¸	
 		@Override
 		public List<AttendDTO> getAllAttendINfo(AttendDTO attendDTO) throws Exception 
 		{
@@ -160,32 +160,32 @@ public class attendServiceImpl implements attendService
 			return attendDAO.getAllAttendWTInfo(attendWTDTO);
 		}
 	
-	//±ÙÅÂ°ü¸® °ü¸®ÆäÀÌÁö
-		//¼öÁ¤¿äÃ» Á¶È¸
+	//ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã» ï¿½ï¿½È¸
 		@Override
 		public List<AttendModDTO> getModList() throws Exception 
 		{
 			return attendDAO.getModList();
 		}
 		
-		//Ã·ºÎÆÄÀÏ Á¶È¸-Ãâ·Â
+		//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸-ï¿½ï¿½ï¿½
 		@Override
 		public List<AttendModDTO> getFile(String searchKey) throws Exception 
 		{
 			return attendDAO.getFile(searchKey);
 		}
 		
-		//¼öÁ¤¿äÃ»Ã³¸®
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»Ã³ï¿½ï¿½
 		@Override
-		public int approveManageOK(AttendModDTO attendModDTO) throws Exception 
+		public void approveManageOK(AttendModDTO attendModDTO) throws Exception 
 		{
-			return attendDAO.approveManageOK(attendModDTO);
+			attendDAO.approveManageOK(attendModDTO);
 		}
 
 		@Override
-		public int approveManageNone(AttendModDTO attendModDTO) throws Exception 
+		public void approveManageNone(AttendModDTO attendModDTO) throws Exception 
 		{
-			return attendDAO.approveManageNone(attendModDTO);
+			attendDAO.approveManageNone(attendModDTO);
 		}
 
 

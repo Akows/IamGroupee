@@ -56,6 +56,7 @@
               </div>
             </article>
           </div>
+          
           <div class="col-md-12 col-xl-9">
             <article class="stat-cards-item">
               <div class="stat-cards-icon warning">

@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.iag.attend.entity.AttendDTO;
 import com.kh.iag.attend.entity.AttendWTDTO;
@@ -53,6 +55,7 @@ public class AttendStateController
 		String userNo = loginUser.getUserNo();
 		
 		attendWTDTO.setUser_no(userNo);
+		
 		
 //		List<AttendWTDTO> WTList = service.searchAttendWTInfo(attendWTDTO);
 		

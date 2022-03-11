@@ -18,8 +18,8 @@ public class AttendDAOImpl implements AttendDAO
 	@Autowired
 	private SqlSession ss;
 	
-	//±ÙÅÂ°ü¸® ¸ÞÀÎÆäÀÌÁö
-		//ÀÓ½Ãµ¥ÀÌÅÍ »ðÀÔ
+	//ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//ï¿½Ó½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		@Override
 		public void attendtempdatainsert(AttendDTO attendDTO) 
 		{
@@ -38,7 +38,7 @@ public class AttendDAOImpl implements AttendDAO
 			ss.insert("attend.attendWTtempdatainsert", attendWTDTO);	
 		}
 
-		//¸ÞÀÎÆäÀÌÁö Á¤º¸ Ãâ·Â
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		@Override
 		public List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception 
 		{
@@ -76,7 +76,7 @@ public class AttendDAOImpl implements AttendDAO
 
 		
 	
-		//ÃâÅð±ÙÃ³¸®
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½
 		@Override
 		public int getAttendWtSeq() throws Exception 
 		{
@@ -111,10 +111,10 @@ public class AttendDAOImpl implements AttendDAO
 		}
 		
 	
-	//±ÙÅÂÇöÈ² Á¶È¸ÆäÀÌÁö
-		//Ä¶¸°´õ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È² ï¿½ï¿½È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//Ä¶ï¿½ï¿½ï¿½ï¿½
 		
-		//±ÙÅÂÇöÈ² ¼öÁ¤¿äÃ»
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»
 		@Override
 		public int getAttendmodSeq() 
 		{
@@ -133,7 +133,7 @@ public class AttendDAOImpl implements AttendDAO
 			ss.update("attend.modfilereq", attendmodDTO);		
 		}
 		
-		//ÀÏÀÏ ±ÙÅÂÇöÈ²Á¶È¸	
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È²ï¿½ï¿½È¸	
 		@Override
 		public List<AttendDTO> getAllAttendINfo(AttendDTO attendDTO) throws Exception 
 		{
@@ -146,8 +146,8 @@ public class AttendDAOImpl implements AttendDAO
 			return ss.selectList("attend.getAllAttendWTInfo", attendWTDTO);
 		}
 
-	//±ÙÅÂ°ü¸® °ü¸®ÆäÀÌÁö
-		//¼öÁ¤¿äÃ» Á¶È¸
+	//ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã» ï¿½ï¿½È¸
 		@Override
 		public int getAttendModCnt() throws Exception
 		{
@@ -160,7 +160,7 @@ public class AttendDAOImpl implements AttendDAO
 			return ss.selectList("attend.getModList");
 		}
 	
-		//Ã·ºÎÆÄÀÏ Á¶È¸-Ãâ·Â
+		//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸-ï¿½ï¿½ï¿½
 		@Override
 		public List<AttendModDTO> getFile(String searchKey) throws Exception 
 		{
@@ -173,17 +173,19 @@ public class AttendDAOImpl implements AttendDAO
 			return ss.selectOne("attend.downFile", attach_file);
 		}
 
-		//¼öÁ¤¿äÃ»Ã³¸®
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»Ã³ï¿½ï¿½
 		@Override
-		public int approveManageOK(AttendModDTO attendModDTO) throws Exception 
+		public void approveManageOK(AttendModDTO attendModDTO) throws Exception 
 		{
-			return ss.update("attend.approveManageOK", attendModDTO);
+			ss.update("attend.approveManageOK", attendModDTO);
+			ss.update("attend.approveManageOKAT", attendModDTO);
+			ss.update("attend.approveManageOKWT", attendModDTO);
 		}
 	
 		@Override
-		public int approveManageNone(AttendModDTO attendModDTO) throws Exception 
+		public void approveManageNone(AttendModDTO attendModDTO) throws Exception 
 		{
-			return ss.update("attend.approveManageNone", attendModDTO);
+			ss.update("attend.approveManageNone", attendModDTO);						
 		}
 
 

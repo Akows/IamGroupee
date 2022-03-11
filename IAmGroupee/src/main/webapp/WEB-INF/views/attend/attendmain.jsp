@@ -509,7 +509,6 @@
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
-
 <script type="text/javascript">
 	let today = new Date();
 	let year = today.getFullYear(); 

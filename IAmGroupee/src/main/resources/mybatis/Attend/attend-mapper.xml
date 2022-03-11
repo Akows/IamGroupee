@@ -26,7 +26,9 @@
 				<result property="user_no" column="USER_NO"/>
 				<result property="user_name" column="USER_NAME"/>
 				<result property="req_date" column="REQ_DATE"/>
+				<result property="modify_req_date" column="MODIFY_REQ_DATE"/>				
 				<result property="mod_reason" column="MOD_REASON"/>
+				<result property="reject_reason" column="REJECT_REASON"/>
 				<result property="attach_file" column="ATTACH_FILE"/>
 				<result property="attach_file_size" column="ATTACH_FILE_SIZE"/>
 				<result property="approve_state" column="APPROVE_STATE"/>
@@ -311,7 +313,9 @@
 				USER_NO,
 				USER_NAME,
 				REQ_DATE,
+				MODIFY_REQ_DATE,
 				MOD_REASON,
+				REJECT_REASON,
 				ATTACH_FILE,
 				ATTACH_FILE_SIZE,
 				APPROVE_STATE
@@ -322,7 +326,9 @@
 	  			#{user_no},
 	  			#{user_name},
 	  			TO_CHAR(SYSDATE,'YYYYMMDD'),
+	  			CONCAT(CONCAT(SUBSTR(#{modify_req_date}, 1, 4), SUBSTR(#{modify_req_date}, 7, 2)), SUBSTR(#{modify_req_date}, 11, 2)),
 	  			#{mod_reason},
+	  			'내용없음',
 	  			'첨부파일 없음',
 	  			0,
 	  			'처리중'
@@ -359,7 +365,7 @@
   <!-- 근태관리 -->
 		<!-- 수정요청 조회 -->
 	  	<select id="getModList" resultType="attendancemod" resultMap="attendmodrm">
-			SELECT ATTEND_MOD_NUM, TO_CHAR(REQ_DATE,'YYYYMMDD') AS REQ_DATE, USER_NAME, MOD_REASON, ATTACH_FILE, APPROVE_STATE
+			SELECT ATTEND_MOD_NUM, TO_CHAR(REQ_DATE,'YYYYMMDD') AS REQ_DATE, USER_NAME, MOD_REASON, ATTACH_FILE, APPROVE_STATE, TO_CHAR(MODIFY_REQ_DATE,'YYYYMMDD') AS MODIFY_REQ_DATE
 			FROM ATTENDANCEMODIFY
 			WHERE APPROVE_STATE != '승인됨'
 			ORDER BY ATTEND_MOD_NUM
@@ -391,9 +397,26 @@
 	   		WHERE ATTEND_MOD_NUM = #{attend_mod_num}
 	  	</update>
 	  	
+	  	<update id="approveManageOKAT" parameterType="attendance">
+			UPDATE ATTENDANCE
+			SET
+			NORMAL_CHECK = '정상근무',
+			IRREGULAR_REASON = '이상없음'
+			WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = #{modify_req_date}
+	  	</update>
+	  	
+	  	<update id="approveManageOKWT" parameterType="attendancewt">
+			UPDATE WORKTIME
+			SET
+ 			WORKCHECK = '정상퇴근처리'
+			WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = #{modify_req_date}
+	  	</update>
+	  	
 	  	<update id="approveManageNone" parameterType="attendancemod">
 	  		UPDATE ATTENDANCEMODIFY
-	   		SET APPROVE_STATE = '반려됨'
+	   		SET 
+	   		APPROVE_STATE = '반려됨',
+	   		REJECT_REASON = #{reject_reason}
 	   		WHERE ATTEND_MOD_NUM = #{attend_mod_num}
 	  	</update>
   	
