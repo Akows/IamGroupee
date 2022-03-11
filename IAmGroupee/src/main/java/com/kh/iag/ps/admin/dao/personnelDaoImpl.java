@@ -88,4 +88,24 @@ public class personnelDaoImpl implements personnelDao {
 		return ss.delete("ps.deletePosi", posiNo);
 	}
 
+	@Override
+	public int addJob(String jobName) throws Exception {
+		return ss.insert("ps.addJob", jobName);
+	}
+
+	@Override
+	public int addPosi(positionDto posi) throws Exception {
+		return ss.insert("ps.addPosi", posi);
+	}
+
+	@Override
+	public int modiPosi(positionDto posi) throws Exception {
+		return ss.update("ps.modiPosi", posi);
+	}
+
+	@Override
+	public int modiJob(jobDto job) throws Exception {
+		return ss.update("ps.modiJob", job);
+	}
+
 }

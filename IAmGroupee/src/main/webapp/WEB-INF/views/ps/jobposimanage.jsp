@@ -28,18 +28,17 @@
                   	<c:forEach begin="1" end="${lastLevel}" var="c">
                   	<div class ="col-2"></div>
                   	<div class="col-8 col-row">
-						<span class="posi-hidden">${c}</span>
 						<span class="posi-element">${c}등급</span> 
 						<c:forEach items="${posiList}" var="posi">
 							<c:if test="${posi.positionLevel eq c}">
-								<span class="posi-element">${posi.positionName}
-									<span class="posi-hidden">${posi.positionName}</span>
+								<span class="posi-element">
+									<span class="posi-modi clicklink">${posi.positionName}</span>
 									<button type="button" class="btn btn-tool posiDelete" value="${posi.positionNo}">
                     					<i class="fas fa-times"></i>
                   					</button></span> 
 							</c:if>
 						</c:forEach>
-						<button class="float-right posiAdd"><i class="fas fa-plus"></i></button>
+						<button class="float-right posiAdd" value="${c}"><i class="fas fa-plus"></i></button>
 					</div>
 					<div class ="col-2"></div>
 					</c:forEach>
@@ -50,7 +49,7 @@
 					<h1>직무 관리</h1>
 				</div>
 				<div class="col-2">
-					<h5><a class="jobAdd float-right" data-toggle="modal" data-target="#modal-job">직무 추가 +</a></h5> 
+					<h5><a class="jobAdd float-right">직무 추가 +</a></h5> 
 				</div>
 			</div>
        		<br>
@@ -59,7 +58,7 @@
 						<div class="col-lg-2">
             				<div class="card card-primary">
               					<div class="card-header">
-                					<h3 class="card-title job-element">${job.jobName}</h3>
+                					<h3 class="card-title job-element job-modi clicklink">${job.jobName}</h3>
                 					<div class="card-tools">
                   						<button type="button" class="btn btn-tool jobDelete" value="${job.jobNo}">
                     						<i class="fas fa-times"></i>
@@ -74,8 +73,8 @@
 			</div>
 		</div>
 		
-		<div class="modal fade" id="modal-job">
-        <div class="modal-dialog">
+	<div class="modal fade" id="modal-job">
+        <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title">직무 추가</h4>
@@ -83,13 +82,20 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
+            <form action="${root}/admin/ps/addJob" method="get">
             <div class="modal-body">
-              
+              	<div class="col-12">
+                  	<div class="form-group">
+                       <label for="jobName">직무 이름</label>
+                       <input type="text" class="form-control textInput" placeholder="직무 이름 입력" name="jobName" id="jobName" required>
+                   </div>
+                </div>
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-              <button type="button" class="btn btn-primary">추가</button>
+              <button type="submit" class="btn btn-primary">추가</button>
             </div>
+            </form>
           </div>
           <!-- /.modal-content -->
         </div>
@@ -98,21 +104,91 @@
       <!-- /.modal -->
       
       <div class="modal fade" id="modal-posi">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Default Modal</h4>
+              <h4 class="modal-title" id="posiTitle">직위 추가</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
+            <form action="${root}/admin/ps/addPosi" method="get">
             <div class="modal-body">
-              <p>One fine body&hellip;</p>
+            	<input type="text" class="posi-hidden" name="positionLevel" id="positionLevel">
+             	<div class="col-12">
+                  	<div class="form-group">
+                       <label for="positionName">직위 이름</label>
+                       <input type="text" class="form-control textInput" placeholder="직위 이름 입력" name="positionName" id="positionName" required>
+                   </div>
+                </div>
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-              <button type="button" class="btn btn-primary">추가</button>
+              <button type="submit" class="btn btn-primary">추가</button>
             </div>
+            </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+      
+      <div class="modal fade" id="modal-job-modi">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="jobModiTitle">직무 수정</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="${root}/admin/ps/modiJob" method="get">
+            <div class="modal-body">
+            	<input type="text" class="posi-hidden" name="jobNo" id="jobNo">
+              	<div class="col-12">
+                  	<div class="form-group">
+                       <label for="jobName">직무 이름</label>
+                       <input type="text" class="form-control textInput" placeholder="직무 이름 입력" name="jobName" id="jobName" required>
+                   </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+              <button type="submit" class="btn btn-primary">수정</button>
+            </div>
+            </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+      
+      <div class="modal fade" id="modal-posi-modi">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="posiModiTitle">직위 수정</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="${root}/admin/ps/modiPosi" method="get">
+            <div class="modal-body">
+            	<input type="text" class="posi-hidden" name="positionNo" id="positionNo">
+             	<div class="col-12">
+                  	<div class="form-group">
+                       <label for="positionName">직위 이름</label>
+                       <input type="text" class="form-control textInput" placeholder="직위 이름 입력" name="positionName" id="positionName" required>
+                   </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+              <button type="submit" class="btn btn-primary">수정</button>
+            </div>
+            </form>
           </div>
           <!-- /.modal-content -->
         </div>
@@ -142,8 +218,7 @@
 					span2.append(rating+"등급");
 					var btn = document.createElement("button");
 					btn.className="float-right posiAdd";
-					btn.data
-					 data-toggle="modal" data-target="#modal-posi
+					btn.value = rating;
 					var i = document.createElement("i");
 					i.className="fas fa-plus";
 					btn.appendChild(i);
@@ -209,11 +284,28 @@
 				}
 			});
 			$(document).on("click",".posiAdd", function(){
-				console.log($(this).parent().children("span:eq(0)").text());
+				$("#positionLevel").val($(this).val());
+				let text = $(this).val() + "등급 직위 추가";
+				$("#posiTitle").text(text);
+				$("#modal-posi").modal();
 			});
-			$(".jobAdd").click(function(){
-				
-			})
+			
+			$(document).on("click",".posi-modi", function(){
+				let value = $(this).next().val();
+				console.log(value);
+				$("#positionNo").val(value);
+				console.log($("#positionNo").val());
+				let text = "["+$(this).text() + "] 직위 수정";
+				$("#posiModiTitle").text(text);
+				$("#modal-posi-modi").modal();
+			});
+			$(document).on("click",".job-modi", function(){
+				let value = $(this).next().children("button:eq(0)").val();
+				$("#jobNo").val(value);
+				let text = "["+$(this).text() + "] 직무 수정";
+				$("#jobModiTitle").text(text);
+				$("#modal-job-modi").modal();
+			});
 		});
 	</script>
 	
