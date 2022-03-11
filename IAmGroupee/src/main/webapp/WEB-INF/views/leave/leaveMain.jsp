@@ -55,45 +55,47 @@
 						</div>
 						<div class="border-right"
 							style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-							<span style="font-weight: bolder; line-height: 1.7em;"> 발생
-								연차 </span> <br> <span
-								style="font-size: xx-large; line-height: 2.5em;">
-								${allUsedAlvList.alvCount} </span>
+							<span style="font-weight: bolder; line-height: 1.7em;"> 발생 연차 </span>
+							 <br> 
+							<span style="font-size: xx-large; line-height: 2.5em;">
+								${allUsedAlv.alvCount} 
+							</span>
 						</div>
 						<div class="border-right"
 							style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-							<span style="font-weight: bolder; line-height: 1.7em;"> 발생
-								월차 </span> <br> <span
-								style="font-size: xx-large; line-height: 2.5em;">
-								${allUsedAlvList.mlvCount} </span>
+							<span style="font-weight: bolder; line-height: 1.7em;"> 발생 월차 </span> <br> 
+							<span style="font-size: xx-large; line-height: 2.5em;">
+								${allUsedAlv.mlvCount} 
+							</span>
 						</div>
 						<div class="border-right"
 							style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-							<span style="font-weight: bolder; line-height: 1.7em;"> 조정
-								연차 </span> <br> <span
-								style="font-size: xx-large; line-height: 2.5em;">
-								${allUsedAlvList.alvAddCount} </span>
+							<span style="font-weight: bolder; line-height: 1.7em;"> 조정 연차 </span> 
+							<br> 
+							<span style="font-size: xx-large; line-height: 2.5em;">
+								${allUsedAlv.alvAddCount} 
+							</span>
 						</div>
 						<div class="border-right"
 							style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-							<span style="font-weight: bolder; line-height: 1.7em;"> 총
-								연차 </span> <br> <span
-								style="font-size: xx-large; line-height: 2.5em;">
-								${allUsedAlvList.alvTotalCount} </span>
+							<span style="font-weight: bolder; line-height: 1.7em;"> 총 연차 </span> 
+							<br> 
+							<span style="font-size: xx-large; line-height: 2.5em;">
+								${allUsedAlv.alvTotalCount} 
+							</span>
 						</div>
 						<div class="border-right"
 							style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-							<span style="font-weight: bolder; line-height: 1.7em;"> 사용
-								연차 </span> <br> <span
-								style="font-size: xx-large; line-height: 2.5em;">
-								${allUsedAlvList.alvUsedCount} </span>
+							<span style="font-weight: bolder; line-height: 1.7em;"> 사용 연차 </span> 
+							<br> 
+						    <span style="font-size: xx-large; line-height: 2.5em;">
+								${allUsedAlv.alvUsedCount} 
+							</span>
 						</div>
 						<div
 							style="width: 13%; height: 100%; float: left; margin-left: 4px;">
-							<span style="font-weight: bolder; line-height: 1.7em;"> 남은
-								연차 </span> <br> <span
-								style="font-size: xx-large; line-height: 2.5em;">
-								${allUsedAlvList.alvTotalCount - allUsedAlvList.alvUsedCount} </span>
+							<span style="font-weight: bolder; line-height: 1.7em;"> 남은 연차 </span> <br> <span style="font-size: xx-large; line-height: 2.5em;">
+								${allUsedAlv.alvTotalCount - allUsedAlv.alvUsedCount} </span>
 						</div>
 					</article>
 				</div>
@@ -146,6 +148,48 @@
 				      <td style="width: 25%">${allUsedList.during}</td>
 				      <td style="width: 13%">${allUsedList.reduceAlv}</td>
 				      <td style="width: 20%">${allUsedList.lvReason}</td>
+				    </tr>
+				  </c:forEach>
+				  </tbody>
+				</table>
+              </div>
+            </article>
+          </div>
+        </div>
+        
+        <br>
+       
+        <div style="height: 30px; width: 100%;">
+        	<div style="width: 25%; height: 100%; float: left;">
+        		<h3 style="color: rgb(94, 94, 94); font-weight: 600; font-size: larger; margin-top: 4px; margin-left: 3px">사용 예정 내역</h3>
+			</div>
+        </div>
+        
+        <div class="row stat-cards" style="height: 30%;">
+          <div class="col-md-6 col-xl-12">
+            <article class="stat-cards-item">
+            
+              <div class="stat-cards-info" style="width: 100%">
+                <table class="table" style="width: 100%">
+				  <thead>
+				    <tr>
+				      <th scope="col">이름</th>
+				      <th scope="col">부서명</th>
+				      <th scope="col">휴가명</th>
+				      <th scope="col">사용 기간</th>
+				      <th scope="col">사용 연차</th>
+				      <th scope="col">사유</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				  <c:forEach items="${allUseList}" var="allUseList">
+				    <tr>
+				      <td style="width: 15%">${allUseList.name}</td>
+				      <td style="width: 15%">${allUseList.departmentName}</td>
+				      <td style="width: 12%">${allUseList.lvName}</td>
+				      <td style="width: 25%">${allUseList.during}</td>
+				      <td style="width: 13%">${allUseList.reduceAlv}</td>
+				      <td style="width: 20%">${allUseList.lvReason}</td>
 				    </tr>
 				  </c:forEach>
 				  </tbody>

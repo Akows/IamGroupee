@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,11 +29,8 @@ public class MainController {
 	
 	@Autowired
 	private LoginService service;
-	
 	@Autowired
 	private LeaveService leaveService;
-	@Autowired
-	private SqlSession sqlSession;
 	
 	// 로그인 화면
 	@GetMapping("login")
@@ -187,6 +182,7 @@ public class MainController {
 	@GetMapping("main")
 	public String main() throws Exception {
 
+		leaveService.updateReduceAlv();
 		return "mainPage";
 	}
 	

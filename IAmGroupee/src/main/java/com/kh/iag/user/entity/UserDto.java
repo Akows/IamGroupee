@@ -27,8 +27,8 @@ public class UserDto {
 	private String profile;	
 	private int alvCount;	
 	private int mlvCount;	
-	private float alvUsedCount;	
-	private float alvLeftCount;	
+	private double alvUsedCount;	
+	private double alvLeftCount;	
 	private int alvAddCount;	
 	private int alvTotalCount;	
 	private String personnelRight;	

@@ -93,5 +93,11 @@ public interface LeaveDao {
 
 	int addMlvHistory(String userNo) throws Exception;
 
+	List<LvUsedListDto> getWillUsage(String userNo) throws Exception;
+
+	double getAlvUsedCount(String userNo) throws Exception;
+
+	void updateReduceAlv() throws Exception;
+
 
 }

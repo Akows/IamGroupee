@@ -5,12 +5,47 @@
   
   <mapper namespace="leave">
   
-    <select id="getThisUser" resultType="user">
-    	SELECT * FROM IAG_USER 
-    	WHERE USER_NO = #{userNo} 
-    </select>
+  	<insert id="insertAlvFromEA">
+  		INSERT INTO USAGE_LV (USER_NO, DOC_NO, LV_CODE, LV_START, LV_END, LV_REASON)
+        (
+            SELECT 
+                D.USER_NO,
+  				D.DOC_NO,
+  				D.LV_CODE,
+  				D.ALV_START,
+  				D.ALV_END,
+				D.ALV_REASON
+			FROM EA_DOCUMENT D  			
+  			JOIN EA_PROCESS P
+  			ON (D.PROC_NO = P.PROC_NO)
+  			WHERE P.PROC_NO = ${procNo}
+  			AND D.LV_CHECK = 'A'
+			AND D.DOC_SEP = 'Y'
+  		)
+  	</insert>
   
-    <select id="getThisUserAD" resultType="user">
+  	<insert id="insertLvFromEA">
+  		INSERT INTO USAGE_LV (USER_NO, DOC_NO, LV_CODE, LV_START, LV_END, LV_REASON)
+        (
+            SELECT 
+                D.USER_NO,
+  				D.DOC_NO,
+  				D.LV_CODE,
+  				D.LV_START,
+  				D.LV_END,
+				D.LV_REASON
+			FROM EA_DOCUMENT D  			
+  			JOIN EA_PROCESS P
+  			ON (D.PROC_NO = P.PROC_NO)
+  			WHERE P.PROC_NO = ${procNo}
+  			AND D.PROC_NO = ${procNo}
+  			AND D.LV_CHECK = 'B'
+			AND D.DOC_SEP = 'Y'
+  		)
+  	
+  	</insert>
+  
+    <select id="getThisUser" resultType="user">
     	SELECT IU.*, D.DEPARTMENT_NAME, P.POSITION_NAME FROM IAG_USER IU
     	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
     	JOIN POSITION P ON (IU.POSITION_NO = P.POSITION_NO)
@@ -54,6 +89,16 @@
     	WHERE IU.USER_NO = #{userNo} AND UL.LV_END &lt; SYSDATE AND UL.USE_THIS_YEAR = 'Y'
     	ORDER BY UL.LV_END DESC
     </select>
+    
+    <select id="getWillUsage" resultType="lvList">
+    	SELECT UL.*, L.LV_NAME, IU.NAME, D.DEPARTMENT_NAME FROM LEAVE L
+    	JOIN USAGE_LV UL ON (L.LV_CODE = UL.LV_CODE)
+    	JOIN IAG_USER IU ON (UL.USER_NO = IU.USER_NO)
+    	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
+    	WHERE IU.USER_NO = #{userNo} AND UL.LV_END &gt; SYSDATE AND UL.USE_THIS_YEAR = 'Y'
+    	ORDER BY UL.LV_END DESC
+    </select>
+    
     
     <select id="getAlvUsageCal" resultType="lvList">
     	SELECT UL.*, L.LV_NAME, IU.NAME, D.DEPARTMENT_NAME FROM LEAVE L
@@ -344,8 +389,31 @@
     		'이전달 개근에 의한 월차 발생'
     	)
     </insert>
-    
-    
+  	
+  	<update id="updateReduceAlv01">
+        UPDATE USAGE_LV
+        SET REDUCE_ALV = 1
+        WHERE LV_CODE = 'ALV_01'	    
+  	</update>
+  	
+  	<update id="updateReduceAlv02">
+        UPDATE USAGE_LV
+        SET REDUCE_ALV = 0.5
+        WHERE LV_CODE = 'ALV_02'
+  	</update>
+  	
+  	<update id="updateReduceAlv03">
+        UPDATE USAGE_LV
+        SET REDUCE_ALV = 0.25
+        WHERE LV_CODE = 'ALV_03'
+  	</update>
+
+    <select id="getAlvUsedCount" resultType="double">
+    	SELECT SUM(REDUCE_ALV) FROM USAGE_LV
+    	WHERE USER_NO = #{userNo}
+    	AND LV_CODE LIKE 'ALV%'
+    	AND USE_THIS_YEAR = 'Y'
+    </select>
     
     
     

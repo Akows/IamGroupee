@@ -15,7 +15,6 @@ public class LvUsedListDto {
 	private String departmentName;
 	private String lvCode;
 	private String lvName;
-	private String lvAppli;
 	 @DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date lvStart;
 	 @DateTimeFormat(pattern = "yyyy-MM-dd")
