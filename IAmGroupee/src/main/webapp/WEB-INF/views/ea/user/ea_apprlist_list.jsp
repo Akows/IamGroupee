@@ -33,39 +33,70 @@
             <tr>
               <th>문서 번호</th>
               <th>
-                양식<span> ▾</span>
+                <span>양식 ▾</span>
                 <ul>
-                <% int i = 1; %>
-                <c:forEach items="${formList}" var="fl">
+                  <% int i = 1; %>
+                  <c:forEach items="${formList}" var="fl">
+                    <li>
+                      <form action="${root}/ea/apprlistByFilter" method="POST" name="apprlistByFilterF<%=i%>">
+                        <a href="javascript:apprlistByFilterF<%=i%>.submit()">${fl.formTitle}</a>
+                        <input type="hidden" name="formNo" value="${fl.formNo}">
+                      </form>
+                    </li>
+                    <% i++; %>
+                  </c:forEach>
+                </ul>
+              </th>
+            <th>문서 제목</th>
+            <th>
+              <span>상신 날짜 ▾</span>
+              <ul>
+                <li>
+                  <form action="${root}/ea/apprlistByFilter" method="POST" name="apprlistByFilterM1">
+                    <a href="javascript:apprlistByFilterM1.submit()">빠른순</a>
+                    <input type="hidden" name="make" value="old">
+                  </form>
+                </li>
+                <li>
+                  <form action="${root}/ea/apprlistByFilter" method="POST" name="apprlistByFilterM2">
+                    <a href="javascript:apprlistByFilterM2.submit()">늦은순</a>
+                    <input type="hidden" name="make" value="new">
+                  </form>
+                </li>
+              </ul>
+            </th>
+            <th>
+              <span>마감 날짜 ▾</span>
+              <ul>
+                <li>
+                  <form action="${root}/ea/apprlistByFilter" method="POST" name="apprlistByFilterC1">
+                    <a href="javascript:apprlistByFilterC1.submit()">빠른순</a>
+                    <input type="hidden" name="close" value="old">
+                  </form>
+                </li>
+                <li>
+                  <form action="${root}/ea/apprlistByFilter" method="POST" name="apprlistByFilterC2">
+                    <a href="javascript:apprlistByFilterC2.submit()">늦은순</a>
+                    <input type="hidden" name="close" value="new">
+                  </form>
+                </li>
+              </ul>
+            </th>
+              <th>
+                <span>결재 분류 ▾</span>
+                <ul>
                   <li>
-                    <a href="#">${fl.formTitle}</a>
-                    <input type="hidden" name="formNo" value="${fl.formNo}">
+                    <form action="${root}/ea/apprlistByFilter" method="POST" name="apprlistByFilterP1">
+                      <a href="javascript:apprlistByFilterP1.submit()">중간 결재</a>
+                      <input type="hidden" name="procSeq" value="1">
                     </form>
                   </li>
-                <% i++; %>
-                </c:forEach>
-                </ul>
-              </th>
-              <th>문서 제목</th>
-              <th>
-                상신 날짜<span> ▾</span>
-                <ul>
-                  <li><a href="#">빠른순</a></li>
-                  <li><a href="#">늦은순</a></li>
-                </ul>
-              </th>
-              <th>
-                마감 날짜<span> ▾</span>
-                <ul>
-                  <li><a href="#">빠른순</a></li>
-                  <li><a href="#">늦은순</a></li>
-                </ul>
-              </th>
-              <th>
-                결재 분류<span> ▾</span>
-                <ul>
-                  <li><a href="#">중간 결재</a></li>
-                  <li><a href="#">최종 결재</a></li>
+                  <li>
+                    <form action="${root}/ea/apprlistByFilter" method="POST" name="apprlistByFilterP2">
+                      <a href="javascript:apprlistByFilterP2.submit()">최종 결재</a>
+                      <input type="hidden" name="procSeq" value="2">
+                    </form>
+                  </li>
                 </ul>
               </th>
             </tr>
@@ -113,6 +144,7 @@
 
         <div id="pagingBtn">
           <!-- 페이지 start -->
+          <c:if test="${page ne null}">
           <ul>
             <c:if test="${page.startPage != 1}">
               <li><a href="${page.startPage - 1}">◁</a></li>
@@ -131,6 +163,7 @@
               <li><a href="${page.endPage + 1}">▷</a></li>
             </c:if>
           </ul>
+          </c:if>
           <!-- 페이지 end -->
         </div>
           

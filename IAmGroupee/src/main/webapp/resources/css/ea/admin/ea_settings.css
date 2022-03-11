@@ -57,7 +57,7 @@
   text-align: center;
   margin: auto;
   margin-top: 50px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 .ea_settings_list_contents > div:nth-child(1) table thead {
   background: #064db8;
@@ -270,4 +270,57 @@ div[id$="Layer"] > div:nth-child(3) > a {
 }
 #formContents > div {
   padding: 10px;
+}
+/* 전체문서관리 */
+#thirdDiv {
+  height: 500px;
+  overflow: scroll;
+}
+#thirdDiv table {
+  width: 98%;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+#thirdDiv table * {
+  border: 1px solid gainsboro;
+}
+#thirdDiv table thead {
+  background: #064db8;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+}
+#thirdDiv table thead tr th:nth-child(1) {
+  width: 5%;
+}
+#thirdDiv table thead tr th:nth-child(2) {
+  width: 20%;
+}
+#thirdDiv table thead tr th:nth-child(3) {
+  width: 15%;
+}
+#thirdDiv table thead tr th:nth-child(4) {
+  width: 35%;
+}
+#thirdDiv table thead tr th:nth-child(5) {
+  width: 15%;
+}
+#thirdDiv table thead tr th:nth-child(6) {
+  width: 10%;
+}
+#thirdDiv table tbody {
+  background: #fff;
+  color: black;
+  font-size: 13px;
+}
+#thirdDiv button {
+  background: #4081e4;
+  color: #fff;
+  border-radius: 5px;
+  padding: 6px;
+  float: right;
+  margin: 10px;
+  font-size: 15px;
 }

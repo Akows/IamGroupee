@@ -238,5 +238,15 @@ public class EADaoImpl implements EADao {
 		return sqlSession.selectList("ea.signupListForFilter", userNo);
 	}
 
+	@Override
+	public List<DocsDto> apprListForFilter(String userNo) {
+		return sqlSession.selectList("ea.apprListForFilter", userNo);
+	}
+
+	@Override
+	public List<DocsDto> refListForFilter(String userNo) {
+		return sqlSession.selectList("ea.refListForFilter", userNo);
+	}
+
 
 }

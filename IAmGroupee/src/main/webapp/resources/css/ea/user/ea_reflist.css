@@ -100,10 +100,10 @@
   background: aliceblue;
   border: 1px solid gainsboro;
 }
-.ea_reflist_list_contents > table > thead > tr > th > ul > li > a {
+.ea_reflist_list_contents > table > thead > tr > th > ul > li > form > a {
   display: block;
 }
-.ea_reflist_list_contents > table > thead > tr > th > ul > li > a:hover {
+.ea_reflist_list_contents > table > thead > tr > th > ul > li > form > a:hover {
   color: #fff;
   background: #89b0eb;
 }

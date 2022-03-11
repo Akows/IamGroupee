@@ -26,6 +26,7 @@ public class DocsDto {
 	private String formTitle;	// 양식이름
 	private String simpleMakeDate; // 데이트 포맷 상신일
 	private String simpleCloseDate;// 데이트 포맷 마감일
+	private String simpleFinishDate;
 	private String procRejected;	// 반려 사유
 	
 	

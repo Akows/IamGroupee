@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.iag.ea.admin.dao.AdminEADao;
 import com.kh.iag.ea.entity.CategoryDto;
+import com.kh.iag.ea.entity.DocsDto;
 import com.kh.iag.ea.entity.FormDto;
 import com.kh.iag.ea.entity.PositionDto;
 import com.kh.iag.ea.entity.SettingsDto;
@@ -120,6 +121,21 @@ public class AdminEAServiceImpl implements AdminEAService {
 	@Override
 	public int editForm(FormDto dto) throws Exception {
 		return dao.editForm(dto);
+	}
+
+	@Override
+	public List<DocsDto> preservedDocs() {
+		return dao.preservedDocs();
+	}
+
+	@Override
+	public int deleteDocRef(String s) {
+		return dao.deleteDocRef(s);
+	}
+
+	@Override
+	public int deleteDoc(String s) {
+		return dao.deleteDoc(s);
 	}
 
 }

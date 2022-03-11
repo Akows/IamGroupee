@@ -127,6 +127,31 @@
 		    CATEGORY_NO = ${categoryNo}
 		WHERE FORM_NO = ${formNo}
 	</update>
+	
+	<!-- 문서관리 전체 문서 데이터 -->
+	<select id="preservedDocs" resultType="eadocs">
+		SELECT * FROM
+		(
+		    SELECT D.DOC_SEP, D.DOC_NO, F.FORM_TITLE, D.DOC_TITLE, D.DOC_FINISH, DT.DEPARTMENT_NAME FROM EA_DOCUMENT D
+		    JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+		    JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+		    JOIN DEPARTMENT DT ON(U.DEPARTMENT_NO = DT.DEPARTMENT_NO)
+		)
+		WHERE DOC_SEP = 'Y'
+		ORDER BY DOC_FINISH ASC
+	</select>
+	
+	<!-- 문서관리 참조자테이블 먼저 삭제 -->
+	<delete id="deleteDocRef" parameterType="string">
+		DELETE FROM EA_REF
+		WHERE DOC_NO = #{s}
+	</delete>
+	
+	<!-- 문서관리 문서테이블 삭제 -->
+	<select id="deleteDoc" parameterType="string">
+		DELETE FROM EA_DOCUMENT
+		WHERE DOC_NO = #{s}
+	</select>
 <!-- 사용자 -->
 <!-- 기안 #################################################################################################### -->
 	<!-- 기안 작성 페이지 양식 데이터 -->
@@ -546,22 +571,39 @@
 		    SELECT ROWNUM RN, T.*
 		    FROM
 		    (
-		    SELECT D.*, U.NAME, P.POSITION_NAME, DP.DEPARTMENT_NAME, F.FORM_TITLE
-		    FROM 
-		    (
-		        SELECT * 
-		        FROM EA_DOCUMENT 
-		        WHERE PROC_NO IN(SELECT PROC_NO FROM EA_PROCESS WHERE USER_NO = #{userNo}) 
-		          AND DOC_SEP = 'N' 
-		        ORDER BY DOC_MAKE DESC
-		    ) D
-		    JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
-		    JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
-		    JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
-		    JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
+			    SELECT D.*, U.NAME, P.POSITION_NAME, DP.DEPARTMENT_NAME, F.FORM_TITLE
+			    FROM 
+			    (
+			        SELECT * 
+			        FROM EA_DOCUMENT 
+			        WHERE PROC_NO IN(SELECT PROC_NO FROM EA_PROCESS WHERE USER_NO = #{userNo}) 
+			          AND DOC_SEP = 'N' 
+			        ORDER BY DOC_MAKE DESC
+			    ) D
+			    JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+			    JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
+			    JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+			    JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
 		    ) T
 		)
 		WHERE RN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- 결재리스트조회 필터링  -->
+	<select id="apprListForFilter" parameterType="string" resultType="eadocs">
+	    SELECT D.*, U.NAME, P.POSITION_NAME, DP.DEPARTMENT_NAME, F.FORM_TITLE
+	    FROM 
+	    (
+	        SELECT * 
+	        FROM EA_DOCUMENT 
+	        WHERE PROC_NO IN(SELECT PROC_NO FROM EA_PROCESS WHERE USER_NO = #{userNo}) 
+	          AND DOC_SEP = 'N' 
+	        ORDER BY DOC_MAKE DESC
+	    ) D
+	    JOIN IAG_USER U ON(D.USER_NO = U.USER_NO)
+	    JOIN POSITION P ON(U.POSITION_NO = P.POSITION_NO)
+	    JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
+	    JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
 	</select>
 	
 	<!-- 결재리스트조회 모든 문서의 결재선 정보 -->
@@ -651,6 +693,18 @@
 		    ) T
 		)
 		WHERE RN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- 참조문서조회 필터링 -->
+	<select id="refListForFilter" parameterType="string" resultType="eadocs">
+		SELECT D.*, F.FORM_TITLE
+        FROM 
+        (
+            SELECT * FROM EA_DOCUMENT
+            WHERE DOC_SEP = 'N' AND DOC_NO IN (SELECT DOC_NO FROM EA_REF WHERE REF_NO = #{userNo})
+            ORDER BY DOC_MAKE DESC
+        ) D
+        JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
 	</select>
 	
 	<!-- 참조문서조회 결재처리절차 비교를 위한 데이터 가져오기 -->
