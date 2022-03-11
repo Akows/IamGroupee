@@ -125,62 +125,65 @@ pageEncoding="UTF-8"%>
 									<button onclick="deleteCheck();" type="button" class="btn btn-primary btn-sm">취소</button>
 								</h3>
 							</div>
-							<div class="card-body">
-								<table class="table table-bordered">
-									<thead>
-										<tr>
-											<th></th>
-											<th>항목</th>
-											<th>기간</th>
-											<th>상태</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach  items="${myResvList}" var="r">
+							
+							<form action="mod" name="mod" method="put">
+								<div class="card-body">
+									<table class="table table-bordered">
+										<thead>
 											<tr>
-												<td><input value="${r.resvNo}" type="checkbox" class="check"></td>
-												<td>
-													<c:set var="m" value="${r.roomName}"/>
-													<c:if test="${m ne ''}">
-														${r.roomName}
-													</c:if>
-													<c:set var="a" value="${r.assetName}"/>
-													<c:if test="${a ne ''}">
-														${r.assetName}
-													</c:if>
-												</td>
-												<td>${r.period}</td>
-												<td>${r.returnYn}</td>
+												<th></th>
+												<th>항목</th>
+												<th>기간</th>
+												<th>상태</th>
 											</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-							</div>
-							<!-- modal start -->
-							<div class="modal fade" id="modResv" tabindex="-1" role="dialog">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h4 class="modal-title">예약 변경</h4>
-										</div>
-										<div class="modal-body">
-											<div class="form-group">
-												<label for="reservationtime">변경할 일정을 선택해주세요</label>
-												<div class="input-group">
-													<div class="input-group-prepend">
-														<span class="input-group-text"><i class="far fa-clock"></i></span>
+										</thead>
+										<tbody>
+											<c:forEach  items="${myResvList}" var="r">
+												<tr>
+													<td><input value="${r.resvNo}" type="checkbox" name="resvNo" class="check"></td>
+													<td>
+														<c:set var="m" value="${r.roomName}"/>
+														<c:if test="${m ne ''}">
+															${r.roomName}
+														</c:if>
+														<c:set var="a" value="${r.assetName}"/>
+														<c:if test="${a ne ''}">
+															${r.assetName}
+														</c:if>
+													</td>
+													<td>${r.period}</td>
+													<td>${r.returnYn}</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+								<!-- modal start -->
+								<div class="modal fade" id="modResv" tabindex="-1" role="dialog">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h4 class="modal-title">예약 변경</h4>
+											</div>
+											<div class="modal-body">
+												<div class="form-group">
+													<label for="reservationtime">변경할 일정을 선택해주세요</label>
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text"><i class="far fa-clock"></i></span>
+														</div>
+														<input type="text" class="form-control float-right" name="period" id="reservationtime" required>
 													</div>
-													<input type="text" class="form-control float-right" class="period" id="reservationtime" required>
 												</div>
 											</div>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-											<button type="button" class="btn btn-primary" onclick="modCheck();">수정</button>
-										</div>
-									</div><!-- /.modal-content -->
-								</div><!-- /.modal-dialog -->
-							</div><!-- /.modal -->
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+												<button type="button" class="btn btn-primary" onclick="modCheck();">수정</button>
+											</div>
+										</div><!-- /.modal-content -->
+									</div><!-- /.modal-dialog -->
+								</div><!-- /.modal -->
+							</form>
 
 							<div class="card-footer">
 								<!-- paging start -->
@@ -240,24 +243,7 @@ pageEncoding="UTF-8"%>
 	<script type="text/javascript">
 		function modCheck(){
 			if(confirm("예약 일정을 변경하시겠습니까?") == true){
-				
-				var no = getElementsByClassName('check').value;
-				var period = getElementsByClassName('period').value;
-
-				$.ajax({
-					url : "${root}/resv/mod",
-					data : {"no":no,"period":period},
-					type : 'POST',
-					success : function(data){
-						alert("예약이 변경 되었습니다.");
-					},
-					error : function(e){
-						alert("예약이 변경에 실패하였습니다.");
-					},
-					complete : function(){
-						window.location.reload();
-					}
-				});
+				document.mod.submit();
 			}else {
 				return false;
 			}
