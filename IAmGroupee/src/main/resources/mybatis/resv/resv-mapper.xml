@@ -136,7 +136,47 @@
 				) MY
   			) WHERE RN BETWEEN #{vo.startRow} AND #{vo.endRow}
   		</select>
-  	
+  		
+  		<select id="getMyRoomResvList" resultType="resv">
+  			SELECT 
+				  R.RESV_NO
+				, R.USER_NO 
+				, M.ROOM_NO
+				, M.ROOM_NAME
+				, TO_CHAR(R.RESV_START, 'YYYY-MM-DD"T"HH24:MI:SS')
+				, TO_CHAR(R.RESV_END, 'YYYY-MM-DD"T"HH24:MI:SS')
+				, R.RESV_START
+				, R.RESV_END
+				, R.CREATE_DATE
+				, R.MOD_DATE
+				, R.RETURN_YN
+				, R.DELETE_YN
+			FROM RESERVATION R
+			LEFT OUTER JOIN MEETING_ROOM M ON (R.ROOM_NO = M.ROOM_NO)
+			WHERE R.USER_NO = #{userNo} AND R.DELETE_YN = 'N'
+			ORDER BY R.RESV_START DESC
+  		</select>
+  		
+  		<select id="getMyAssetResvList" resultType="resv">
+  			SELECT 
+				  R.RESV_NO
+				, R.USER_NO 
+				, A.ASSET_NO
+				, A.ASSET_NAME
+				, TO_CHAR(R.RESV_START, 'YYYY-MM-DD"T"HH24:MI:SS')
+				, TO_CHAR(R.RESV_END, 'YYYY-MM-DD"T"HH24:MI:SS')
+				, R.RESV_START
+				, R.RESV_END
+				, R.CREATE_DATE
+				, R.MOD_DATE
+				, R.RETURN_YN
+				, R.DELETE_YN
+			FROM RESERVATION R
+			LEFT OUTER JOIN ASSET A ON (R.ASSET_NO = A.ASSET_NO)
+			WHERE R.USER_NO = #{userNo} AND R.DELETE_YN = 'N'
+			ORDER BY R.RESV_START DESC
+  		</select>
+  		
   		<select id="getAllRoomResvList" resultType="resv">
   			SELECT 
 				  R.RESV_NO
@@ -169,6 +209,42 @@
 			FROM RESERVATION R
 			JOIN ASSET A ON (R.ASSET_NO = A.ASSET_NO)
 			WHERE R.DELETE_YN = 'N'
+  		</select>
+  		
+  		<select id="getSelectRoomResvList" resultType="resv">
+  			SELECT 
+				  R.RESV_NO
+				, R.USER_NO 
+				, M.ROOM_NO
+				, M.ROOM_NAME
+				, TO_CHAR(R.RESV_START, 'YYYY-MM-DD"T"HH24:MI:SS') RESV_START
+				, TO_CHAR(R.RESV_END, 'YYYY-MM-DD"T"HH24:MI:SS') RESV_END
+				, R.CREATE_DATE
+				, R.MOD_DATE
+				, R.RETURN_YN
+				, R.DELETE_YN
+			FROM RESERVATION R
+			JOIN MEETING_ROOM M ON (R.ROOM_NO = M.ROOM_NO)
+			WHERE R.DELETE_YN = 'N'
+			AND R.RESV_NO = ${resvNo}
+  		</select>
+  		
+  		<select id="getSelectAssetResvList" resultType="resv">
+  			SELECT 
+				  R.RESV_NO
+				, R.USER_NO 
+				, A.ASSET_NO
+				, A.ASSET_NAME
+				, TO_CHAR(R.RESV_START, 'YYYY-MM-DD"T"HH24:MI:SS') RESV_START
+				, TO_CHAR(R.RESV_END, 'YYYY-MM-DD"T"HH24:MI:SS') RESV_END
+				, R.CREATE_DATE
+				, R.MOD_DATE
+				, R.RETURN_YN
+				, R.DELETE_YN
+			FROM RESERVATION R
+			JOIN ASSET A ON (R.ASSET_NO = A.ASSET_NO)
+			WHERE R.DELETE_YN = 'N'
+			AND R.RESV_NO = ${resvNo}
   		</select>
   		
   		<insert id="insertResv">

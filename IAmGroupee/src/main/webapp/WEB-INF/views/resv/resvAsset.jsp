@@ -47,20 +47,30 @@
 				
 					<section class="col-md-3 connectedSortable">
 						<div class="sticky-top mb-3">
-						<div class="card">
-							<div class="card-header"><h4 class="card-title">회의실 목록</h4></div>
-							<div class="card-body">
-								<%-- <c:forEach items="" var="i">
-									<button id="add-new-event" type="button" class="btn btn-primary">${}</button>
-								</c:forEach> --%>
-							</div> <!-- /.card-body -->
-						</div>
-						<div class="card">
-							<div class="card-header"><h3 class="card-title">자산 목록</h3></div>
-							<div class="card-body">
-							
+							<button id="" type="button" class="btn btn-block btn-primary">
+								<a href="${root}/resv/resvAsset">전체보기</a>
+							</button><br><br>
+
+							<div class="card">
+								<div class="card-header"><h4 class="card-title">회의실 목록</h4></div>
+								<div class="card-body">
+									<c:forEach items="${roomList}" var="r">
+										<button id="" type="button" class="btn btn-block btn-outline-primary">
+											<a href="${root}/resv/resvAsset?${r.roomNo}">${r.roomName}</a>
+										</button>
+									</c:forEach>
+								</div> <!-- /.card-body -->
 							</div>
-						</div>
+							<div class="card">
+								<div class="card-header"><h3 class="card-title">자산 목록</h3></div>
+								<div class="card-body">
+									<c:forEach items="${assetList}" var="r">
+										<button id="" type="button" class="btn btn-block btn-outline-primary">
+											<a href="${root}/resv/resvAsset?${r.assetNo}">${r.assetName}</a>
+										</button>
+									</c:forEach>
+								</div>
+							</div>
 						</div>
 					</section><!-- /.col -->
 

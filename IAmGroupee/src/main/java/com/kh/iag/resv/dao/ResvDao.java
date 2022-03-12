@@ -7,15 +7,23 @@ import com.kh.iag.resv.entity.ResvDto;
 
 public interface ResvDao {
 
-	List<ResvDto> getAllRoomResvList() throws Exception;
-	
-	List<ResvDto> getAllAssetResvList() throws Exception;
-	
 	List<ResvDto> getRoomList() throws Exception;
 	
 	List<ResvDto> getAssetList() throws Exception;
 	
+	List<ResvDto> getAllRoomResvList() throws Exception;
+	
+	List<ResvDto> getAllAssetResvList() throws Exception;
+	
+	List<ResvDto> getSelectRoomResvList(int resvNo) throws Exception;
+	
+	List<ResvDto> getSelectAssetResvList(int resvNo) throws Exception;
+	
 	List<ResvDto> getMyResvList(String userNo, PageVo vo) throws Exception;
+	
+	List<ResvDto> getMyRoomResvList(String userNo);
+
+	List<ResvDto> getMyAssetResvList(String userNo);
 	
 	int insertResv(ResvDto dto) throws Exception;
 
@@ -26,6 +34,8 @@ public interface ResvDao {
 	int returnResv(String[] delArr) throws Exception;
 
 	int getResvCnt(String userNo) throws Exception;
+
+	
 
 	
 

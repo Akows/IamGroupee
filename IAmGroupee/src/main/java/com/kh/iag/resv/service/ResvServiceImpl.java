@@ -16,6 +16,16 @@ public class ResvServiceImpl implements ResvService{
 	private ResvDao dao;
 
 	@Override
+	public List<ResvDto> getRoomList() throws Exception {
+		return dao.getRoomList();
+	}
+	
+	@Override
+	public List<ResvDto> getAssetList() throws Exception {
+		return dao.getAssetList();
+	}
+	
+	@Override
 	public List<ResvDto> getAllRoomResvList() throws Exception {
 		return dao.getAllRoomResvList();
 	}
@@ -26,20 +36,31 @@ public class ResvServiceImpl implements ResvService{
 	}
 	
 	@Override
-	public List<ResvDto> getRoomList() throws Exception {
-		return dao.getRoomList();
+	public List<ResvDto> getSelectRoomResvList(int resvNo) throws Exception {
+		return dao.getSelectRoomResvList(resvNo);
 	}
 	
 	@Override
-	public List<ResvDto> getAssetList() throws Exception {
-		return dao.getAssetList();
+	public List<ResvDto> getSelectAssetResvList(int resvNo) throws Exception {
+		return dao.getSelectAssetResvList(resvNo);
 	}
+	
 
 	@Override
 	public List<ResvDto> getMyResvList(String userNo, PageVo vo) throws Exception {
 		return dao.getMyResvList(userNo, vo);
 	}
 
+	@Override
+	public List<ResvDto> getMyRoomResvList(String userNo) throws Exception {
+		return dao.getMyRoomResvList(userNo);
+	}
+
+	@Override
+	public List<ResvDto> getMyAssetResvList(String userNo) throws Exception {
+		return dao.getMyAssetResvList(userNo);
+	}
+	
 	@Override
 	public int insertResv(ResvDto dto) throws Exception {
 		return dao.insertResv(dto);
@@ -66,6 +87,8 @@ public class ResvServiceImpl implements ResvService{
 	public int modResv(ResvDto dto) throws Exception {
 		return dao.modResv(dto);
 	}
+
+	
 
 	
 
