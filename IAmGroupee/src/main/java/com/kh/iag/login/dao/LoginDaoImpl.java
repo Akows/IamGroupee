@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.iag.login.service.LoginService;
 import com.kh.iag.user.entity.UserDto;
-import com.kh.iag.user.service.UserServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 

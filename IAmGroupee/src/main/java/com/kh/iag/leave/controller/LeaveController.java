@@ -36,36 +36,59 @@ public class LeaveController {
 	
 	@GetMapping("leaveMain")  // 연차 메인
 	public String leaveMain(HttpSession session, Model model) throws Exception {	
-		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar today = Calendar.getInstance(); 
-		String todayDate = format.format(today.getTime()); // 오늘 날짜"yyyy-MM-dd"
-		String enrollDate = String.valueOf(format.format(loginUser.getEnrollDate()));
-		String todayYear = todayDate.substring(0,4); // 오늘 연도"yyyy"
-		String enrollMonthDay = enrollDate.substring(4); // 입사 월일 "-MM-dd"
-		int lastYear = Integer.parseInt(todayYear) - 1;
-		String startDate = lastYear + enrollMonthDay;
-		
-		
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");		
 		String userNo = loginUser.getUserNo();
 //		상단바
 		UserDto allUsedAlv = service.getThisUser(userNo);
 		// 총연차개수 set해주기
 			int alvTotalCount = allUsedAlv.getAlvCount() + allUsedAlv.getMlvCount() + allUsedAlv.getAlvAddCount();
-			allUsedAlv.setAlvTotalCount(alvTotalCount);
+			allUsedAlv.setAlvTotalCount(alvTotalCount);		
+		// 사용내역에 updateReduceAlv하기
+			service.updateReduceAlv();
+			
+		// 사용연차개수 set해주기
+			double alvUsedCount = service.getAlvUsedCount(userNo);
+			allUsedAlv.setAlvUsedCount(alvUsedCount);
 		
+			
 //		사용내역
 		List<LvUsedListDto> allUsedList = service.getAllUsage(userNo);
 		for (LvUsedListDto allUsedLv : allUsedList) {
+			if(allUsedLv.getLvCode().equals("ALV_01")) {
+				allUsedLv.setReduceAlv(1);
+			} else if (allUsedLv.getLvCode().equals("ALV_02")) {
+				allUsedLv.setReduceAlv((float) 0.5);
+			} else if (allUsedLv.getLvCode().equals("ALV_03")) {
+				allUsedLv.setReduceAlv((float) 0.25);
+			}
+			
 			Date startLv = allUsedLv.getLvStart();
 			Date endLv = allUsedLv.getLvStart();
 			String duringLv = startLv + " ~ " + endLv;
 			allUsedLv.setDuring(duringLv);
 		}
+		
+//		사용예정내역
+		List<LvUsedListDto> allUseList = service.getWillUsage(userNo);
+		for (LvUsedListDto allUseLv : allUseList) {
+			if(allUseLv.getLvCode().equals("ALV_01")) {
+				allUseLv.setReduceAlv(1);
+			} else if (allUseLv.getLvCode().equals("ALV_02")) {
+				allUseLv.setReduceAlv((float) 0.5);
+			} else if (allUseLv.getLvCode().equals("ALV_03")) {
+				allUseLv.setReduceAlv((float) 0.25);
+			}
+			
+			Date startLv = allUseLv.getLvStart();
+			Date endLv = allUseLv.getLvStart();
+			String duringLv = startLv + " ~ " + endLv;
+			allUseLv.setDuring(duringLv);
+		}
 //		발생내역
 		List<AlvOccurHistoryDto> lvHistoryList = service.getOccurHistory(userNo);
 
-		session.setAttribute("startDate", startDate);
+		model.addAttribute("allUsedAlv", allUsedAlv);
+		model.addAttribute("allUseList", allUseList);
 		model.addAttribute("allUsedAlvList", allUsedAlv);
 		model.addAttribute("allUsedList", allUsedList);
 		model.addAttribute("lvHistoryList", lvHistoryList);
@@ -83,6 +106,13 @@ public class LeaveController {
 		if (alvUsedList != null) {
 			
 			for (LvUsedListDto al : alvUsedList) {
+				if(al.getLvCode().equals("ALV_01")) {
+					al.setReduceAlv(1);
+				} else if (al.getLvCode().equals("ALV_02")) {
+					al.setReduceAlv((float) 0.5);
+				} else if (al.getLvCode().equals("ALV_03")) {
+					al.setReduceAlv((float) 0.25);
+				}
 				String start = String.valueOf(al.getLvStart());
 				String end =  String.valueOf(al.getLvEnd());
 				al.setDuring(start + " ~ " + end);
@@ -170,28 +200,30 @@ public class LeaveController {
 	
 	@GetMapping("alvCal") // 연차 정산
 	public String alvCal(HttpSession session, Model model) throws Exception {
+		// 발생시작일자 고민해보기
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
 		String userNo = loginUser.getUserNo();
 		UserDto user = service.getThisUser(userNo);
-		// 발생시작일자 고민해보기
 		
-		// 임시로직 for 중간발표
-		float usedAlv = 0; 
-		
+		// 로그인한 사용자의 연차사용내역
 		List<LvUsedListDto> alvUsageCalList = service.getAlvUsageCal(userNo);
 		for (LvUsedListDto alc : alvUsageCalList) {
+
+			if(alc.getLvCode().equals("ALV_01")) {
+				alc.setReduceAlv(1);
+			} else if (alc.getLvCode().equals("ALV_02")) {
+				alc.setReduceAlv((float) 0.5);
+			} else if (alc.getLvCode().equals("ALV_03")) {
+				alc.setReduceAlv((float) 0.25);
+			}
 			String start = String.valueOf(alc.getLvStart());
 			String end =  String.valueOf(alc.getLvEnd());
 			alc.setDuring(start + " ~ " + end);
-			// 임시로직 for 중간발표
-			usedAlv = usedAlv + alc.getReduceAlv();
 		}
 		int size = alvUsageCalList.size();
 		model.addAttribute("size", size);
 		model.addAttribute("alvUsageCalList", alvUsageCalList);
 		model.addAttribute("user", user);
-		// 임시로직 for 중간발표
-		model.addAttribute("usedAlv", usedAlv);
 		return "leave/alvCal";
 	}
 

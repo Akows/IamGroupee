@@ -168,7 +168,7 @@ public class LeaveDaoImpl implements LeaveDao {
 
 	@Override
 	public List<UserDto> getThisUserAD(String searchByUserNo) throws Exception {
-		return session.selectList("leave.getThisUserAD", searchByUserNo);
+		return session.selectList("leave.getThisUser", searchByUserNo);
 	}
 
 	@Override
@@ -367,6 +367,23 @@ public class LeaveDaoImpl implements LeaveDao {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public List<LvUsedListDto> getWillUsage(String userNo) throws Exception {
+		return session.selectList("leave.getWillUsage", userNo);
+	}
+
+	@Override
+	public double getAlvUsedCount(String userNo) throws Exception {
+		return session.selectOne("leave.getAlvUsedCount", userNo);
+	}
+
+	@Override
+	public void updateReduceAlv() throws Exception {
+		session.update("leave.updateReduceAlv01");
+		session.update("leave.updateReduceAlv02");
+		session.update("leave.updateReduceAlv03");
 	}	
 	
 }

@@ -61,8 +61,8 @@
 	                    <tr>
 	                      <td id="now">${startDate} ~ </td>
 	                      <td>${user.alvCount + user.alvAddCount}</td>
-	                      <td>${usedAlv}</td>
-	                      <td>${(user.alvCount + user.alvAddCount) - usedAlv}</td>
+	                      <td>${user.alvUsedCount}</td>
+	                      <td>${(user.alvCount + user.alvAddCount) - user.alvUsedCount}</td>
 	                    </tr>
 	                    <tr class="table-active">
 	                      <td rowspan="${size+1}"style="line-height: 1400%;">정산 내역</td> <!-- rowspan = "list size + 1" -->

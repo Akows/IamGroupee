@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.iag.login.dao.LoginDao;
 import com.kh.iag.user.entity.UserDto;
-import com.kh.iag.user.service.UserServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 

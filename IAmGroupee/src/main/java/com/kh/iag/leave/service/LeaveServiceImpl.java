@@ -22,11 +22,14 @@ public class LeaveServiceImpl implements LeaveService {
 	@Autowired
 	private LeaveDao dao;
 	
-//	/////////////////////////전결에서 받아오기
-	
 	@Override // 메인 사용내역
 	public List<LvUsedListDto> getAllUsage(String userNo) throws Exception {
 		return dao.getAllUsage(userNo);
+	}
+
+	@Override // 메인 사용예정내역
+	public List<LvUsedListDto> getWillUsage(String userNo) throws Exception {
+		return dao.getWillUsage(userNo);
 	}
 	
 	@Override // 연차 사용대장
@@ -59,6 +62,7 @@ public class LeaveServiceImpl implements LeaveService {
 	public int getLvRowCnt(String userNo) throws Exception {
 		return dao.getLvRowCnt(userNo);
 	}
+
 	
 	@Override // 로그인유저정보
 	public UserDto getThisUser(String userNo) throws Exception {
@@ -225,6 +229,17 @@ public class LeaveServiceImpl implements LeaveService {
 	@Override // 로그인 유저의 월차발생 HISTORY
 	public int addMlvHistory(String userNo) throws Exception {
 		return dao.addMlvHistory(userNo);
+	}
+
+	@Override // 로그인 유저의 사용한 연차의 개수
+	public double getAlvUsedCount(String userNo) throws Exception {
+		return dao.getAlvUsedCount(userNo);
+	}
+
+	@Override // 사용내역에 updateReduceAlv하기
+	public void updateReduceAlv() throws Exception {
+		dao.updateReduceAlv ();
+		
 	}
 
 }

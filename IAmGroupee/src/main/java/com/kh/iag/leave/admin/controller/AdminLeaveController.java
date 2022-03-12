@@ -82,7 +82,7 @@ public class AdminLeaveController {
 		int historyResult = service.alvOccurHistory(alvAddCount, userNo, alvOccurReason);
 		
 		
-		return "redirect:/admin/leave/main";
+		return "leave/lvAdmin/adminLeaveMain";
 	}
 	
 	@GetMapping("lvModiAD") // 휴가 발생 관리
