@@ -19,7 +19,8 @@
     	<br>
     	<div class="row">
     		<c:forEach items="${deptList}" var="dept">
-    			${dept.departmentNo } ${dept.departmentName } ${dept.departmentLevel } ${dept.topDepartmentNo } <br>
+    			${dept.departmentNo } ${dept.departmentName } 
+    			${dept.departmentLevel } ${dept.topDepartmentNo } <br>
     		</c:forEach>
     	</div>
     </div>
