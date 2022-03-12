@@ -46,7 +46,7 @@ public class EAController {
 	private EAService service;
 	
 	@Autowired
-	private AdminEAService AdminService;
+	private AdminEAService adminService;
 	
 //---------------------------------------------------------------- 기안신청
 	// 기안신청 (양식선택)
@@ -54,10 +54,10 @@ public class EAController {
 	public String signUp(Model model) throws Exception {
 		
 		// 양식 카테고리 데이터
-		List<CategoryDto> categoryValues = AdminService.categoryValues();
+		List<CategoryDto> categoryValues = adminService.categoryValues();
 		model.addAttribute("categoryValues", categoryValues);
 		// 양식 데이터
-		List<FormDto> formValues = AdminService.formValues();
+		List<FormDto> formValues = adminService.formValues();
 		model.addAttribute("formValues", formValues);
 		
 		return "ea/user/ea_signup_form";
@@ -446,7 +446,17 @@ public class EAController {
 	@RequestMapping(value = "deleteSignupDoc", method = RequestMethod.GET)
 	@ResponseBody
 	public int deleteSignupDoc(String docNo) throws Exception {
-		return service.deleteSignupDoc(docNo);		
+		
+		// 이전 doc_sep ='Y'로 변경하는 메소드
+//		int oldVersion = service.deleteSignupDoc(docNo);
+		
+		// ref 테이블 먼저 삭제
+		int result1 = adminService.deleteDocRef(docNo);
+		
+		// doc 테이브 삭제
+		int result2 = adminService.deleteDoc(docNo);
+		
+		return result1 + result2;
 	}
 	
 	// 반려/협의요청 문서 재기안하기

@@ -165,7 +165,10 @@ public class EADaoImpl implements EADao {
 
 	@Override
 	public int updateDocumentSep(ProcessDto resultDto) throws Exception {
-		return sqlSession.update("ea.updateDocumentSep", resultDto);
+		int result = sqlSession.update("ea.updateDocumentSep", resultDto);
+        sqlSession.insert("leave.insertAlvFromEA", resultDto);
+        sqlSession.insert("leave.insertLvFromEA", resultDto);
+        return result;
 	}
 
 	@Override

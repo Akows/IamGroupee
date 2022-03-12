@@ -23,9 +23,6 @@
     <div class="ea_signup_formselect_wrapper">
       <div class="ea_signup_formselect_title">
         <span>기안신청 (양식선택)</span>
-        <a href="javascript:openwindow('/iag/chat/list', 330, 400);" style="
-        position: absolute;
-        transform: translateX(400px); color: green;">(임시)채팅</a>
       </div>
       <div class="ea_signup_formselect_contents">
         <form action="write" method="GET" onsubmit="return checkingSelectForm();">
@@ -108,17 +105,6 @@
       return true;
     }
   };
-
-  // 팝업띄우기
-  function openwindow(opage, x, y) {
-    farwindow = window.open('','Links','width='+x+', height='+y+', toolbar=0, scrollbars=0, resizable=no');
-    if (farwindow != null) {
-      if (farwindow.opener == null) {
-        farwindow.opener = self;
-      }
-      farwindow.location.href = opage;
-    }
-  }
 </script>
 </body>
 </html>
