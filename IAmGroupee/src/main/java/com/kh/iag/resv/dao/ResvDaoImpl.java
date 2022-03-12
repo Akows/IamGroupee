@@ -18,16 +18,6 @@ public class ResvDaoImpl implements ResvDao {
 	private SqlSession ss;
 
 	@Override
-	public List<ResvDto> getAllRoomResvList() throws Exception {
-		return ss.selectList("resv.getAllRoomResvList");
-	}
-	
-	@Override
-	public List<ResvDto> getAllAssetResvList() throws Exception {
-		return ss.selectList("resv.getAllAssetResvList");
-	}
-	
-	@Override
 	public List<ResvDto> getRoomList() throws Exception {
 		return ss.selectList("resv.getRoomList");
 	}
@@ -38,11 +28,41 @@ public class ResvDaoImpl implements ResvDao {
 	}
 	
 	@Override
+	public List<ResvDto> getAllRoomResvList() throws Exception {
+		return ss.selectList("resv.getAllRoomResvList");
+	}
+	
+	@Override
+	public List<ResvDto> getAllAssetResvList() throws Exception {
+		return ss.selectList("resv.getAllAssetResvList");
+	}
+	
+	@Override
+	public List<ResvDto> getSelectRoomResvList(int resvNo) throws Exception {
+		return ss.selectList("resv.getAllRoomResvList", resvNo);
+	}
+	
+	@Override
+	public List<ResvDto> getSelectAssetResvList(int resvNo) throws Exception {
+		return ss.selectList("resv.getAllAssetResvList", resvNo);
+	}
+	
+	@Override
 	public List<ResvDto> getMyResvList(String userNo, PageVo vo) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
         map.put("userNo", userNo);
         map.put("vo", vo);
 		return ss.selectList("resv.getMyResvList", map);
+	}
+	
+	@Override
+	public List<ResvDto> getMyRoomResvList(String userNo) {
+		return ss.selectList("resv.getMyRoomResvList", userNo);
+	}
+
+	@Override
+	public List<ResvDto> getMyAssetResvList(String userNo) {
+		return ss.selectList("resv.getMyAssetResvList", userNo);
 	}
 
 	@Override
@@ -52,7 +72,7 @@ public class ResvDaoImpl implements ResvDao {
 
 	@Override
 	public int modResv(ResvDto dto) throws Exception {
-		return ss.update("resv.resvMod", dto);
+		return ss.update("resv.modResv", dto);
 	}
 	
 	@Override
@@ -67,9 +87,10 @@ public class ResvDaoImpl implements ResvDao {
 
 	@Override
 	public int getResvCnt(String userNo) throws Exception {
-		
 		return ss.selectOne("resv.getResvCnt",userNo);
 	}
+
+	
 
 	
 

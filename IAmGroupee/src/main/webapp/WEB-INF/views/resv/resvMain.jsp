@@ -4,8 +4,8 @@ pageEncoding="UTF-8"%>
 <%@ page import="java.util.List"%>
 <%@ page import="com.kh.iag.resv.entity.ResvDto"%>
 <% 
-	List<ResvDto> allRoomResvList = (List<ResvDto>)request.getAttribute("allRoomResvList");	
-	List<ResvDto> allAssetResvList = (List<ResvDto>)request.getAttribute("allAssetResvList");	
+	List<ResvDto> myRoomResvList = (List<ResvDto>)request.getAttribute("myRoomResvList");	
+	List<ResvDto> myAssetResvList = (List<ResvDto>)request.getAttribute("myAssetResvList");	
 %>
 
 <!DOCTYPE html>
@@ -126,7 +126,7 @@ pageEncoding="UTF-8"%>
 								</h3>
 							</div>
 							
-							<form action="mod" name="mod" method="put">
+							<form action="/iag/resv/mod" name="resvMod" method="post">
 								<div class="card-body">
 									<table class="table table-bordered">
 										<thead>
@@ -178,7 +178,7 @@ pageEncoding="UTF-8"%>
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-												<button type="button" class="btn btn-primary" onclick="modCheck();">수정</button>
+												<button type="submit" class="btn btn-primary" onclick="modCheck();">수정</button>
 											</div>
 										</div><!-- /.modal-content -->
 									</div><!-- /.modal-dialog -->
@@ -241,9 +241,14 @@ pageEncoding="UTF-8"%>
 	</main>
 
 	<script type="text/javascript">
+
+
+
 		function modCheck(){
+			var form = document.resvMod;
+
 			if(confirm("예약 일정을 변경하시겠습니까?") == true){
-				document.mod.submit();
+				form.submit();
 			}else {
 				return false;
 			}
@@ -384,25 +389,24 @@ pageEncoding="UTF-8"%>
 				
 				events : 
 				[ 
-					<%if (allRoomResvList != null || allAssetResvList != null) {%>
-						<%for (ResvDto r : allRoomResvList) {%>
+					<%if (myRoomResvList != null || myAssetResvList != null) {%>
+						<%for (ResvDto r : myRoomResvList) {%>
 							{
-								title : '<%=r.getRoomName()%>',
-								start : '<%=r.getResvStart()%>',
-								end : '<%=r.getResvEnd()%>',
-								color : '#2D82D7'
+							title : '<%=r.getRoomName()%>',
+							start : '<%=r.getResvStart()%>',
+							end : '<%=r.getResvEnd()%>',
+							color : '#2D82D7'
 							},
 						<%}%>	
-						<%for (ResvDto a : allAssetResvList) {%>
+						<%for (ResvDto a : myAssetResvList) {%>
 							{
-								title : '<%=a.getAssetName()%>',
-								start : '<%=a.getResvStart()%>',
-								end : '<%=a.getResvEnd()%>',
-								color : '#28a745'
+							title : '<%=a.getAssetName()%>',
+							start : '<%=a.getResvStart()%>',
+							end : '<%=a.getResvEnd()%>',
+							color : '#28a745'
 							}
 						<%}
 					}%>
-
 				]
 				
 			

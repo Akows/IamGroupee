@@ -7,15 +7,27 @@ import com.kh.iag.resv.entity.ResvDto;
 
 public interface ResvService {
 	
-	List<ResvDto> getAllRoomResvList() throws Exception;
-	
-	List<ResvDto> getAllAssetResvList() throws Exception;
-	
+	//옵션
 	List<ResvDto> getRoomList() throws Exception;
 	
 	List<ResvDto> getAssetList() throws Exception;
 	
+	//전체캘린더
+	List<ResvDto> getAllRoomResvList() throws Exception;
+	
+	List<ResvDto> getAllAssetResvList() throws Exception;
+	
+	//셀렉트조회
+	List<ResvDto> getSelectRoomResvList(int resvNo) throws Exception;
+	
+	List<ResvDto> getSelectAssetResvList(int resvNo) throws Exception;
+
+	//내예약현황
 	List<ResvDto> getMyResvList(String userNo, PageVo vo) throws Exception;
+	
+	List<ResvDto> getMyRoomResvList(String userNo) throws Exception;
+	
+	List<ResvDto> getMyAssetResvList(String userNo) throws Exception;
 	
 	int insertResv(ResvDto dto) throws Exception;
 
@@ -26,9 +38,6 @@ public interface ResvService {
 	int getResvCnt(String userNo) throws Exception;
 
 	int modResv(ResvDto dto) throws Exception;
-
-	
-
 
 
 }

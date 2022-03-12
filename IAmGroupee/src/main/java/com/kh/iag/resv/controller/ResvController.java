@@ -1,7 +1,6 @@
 package com.kh.iag.resv.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,11 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.iag.resv.entity.PageVo;
@@ -67,14 +63,14 @@ public class ResvController {
 		model.addAttribute("roomList", roomList);
 		model.addAttribute("assetList", assetList);
 		
-		//캘린더에 표시될 전체 예약현황
-		List<ResvDto> allRoomResvList = service.getAllRoomResvList();
-		List<ResvDto> allAssetResvList = service.getAllAssetResvList();
-		if(allRoomResvList != null) {
-			model.addAttribute("allRoomResvList", allRoomResvList);
+		//캘린더에 표시될 나의 예약현황
+		List<ResvDto> myRoomResvList = service.getMyRoomResvList(userNo);
+		List<ResvDto> myAssetResvList = service.getMyAssetResvList(userNo);
+		if(myRoomResvList != null) {
+			model.addAttribute("myRoomResvList", myRoomResvList);
 		}
-		if(allAssetResvList != null) {
-			model.addAttribute("allAssetResvList", allAssetResvList);
+		if(myAssetResvList != null) {
+			model.addAttribute("myAssetResvList", myAssetResvList);
 			
 		}
 		
@@ -97,8 +93,7 @@ public class ResvController {
 	}
 	
 	//예약수정
-	@PutMapping(value="mod")
-	@ResponseBody
+	@RequestMapping(value="mod", method = {RequestMethod.POST})
 	public String modResv(ResvDto dto, HttpServletRequest req) throws Exception {
 		
 		String[] parts = req.getParameter("period").split("~");
@@ -155,10 +150,47 @@ public class ResvController {
 		
 	//자산별예약페이지
 	@GetMapping("resvAsset")
-	public String resvAsset(Model model) throws Exception {
+	public String searchResv(Model model) throws Exception {
+		//자산별 option
+		List<ResvDto> roomList = service.getRoomList();
+		List<ResvDto> assetList = service.getAssetList();
+		model.addAttribute("roomList", roomList);
+		model.addAttribute("assetList", assetList);
 		
+		//캘린더에 표시될 전체 예약현황
+		List<ResvDto> allRoomResvList = service.getAllRoomResvList();
+		List<ResvDto> allAssetResvList = service.getAllAssetResvList();
+		
+		if(allRoomResvList != null) {
+			model.addAttribute("allRoomResvList", allRoomResvList);
+		}
+		if(allAssetResvList != null) {
+			model.addAttribute("allAssetResvList", allAssetResvList);
+			
+		}
 		
 		return "resv/resvAsset";
+	}
+	
+	//자산별 예약조회
+	@ResponseBody
+	@PostMapping(value = "resvAsset?{resvNo}")
+	public String searchResv(Model model, @PathVariable int resvNo) throws Exception{
+		
+		//캘린더에 표시될 전체 예약현황
+		List<ResvDto> selectRoomResvList = service.getSelectRoomResvList(resvNo);
+		List<ResvDto> selectAssetResvList = service.getSelectAssetResvList(resvNo);
+		
+		if(selectRoomResvList != null) {
+			model.addAttribute("allRoomResvList", selectRoomResvList);
+		}
+		if(selectAssetResvList != null) {
+			model.addAttribute("allAssetResvList", selectAssetResvList);
+		}
+		
+		return "";
+		
+		
 	}
 
 }
