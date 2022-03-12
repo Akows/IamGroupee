@@ -614,30 +614,25 @@
               data : {"str" : result},
               type : "post",
               success : function(data) {
-                if(date === 2) {
-                  for(let i = 0; i < delArr.length; ++i) {
-                    let t = delArr[i];
-                    if(t.checked) {
-                      t.parentElement.parentElement.remove();
-                    }
+                for(let i = 0; i < delArr.length; ++i) {
+                  let t = delArr[i];
+                  if(t.checked) {
+                    t.parentElement.parentElement.remove();
                   }
-                  alert('선택하신 문서가 삭제되었습니다!');
-                };
+                }
+                alert('선택하신 문서가 삭제되었습니다!');
               },
               error : function(e) {
                 alert(e);
               }
             });
+            return true;
           } else {
             return false;
           }
-
-          
           // 새로고침
           // window.location.reload();
         }
-
-
 
     </script>
 

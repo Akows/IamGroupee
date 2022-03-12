@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* chatUsers */
+#chatUsers {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+#chatUsers * {
+  box-sizing: border-box;
+}
+#chatUsers > div:nth-child(1) {
+  height: 20px;
+}
+#chatUsers > div:nth-child(1) > a {
+  display: block;
+  float: left;
+  width: 50%;
+  text-align: center;
+  padding: 5px;
+  border: 2px solid rgb(9, 137, 241);
+  color: rgb(9, 137, 241);
+  text-decoration: none;
+}
+#chatUsers > div:nth-child(1) > a:nth-child(1) {
+  background: rgb(9, 137, 241);
+  color: #fff;
+  font-weight: 600;
+}
+.deptName {
+  background: darkblue;
+  color: #fff;
+  font-weight: 800;
+}
+.deptName > pre {
+  margin-bottom: 0;
+}
+.userName {
+  font-size: 14px;
+  padding: 5px;
+}
+.userName:hover {
+  background: red;
+}
+.userName input {
+  float: right;
+}
+
+/* chatList */
+#chatList {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+#chatList * {
+  box-sizing: border-box;
+}
+#chatList > div:nth-child(1) {
+  height: 20px;
+}
+#chatList > div:nth-child(1) > a {
+  display: block;
+  float: left;
+  width: 50%;
+  text-align: center;
+  padding: 5px;
+  border: 2px solid rgb(9, 137, 241);
+  color: rgb(9, 137, 241);
+  text-decoration: none;
+}
+#chatList > div:nth-child(1) > a:nth-child(2) {
+  background: rgb(9, 137, 241);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* chatRoom */
+#chatRoom {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+#chatRoom * {
+  box-sizing: border-box;
+}
+#chatRoom > div:nth-child(1) {
+  height: 20px;
+}
+#chatRoom > div:nth-child(1) > a {
+  display: block;
+  float: left;
+  width: 50%;
+  text-align: center;
+  padding: 5px;
+  border: 2px solid rgb(9, 137, 241);
+  color: rgb(9, 137, 241);
+  text-decoration: none;
+}

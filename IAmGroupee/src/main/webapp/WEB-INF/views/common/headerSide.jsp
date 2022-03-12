@@ -196,7 +196,7 @@
               </li>
               <li>
                   <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
-                      <span class="icon paper" aria-hidden="true"></span>게시판
+                  <span class="icon paper" aria-hidden="true"></span>게시판
                       <span class="category__btn transparent-btn" title="Open list">
                           <span class="sr-only">Open list</span>
                           <span class="icon arrow-down" aria-hidden="true"></span>
@@ -288,11 +288,11 @@
         <span class="icon menu-toggle--gray" aria-hidden="true"></span>
       </button>
       
-      <button class="theme-switcher gray-circle-btn" type="button" title="Switch theme">
-        <span class="sr-only">Switch theme</span>
-        <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
-        <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
-      </button>
+      <a href="javascript:openwindow('/iag/chat/list', 330, 400);"  class="theme-switcher gray-circle-btn" type="button" title="Switch theme" style="position: relative;">
+        <span class="sr-only">chat</span>
+        <i class="fas fa-comment" aria-hidden="true"></i>
+        <span class="badge badge-danger navbar-badge" style="top: 0; right: 0; font-size: 8px;">99</span>
+      </a>
       <div class="notification-wrapper">
         <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">
           <span class="sr-only">To messages</span>
@@ -371,5 +371,18 @@
 	
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
+
+    <script>
+        // 팝업띄우기
+        function openwindow(opage, x, y) {
+        farwindow = window.open('','Links','width='+x+', height='+y+', toolbar=0, scrollbars=0, resizable=no');
+        if (farwindow != null) {
+            if (farwindow.opener == null) {
+            farwindow.opener = self;
+            }
+            farwindow.location.href = opage;
+        }
+        }
+    </script>
 </body>
 </html>
