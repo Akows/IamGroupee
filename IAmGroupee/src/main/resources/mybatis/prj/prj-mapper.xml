@@ -5,4 +5,24 @@
   
   <mapper namespace="prj">
   
+  	<insert id="createPrj">
+  		INSERT INTO PROJECT(
+  			  PRJ_NO
+  			, USER_NO
+  			, PRJ_NAME
+  			, DEPART_NO
+  			, OPEN_YN
+  			, ACTIVATE_YN
+  			, PERIOD
+  		)VALUES(
+  			SEQ_PROJECT.NEXTVAL
+  			, #{userNo}
+  			, #{prjName}
+  			, #{departNo}
+  			, #{openYn}
+  			, #{activateYn}
+  			, #{period}
+  		)
+  	</insert>
+  	
   </mapper>

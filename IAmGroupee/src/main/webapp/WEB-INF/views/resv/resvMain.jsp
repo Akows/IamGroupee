@@ -404,7 +404,7 @@ pageEncoding="UTF-8"%>
 							start : '<%=a.getResvStart()%>',
 							end : '<%=a.getResvEnd()%>',
 							color : '#28a745'
-							}
+							},
 						<%}
 					}%>
 				]

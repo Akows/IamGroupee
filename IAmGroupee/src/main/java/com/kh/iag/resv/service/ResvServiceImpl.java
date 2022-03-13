@@ -89,6 +89,19 @@ public class ResvServiceImpl implements ResvService{
 	}
 
 	
+	public int getRoomResvNo(int roomNo) throws Exception {
+		return dao.getRoomResvNo(roomNo);
+	}
+	
+	@Override
+	public int getAssetResvNo(int assetNo) throws Exception {
+		return dao.getAssetResvNo(assetNo);
+	}
+	
+	
+
+
+	
 
 	
 

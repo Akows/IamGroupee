@@ -11,10 +11,6 @@
 	<link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
-	<!-- adminLTE CDN -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
-	
-	
 
 	
 </head>
@@ -34,24 +30,25 @@
 							</button>
 						</div>
 						
+						<!-- modal 시작! -->
 						<div class="modal fade" id="createPrj">
 							<div class="modal-dialog">
-							  <div class="modal-content">
+							<div class="modal-content">
 								<div class="modal-header">
 								  <h4 class="modal-title">새 프로젝트 생성</h4>
 								</div>
 								
-								<form accept="" method="post">
+								<form action="" method="post">
 									<div class="modal-body">
 										<div class="card-body">
 											<div class="form-group">
-												<label for="InputPrjName">프로젝트명</label>
-												<input type="text" class="form-control" id="InputPrjName" placeholder="프로젝트 이름을 입력하세요.">
+												<label for="InputPrjName" required>프로젝트명</label>
+												<input type="text" class="form-control" id="InputPrjName" name = "prjName" placeholder="프로젝트 이름을 입력하세요.">
 											</div>
 	
 											<div class="form-group">
 												<label>프로젝트 관리자</label>
-												<input readonly class="form-control" id="InputPrjManager" value="${loginUser.name}">
+												<input readonly class="form-control" name="name" value="${loginUser.name}">
 											</div>
 											
 											<!-- Date range -->
@@ -64,21 +61,23 @@
 															<i class="far fa-calendar-alt"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control float-right" id="reservation">
+													<input type="text" class="form-control float-right" id="reservation" name="period" required>
 												</div>
 											</div>
 	
 											<!-- 참여부서 -->
 											<div class="form-group">
 												<label>참여 부서</label>
-													<div class="select2-blue">
-														<select class="select2" multiple="multiple" data-placeholder="참여할 부서를 클릭해주세요." data-dropdown-css-class="select2-blue" style="width: 100%;">
-															<option>@@부</option>
-															<option>##부</option>
-															<option>$$부</option>
-															<option>%%부</option>
-														</select>
-													</div>
+												<div class="select2-blue">
+													<select id="select2insidemodal" class="select2" name="departNo" multiple="multiple" data-placeholder="참여할 부서를 클릭해주세요." style="width: 100%;" required>
+														<option value="1">홍보팀</option>
+														<option value="2">인사팀</option>
+														<option value="3">총무팀</option>
+														<option value="4">회계팀</option>
+														<option value="5">영업팀</option>
+														<option value="6">기획팀</option>
+													</select>
+												</div>
 											</div>
 	
 											<!-- 권한 toggle -->
@@ -86,26 +85,26 @@
 											<div class="form-group row">
 												<div class="col-md-3"></div>
 												<div class="custom-control custom-switch col-md-4">
-													<input type="checkbox" class="custom-control-input" id="customSwitch1">
+													<input type="checkbox" name="openYn" class="custom-control-input" id="customSwitch1">
 													<label class="custom-control-label" for="customSwitch1">공개</label>
 												</div>
 												<div class="custom-control custom-switch col-md-3">
-													<input type="checkbox" class="custom-control-input" id="customSwitch2">
-													<label class="custom-control-label" for="customSwitch2">관리자승인</label>
+													<input type="checkbox" name="activeYn" class="custom-control-input" id="customSwitch2">
+													<label class="custom-control-label" for="customSwitch2">활성화</label>
 												</div>
 												<div class="col-md-2"></div>
 											</div>
-	
-										</div> <!-- /.card-body -->
-									</div>
+										</div>
+									</div> <!-- /.modal-body -->
 									<div class="modal-footer justify-content-between">
 										<input type="button" value="취소" class="btn btn-default" data-dismiss="modal">
 										<input type="submit" value="생성" class="btn btn-primary">
 									</div>
 								</form>
-							  </div> <!-- /.modal-content -->
+							</div> <!-- /.modal-content -->
 							</div> <!-- /.modal-dialog -->
-						  </div> <!-- /.modal -->
+						</div>
+						<!-- modal 끝! -->
 						
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
@@ -260,23 +259,19 @@
 
 
 	<script>
-		
+		//모달 내부 셀렉트 오픈
+
 		$(function () {
-
-			//Date range picker with time picker
-		    $('#reservationtime').daterangepicker({
-		      timePicker: true,
-		      timePickerIncrement: 30,
-		      locale: {
-		        format: 'MM/DD/YYYY hh:mm A'
-		      }
-		    })
-
-			//Date range picker
-    		$('#reservation').daterangepicker()
-
+			
 			//Initialize Select2 Elements
 			$('.select2').select2()
+			$("#select2insidemodal").select2({
+				dropdownParent: $("#createPrj")
+			});
+			
+			//Date range picker
+			$('#reservation').daterangepicker()
+	
 		})
 
 		document.addEventListener('DOMContentLoaded', function() {
@@ -296,8 +291,11 @@
 	<script src="${root}/resources/js/script.js"></script>
 
 	<!-- date-range-picker -->
-	<script src="${root}/resources/plugins/daterangepicker/daterangepicker.js"></script>
-	<link rel="stylesheet" href="${root}/resources/plugins/daterangepicker/daterangepicker.css">
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+	
 	<!-- Select2 -->
 	<script src="${root}/resources/plugins/select2/js/select2.full.min.js"></script>
 	<link rel="stylesheet" href="${root}/resources/plugins/select2/css/select2.min.css">

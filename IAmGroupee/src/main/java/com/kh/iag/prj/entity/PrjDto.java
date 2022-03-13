@@ -6,12 +6,23 @@ import lombok.Data;
 @Data
 public class PrjDto {
 
-	private long prjNo;
-	private long userNo;
+	private int prjNo;
+	private String userNo;
 	private String prjName;
-//	private String departNo;
+	private int departNo;
 	private Date createDate;
 	private String openYn;
 	private String activeYn;
 	private String deleteYn;
+	
+	private String period;
+
+	@Override
+	public String toString() {
+		return "PrjDto [prjNo=" + prjNo + ", userNo=" + userNo + ", prjName=" + prjName + ", departNo=" + departNo
+				+ ", createDate=" + createDate + ", openYn=" + openYn + ", activeYn=" + activeYn + ", deleteYn="
+				+ deleteYn + ", period=" + period + "]";
+	}
+	
+	
 }
