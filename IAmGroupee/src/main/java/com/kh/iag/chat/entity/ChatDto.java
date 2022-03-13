@@ -12,7 +12,7 @@ public class ChatDto {
 	private String chatTime;
 	private String chatRead;
 	
-	private final int number = 10;
+	private final int number = 100;
 	private String listType;
 	
 	private String name; // 이름

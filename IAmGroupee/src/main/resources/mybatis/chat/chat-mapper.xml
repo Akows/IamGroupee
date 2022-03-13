@@ -15,7 +15,7 @@
 	<select id="selectChatListByRecent" parameterType="chat" resultType="chat">
 		SELECT * FROM CHAT
 		WHERE ((FROM_ID = #{fromId} AND TO_ID = #{toId}) OR (FROM_ID = #{toId} AND TO_ID = #{fromId})) 
-		  AND CHAT_ID > (SELECT MAX(CHAT_ID) - #{number} FROM CHAT)
+		  AND CHAT_ID > (SELECT MAX(CHAT_ID) - #{number} FROM CHAT WHERE (FROM_ID = #{fromId} AND TO_ID = #{toId}) OR (FROM_ID = #{toId} AND TO_ID = #{fromId}))
 	  	ORDER BY CHATTIME
 	</select>
 	
@@ -23,5 +23,15 @@
 		INSERT INTO CHAT
 		VALUES (SEQ_CHAT_NO.NEXTVAL, #{fromId}, #{toId}, #{chatContent}, SYSDATE, DEFAULT)
 	</insert>
+	
+	<update id="updateChatRead" parameterType="chat">
+		UPDATE CHAT SET CHATREAD = 1
+		WHERE (FROM_ID = #{toId} AND TO_ID = #{fromId})
+	</update>
+	
+	<select id="selectChatUnreaded" parameterType="string" resultType="int">
+		SELECT COUNT(CHAT_ID) FROM CHAT
+		WHERE TO_ID = #{userNo} AND CHATREAD = 0
+	</select>
 
 </mapper>

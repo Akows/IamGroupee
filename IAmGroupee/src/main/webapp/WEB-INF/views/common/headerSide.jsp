@@ -291,7 +291,7 @@
       <a href="javascript:openwindow('/iag/chat/list', 330, 400);"  class="theme-switcher gray-circle-btn" type="button" title="Switch theme" style="position: relative;">
         <span class="sr-only">chat</span>
         <i class="fas fa-comment" aria-hidden="true"></i>
-        <span class="badge badge-danger navbar-badge" style="top: 0; right: 0; font-size: 8px;">99</span>
+        <span class="badge badge-danger navbar-badge" style="top: 0; right: 0; font-size: 8px;" id="unread"></span>
       </a>
       <div class="notification-wrapper">
         <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">
@@ -383,6 +383,39 @@
             farwindow.location.href = opage;
         }
         }
+
+        // 읽지 않은 채팅수 업데이트
+        function getUnread() {
+            let userNo = '<c:out value="${loginUser.userNo}"/>';
+
+            $.ajax({
+                type: "POST",
+                url: "/iag/chat/unreadedChat",
+                data: {
+                    userNo: userNo
+                },
+                success: function(result) {
+                    if(result >= 1) {
+                        showUnread(result);
+                    } else {
+                        showUnread('');
+                    }
+                }
+            });
+        }
+        function getInfiniteUnread() {
+            setInterval(function() {
+                getUnread();
+            }, 3000);
+        }
+        function showUnread(result) {
+            $('#unread').html(result);
+        }
+
+        $(document).ready(function() {
+            getInfiniteUnread();
+        });
+
     </script>
 </body>
 </html>

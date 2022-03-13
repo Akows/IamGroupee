@@ -14,7 +14,7 @@ body {
   box-sizing: border-box;
 }
 #chatUsers > div:nth-child(1) {
-  height: 20px;
+  height: 33px;
 }
 #chatUsers > div:nth-child(1) > a {
   display: block;
@@ -42,12 +42,34 @@ body {
 .userName {
   font-size: 14px;
   padding: 5px;
+  border-bottom: 1px solid gainsboro;
+}
+.userName label {
+  cursor: pointer;
+  border-bottom: 1px solid gainsboro;
 }
 .userName:hover {
-  background: red;
+  background: #0ca7f0;
+  color: #fff;
+  font-weight: 700;
 }
 .userName input {
   float: right;
+}
+.userName form {
+  position: relative;
+}
+.userName input[type="submit"] {
+  height: 25px;
+  background: transparent;
+  border: none;
+  display: none;
+  position: absolute;
+  right: 0;
+  bottom: -15%;
+}
+.userName label:hover input[type="submit"] {
+  display: block;
 }
 
 /* chatList */
@@ -60,7 +82,7 @@ body {
   box-sizing: border-box;
 }
 #chatList > div:nth-child(1) {
-  height: 20px;
+  height: 33px;
 }
 #chatList > div:nth-child(1) > a {
   display: block;
@@ -88,7 +110,7 @@ body {
   box-sizing: border-box;
 }
 #chatRoom > div:nth-child(1) {
-  height: 20px;
+  height: 33px;
 }
 #chatRoom > div:nth-child(1) > a {
   display: block;
@@ -99,4 +121,28 @@ body {
   border: 2px solid rgb(9, 137, 241);
   color: rgb(9, 137, 241);
   text-decoration: none;
+}
+#chatRoom > div:nth-child(2) {
+  background: darkblue;
+  color: #fff;
+  padding: 5px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+#chatList {
+  border-bottom: 2px solid gainsboro;
+}
+#chat textarea {
+  margin: 5px;
+  resize: none;
+  float: left;
+  width: 80%;
+}
+#chat button {
+  margin: 10px;
+  background: cornflowerblue;
+  border-radius: 10px;
+  border: 1px solid gainsboro;
+  cursor: pointer;
 }

@@ -41,7 +41,7 @@
                         <input type="hidden" name="positionName" value="${uv.positionName}">
                         <input type="hidden" name="positionLevel" value="${uv.positionLevel}">
 
-                        <input type="submit" value="대화하깅~">
+                        <input type="submit" value="💙">
                     </form>
                 </label>
                 </div>

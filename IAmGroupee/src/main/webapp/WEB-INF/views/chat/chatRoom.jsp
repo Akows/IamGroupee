@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chat/chat.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/77be500183.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
     <div id="chatRoom">
@@ -21,26 +22,23 @@
             <a href="/iag/chat/list" style="border-left: 1px solid rgb(9, 137, 241);"><i class="fab fa-rocketchat"></i></a>
         </div>
         <div>
-            '${userValue.name}'님과의 대화
+            [${userValue.departmentName}] ${userValue.name} ${userValue.positionName}
         </div>
         <!-- 채팅상대, 채팅목록, 채팅방 이동 버튼 -->
         <!-- 채팅 창 -->
         <div>
             <div id="chat">
-                <div id="chatList" style="overflow-y: auto; width: auto; height: 300px;">
-                
+                <div id="chatList" style="overflow-y: auto; width: auto; height: 285px;">
                 </div>
                 <div>
-                    <textarea style="height: 80px;" id="chatContent" placeholder="메시지를 입력하세요." maxlength="100"></textarea>
+                    <textarea style="height: 40px;" id="chatContent" placeholder="메시지를 입력하세요." maxlength="100"></textarea>
                 </div>
                 <div>
-                    <button type="button" onclick="submitFunction();">전송</button>
+                    <button type="button" onclick="submitFunction();">💌</button>
                 </div>
             </div>
         </div>
-
     </div>
-
 
     <script type="text/javascript">
         function submitFunction() {
@@ -70,7 +68,7 @@
             });
             $('#chatContent').val('');
         }
-
+    
         let lastId = 0;
         function chatListFunction(type) {
             let fromId = '<c:out value="${userValue.fromId}"/>';
@@ -88,37 +86,55 @@
                     let parsed = JSON.parse(data);
                     let result = parsed.result;
                     for(let i = 0; i < result.length; i++) {
+                        if(result[i][0].value == fromId) {
+                            result[i][0].value = '나';
+                        }
                         addChat(result[i][0].value, result[i][2].value, result[i][3].value);
                     }
                     lastId = Number(parsed.last);
                 }
-
+    
             });
         }
         function addChat(chatName, chatContent, chatTime) {
-            $('#chatList').append('<table border=1>' +
-                '<tr>' +
-                '<td>' + chatName + '</td>' +
-                '<td>' + chatContent + '</td>' +
-                '<td>' + chatTime + '</td>' +
-                '</tr>' +
-                '</table>' +
-                '<hr>');
+            let fromId = '<c:out value="${userValue.fromId}"/>';
+            let toId = '<c:out value="${userValue.toId}"/>';
 
+            if(chatName == toId) {
+                $('#chatList').append(
+                    '<table style="text-align:left; width:100%">' +
+                    '<tr>' +
+                    '<td style="padding:10px;">' +
+                    '<span style="padding:8px; border-radius: 8px; background:darkgrey; color:#fff; font-size:14px;">' + chatContent + '</span>' +
+                    '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td><sup style="font-size:10px;">' + chatTime + '</sup></td>' +
+                    '</tr>' +
+                    '</table>');
+            } else {
+                $('#chatList').append(
+                    '<table style="text-align:right; width:100%">' +
+                    '<tr>' +
+                    '<td style="padding:10px;">' +
+                    '<span style="padding:8px; border-radius: 8px; background:rgb(223, 238, 252); color:#262626; font-size:14px;">' + chatContent + '</span>' +
+                    '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td><sup style="font-size:10px;">' + chatTime + '</sup></td>' +
+                    '</tr>' +
+                    '</table>');
+            }
+    
             $('#chatList').scrollTop($('#chatList')[0].scrollHeight);
         }
         function getInfiniteChat() {
             setInterval(function() {
+                $('#chatList').children().remove();
                 chatListFunction(lastId);
             }, 3000);
         }
 
-        
-
-
-    </script>
-
-    <script type="text/javascript">
         $(document).ready(function() {
             chatListFunction('ten');
             getInfiniteChat();
