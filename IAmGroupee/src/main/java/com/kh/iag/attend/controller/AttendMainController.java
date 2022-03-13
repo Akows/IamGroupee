@@ -69,8 +69,7 @@ public class AttendMainController
 		List<AttendDTO> attendList1 = service.getAttendInfo(attendDTO1);
 		List<AttendDTO> attendList2 = service.getAttendNumandName(attendDTO2);
 		List<AttendModDTO> attendModinfo = service.getAttendModInfo(attendModDTO);
-		List<AttendWTDTO> attendWTList1 = service.getAttendWTInfo(attendWTDTO1);
-		
+		List<AttendWTDTO> attendWTList1 = service.getAttendWTInfo(attendWTDTO1);	
 		List<AttendWTDTO> attendWTList2 = service.getWTTWTInfo(attendWTDTO2);
 		
 		model.addAttribute("atInfo", attendList1);

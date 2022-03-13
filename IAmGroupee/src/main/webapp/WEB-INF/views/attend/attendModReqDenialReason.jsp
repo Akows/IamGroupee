@@ -33,7 +33,7 @@
 					
 					<hr>
 						
-					<textarea name="mod_reason" placeholder="내용작성하여 제출" style="width: 400px; height: 200px; resize: none;" required></textarea>
+					<textarea name="reject_reason" placeholder="내용작성하여 제출" style="width: 400px; height: 200px; resize: none;" required></textarea>
 						
 					<hr>
 						
@@ -46,6 +46,19 @@
 	
 	<hr>
 
+<script type="text/javascript">
+
+<!-- onsubmit="return submitcheckclickEventHandler();" -->
+	
+	function submitcheckclickEventHandler()
+	{
+		alert('처리가 완료되었습니다');
+		window.close();
+		
+		return true;
+	};
+
+</script>
 	
 <!-- Custom scripts -->
 <script src="${root}/resources/js/script.js"></script>

@@ -426,10 +426,10 @@
 		<!-- ===================================================================================================== -->
 		
 		<!-- 근로시간 조회 UI -->
-        <c:forEach items="${atWTInfo2}" var="wtInfo">        
+        <c:forEach items="${atWTInfo2}" var="wtInfo2" begin="0" end="0">        
         	<c:choose>
-        	
-        		<c:when test="${wtInfo.total_work_time le 208}">
+       
+        		<c:when test="${wtInfo2.total_work_time le 208}">
 	        		<div class="row stat-cards">
 			        	<div class="col-md-9 col-xl-6">
 							<article class="stat-cards-item">
@@ -438,12 +438,12 @@
 						        </div>
 						        <div class="stat-cards-info">
 							    	<p class="stat-cards-info__num">이번달 근무상황</p>
-							        <p class="stat-cards-info__title">총 근무시간 : ${wtInfo.total_work_time}시간</p>
+							        <p class="stat-cards-info__title">총 근무시간 : ${wtInfo2.total_work_time}시간</p>
 							        <p class="stat-cards-info__progress">
 							        <span class="stat-cards-info__profit success">
 							        	<i data-feather="trending-up" aria-hidden="true"></i>잔여근무시간 있음
 							        </span>
-							        	<fmt:formatNumber value="${208 - wtInfo.total_work_time}" pattern=".00"/>시간 남음
+							        	<fmt:formatNumber value="${208 - wtInfo2.total_work_time}" pattern=".00"/>시간 남음
 							        </p>
 							        <hr>
 							        이 위치에 직선형 그래프 배치하면 좋을듯?
@@ -452,31 +452,7 @@
 			        	</div>
 					</div> 
         		</c:when>
-        		
-        		<c:when test="${wtInfo.total_work_time ge 208}">
-	        		<div class="row stat-cards">
-			        	<div class="col-md-9 col-xl-6">
-							<article class="stat-cards-item">
-						    	<div class="stat-cards-icon success">
-						        	<i data-feather="bar-chart-2" aria-hidden="true"></i>
-						        </div>
-						        <div class="stat-cards-info">
-							    	<p class="stat-cards-info__num">이번달 근무상황</p>
-							        <p class="stat-cards-info__title">총 근무시간 : ${wtInfo.total_work_time}시간</p>
-							        <p class="stat-cards-info__progress">
-							        <span class="stat-cards-info__profit danger">
-							        	<i data-feather="trending-down" aria-hidden="true"></i>잔여근무시간 없음
-							        </span>
-							             000000
-							        </p>
-							        <hr>
-							        이 위치에 직선형 그래프 배치하면 좋을듯?
-						    	</div>
-							</article>
-			        	</div>
-					</div>        		
-        		</c:when>
-        		
+
 				<c:otherwise>
 	        		<div class="row stat-cards">
 			        	<div class="col-md-9 col-xl-6">

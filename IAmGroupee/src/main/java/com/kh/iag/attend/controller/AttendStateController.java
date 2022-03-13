@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kh.iag.attend.entity.AttendDTO;
 import com.kh.iag.attend.entity.AttendPageDTO;
 import com.kh.iag.attend.entity.AttendWTDTO;
 import com.kh.iag.attend.service.attendService;
@@ -35,30 +32,28 @@ public class AttendStateController
 			return "redirect:attendstate/1";
 		}
 		
-		int cntPerPage = 10;
-		int pageBtnCnt = 5; 
+		int cntPerPage = 5;
+		int pageBtnCnt = 10; 
 		int totalRow = service.getAttendStateCnt();
+		
+		System.out.println("전체 컬럼 갯수 : " + totalRow);
+		
 		AttendPageDTO AttendpageDTO = new AttendPageDTO(page, cntPerPage, pageBtnCnt, totalRow);
 		
-		List<AttendWTDTO> attendWTList = service.getWorktimeList(AttendpageDTO);
-		model.addAttribute("list", attendWTList);
-		model.addAttribute("page", AttendpageDTO);
+		int aaaa = AttendpageDTO.getStartPage();
+		int bbbb = AttendpageDTO.getEndPage();
 		
-		AttendDTO attendDTO = new AttendDTO();
-		AttendWTDTO attendWTDTO = new AttendWTDTO();
+		System.out.println("시작 페이지 : " + aaaa);
+		System.out.println("끝 페이지 : " + bbbb);
 		
 		UserDto loginUser = (UserDto) req.getSession().getAttribute("loginUser");
 		String userNo = loginUser.getUserNo();
+	
+		List<AttendWTDTO> attendWTList = service.getWorktimeList(AttendpageDTO, userNo);
 		
-		attendDTO.setUser_no(userNo);
-		attendWTDTO.setUser_no(userNo);
-		
-		List<AttendDTO> ATList = service.getAllAttendINfo(attendDTO);
-		List<AttendWTDTO> WTList = service.getAllAttendWTInfo(attendWTDTO);
-		
-		model.addAttribute("ATInfo", ATList);
-		model.addAttribute("WTInfo", WTList);
-		
+		model.addAttribute("WTInfo", attendWTList);
+		model.addAttribute("page", AttendpageDTO);
+
 		return "attend/attendstate";
 	}
 	

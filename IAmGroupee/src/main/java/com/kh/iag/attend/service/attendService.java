@@ -45,7 +45,11 @@ public interface attendService
 		
 		//일일 근태현황조회 페이징
 		int getAttendStateCnt() throws Exception;
-		List<AttendWTDTO> getWorktimeList(AttendPageDTO attendpageDTO) throws Exception;
+		List<AttendWTDTO> getWorktimeList(AttendPageDTO attendpageDTO, String userNo) throws Exception;
+		
+		//내 수정요청보기
+		List<AttendModDTO> getMyModList(AttendModDTO attendModDTO) throws Exception;
+		List<AttendModDTO> getModListSearch(AttendModDTO attendModDTO) throws Exception;
 		
 	//근태관리 페이지
 		//수정요청 조회
@@ -57,6 +61,8 @@ public interface attendService
 		//수정요청처리
 		void approveManageOK(AttendModDTO attendModDTO) throws Exception;
 		void approveManageNone(AttendModDTO attendModDTO) throws Exception;
+
+
 
 		
 

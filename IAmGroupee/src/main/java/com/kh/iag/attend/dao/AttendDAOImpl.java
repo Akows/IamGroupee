@@ -1,6 +1,8 @@
 package com.kh.iag.attend.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -154,10 +156,36 @@ public class AttendDAOImpl implements AttendDAO
 			return ss.selectOne("attend.getAttendStateCnt");
 		}
 		@Override
-		public List<AttendWTDTO> getWorktimeList(AttendPageDTO attendpageDTO) throws Exception 
+		public List<AttendWTDTO> getWorktimeList(AttendPageDTO attendpageDTO, String userNo) throws Exception 
 		{
-			return ss.selectList("attend.getWorktimeList", attendpageDTO);
+			Map<String, Object> objectMap = new HashMap<String, Object>();
+			
+			int startNum = attendpageDTO.getStartRow();
+			int endNum = attendpageDTO.getEndRow();
+			
+			objectMap.put("userNo", userNo);
+			objectMap.put("startRow", startNum);
+			objectMap.put("endRow", endNum);
+			
+			System.out.println("사번 : " + userNo);			
+			System.out.println("시작 번호 : " + startNum);
+			System.out.println("끝 번호 : " + endNum);
+			
+			return ss.selectList("attend.getWorktimeList", objectMap);
 		}
+		
+		//내 수정요청보기
+		@Override
+		public List<AttendModDTO> getMyModList(AttendModDTO attendModDTO) throws Exception 
+		{
+			return ss.selectList("attend.getMyModList", attendModDTO);
+		}
+		
+		@Override
+		public List<AttendModDTO> getModListSearch(AttendModDTO attendModDTO) throws Exception 
+		{
+			return ss.selectList("attend.getModListSearch", attendModDTO);
+		}		
 		
 	//근태관리 페이지
 		//수정요청 조회
@@ -200,6 +228,10 @@ public class AttendDAOImpl implements AttendDAO
 		{
 			ss.update("attend.approveManageNone", attendModDTO);						
 		}
+
+
+
+
 
 
 

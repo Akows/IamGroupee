@@ -152,7 +152,7 @@
 	 	
 	 	<!-- 총 근무시간 데이터를 조회하는 SQL문 -->
 	 	<select id="getWTTWTInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
-			SELECT 
+			SELECT
 			TO_CHAR(ATTEND_DATE,'MM') AS ATTEND_DATE,
 			ROUND(SUM(TOTAL_WORK_TIME) / 3600, 3) AS TOTAL_WORK_TIME
 			FROM WORKTIME
@@ -173,7 +173,7 @@
 			WHEN TO_CHAR(ATTEND_DATE,'MM') = '11' THEN '11'
 			WHEN TO_CHAR(ATTEND_DATE,'MM') = '12' THEN '12'
 			END
-			GROUP BY ATTEND_DATE
+			GROUP BY TO_CHAR(ATTEND_DATE,'MM')			
 	 	</select>
 	 	
 	  	<!-- =================================================================== -->
@@ -249,17 +249,21 @@
 	   		SET 
 	   		TOTAL_WORK_TIME = 
 	   		(
-				SUBSTR(OUT_TIME, 1, 2) * 60 * 60 +
-				SUBSTR(OUT_TIME, 3, 2) * 60 +
-				SUBSTR(OUT_TIME, 5, 2)
+				(SUBSTR(OUT_TIME, 1, 2) * 3600)
+				+
+				(SUBSTR(OUT_TIME, 3, 2) * 60)
+				+
+				(SUBSTR(OUT_TIME, 5, 2) * 1)
 			)
 			
 			-
 			
 			(
-				SUBSTR(IN_TIME, 1, 2) * 60 * 60 +
-				SUBSTR(IN_TIME, 3, 2) * 60 +
-				SUBSTR(IN_TIME, 5, 2)
+				(SUBSTR(IN_TIME, 1, 2) * 3600)
+				+
+				(SUBSTR(IN_TIME, 3, 2) * 60)
+				+
+				(SUBSTR(IN_TIME, 5, 2) * 1)
 			)
 	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	  	</update>
@@ -400,12 +404,34 @@
 			    SELECT ROWNUM RN, WT.* 
 			    FROM
 			    (
-			        SELECT *
+			        SELECT 
+			        REGEXP_REPLACE(TO_CHAR(ATTEND_DATE,'YYYYMMDD'), '(.{4})(.{2})(.{2})', '\1년 \2월 \3일') AS ATTEND_DATE, 
+			        REGEXP_REPLACE(IN_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS IN_TIME, 
+		            REGEXP_REPLACE(OUT_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS OUT_TIME,
+			        WORKCHECK
 			        FROM WORKTIME
+			        WHERE USER_NO = #{user_no}
 			        ORDER BY WORKTIME_NUM
 			    ) WT
 			)
-			WHERE RN BETWEEN #{startRow} AND #{endRow}
+			WHERE RN BETWEEN #{startRow} AND #{endRow}			
+		</select>
+		
+		<!-- 내수정요청 전체 조회 -->
+	  	<select id="getMyModList" resultType="attendancemod" resultMap="attendmodrm">
+			SELECT ATTEND_MOD_NUM, TO_CHAR(REQ_DATE,'YYYYMMDD') AS REQ_DATE, USER_NAME, MOD_REASON, ATTACH_FILE, APPROVE_STATE, TO_CHAR(MODIFY_REQ_DATE,'YYYYMMDD') AS MODIFY_REQ_DATE
+			FROM ATTENDANCEMODIFY
+			WHERE USER_NO = #{user_no}
+			ORDER BY ATTEND_MOD_NUM
+		</select>
+		
+		<!-- 내수정요청 조건 조회 -->
+	  	<select id="getModListSearch" resultType="attendancemod" resultMap="attendmodrm">
+			SELECT ATTEND_MOD_NUM, TO_CHAR(REQ_DATE,'YYYYMMDD') AS REQ_DATE, USER_NAME, MOD_REASON, ATTACH_FILE, APPROVE_STATE, TO_CHAR(MODIFY_REQ_DATE,'YYYYMMDD') AS MODIFY_REQ_DATE
+			FROM ATTENDANCEMODIFY
+			WHERE USER_NO = #{user_no}
+			AND APPROVE_STATE = #{approve_state}
+			ORDER BY ATTEND_MOD_NUM
 		</select>
 
 	  	<!-- =================================================================== -->

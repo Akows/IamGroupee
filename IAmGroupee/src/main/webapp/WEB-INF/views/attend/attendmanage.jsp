@@ -108,6 +108,7 @@
 			                          </li>
 			                          <li>
 			                          	<form action="approvemanagenone" method="get">
+			                          		<input type="hidden" name="attend_mod_num" value="${modlist.attend_mod_num}">
 							        		<input type="button" class="rejectBtn" value="요청 반려">	
 										</form>                        	 
 			                          </li>

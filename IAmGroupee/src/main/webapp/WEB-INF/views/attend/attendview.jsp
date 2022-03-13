@@ -15,10 +15,10 @@
   <link rel="shortcut icon" href="../resources/img/svg/looo.png" type="image/x-icon">
   <!-- Custom styles -->
   <link rel="stylesheet" href="../resources/css/style.min.css">
-
-<style>
-
-</style>
+  
+  <!-- FullCalendar -->
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.3.0/main.min.js"></script>
 
 </head>
 <body>
@@ -28,6 +28,7 @@
 
 <!-- ! Main -->
 <main class="main users chart-page" id="skip-target">
+
 	<div class="container">
 	       
 		<hr>     
@@ -76,7 +77,7 @@
 		                </p>
 		                <hr>
 		                
-		    			캘린더 위치
+		    			<div id="calendar">dd</div>
 		                
 		                <hr>
 		              	</div>
@@ -126,7 +127,6 @@
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
-
 <script type="text/javascript">
 	//현재 날짜 출력 스크립트
 	let today = new Date();
@@ -138,11 +138,41 @@
 	document.getElementById("currentDate2").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
 	
 	//캘린더 스크립트
-
+	 document.addEventListener('DOMContentLoaded', function() {
+	    var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+        	height: '500px',
+            initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
+            googleCalendarApiKey: 'AIzaSyDYMx36O77hSRC2wnwmpzWJ6M2BJ_F8fek',
+			headerToolbar : { // 헤더에 표시할 툴 바
+				start : 'today',
+				center : 'title',
+				end : 'prev next'
+			},
+			titleFormat : function(date) {
+				return date.date.year + '년 ' + (parseInt(date.date.month) + 1) + '월';
+			},
+			//initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
+			selectable : true, // 달력 일자 드래그 설정가능
+			droppable : true,
+			editable : true,
+            locale: 'ko',
+            eventSources: [
+		         {
+		        	 googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+		         	 className: 'holiday',
+         			 color : '#DD5246'
+		         }],
+		         events : 
+						[
+							
+						]
+						
+					});
+			calendar.render();
+      });
+	
 </script>
-
-
-
 
 
 	<!-- Custom scripts -->

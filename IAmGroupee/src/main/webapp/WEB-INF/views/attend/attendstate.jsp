@@ -67,19 +67,19 @@
 		            	</tr>
 		            </thead>
 		       		<tbody>
-		       			<c:forEach items="${WTInfo}" var="wtin">
+		       			<c:forEach items="${WTInfo}" var="wtinf">
 		       				
 			            	<tr>
 			            		<td>
 				                    <label class="users-table__checkbox">
-				                    	<input type="checkbox" name="modify_req_date" value="${wtin.attend_date}" id="inputcheck">${wtin.attend_date}
+				                    	<input type="checkbox" name="modify_req_date" value="${wtinf.attend_date}" id="inputcheck">${wtinf.attend_date}
 				                    </label>				                    			            		
 			            		</td>
-			            		<td>${wtin.in_time}</td>
-			            		<td>${wtin.out_time}</td>		            		
+			            		<td>${wtinf.in_time}</td>
+			            		<td>${wtinf.out_time}</td>		            		
 			            		
 			            		<c:choose>
-			            			<c:when test="${wtin.workcheck == '정상퇴근처리'}">
+			            			<c:when test="${wtinf.workcheck == '정상퇴근처리'}">
 										<td>
 											<div class="badge-active">
 												${wtin.workcheck}
@@ -87,7 +87,7 @@
 										</td>
 			            			</c:when>
 			            			
-			            			<c:when test="${wtin.workcheck == '지각퇴근처리'}">
+			            			<c:when test="${wtinf.workcheck == '지각퇴근처리'}">
 										<td>
 											<div class="badge-pending">
 												${wtin.workcheck}
@@ -107,26 +107,96 @@
 	            </table>
 	            
 				<br>
+				
+				<!-- style="background-color: red; border-radius: 20px 20px 20px 20px; width: 100px; height: 25px" -->
+				
+				
+				
+				
+				
+				
+			    <div class="row stat-cards" style="justify-content: center">
 
-				<c:if test="${page.startPage != 1}"> 
-					<a href="${page.startPage - 1}">이전</a> 
-				</c:if>
+			    	
+			    	<div class="col-md-3 col-xl-3">
+			            <article class="stat-cards-item" style="justify-content: center; background-color: #00D7FF;">
+			              <div class="stat-cards-info" style="background-color: #5AE0FF;"> 
+						              
+						    <c:choose>
+						    	<c:when test="${page.startPage != 1}">
+
+						    		<span style="width: 30px; height: 30px; background-color: rgb(14, 104, 225); color: white; ">
+										<a class="form-btn primary-default-btn transparent-btn" href="${page.startPage - 1}">이전</a>
+									</span>
+						    	</c:when>
+						    	
+								<c:otherwise>
+									<span style="width: 40px; height: 30px; background-color: rgb(14, 104, 225); color: rgb(14, 104, 225);">
+										&nbsp&nbsp&nbsp&nbsp
+									</span>
+									<span style="width: 40px; height: 30px; background-color: rgb(14, 104, 225); color: rgb(14, 104, 225);">
+										
+									</span>
+								</c:otherwise>
+						    </c:choose>          
+						              				              
+						              
+						              
+						              
+							<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+								
+								<c:if test="${page.currentPage != i and i <= page.lastPage}">
+								
+									<span style="width: 30px; height: 30px; background-color: rgb(14, 104, 225); color: white;">
+										<a href="${i}">${i}</a>
+									</span>
+									
+									<span style="width: 40px; height: 30px; background-color: rgb(14, 104, 225); color: rgb(14, 104, 225);">
+										&nbsp&nbsp&nbsp&nbsp
+									</span>
+								
+								</c:if>
+								
+								<c:if test="${page.currentPage == i and i <= page.lastPage}">
+								
+									<span style="width: 30px; height: 30px; background-color: rgb(14, 104, 225); color: black;">
+										<a>${i}</a>
+									</span>
+									
+									<span style="width: 40px; height: 30px; background-color: rgb(14, 104, 225); color: rgb(14, 104, 225);">
+										&nbsp&nbsp&nbsp&nbsp
+									</span>
+									
+								</c:if>
+								
+							</c:forEach>
+							
+						    <c:choose>
+						    	<c:when test="${page.endPage < page.lastPage}">
+						    		<span style="width: 30px; height: 30px; background-color: rgb(14, 104, 225); color: white;">
+										<a href="${page.endPage + 1}">다음</a> 
+									</span>
+						    	</c:when>
+						    </c:choose> 							
+
+			              </div>
+			            </article>
+			    	</div>
+			    	      
+			    </div>				
+							
+				<br>
 				
-				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-					
-					<c:if test="${page.currentPage != i and i <= page.lastPage}">
-						<a href="${i}">${i}</a> &nbsp
-					</c:if>
-					
-					<c:if test="${page.currentPage == i and i <= page.lastPage}">
-						${i} &nbsp
-					</c:if>
-					
-				</c:forEach>
 				
-				<c:if test="${page.endPage < page.lastPage }"> 
-					<a href="${page.endPage + 1}">다음</a> 
-				</c:if>
+				
+				
+				
+				
+
+				
+
+				
+
            
 			
             

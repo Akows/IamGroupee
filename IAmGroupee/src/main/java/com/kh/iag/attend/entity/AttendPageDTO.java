@@ -22,10 +22,12 @@ public class AttendPageDTO
 		this.cntPerPage = cntPerPage;
 		this.pageBtnCnt = pageBtnCnt;
 		this.totalRow = totalRow;
+		
 		calc(currentPage, cntPerPage, pageBtnCnt, totalRow);
 	}
 	
-	private void calc(int currentPage, int cntPerPage, int pageBtnCnt, int totalRow){
+	private void calc(int currentPage, int cntPerPage, int pageBtnCnt, int totalRow)
+	{
 		
 		this.setEndRow(this.getCurrentPage() * this.getCntPerPage());
 		this.setStartRow(this.getEndRow() - this.getCntPerPage() + 1);

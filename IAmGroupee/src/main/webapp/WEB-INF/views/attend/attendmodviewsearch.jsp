@@ -54,8 +54,8 @@
 	              	
 	              	<input type="button" class="searchBtn" name="search" id="search" value="검색">
               	</div>
-              </form>	
-              
+              </form>
+            
               <table class="posts-table">
                 <thead>
                   <tr class="users-table-info">
@@ -93,7 +93,10 @@
 									
 									<c:otherwise>
 										<span class="badge-pending">
-											${modlist.approve_state}
+											<input type="hidden" name="attend_mod_num" value="${modlist.attend_mod_num}">
+							        		<input type="button" class="rejectBtn" value="요청 반려">	
+										
+											
 										</span>
 									</c:otherwise>
 								</c:choose>

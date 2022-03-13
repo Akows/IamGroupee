@@ -168,11 +168,24 @@ public class attendServiceImpl implements attendService
 			return attendDAO.getAttendStateCnt();
 		}
 		@Override
-		public List<AttendWTDTO> getWorktimeList(AttendPageDTO attendpageDTO) throws Exception 
+		public List<AttendWTDTO> getWorktimeList(AttendPageDTO attendpageDTO, String userNo) throws Exception 
 		{
-			return attendDAO.getWorktimeList(attendpageDTO);
+			return attendDAO.getWorktimeList(attendpageDTO, userNo);
 		}
 		
+		//내 수정요청보기
+		@Override
+		public List<AttendModDTO> getMyModList(AttendModDTO attendModDTO) throws Exception
+		{
+			return attendDAO.getMyModList(attendModDTO);
+		}
+
+		@Override
+		public List<AttendModDTO> getModListSearch(AttendModDTO attendModDTO) throws Exception 
+		{
+			return attendDAO.getModListSearch(attendModDTO);
+		}
+
 	
 	//근태관리 페이지
 		//수정요청 조회
@@ -201,6 +214,8 @@ public class attendServiceImpl implements attendService
 		{
 			attendDAO.approveManageNone(attendModDTO);
 		}
+
+
 
 
 
