@@ -105,7 +105,7 @@
        
         <div style="height: 40px; width: 100%;">
         	<div style="width: 25%; height: 100%; float: left;">
-        		<p style=" color: rgb(94, 94, 94); font-weight: 600; font-size: large; margin-top: 10px; float: left;">${startDate}</p>
+        		<p style=" color: rgb(94, 94, 94); font-weight: 600; font-size: large; margin-top: 10px; float: left;">${stDate}</p>
         		<p style=" color: rgb(94, 94, 94); font-weight: 600; font-size: large; margin-top: 10px; float: left;">&nbsp~&nbsp</p>
         		<p style=" color: rgb(94, 94, 94); font-weight: 600; font-size: large; margin-top: 10px; float: left;" id="currentDate2"></p>
 			</div>

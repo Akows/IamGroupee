@@ -375,8 +375,13 @@ public class LeaveDaoImpl implements LeaveDao {
 	}
 
 	@Override
-	public double getAlvUsedCount(String userNo) throws Exception {
-		return session.selectOne("leave.getAlvUsedCount", userNo);
+	public float getAlvUsedCount(String userNo) throws Exception {
+		String result = session.selectOne("leave.getAlvUsedCount", userNo);
+		if (result == null) {
+			result = "0";
+		}
+		float usedCount = Float.parseFloat(result);
+		return usedCount;
 	}
 
 	@Override
@@ -384,6 +389,14 @@ public class LeaveDaoImpl implements LeaveDao {
 		session.update("leave.updateReduceAlv01");
 		session.update("leave.updateReduceAlv02");
 		session.update("leave.updateReduceAlv03");
+	}
+
+	@Override
+	public void updateAlvUsedCount(String userNo, float alvUsedCount) {
+		Map<String, Object> updateAlvUsedCount = new HashMap<String, Object>();
+		updateAlvUsedCount.put("userNo", userNo);
+		updateAlvUsedCount.put("alvUsedCount", alvUsedCount);
+		session.selectOne("leave.updateAlvUsedCount", updateAlvUsedCount);
 	}	
 	
 }

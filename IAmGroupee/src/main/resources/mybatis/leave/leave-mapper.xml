@@ -46,9 +46,10 @@
   	</insert>
   
     <select id="getThisUser" resultType="user">
-    	SELECT IU.*, D.DEPARTMENT_NAME, P.POSITION_NAME FROM IAG_USER IU
+    	SELECT IU.*, D.DEPARTMENT_NAME, P.POSITION_NAME, J.JOB_NAME FROM IAG_USER IU
     	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
     	JOIN POSITION P ON (IU.POSITION_NO = P.POSITION_NO)
+    	JOIN JOB J ON (IU.JOB_NO = J.JOB_NO)
     	WHERE IU.USER_NO = #{userNo} 
     </select>
   
@@ -66,6 +67,7 @@
    					FROM IAG_USER IU 
 					JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO) 
 					JOIN POSITION P ON (IU.POSITION_NO = P.POSITION_NO)
+    				JOIN JOB J ON (IU.JOB_NO = J.JOB_NO)
 				) U
    			) WHERE RN BETWEEN #{startRow} AND #{endRow}
     </select>
@@ -82,19 +84,21 @@
     </select>
     
     <select id="getAllUsage" resultType="lvList">
-    	SELECT UL.*, L.LV_NAME, IU.NAME, D.DEPARTMENT_NAME FROM LEAVE L
+    	SELECT UL.*, L.LV_NAME, IU.NAME, D.DEPARTMENT_NAME, J.JOB_NAME FROM LEAVE L
     	JOIN USAGE_LV UL ON (L.LV_CODE = UL.LV_CODE)
     	JOIN IAG_USER IU ON (UL.USER_NO = IU.USER_NO)
     	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
+    	JOIN JOB J ON (IU.JOB_NO = J.JOB_NO)
     	WHERE IU.USER_NO = #{userNo} AND UL.LV_END &lt; SYSDATE AND UL.USE_THIS_YEAR = 'Y'
     	ORDER BY UL.LV_END DESC
     </select>
     
     <select id="getWillUsage" resultType="lvList">
-    	SELECT UL.*, L.LV_NAME, IU.NAME, D.DEPARTMENT_NAME FROM LEAVE L
+    	SELECT UL.*, L.LV_NAME, IU.NAME, D.DEPARTMENT_NAME, J.JOB_NAME FROM LEAVE L
     	JOIN USAGE_LV UL ON (L.LV_CODE = UL.LV_CODE)
     	JOIN IAG_USER IU ON (UL.USER_NO = IU.USER_NO)
     	JOIN DEPARTMENT D ON (IU.DEPARTMENT_NO = D.DEPARTMENT_NO)
+    	JOIN JOB J ON (IU.JOB_NO = J.JOB_NO)
     	WHERE IU.USER_NO = #{userNo} AND UL.LV_END &gt; SYSDATE AND UL.USE_THIS_YEAR = 'Y'
     	ORDER BY UL.LV_END DESC
     </select>
@@ -408,12 +412,19 @@
         WHERE LV_CODE = 'ALV_03'
   	</update>
 
-    <select id="getAlvUsedCount" resultType="double">
+    <select id="getAlvUsedCount" parameterType="string" resultType="string">
     	SELECT SUM(REDUCE_ALV) FROM USAGE_LV
     	WHERE USER_NO = #{userNo}
     	AND LV_CODE LIKE 'ALV%'
     	AND USE_THIS_YEAR = 'Y'
+    	AND LV_END &lt; SYSDATE 
     </select>
+  	
+  	<update id="updateAlvUsedCount" parameterType="hashmap">
+        UPDATE IAG_USER
+        SET ALV_USED_COUNT = #{alvUsedCount}
+    	WHERE USER_NO = #{userNo}
+  	</update>
     
     
     
