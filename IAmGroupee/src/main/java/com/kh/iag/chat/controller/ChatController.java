@@ -1,5 +1,8 @@
 package com.kh.iag.chat.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +39,11 @@ public class ChatController {
 	private ChatService service;
 	
 	
-	public List<ChatDto> getChatListById(ChatDto dto) {
+	public List<ChatDto> getChatListById(ChatDto dto) throws Exception {
 		List<ChatDto> chatList = service.selectChatListById(dto);
 		
 		for(ChatDto c : chatList) {
-			int chatTime = Integer.parseInt(c.getChatTime().substring(11, 13));
+			int chatTime = Integer.parseInt(c.getChatTime().substring(11, 13)) + 9;
 			String timeType = "오전";
 			if(chatTime >= 12) {
 				timeType = "오후";
@@ -52,12 +55,12 @@ public class ChatController {
 		return chatList;
 	}
 	
-	public List<ChatDto> getChatListByRecent(ChatDto dto) {
+	public List<ChatDto> getChatListByRecent(ChatDto dto) throws Exception {
 
 		List<ChatDto> chatList = service.selectChatListByRecent(dto);
 		
 		for(ChatDto c : chatList) {
-			int chatTime = Integer.parseInt(c.getChatTime().substring(11, 13));
+			int chatTime = Integer.parseInt(c.getChatTime().substring(11, 13)) + 9;
 			String timeType = "오전";
 			if(chatTime >= 12) {
 				timeType = "오후";
@@ -65,6 +68,7 @@ public class ChatController {
 			}
 			c.setChatTime(c.getChatTime().substring(0, 11) + " " + timeType + " " + chatTime + ":" + c.getChatTime().substring(14, 16));
 		}
+		
 		return chatList;
 	}
 	
@@ -73,7 +77,7 @@ public class ChatController {
 		return result;
 	}
 	
-	public String getTen(ChatDto dto) {
+	public String getTen(ChatDto dto) throws Exception {
 		StringBuffer result = new StringBuffer("");
 		result.append("{\"result\":[");
 		
@@ -87,10 +91,11 @@ public class ChatController {
 			if(i != chatList.size() - 1 ) result.append(",");
 		}
 		result.append("], \"last\":\"" + chatList.get(chatList.size() - 1).getChatId() + "\"}");
+		int readResult = service.readChat(dto);
 		return result.toString();
 	}
 
-	public String getId(ChatDto dto) {
+	public String getId(ChatDto dto) throws Exception {
 		StringBuffer result = new StringBuffer("");
 		result.append("{\"result\":[");
 		
@@ -104,6 +109,7 @@ public class ChatController {
 			if(i != chatList.size() - 1 ) result.append(",");
 		}
 		result.append("], \"last\":\"" + chatList.get(chatList.size() - 1).getChatId() + "\"}");
+		int readResult = service.readChat(dto);
 		return result.toString();
 	}
 	
@@ -138,17 +144,15 @@ public class ChatController {
 	@RequestMapping(value = "/room", method = RequestMethod.GET)
 	public String chat(Model model, @ModelAttribute ChatDto dto) {
 		
-		log.info(dto.toString());
 		model.addAttribute("userValue", dto);
 		
 		return "chat/chatRoom";
 	}
 
-	@RequestMapping(value = "/sendingChat", method = RequestMethod.POST)
+	@RequestMapping(value = "/sendingChat", method = RequestMethod.POST, produces="application/text; charset=utf8")
 	@ResponseBody
 	public String sendingChat(Model model, @ModelAttribute ChatDto dto) {
 		
-		log.info(dto.toString());
 		String fromId = dto.getFromId();
 		String toId = dto.getToId();
 		String chatContent = dto.getChatContent();
@@ -162,11 +166,10 @@ public class ChatController {
 		
 	}
 	
-	@RequestMapping(value = "/callingChat", method = RequestMethod.POST)
+	@RequestMapping(value = "/callingChat", method = RequestMethod.POST, produces="application/text; charset=utf8")
 	@ResponseBody
-	public String callingChat(Model model, @ModelAttribute ChatDto dto) {
+	public String callingChat(Model model, @ModelAttribute ChatDto dto) throws Exception {
 		
-		log.info(dto.toString());
 		String fromId = dto.getFromId();
 		String toId = dto.getToId();
 		String listType = dto.getListType();
@@ -184,6 +187,20 @@ public class ChatController {
 				return "";
 			}
 		}
-		
 	}
+	
+	@RequestMapping(value = "/unreadedChat", method = RequestMethod.POST, produces="application/text; charset=utf8")
+	@ResponseBody
+	public String chatUnreadUpdate(HttpSession session, Model model) {
+
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		String userNo = loginUser.getUserNo();
+		
+		int cntOfUnreadedChat = service.unreadedChat(userNo);
+		model.addAttribute("cntOfUnreadedChat", cntOfUnreadedChat);
+		
+		return cntOfUnreadedChat + "";
+	}
+	
+	
 }

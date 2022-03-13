@@ -13,4 +13,8 @@ public interface ChatDao {
 
 	int insertChatContent(ChatDto dto);
 
+	int readChat(ChatDto dto);
+
+	int unreadedChat(String userNo);
+
 }

@@ -30,4 +30,14 @@ public class ChatDaoImpl implements ChatDao {
 		return sqlSession.insert("chat.insertChatContent", dto);
 	}
 
+	@Override
+	public int readChat(ChatDto dto) {
+		return sqlSession.update("chat.updateChatRead", dto);
+	}
+
+	@Override
+	public int unreadedChat(String userNo) {
+		return sqlSession.selectOne("chat.selectChatUnreaded", userNo);
+	}
+
 }

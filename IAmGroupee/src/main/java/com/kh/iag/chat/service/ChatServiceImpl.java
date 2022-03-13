@@ -30,4 +30,14 @@ public class ChatServiceImpl implements ChatService {
 		return dao.insertChatContent(dto);
 	}
 
+	@Override
+	public int readChat(ChatDto dto) {
+		return dao.readChat(dto);
+	}
+
+	@Override
+	public int unreadedChat(String userNo) {
+		return dao.unreadedChat(userNo);
+	}
+
 }
