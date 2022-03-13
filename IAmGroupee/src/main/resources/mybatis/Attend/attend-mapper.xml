@@ -49,7 +49,7 @@
   <!-- =================================================================== -->			
   
   <!--근태관리 메인페이지 -->
-  		<!-- 임시데이터 삽입 -->
+  		<!-- 당일차 근태 테이블을 생성하는 SQL문-->
   	    <select id="getATseq" resultType="int">
 	 		SELECT SEQ_ATTENDANCE.NEXTVAL
 	 		FROM DUAL
@@ -102,6 +102,7 @@
   		<!-- =================================================================== -->			
   
   		<!-- 메인페이지 정보 출력 -->
+  		<!-- 미승인 수정요청 건수 데이터를 조회하는 SQL문 -->
 	  	<select id="getAttendInfo" parameterType="attendance" resultType="attendance" resultMap="attendrm">
 			SELECT COUNT(ATTEND_NUM) AS "ATTEND_NUM"
 			FROM ATTENDANCE
@@ -109,6 +110,7 @@
 			AND NORMAL_CHECK != '정상근무'
 	 	</select>
 	 	
+	 	<!-- 사용자 이름과 사번 데이터를 조회하는 SQL문 -->
 	 	<select id="getAttendNumandName" parameterType="attendance" resultType="attendance" resultMap="attendrm">
 			SELECT USER_NO, USER_NAME
 			FROM ATTENDANCE
@@ -116,8 +118,7 @@
 			AND USER_NAME = #{user_name}
 	 	</select>
 	 	
-	 	
-	 	<!-- 하루 전 메인페이지 정보 출력 (작동하지않음, 미사용)-->
+	 	<!-- 하루 전 메인페이지 정보를 출력하는 SQL문 (작동하지않음, 미사용)-->
 	 	<select id="getPreAttendInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
 			SELECT *
 			FROM WORKTIME
@@ -125,6 +126,7 @@
 			AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE - 1,'YYYYMMDD')
 	 	</select>
 	 	
+	 	<!-- 미승인 수정요청 건수 데이터를 조회하는 SQL문 -->
 	  	<select id="getAttendModInfo" parameterType="attendancemod" resultType="attendancemod" resultMap="attendmodrm">
 			SELECT COUNT(*) AS ATTEND_MOD_NUM
 			FROM ATTENDANCEMODIFY
@@ -133,6 +135,7 @@
 			AND APPROVE_STATE != '승인됨'
 	  	</select>
 	  	
+	  	<!-- 출퇴근 시간 테이블의 데이터를 조회하는 SQL문 -->
 	  	<select id="getAttendWTInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
 			SELECT 
 			WORKTIME_NUM, 
@@ -147,11 +150,30 @@
 			AND TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	 	</select>
 	 	
+	 	<!-- 총 근무시간 데이터를 조회하는 SQL문 -->
 	 	<select id="getWTTWTInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
 			SELECT 
+			TO_CHAR(ATTEND_DATE,'MM') AS ATTEND_DATE,
 			ROUND(SUM(TOTAL_WORK_TIME) / 3600, 3) AS TOTAL_WORK_TIME
 			FROM WORKTIME
 			WHERE USER_NO = #{user_no}
+			AND 
+			TO_CHAR(ATTEND_DATE,'MM') =
+			CASE 
+			WHEN TO_CHAR(ATTEND_DATE,'MM') = '01' THEN '01'
+			WHEN TO_CHAR(ATTEND_DATE,'MM') = '02' THEN '02'
+			WHEN TO_CHAR(ATTEND_DATE,'MM') = '03' THEN '03'
+			WHEN TO_CHAR(ATTEND_DATE,'MM') = '04' THEN '04'
+			WHEN TO_CHAR(ATTEND_DATE,'MM') = '05' THEN '05'
+			WHEN TO_CHAR(ATTEND_DATE,'MM') = '06' THEN '06'
+			WHEN TO_CHAR(ATTEND_DATE,'MM') = '07' THEN '07'
+			WHEN TO_CHAR(ATTEND_DATE,'MM') = '08' THEN '08'
+			WHEN TO_CHAR(ATTEND_DATE,'MM') = '09' THEN '09'
+			WHEN TO_CHAR(ATTEND_DATE,'MM') = '10' THEN '10'
+			WHEN TO_CHAR(ATTEND_DATE,'MM') = '11' THEN '11'
+			WHEN TO_CHAR(ATTEND_DATE,'MM') = '12' THEN '12'
+			END
+			GROUP BY ATTEND_DATE
 	 	</select>
 	 	
 	  	<!-- =================================================================== -->
@@ -218,7 +240,13 @@
 	   		CASE
 			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) <![CDATA[<]]> 080000 THEN '정상퇴근처리'
 			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) > 080000 THEN '지각퇴근처리'
-			END,
+			END
+	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	  	</update>
+	  	
+	  	<update id="attendprocessOUT2" parameterType="attendancewt">
+	   		UPDATE WORKTIME
+	   		SET 
 	   		TOTAL_WORK_TIME = 
 	   		(
 				SUBSTR(OUT_TIME, 1, 2) * 60 * 60 +
@@ -358,7 +386,28 @@
 			FROM WORKTIME
 			WHERE USER_NO = #{user_no}
 		</select>
-	  	
+		
+		<!-- 일일 근태현황 페이징처리 -->
+		<select id="getAttendStateCnt" resultType="int">
+			SELECT COUNT(WORKTIME_NUM)
+			FROM WORKTIME	
+		</select>
+		
+		<select id="getWorktimeList" resultType="attendancewt">
+			SELECT * 
+			FROM
+			(
+			    SELECT ROWNUM RN, WT.* 
+			    FROM
+			    (
+			        SELECT *
+			        FROM WORKTIME
+			        ORDER BY WORKTIME_NUM
+			    ) WT
+			)
+			WHERE RN BETWEEN #{startRow} AND #{endRow}
+		</select>
+
 	  	<!-- =================================================================== -->
   		<!-- =================================================================== -->
   	

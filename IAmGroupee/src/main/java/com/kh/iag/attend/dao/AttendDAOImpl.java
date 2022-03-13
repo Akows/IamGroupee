@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.iag.attend.entity.AttendDTO;
 import com.kh.iag.attend.entity.AttendModDTO;
+import com.kh.iag.attend.entity.AttendPageDTO;
 import com.kh.iag.attend.entity.AttendWTDTO;
 
 @Repository
@@ -18,8 +19,8 @@ public class AttendDAOImpl implements AttendDAO
 	@Autowired
 	private SqlSession ss;
 	
-	//���°��� ����������
-		//�ӽõ����� ����
+	//메인페이지
+		//근태 테이블 생성
 		@Override
 		public void attendtempdatainsert(AttendDTO attendDTO) 
 		{
@@ -38,7 +39,7 @@ public class AttendDAOImpl implements AttendDAO
 			ss.insert("attend.attendWTtempdatainsert", attendWTDTO);	
 		}
 
-		//���������� ���� ���
+		//메인페이지 정보 출력
 		@Override
 		public List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception 
 		{
@@ -68,15 +69,14 @@ public class AttendDAOImpl implements AttendDAO
 		{
 			return ss.selectList("attend.getAttendWTInfo", attendWTDTO);
 		}
+		
 		@Override
 		public List<AttendWTDTO> getWTTWTInfo(AttendWTDTO attendWTDTO2) throws Exception 
 		{
 			return ss.selectList("attend.getWTTWTInfo", attendWTDTO2);
 		}
 
-		
-	
-		//�����ó��
+		//춭퇴근처리
 		@Override
 		public int getAttendWtSeq() throws Exception 
 		{
@@ -94,6 +94,7 @@ public class AttendDAOImpl implements AttendDAO
 		public void attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) 
 		{
 			ss.update("attend.attendprocessOUT", attendWTDTO);
+			ss.update("attend.attendprocessOUT2", attendWTDTO);
 			ss.update("attend.attendprocessOUTAttend", attendWTDTO);
 			ss.update("attend.attendprocessOUTAttend2", attendWTDTO);
 		}
@@ -111,10 +112,10 @@ public class AttendDAOImpl implements AttendDAO
 		}
 		
 	
-	//������Ȳ ��ȸ������
-		//Ķ����
+	//근태현황 조회페이지
+		//캘린더
 		
-		//������Ȳ ������û
+		//근태수정요청
 		@Override
 		public int getAttendmodSeq() 
 		{
@@ -133,7 +134,7 @@ public class AttendDAOImpl implements AttendDAO
 			ss.update("attend.modfilereq", attendmodDTO);		
 		}
 		
-		//���� ������Ȳ��ȸ	
+		//일일 근태현황조회	
 		@Override
 		public List<AttendDTO> getAllAttendINfo(AttendDTO attendDTO) throws Exception 
 		{
@@ -145,9 +146,21 @@ public class AttendDAOImpl implements AttendDAO
 		{
 			return ss.selectList("attend.getAllAttendWTInfo", attendWTDTO);
 		}
-
-	//���°��� ����������
-		//������û ��ȸ
+		
+		//일일 근태현황조회 페이징
+		@Override
+		public int getAttendStateCnt() throws Exception 
+		{
+			return ss.selectOne("attend.getAttendStateCnt");
+		}
+		@Override
+		public List<AttendWTDTO> getWorktimeList(AttendPageDTO attendpageDTO) throws Exception 
+		{
+			return ss.selectList("attend.getWorktimeList", attendpageDTO);
+		}
+		
+	//근태관리 페이지
+		//수정요청 조회
 		@Override
 		public int getAttendModCnt() throws Exception
 		{
@@ -160,7 +173,7 @@ public class AttendDAOImpl implements AttendDAO
 			return ss.selectList("attend.getModList");
 		}
 	
-		//÷������ ��ȸ-���
+		//첨부파일 조회-출력
 		@Override
 		public List<AttendModDTO> getFile(String searchKey) throws Exception 
 		{
@@ -173,7 +186,7 @@ public class AttendDAOImpl implements AttendDAO
 			return ss.selectOne("attend.downFile", attach_file);
 		}
 
-		//������ûó��
+		//수정요청처리
 		@Override
 		public void approveManageOK(AttendModDTO attendModDTO) throws Exception 
 		{
@@ -187,6 +200,10 @@ public class AttendDAOImpl implements AttendDAO
 		{
 			ss.update("attend.approveManageNone", attendModDTO);						
 		}
+
+
+
+
 
 
 

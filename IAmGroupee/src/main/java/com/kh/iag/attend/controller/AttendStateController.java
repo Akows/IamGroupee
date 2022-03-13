@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.iag.attend.entity.AttendDTO;
+import com.kh.iag.attend.entity.AttendPageDTO;
 import com.kh.iag.attend.entity.AttendWTDTO;
 import com.kh.iag.attend.service.attendService;
 import com.kh.iag.user.entity.UserDto;
@@ -25,9 +27,23 @@ public class AttendStateController
 	@Autowired
 	private attendService service;
 	
-	@GetMapping("attendstate")
-	public String attendState(Model model, HttpServletRequest req) throws Exception
+	@GetMapping(value = {"/attendstate/{page}", "/attendstate"})
+	public String attendState(Model model, HttpServletRequest req, @PathVariable(required = false) String page) throws Exception
 	{
+		if(page == null) 
+		{
+			return "redirect:attendstate/1";
+		}
+		
+		int cntPerPage = 10;
+		int pageBtnCnt = 5; 
+		int totalRow = service.getAttendStateCnt();
+		AttendPageDTO AttendpageDTO = new AttendPageDTO(page, cntPerPage, pageBtnCnt, totalRow);
+		
+		List<AttendWTDTO> attendWTList = service.getWorktimeList(AttendpageDTO);
+		model.addAttribute("list", attendWTList);
+		model.addAttribute("page", AttendpageDTO);
+		
 		AttendDTO attendDTO = new AttendDTO();
 		AttendWTDTO attendWTDTO = new AttendWTDTO();
 		

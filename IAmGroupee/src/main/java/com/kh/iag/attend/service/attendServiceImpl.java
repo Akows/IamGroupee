@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.iag.attend.dao.AttendDAO;
 import com.kh.iag.attend.entity.AttendDTO;
 import com.kh.iag.attend.entity.AttendModDTO;
+import com.kh.iag.attend.entity.AttendPageDTO;
 import com.kh.iag.attend.entity.AttendWTDTO;
 
 @Service
@@ -21,8 +22,8 @@ public class attendServiceImpl implements attendService
 	@Autowired
 	private AttendDAO attendDAO;
 	
-	//���°��� ����������
-		//�ӽõ����� ����
+	//메인페이지
+		//근태 테이블 생성
 		@Override
 		@Transactional
 		public void attendtempdatainsert(AttendDTO attendDTO) throws Exception 
@@ -40,7 +41,7 @@ public class attendServiceImpl implements attendService
 			attendDAO.attendWTtempdatainsert(attendWTDTO);
 		}
 	
-		//���������� ���� ���
+		//메인페이지 정보 출력
 		@Override
 		public List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception 
 		{
@@ -78,7 +79,7 @@ public class attendServiceImpl implements attendService
 		}
 		
 		
-		//�����ó��
+		//춭퇴근처리
 		@Override
 		@Transactional
 		public void attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception 
@@ -109,10 +110,10 @@ public class attendServiceImpl implements attendService
 			attendDAO.attendprocessReOUT(attendWTDTO, req);
 		}
 
-	//������Ȳ ��ȸ������
-		//Ķ����
+	//근태현황 조회페이지
+		//캘린더
 		
-		//������Ȳ ������û
+		//근태수정요청
 		@Override
 		public int attendModify(AttendModDTO attendmodDTO, HttpServletRequest req, MultipartFile mpfile) throws Exception 
 		{
@@ -147,7 +148,7 @@ public class attendServiceImpl implements attendService
 			return attendDAO.getAttendModCnt();
 		}
 		
-		//���� ������Ȳ��ȸ	
+		//일일 근태현황조회	
 		@Override
 		public List<AttendDTO> getAllAttendINfo(AttendDTO attendDTO) throws Exception 
 		{
@@ -159,23 +160,36 @@ public class attendServiceImpl implements attendService
 		{
 			return attendDAO.getAllAttendWTInfo(attendWTDTO);
 		}
+		
+		//일일 근태현황조회 페이징
+		@Override
+		public int getAttendStateCnt() throws Exception 
+		{
+			return attendDAO.getAttendStateCnt();
+		}
+		@Override
+		public List<AttendWTDTO> getWorktimeList(AttendPageDTO attendpageDTO) throws Exception 
+		{
+			return attendDAO.getWorktimeList(attendpageDTO);
+		}
+		
 	
-	//���°��� ����������
-		//������û ��ȸ
+	//근태관리 페이지
+		//수정요청 조회
 		@Override
 		public List<AttendModDTO> getModList() throws Exception 
 		{
 			return attendDAO.getModList();
 		}
 		
-		//÷������ ��ȸ-���
+		//첨부파일 조회-출력
 		@Override
 		public List<AttendModDTO> getFile(String searchKey) throws Exception 
 		{
 			return attendDAO.getFile(searchKey);
 		}
 		
-		//������ûó��
+		//수정요청처리
 		@Override
 		public void approveManageOK(AttendModDTO attendModDTO) throws Exception 
 		{
@@ -187,6 +201,10 @@ public class attendServiceImpl implements attendService
 		{
 			attendDAO.approveManageNone(attendModDTO);
 		}
+
+
+
+
 
 
 

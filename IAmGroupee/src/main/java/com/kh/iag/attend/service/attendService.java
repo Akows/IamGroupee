@@ -8,16 +8,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.iag.attend.entity.AttendDTO;
 import com.kh.iag.attend.entity.AttendModDTO;
+import com.kh.iag.attend.entity.AttendPageDTO;
 import com.kh.iag.attend.entity.AttendWTDTO;
 
 public interface attendService 
 {
-	//���°��� ����������
-		//�ӽõ����� ����
+	//메인페이지
+		//근태 테이블 생성
 		void attendtempdatainsert(AttendDTO attendDTO) throws Exception;
 		void attendWTtempdatainsert(AttendWTDTO attendWTDTO) throws Exception;
 
-		//���������� ���� ���
+		//메인페이지 정보 출력
 		List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception;
 		List<AttendDTO> getAttendNumandName(AttendDTO attendDTO) throws Exception;
 		List<AttendDTO> getPreAttendInfo(AttendDTO attendDTO) throws Exception;
@@ -25,34 +26,39 @@ public interface attendService
 		List<AttendWTDTO> getAttendWTInfo(AttendWTDTO attendWTDTO) throws Exception;
 		List<AttendWTDTO> getWTTWTInfo(AttendWTDTO attendWTDTO2) throws Exception;
 		
-		//�����ó��
+		//춭퇴근처리
 		void attendprocessIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
 		void attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
 		void attendprocessReIN(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
 		void attendprocessReOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) throws Exception;
 
-	
-	//������Ȳ ��ȸ������
-		//Ķ����
+	//근태현황 조회페이지
+		//캘린더
 		
-		//������Ȳ ������û
+		//근태수정요청
 		int attendModify(AttendModDTO attendmodDTO, HttpServletRequest req, MultipartFile file) throws Exception;
 		int getAttendModCnt() throws Exception;
 		
-		//���� ������Ȳ��ȸ	
+		//일일 근태현황조회
 		List<AttendDTO> getAllAttendINfo(AttendDTO attendDTO) throws Exception;
 		List<AttendWTDTO> getAllAttendWTInfo(AttendWTDTO attendWTDTO) throws Exception;
 		
-	//���°��� ����������
-		//������û ��ȸ
+		//일일 근태현황조회 페이징
+		int getAttendStateCnt() throws Exception;
+		List<AttendWTDTO> getWorktimeList(AttendPageDTO attendpageDTO) throws Exception;
+		
+	//근태관리 페이지
+		//수정요청 조회
 		List<AttendModDTO> getModList() throws Exception;
 		
-		//÷������ ��ȸ-���
+		//첨부파일 조회-출력
 		List<AttendModDTO> getFile(String searchKey) throws Exception;
 		
-		//������ûó��
+		//수정요청처리
 		void approveManageOK(AttendModDTO attendModDTO) throws Exception;
 		void approveManageNone(AttendModDTO attendModDTO) throws Exception;
+
+		
 
 
 

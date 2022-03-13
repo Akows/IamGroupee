@@ -47,7 +47,7 @@
 			</span>                		       							       				
 		</form>		
 	
-	<form action="attendmodify" method="post" enctype="multipart/form-data">	
+	<form action="attendmodify" method="post" enctype="multipart/form-data" onsubmit="return check()" name="modform">	
 
 	<div class="row stat-cards">
 		<div class="col-lg-12">
@@ -72,7 +72,7 @@
 			            	<tr>
 			            		<td>
 				                    <label class="users-table__checkbox">
-				                    	<input type="checkbox" name="modify_req_date" value="${wtin.attend_date}">${wtin.attend_date}
+				                    	<input type="checkbox" name="modify_req_date" value="${wtin.attend_date}" id="inputcheck">${wtin.attend_date}
 				                    </label>				                    			            		
 			            		</td>
 			            		<td>${wtin.in_time}</td>
@@ -105,6 +105,29 @@
 		            	</c:forEach>
 		            </tbody>
 	            </table>
+	            
+				<br>
+
+				<c:if test="${page.startPage != 1}"> 
+					<a href="${page.startPage - 1}">이전</a> 
+				</c:if>
+				
+				<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+					
+					<c:if test="${page.currentPage != i and i <= page.lastPage}">
+						<a href="${i}">${i}</a> &nbsp
+					</c:if>
+					
+					<c:if test="${page.currentPage == i and i <= page.lastPage}">
+						${i} &nbsp
+					</c:if>
+					
+				</c:forEach>
+				
+				<c:if test="${page.endPage < page.lastPage }"> 
+					<a href="${page.endPage + 1}">다음</a> 
+				</c:if>
+           
 			
             
             </div>
@@ -154,6 +177,22 @@
 	let day = today.getDate();
 	
 	document.getElementById("currentDate").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
+
+	<!-- 날짜 선택이 되어있지 않으면 경고문 출력과 submit를 막는 스크립트 -->
+	function check()
+	{
+		if(document.modform.inputcheck.checked)
+		{
+			document.modform.submit();
+		}
+		else
+		{
+			alert('날짜를 선택해주세요.');
+			
+			return false;
+		}
+		  
+	}
 
 	<!-- 체크된 값을 가져와서 ajax로 controller로 넘기는 스크립트 -->
 	<!-- 로직 변경으로 미사용 -->
