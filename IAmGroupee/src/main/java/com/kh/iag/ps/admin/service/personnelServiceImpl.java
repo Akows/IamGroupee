@@ -167,6 +167,22 @@ public class personnelServiceImpl implements personnelService {
 	public int modiJob(jobDto job) throws Exception {
 		return dao.modiJob(job);
 	}
+
+	@Override
+	public List<departmentDto> deptManageList() throws Exception {
+		return dao.deptManageList();
+	}
+
+	@Override
+	public int getMaxLevel(List<departmentDto> deptList) throws Exception {
+		int level = 0;
+		for(departmentDto dto : deptList) {
+			if(dto.getLevel() > level) {
+				level = dto.getLevel();
+			}
+		}
+		return level;
+	}
 	
 
 }

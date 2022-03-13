@@ -108,4 +108,9 @@ public class personnelDaoImpl implements personnelDao {
 		return ss.update("ps.modiJob", job);
 	}
 
+	@Override
+	public List<departmentDto> deptManageList() throws Exception {
+		return ss.selectList("ps.deptManageList");
+	}
+
 }
