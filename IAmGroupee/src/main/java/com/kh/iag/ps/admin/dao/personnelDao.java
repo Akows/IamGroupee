@@ -45,4 +45,6 @@ public interface personnelDao {
 	int modiPosi(positionDto posi) throws Exception;
 
 	int modiJob(jobDto job) throws Exception;
+
+	List<departmentDto> deptManageList() throws Exception;
 }

@@ -45,4 +45,8 @@ public interface personnelService {
 
 	int modiJob(jobDto job) throws Exception;
 
+	List<departmentDto> deptManageList() throws Exception;
+
+	int getMaxLevel(List<departmentDto> deptList) throws Exception;
+
 }

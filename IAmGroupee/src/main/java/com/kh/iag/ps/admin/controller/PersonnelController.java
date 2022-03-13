@@ -56,8 +56,10 @@ public class PersonnelController {
 //	부서 관리
 	@GetMapping("/deptmanage")
 	public String deptmanage(Model model) throws Exception{
-		List<departmentDto> deptList = service.deptList();
+		List<departmentDto> deptList = service.deptManageList();
+		int maxLevel = service.getMaxLevel(deptList);	
 		model.addAttribute("deptList", deptList);
+		model.addAttribute("maxLevel", maxLevel);
 		return "ps/deptmanage";
 	}
 	
