@@ -90,6 +90,16 @@ public class ResvDaoImpl implements ResvDao {
 		return ss.selectOne("resv.getResvCnt",userNo);
 	}
 
+	@Override
+	public int getRoomResvNo(int roomNo) throws Exception {
+		return ss.selectOne("resv.getRoomResvNo", roomNo);
+	}
+
+	@Override
+	public int getAssetResvNo(int assetNo) throws Exception {
+		return ss.selectOne("resv.getAssetResvNo", assetNo);
+	}
+
 	
 
 	

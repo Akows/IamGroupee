@@ -152,7 +152,7 @@
 				, R.RETURN_YN
 				, R.DELETE_YN
 			FROM RESERVATION R
-			LEFT OUTER JOIN MEETING_ROOM M ON (R.ROOM_NO = M.ROOM_NO)
+			JOIN MEETING_ROOM M ON (R.ROOM_NO = M.ROOM_NO)
 			WHERE R.USER_NO = #{userNo} AND R.DELETE_YN = 'N'
 			ORDER BY R.RESV_START DESC
   		</select>
@@ -172,7 +172,7 @@
 				, R.RETURN_YN
 				, R.DELETE_YN
 			FROM RESERVATION R
-			LEFT OUTER JOIN ASSET A ON (R.ASSET_NO = A.ASSET_NO)
+			JOIN ASSET A ON (R.ASSET_NO = A.ASSET_NO)
 			WHERE R.USER_NO = #{userNo} AND R.DELETE_YN = 'N'
 			ORDER BY R.RESV_START DESC
   		</select>
@@ -319,6 +319,20 @@
   			FROM RESERVATION
   			WHERE DELETE_YN = 'N'
   			AND USER_NO = #{userNo}
+  		</select>
+  		
+  		<select id="getRoomResvNo" resultType="int">
+  			SELECT RESV_NO
+  			FROM RESERVATION
+  			WHERE DELETE_YN = 'N'
+  			AND ROOM_NO = #{roomNo}
+  		</select>
+  		
+  		<select id="getAssetResvNo" resultType="int">
+  			SELECT RESV_NO
+  			FROM RESERVATION
+  			WHERE DELETE_YN = 'N'
+  			AND ASSET_NO = #{assetNo}
   		</select>
   		
   		

@@ -157,7 +157,7 @@ public class ResvController {
 		model.addAttribute("roomList", roomList);
 		model.addAttribute("assetList", assetList);
 		
-		//캘린더에 표시될 전체 예약현황
+		//전체 예약현황
 		List<ResvDto> allRoomResvList = service.getAllRoomResvList();
 		List<ResvDto> allAssetResvList = service.getAllAssetResvList();
 		
@@ -173,24 +173,36 @@ public class ResvController {
 	}
 	
 	//자산별 예약조회
-	@ResponseBody
-	@PostMapping(value = "resvAsset?{resvNo}")
-	public String searchResv(Model model, @PathVariable int resvNo) throws Exception{
+	@GetMapping(value = "resvAsset/r")
+	public String searchRoomResv(Model model, HttpServletRequest req) throws Exception{
 		
-		//캘린더에 표시될 전체 예약현황
-		List<ResvDto> selectRoomResvList = service.getSelectRoomResvList(resvNo);
-		List<ResvDto> selectAssetResvList = service.getSelectAssetResvList(resvNo);
-		
-		if(selectRoomResvList != null) {
-			model.addAttribute("allRoomResvList", selectRoomResvList);
-		}
-		if(selectAssetResvList != null) {
-			model.addAttribute("allAssetResvList", selectAssetResvList);
-		}
-		
-		return "";
-		
-		
+//		String no = req.getParameter(no);
+//		int roomNo = Integer.parseInt(no);
+//		int resvNo = service.getRoomResvNo(roomNo);
+//		System.out.println(resvNo);
+//		//회의실별 예약현황
+//		List<ResvDto> allRoomResvList = service.getSelectRoomResvList(resvNo);
+//		
+//		try {
+//			model.addAttribute("allRoomResvList", allRoomResvList);
+//		} catch (Exception e) {
+//	
+//		}
+		return "redirect:resv/resvAsset";
 	}
+	
+	@PostMapping(value = "resvAsset/a{assetNo}")
+	public String searchAssetResv(Model model, @PathVariable int assetNo) throws Exception{
+		
+		int resvNo = service.getAssetResvNo(assetNo);
+		
+		//비품별 전체 예약현황
+		List<ResvDto> allAssetResvList = service.getSelectAssetResvList(resvNo);
+		
+		if(allAssetResvList != null) {
+			model.addAttribute("selectAssetResvList", allAssetResvList);
+		}
+		return "resv/resvAsset";
+}
 
 }

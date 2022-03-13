@@ -1,41 +1,36 @@
 package com.kh.iag.prj.controller;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.iag.prj.entity.PrjDto;
-import com.kh.iag.user.entity.UserDto;
+import com.kh.iag.prj.service.PrjService;
 
 @Controller
 @RequestMapping("prj")
 public class PrjController {
 
+	@Autowired
+	private PrjService service;
+	
 	//내프로젝트
 	@GetMapping("prjMain")
-	public String prjMain(HttpServletRequest request, HttpServletResponse response) {
-		UserDto loginUser = (UserDto) request.getSession().getAttribute("loginUser");
-		String cookieKey = loginUser.getUserNo();
-		String cookieValue = Long.toString(loginUser.getJobNo());
-		
-		Cookie cookie = new Cookie(cookieKey, cookieValue);
-		cookie.setPath("/");
-		// 쿠키 삭제
-		cookie.setMaxAge(0);
-
-		response.addCookie(cookie);
+	public String prjMain() {
 		
 		return "prj/prjMain";
 	}
 	
 	//프로젝트 생성
 	@PostMapping("prjMain")
-	public String prjMain(PrjDto prj) {
+	public String prjMain(PrjDto dto) throws Exception {
+
+		System.out.println(dto);
+		
+		//int result = service.createPrj(dto);
+		
 		return "prj/prjMain";
 	}
 	

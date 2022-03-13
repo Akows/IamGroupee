@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.List"%>
+<%@ page import="com.kh.iag.resv.entity.ResvDto"%>
+<%@ page session="true" %>
+<% 
+	List<ResvDto> allRoomResvList = (List<ResvDto>)request.getAttribute("allRoomResvList");	
+	List<ResvDto> allAssetResvList = (List<ResvDto>)request.getAttribute("allAssetResvList");	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,30 +53,32 @@
 				<div class="row">
 				
 					<section class="col-md-3 connectedSortable">
-						<div class="sticky-top mb-3">
-							<button id="" type="button" class="btn btn-block btn-primary">
-								<a href="${root}/resv/resvAsset">전체보기</a>
-							</button><br><br>
+						<button id="" type="button" class="btn btn-block btn-primary">
+							<a href="${root}/resv/resvAsset">전체보기</a>
+						</button><br><br>
 
-							<div class="card">
-								<div class="card-header"><h4 class="card-title">회의실 목록</h4></div>
-								<div class="card-body">
-									<c:forEach items="${roomList}" var="r">
-										<button id="" type="button" class="btn btn-block btn-outline-primary">
-											<a href="${root}/resv/resvAsset?${r.roomNo}">${r.roomName}</a>
-										</button>
-									</c:forEach>
-								</div> <!-- /.card-body -->
+						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title">
+									회의실 목록
+								</h4>
 							</div>
-							<div class="card">
-								<div class="card-header"><h3 class="card-title">자산 목록</h3></div>
-								<div class="card-body">
-									<c:forEach items="${assetList}" var="r">
-										<button id="" type="button" class="btn btn-block btn-outline-primary">
-											<a href="${root}/resv/resvAsset?${r.assetNo}">${r.assetName}</a>
-										</button>
-									</c:forEach>
-								</div>
+							<div class="card-body">
+								<c:forEach items="${roomList}" var="r">
+									<button type="button" onclick="searchRoom();" id="roomName" value="${r.roomName}" class="btn btn-block btn-outline-primary">
+										${r.roomName}
+									</button>
+								</c:forEach>
+							</div> <!-- /.card-body -->
+						</div>
+						<div class="card">
+							<div class="card-header"><h3 class="card-title">자산 목록</h3></div>
+							<div class="card-body">
+								<c:forEach items="${assetList}" var="a">
+									<button type="button" onclick="searchAsset();" id="assetNo" value="${r.assetNo}" class="btn btn-block btn-outline-primary">
+										${a.assetName}
+									</button>
+								</c:forEach>
 							</div>
 						</div>
 					</section><!-- /.col -->
@@ -92,6 +101,23 @@
 	
 	
 	<script>
+		function searchRoom(){
+			var no = document.getElementById("roomName").value;
+			console.log(no);
+			$.ajax({
+					type:"",
+					url:'${root}/resv/resvAsset/r',
+					data:{"no" : no},
+					dataType : "text",
+					error : function(e){
+						alert("선택한 회의실의 예약내역이 존재하지 않습니다.");
+					},
+					complete : function(){
+						window.location.reload();
+					}
+				})
+
+			}
 
 		document.addEventListener('DOMContentLoaded', function() {
 		  var calendarEl = document.getElementById('calendar');
@@ -115,6 +141,28 @@
 				nowIndicator: true, // 현재 시간 마크
 				dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 				locale: 'ko', // 한국어 설정
+
+				events : 
+				[ 
+					<%if (allRoomResvList != null || allAssetResvList != null) {%>
+						<%for (ResvDto r : allRoomResvList) {%>
+							{
+							title : '<%=r.getRoomName()%>',
+							start : '<%=r.getResvStart()%>',
+							end : '<%=r.getResvEnd()%>',
+							color : '#2D82D7'
+							},
+						<%}%>	
+						<%for (ResvDto a : allAssetResvList) {%>
+							{
+							title : '<%=a.getAssetName()%>',
+							start : '<%=a.getResvStart()%>',
+							end : '<%=a.getResvEnd()%>',
+							color : '#28a745'
+							},
+						<%}
+					}%>
+				]
 
 		  });
 		  calendar.render();

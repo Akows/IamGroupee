@@ -35,6 +35,10 @@ public interface ResvDao {
 
 	int getResvCnt(String userNo) throws Exception;
 
+	int getRoomResvNo(int roomNo) throws Exception;;
+
+	int getAssetResvNo(int assetNo) throws Exception;;
+
 	
 
 	
