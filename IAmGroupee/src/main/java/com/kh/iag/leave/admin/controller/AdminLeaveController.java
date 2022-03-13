@@ -41,12 +41,14 @@ public class AdminLeaveController {
 		int totalRow = service.getRowCntAD(); // 디비에 있는 모든 데이터개수
 		
 		PageVo pageVo = new PageVo(page, cntPerPage, pageBtnCnt, totalRow);// 모든 사원의 정보 불러오기
-//		System.out.println(pageVo);
 		allUserList = service.getAllUserAD(pageVo);
-		// 총연차개수 set해주기
+		// 총연차개수 사용 개수 set해주기
 		for (UserDto userDto : allUserList) {
 			int alvTotalCount = userDto.getAlvCount() + userDto.getMlvCount() + userDto.getAlvAddCount();
 			userDto.setAlvTotalCount(alvTotalCount);
+			String userNo = userDto.getUserNo();
+			float alvUsedCount = service.getAlvUsedCount(userNo);
+			service.updateAlvUsedCount(userNo, alvUsedCount);
 		}
 		model.addAttribute("allUserList", allUserList);
 		model.addAttribute("page", pageVo);
@@ -163,7 +165,7 @@ public class AdminLeaveController {
 		return "redirect:/leave/lvInfo";
 	}
 	
-	@GetMapping("alvUrgeAD") // 연차 사용 촉구서
+	@GetMapping("alvUrgeAD") // 연차 사용 촉구서 관리
 	public String alvUrgeAD() {
 		return "leave/lvAdmin/alvUrgeAD";
 	}

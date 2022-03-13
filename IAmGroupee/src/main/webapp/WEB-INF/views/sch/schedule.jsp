@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@page import="java.util.List"%>
+<%@page import="com.kh.iag.leave.entity.LvUsedListDto"%>
 <!DOCTYPE html>
 <html lang="en">
 <head profile="http://www.w3.org/2005/10/profile">
@@ -91,14 +93,14 @@
 		                        <div class="row">
 		                            <div class="col-xs-12">
 		                                <label class="col-xs-4" for="schStart">시작</label>
-		                                <input class="inputModal" type="datetime" name="schStart" id="schStart" />
+		                                <input class="inputModal" type="date" name="schStart" id="schStart" />
 		                            </div>
 		                        </div>
 		                        
 		                        <div class="row">
 		                            <div class="col-xs-12">
 		                                <label class="col-xs-4" for="schEnd">끝</label>
-		                                <input class="inputModal" type="datetime" name="schEnd" id="schEnd" />
+		                                <input class="inputModal" type="date" name="schEnd" id="schEnd" />
 		                            </div>
 		                        </div>
 		                        
@@ -171,6 +173,63 @@
 	<script src='${root}/resources/js/sch/addEvent.js'></script>
 	<script src='${root}/resources/js/sch/editEvent.js'></script>
 	<script src='${root}/resources/js/sch/etcSetting.js'></script>
+	<script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
+            googleCalendarApiKey: 'AIzaSyDYMx36O77hSRC2wnwmpzWJ6M2BJ_F8fek',
+			headerToolbar : { // 헤더에 표시할 툴 바
+				start : 'today',
+				center : 'title',
+				end : 'prev next'
+			},
+			titleFormat : function(date) {
+				return date.date.year + '년 ' + (parseInt(date.date.month) + 1) + '월';
+			},
+			//initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
+			selectable : true, // 달력 일자 드래그 설정가능
+			droppable : true,
+			editable : true,
+            locale: 'ko',
+            eventSources: [
+		         {
+		        	 googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+		         	 className: 'holiday',
+         			 color : '#DD5246'
+		         }],
+		    events : [ 
+    	    	<%List<LvUsedListDto> alvUsedList = (List<LvUsedListDto>)request.getAttribute("alvUsedList");%>
+				<%List<LvUsedListDto> lvUsedList = (List<LvUsedListDto>)request.getAttribute("lvUsedList");%>
+            	<%if (alvUsedList != null || lvUsedList != null) {%>
+           			<%for (LvUsedListDto dto : alvUsedList) {%>
+           				 {
+            				title : '<%=dto.getLvName()%>',
+                			start : '<%=dto.getLvStart()%>',
+               				end : '<%=dto.getLvEnd()%>',
+                			color : '#2D82D7'
+             			 },
+					<%}%>
+	           		<%for (LvUsedListDto dtoo : lvUsedList) {%>
+	           			 {
+	            			title : '<%=dtoo.getLvName()%>',
+	                		start : '<%=dtoo.getLvStart()%>',
+	               			end : '<%=dtoo.getLvEnd()%>',
+	                		color : '#898C8E'
+	             		 },
+					<%}
+				  }%>
+			],
+			eventChange: function(obj) { // 이벤트가 수정되면 발생하는 이벤트
+				console.log(obj);
+			},
+			eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
+				console.log(obj);
+			},
+        });
+        calendar.render();
+      });
+	</script>
 
 </body>
 

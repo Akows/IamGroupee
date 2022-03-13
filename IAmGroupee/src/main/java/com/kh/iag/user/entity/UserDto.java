@@ -15,6 +15,7 @@ public class UserDto {
 	private String positionName;
 	private String departmentName;
 	private long jobNo;
+	private String jobName;
 	private String pwd;	
 	private String name;	
 	private String residentNo;	
@@ -27,10 +28,11 @@ public class UserDto {
 	private String profile;	
 	private int alvCount;	
 	private int mlvCount;	
-	private double alvUsedCount;	
-	private double alvLeftCount;	
+	private float alvUsedCount;	
+	private float alvLeftCount;	
 	private int alvAddCount;	
 	private int alvTotalCount;	
+	private int alvOccurCount;
 	private String personnelRight;	
 	private String paymentRight;	
 	private String leaveRight;	
@@ -40,7 +42,6 @@ public class UserDto {
 	private String salaryRight;	
 	private String sessionKey;	
 	private Timestamp sessionLimit;	
-	private int alvOccurCount;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date alvOccurDate;
 	private String alvOccurReason;

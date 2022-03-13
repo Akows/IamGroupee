@@ -130,7 +130,8 @@
                   </a>
                   <ul class="cat-sub-menu">
                       <li>
-                          <a href="${root}/sch/schRegi">일정 등록</a>
+                          <%-- <a href="${root}/sch/schRegi">일정 등록</a> --%>
+                          <a href="${root}/sch/mySch2">일정 등록</a>
                       </li>
                       <li>
                           <a href="${root}/sch/mySch">내 캘린더</a>

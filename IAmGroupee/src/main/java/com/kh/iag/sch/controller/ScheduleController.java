@@ -43,7 +43,11 @@ public class ScheduleController {
 	// 내 캘린더 보여주기
 	@GetMapping("mySch")
 	public String mySch() {
-		return "sch/mySch";
+		return "sch/enrollSch";
+	}
+	@GetMapping("mySch2")
+	public String mySch2() {
+		return "sch/mySch2";
 	}
 	
 	// 캘린더 예제 페이지

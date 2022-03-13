@@ -232,14 +232,19 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 
 	@Override // 로그인 유저의 사용한 연차의 개수
-	public double getAlvUsedCount(String userNo) throws Exception {
+	public float getAlvUsedCount(String userNo) throws Exception {
 		return dao.getAlvUsedCount(userNo);
 	}
 
 	@Override // 사용내역에 updateReduceAlv하기
 	public void updateReduceAlv() throws Exception {
-		dao.updateReduceAlv ();
+		dao.updateReduceAlv();
 		
+	}
+
+	@Override // 유저 테이블에 updateAlvUsedCount하기
+	public void updateAlvUsedCount(String userNo, float alvUsedCount) throws Exception {
+		dao.updateAlvUsedCount(userNo, alvUsedCount);
 	}
 
 }

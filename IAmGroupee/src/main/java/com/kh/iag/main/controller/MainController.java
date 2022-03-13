@@ -1,10 +1,9 @@
 package com.kh.iag.main.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -13,12 +12,16 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.kh.iag.leave.entity.LvUsedListDto;
 import com.kh.iag.leave.service.LeaveService;
 import com.kh.iag.login.service.LoginService;
 import com.kh.iag.login.vo.CheckedVo;
+import com.kh.iag.resv.entity.ResvDto;
+import com.kh.iag.resv.service.ResvService;
 import com.kh.iag.user.entity.UserDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +34,8 @@ public class MainController {
 	private LoginService service;
 	@Autowired
 	private LeaveService leaveService;
+	@Autowired
+	private ResvService resvService;
 	
 	// 로그인 화면
 	@GetMapping("login")
@@ -180,9 +185,64 @@ public class MainController {
 	
 	// 메인으로
 	@GetMapping("main")
-	public String main() throws Exception {
-
+	public String main(HttpSession session, Model model) throws Exception {
+//========================================================
+//=========================연차관련=========================
+//========================================================
+		List<UserDto> allUserList = new ArrayList<UserDto>();
+		for (UserDto userDto : allUserList) {
+			String userNo = userDto.getUserNo();
+			float alvUsedCount = leaveService.getAlvUsedCount(userNo);
+			leaveService.updateAlvUsedCount(userNo, alvUsedCount);
+		}
 		leaveService.updateReduceAlv();
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		String userNo = loginUser.getUserNo();
+		
+		// 로그인한 사용자의 연차사용내역
+		List<LvUsedListDto> alvUsedList = leaveService.getAlvListCalen(userNo);
+		if (alvUsedList != null) {
+			
+			for (LvUsedListDto al : alvUsedList) {
+				if(al.getLvCode().equals("ALV_01")) {
+					al.setReduceAlv(1);
+				} else if (al.getLvCode().equals("ALV_02")) {
+					al.setReduceAlv((float) 0.5);
+				} else if (al.getLvCode().equals("ALV_03")) {
+					al.setReduceAlv((float) 0.25);
+				}
+				String start = String.valueOf(al.getLvStart());
+				String end =  String.valueOf(al.getLvEnd());
+				al.setDuring(start + " ~ " + end);
+			}
+			model.addAttribute("alvUsedList", alvUsedList);
+		}
+		
+		// 로그인한 사용자의 휴가사용내역
+		List<LvUsedListDto> lvUsedList =  leaveService.getLvListCalen(userNo);
+		if (lvUsedList != null) {
+			for (LvUsedListDto al : lvUsedList) {
+				String start = String.valueOf(al.getLvStart());
+				String end =  String.valueOf(al.getLvEnd());
+				al.setDuring(start + " ~ " + end);
+			}
+			model.addAttribute("lvUsedList", lvUsedList);
+		}
+//========================================================
+//=========================예약관련=========================
+//========================================================
+
+		List<ResvDto> myRoomResvList = resvService.getMyRoomResvList(userNo);
+		List<ResvDto> myAssetResvList = resvService.getMyAssetResvList(userNo);
+		if(myRoomResvList != null) {
+			model.addAttribute("myRoomResvList", myRoomResvList);
+		}
+		if(myAssetResvList != null) {
+			model.addAttribute("myAssetResvList", myAssetResvList);
+		}
+		
+		
+		
 		return "mainPage";
 	}
 	

@@ -1,10 +1,11 @@
 package com.kh.iag.leave.controller;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.HashMap;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -36,8 +37,14 @@ public class LeaveController {
 	
 	@GetMapping("leaveMain")  // 연차 메인
 	public String leaveMain(HttpSession session, Model model) throws Exception {	
-		UserDto loginUser = (UserDto) session.getAttribute("loginUser");		
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");	
 		String userNo = loginUser.getUserNo();
+		Map<String, Object> duringDate = calDuringDate(userNo);
+		String startDate = (String) duringDate.get("startDate");
+		String endDate = (String) duringDate.get("endDate");
+		
+		String during = startDate + "~" + endDate;
+		String stDate = during.split("~")[0];
 //		상단바
 		UserDto allUsedAlv = service.getThisUser(userNo);
 		// 총연차개수 set해주기
@@ -46,9 +53,9 @@ public class LeaveController {
 		// 사용내역에 updateReduceAlv하기
 			service.updateReduceAlv();
 			
-		// 사용연차개수 set해주기
-			double alvUsedCount = service.getAlvUsedCount(userNo);
-			allUsedAlv.setAlvUsedCount(alvUsedCount);
+		// 사용연차개수 update해주기
+			float alvUsedCount = service.getAlvUsedCount(userNo);
+			service.updateAlvUsedCount(userNo, alvUsedCount);
 		
 			
 //		사용내역
@@ -87,11 +94,13 @@ public class LeaveController {
 //		발생내역
 		List<AlvOccurHistoryDto> lvHistoryList = service.getOccurHistory(userNo);
 
+		model.addAttribute("stDate", stDate);
 		model.addAttribute("allUsedAlv", allUsedAlv);
 		model.addAttribute("allUseList", allUseList);
 		model.addAttribute("allUsedAlvList", allUsedAlv);
 		model.addAttribute("allUsedList", allUsedList);
 		model.addAttribute("lvHistoryList", lvHistoryList);
+		model.addAttribute("during",during);
 		
 		return "leave/leaveMain";
 	}
@@ -256,6 +265,79 @@ public class LeaveController {
 	}
 
 	
+	@GetMapping("alvUrge") // 연차 사용 촉구서
+	public String alvUrge(HttpSession session, Model model) throws Exception {
+		Map<String, Object> duringDate = new HashMap<String, Object>();
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		System.out.println(loginUser.toString());
+		String userNo = loginUser.getUserNo();
+		UserDto user = service.getThisUser(userNo);
+		int alvTotalCount = user.getAlvCount() + user.getMlvCount() + user.getAlvAddCount();
+		user.setAlvTotalCount(alvTotalCount);	
+		
+		duringDate = calDuringDate(userNo);
+		String startDate = (String) duringDate.get("startDate");
+		String endDate = (String) duringDate.get("endDate");
+		
+		String during = startDate + "~" + endDate;
+		
+		model.addAttribute("during",during);
+		model.addAttribute("loginUser",loginUser);
+		
+		return "leave/alvUrge";
+	}
 	
-	
+	public Map<String, Object> calDuringDate(String userNo) throws Exception { 
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd");
+		Calendar today = Calendar.getInstance(); 
+		UserDto user = service.getThisUser(userNo);
+		Map<String, Object> duringDate = new HashMap<String, Object>();
+		String startDate = "";
+		String endDate = "";
+		
+		// 현재날짜의 년월일
+		String todayDate = format.format(today.getTime()); // 오늘 날짜"yyyy-MM-dd"
+		String todayMonthDate = todayDate.split("-")[1] + "-" + todayDate.split("-")[2]; // 현재날짜의 월일"MM-dd"
+		
+		// 입사일의 월일
+		String enrollDate = String.valueOf(format.format(user.getEnrollDate()));// 입사 날짜"yyyy-MM-dd"
+		String enrollMonthDate = enrollDate.split("-")[1] + "-" + enrollDate.split("-")[2]; // 입사 월일"MM-dd"
+		
+		Date toMonthDate = dateFormat.parse(todayMonthDate);
+		Date enMonthDate = dateFormat.parse(enrollMonthDate);
+		
+		String claDate = todayDate.split("-")[0] + "-" + enrollMonthDate;
+		
+		int compare = toMonthDate.compareTo(enMonthDate);
+		
+		if (compare < 0) {
+			startDate = AddDate(claDate, -1, 0, 0);
+			endDate = AddDate(claDate, 0, 0, -1);
+		} else if (compare > 0) {
+			startDate = todayDate.split("-")[0] + "-" + enrollMonthDate;
+			endDate = AddDate(claDate, 0, 0, -1);
+			endDate = AddDate(claDate, 1, 0, 0);
+		} else {
+			startDate = AddDate(claDate, -1, 0, 0);
+			endDate = AddDate(claDate, 0, 0, -1);
+		}
+		
+		duringDate.put("startDate", startDate);
+		duringDate.put("endDate", endDate);
+		
+		return duringDate;
+	}	
+
+	// 1씩 증가/감소하는 날짜 (리터타입 : String)
+	public String AddDate(String strDate, int year, int month, int day) throws Exception { 
+		SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		Calendar cal = Calendar.getInstance(); 
+		Date dt = dtFormat.parse(strDate); 
+		cal.setTime(dt); 
+		cal.add(Calendar.YEAR, year); 
+		cal.add(Calendar.MONTH, month); 
+		cal.add(Calendar.DATE, day); 
+		return dtFormat.format(cal.getTime()); 
+	}
 }

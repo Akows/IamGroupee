@@ -95,9 +95,11 @@ public interface LeaveDao {
 
 	List<LvUsedListDto> getWillUsage(String userNo) throws Exception;
 
-	double getAlvUsedCount(String userNo) throws Exception;
+	float getAlvUsedCount(String userNo) throws Exception;
 
 	void updateReduceAlv() throws Exception;
+
+	void updateAlvUsedCount(String userNo, float alvUsedCount);
 
 
 }
