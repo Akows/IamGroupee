@@ -45,6 +45,7 @@ public class UserDto {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date alvOccurDate;
 	private String alvOccurReason;
+	private String alvUrgeDate;
 }
 
 

@@ -1,12 +1,14 @@
 package com.kh.iag.sch.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.iag.sch.dao.ScheduleDao;
+import com.kh.iag.sch.entity.SchDto;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -14,14 +16,29 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Autowired
 	private ScheduleDao dao;
 	
-	@Override
-	public int insert_schedule(HashMap<String, Object> m) throws Exception {
+	@Override // 일정 db에 등록
+	public void enrollSchedule(SchDto schDto) throws Exception {
+		dao.enrollSchedule(schDto);
+	}
 
-		HashMap<String, Object> map = new HashMap<String, Object>();
+	@Override // 개인일정
+	public List<SchDto> getPersonalList(String userNo) throws Exception {
+		return dao.getPersonalList(userNo);
+	}
 
-		map.put("m", m);
+	@Override // 부서일정
+	public List<SchDto> getDeptList(String userNo) throws Exception {
+		return dao.getDeptList(userNo);
+	}
 
-		return dao.insert_schedule(map);
+	@Override // 전사일정
+	public List<SchDto> getCorpList(String userNo) throws Exception {
+		return dao.getCorpList(userNo);
+	}
+
+	@Override // 일정수정
+	public void modifySch(SchDto modSchDto) throws Exception {
+		dao.modifySch(modSchDto);
 	}
 
 }

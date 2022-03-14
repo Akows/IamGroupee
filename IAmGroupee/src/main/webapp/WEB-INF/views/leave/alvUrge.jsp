@@ -59,7 +59,7 @@
 	                    
 	                    <tr>
 	                      <td class="table-active">생년월일</td>
-	                      <td style="width: 27.5%;">주민번호 앞자리</td>
+	                      <td style="width: 27.5%;">${loginUser.residentNo}</td>
 	                      <td class="table-active">이메일</td>
 	                      <td>${loginUser.email}</td>
 	                    </tr>

@@ -3,23 +3,44 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="schedule">
+<mapper namespace="sch">
 	
-	<select id="showSchedule" resultType ="sch">
-   		SELECT
-   			SCH_TITLE,SCH_START,SCH_END,SCH_WITH,SCH_CONTENT
-   		FROM
-   			CALENDAR
-   		ORDER BY
-   			SCH_NUM
-   		DESC
+   	<insert id="enrollSchedule" parameterType="sch">
+    	INSERT INTO ENROLL_SCHEDULE
+    	VALUES
+    		(
+    			SEQ_ENROLL_SCHEDULE.NEXTVAL,
+    			#{userNo},
+    			#{schTitle},
+    			#{schStart},
+    			#{schEnd},
+    			#{schType},
+    			#{schContent}
+    		)
+   	</insert>
+   	
+   	<select id="getPersonalList" resultType="sch">
+   		 SELECT * FROM ENROLL_SCHEDULE
+   		 WHERE SCH_TYPE = 'sch-common' AND USER_NO = #{useNo}
    	</select>
    	
-   	<insert id="insert_schedule" parameterType="sch">
-    	INSERT INTO
-    		CALENDAR(USER_NO,SCH_ALLDAY,SCH_TITLE,SCH_START,SCH_END,SCH_TYPE,SCH_COLOR,SCH_CONTENT)
-    	VALUES
-    		(#{m.userNo},#{m.schAllDay},#{m.schTitle},#{m.schStart},#{m.schEnd},#{m.schType},#{m.schColor},#{m.schContent})
-   	</insert>
+   	<select id="getDeptList" resultType="sch">
+   		 SELECT * FROM ENROLL_SCHEDULE
+   		 WHERE SCH_TYPE = 'sch-dept' AND USER_NO = #{useNo}
+   	</select>
+   	
+   	<select id="getCorpList" resultType="sch">
+   		 SELECT * FROM ENROLL_SCHEDULE
+   		 WHERE SCH_TYPE = 'sch-all' AND USER_NO = #{useNo}
+   	</select>
+	
+	<update id="modifySch" parameterType="sch">
+		UPDATE ENROLL_SCHEDULE SET
+    	SCH_TITLE = #{schTitle},
+    	SCH_START = #{schStart},
+    	SCH_END = #{schEnd},
+    	SCH_CONTENT = #{schContent}
+    	WHERE SCH_NUM = #{schNum}
+	</update>
 	
 </mapper>
