@@ -25,23 +25,22 @@
 </head>
 
 <body>
-	<div class="card card-primary card-outline card-tabs">
+	<div class="card card-primary card-outline card-tabs" style="margin-top: 18% !important;width: 70%; margin: auto;">
 		<div class="card-body" style="height: 100%;">
 			<div id="letter"
 				style="margin-bottom: 15px; height: 10%; margin-top: -5px;">
 				<h4 style="color: rgb(94, 94, 94); font-weight: 600;">일정 등록</h4>
 			</div>
-			<form>
+			<form id="enrollSch">
 				<div style="width: 100%;">
 					<table>
 						<tr>
 							<td style="width: 30%;">일정명</td>
-							<td style="width: 70% s;"><input type="text" name="schTitle"
-								id="schTitle" required="required" /></td>
+							<td style="width: 70% s;"><input type="text" name="schTitle" id="schTitle" required="required" /></td>
 						</tr>
 
 						<tr>
-							<td>시작일</td>
+							<td>등록 일자</td>
 							<td>
 								<div class="form-group">
 									<div class="input-group">
@@ -50,8 +49,7 @@
 												class="far fa-calendar-alt"></i>
 											</span>
 										</div>
-										<input type="text" class="form-control float-right"
-											id="reservation">
+										<input type="text" class="form-control float-right" name="schEnroll" id="reservation">
 									</div>
 								</div>
 							</td>
@@ -72,21 +70,56 @@
 						</tr>
 					</table>
 					<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary" id="save-event">저장</button>
+					<button type="button" class="btn btn-primary" id="save-event" onclick="enrollSch();">저장</button>
 				</div>
 		</form>
 	</div>
 	</div>
 </body>
 	<script type="text/javascript">
-    $(function () {
-
-        $('#reservation').daterangepicker();
+    	$(function () {
+      	  	$('#reservation').daterangepicker();
     	    //Date picker
     	    $('#reservationdate').datetimepicker({
     	        format: 'L'
     	    });
-    	  })
+    	    moment.locale('ko'); //언어를 한국어로 설정함!
+    	    $('#reservation').daterangepicker(
+    	      {
+    	        timePicker: false,
+    	        timePicker24Hour: true,
+    	        timePickerSeconds: true,
+    	        singleDatePicker: false,
+    	        locale :{ 
+    	          format: 'YYYY-MM-DD',
+    	          separator: '~',
+    	          applyLabel: "적용",
+    	          cancelLabel: "닫기"
+    	        },
+    	      });
+    	  });
+
+    	    function enrollSch(){
+    	        var schTitle = $("#schTitle").val();
+    	        var schEnroll = $("#reservation").val();
+    	        var schType = $("#schType").val();
+    	        var schContent = $("#schContent").val();
+
+    	        $.ajax({
+    	            cache : false,
+    	            url : "${root}/sch/mySch",
+    	            type : 'POST', 
+                    data: {schTitle, schEnroll, schType, schContent},
+                    dataType: 'text',
+    	            success : function(data) {
+        	            window.location.reload();
+        	            window.parent.location.reload();
+    	            },
+    	            error : function(xhr, status) {
+    	                alert(xhr + " : " + status);
+    	            }
+    	        });
+    	    }
      </script>
 <script src="${root}/resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="${root}/resources/plugins/chart.js/Chart.min.js"></script>

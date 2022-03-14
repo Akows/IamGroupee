@@ -120,21 +120,26 @@
             </ul>
             
             <ul class="sidebar-body-menu">
-              <li>
+            <li>
                   <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
-                      <span class="icon document" aria-hidden="true"></span>일정
+                      <span class="icon paper" aria-hidden="true"></span>연차
                       <span class="category__btn transparent-btn" title="Open list">
                           <span class="sr-only">Open list</span>
                           <span class="icon arrow-down" aria-hidden="true"></span>
                       </span>
                   </a>
-                  <ul class="cat-sub-menu">
+                  <ul class="cat-sub-menu" style="font-size: 20px; important!">
                       <li>
-                          <%-- <a href="${root}/sch/schRegi">일정 등록</a> --%>
-                          <a href="${root}/sch/mySch2">일정 등록</a>
+                          <a href="${root}/leave/leaveMain">연차 메인</a>
                       </li>
                       <li>
-                          <a href="${root}/sch/mySch">내 캘린더</a>
+                          <a href="${root}/leave/AllLvUsedList">연차 및 휴무 사용대장</a>
+                      </li>
+                      <li>
+                          <a href="${root}/leave/lvInfo">휴무 정보</a>
+                      </li>
+                      <li>
+                          <a href="${root}/leave/alvCal">연차 정산</a>
                       </li>
                   </ul>
               </li>
@@ -174,24 +179,15 @@
               </li>
               <li>
                   <a class="show-cat-btn" href="##" style="font-size: 17px; font-weight: bolder;">
-                      <span class="icon paper" aria-hidden="true"></span>연차
+                      <span class="icon document" aria-hidden="true"></span>일정
                       <span class="category__btn transparent-btn" title="Open list">
                           <span class="sr-only">Open list</span>
                           <span class="icon arrow-down" aria-hidden="true"></span>
                       </span>
                   </a>
-                  <ul class="cat-sub-menu" style="font-size: 20px; important!">
+                  <ul class="cat-sub-menu">
                       <li>
-                          <a href="${root}/leave/leaveMain">연차 메인</a>
-                      </li>
-                      <li>
-                          <a href="${root}/leave/AllLvUsedList">연차 및 휴무 사용대장</a>
-                      </li>
-                      <li>
-                          <a href="${root}/leave/lvInfo">휴무 정보</a>
-                      </li>
-                      <li>
-                          <a href="${root}/leave/alvCal">연차 정산</a>
+                          <a href="${root}/sch/mySch">내 캘린더</a>
                       </li>
                   </ul>
               </li>

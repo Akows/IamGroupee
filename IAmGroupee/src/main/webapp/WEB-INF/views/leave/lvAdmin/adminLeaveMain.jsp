@@ -176,7 +176,7 @@
 										</div>
 										<div class="modal-body">
 											<input type="number" class="alvOccurCount"
-												name="alvOccurCount"><br> <input type="text"
+												name="alvOccurCount"><br><br> <input type="text"
 												class="alvOccurReason" name="alvOccurReason"
 												placeholder="사유를 입력해주세요.">
 										</div>
@@ -297,6 +297,7 @@
 	        // 호출 정상일 시 실행되는 메서드
 	        request.done(function( data ) {
 	            console.log(data);
+  	            alert( "조정연차가 추가되었습니다.");
 	            close_pop();
 	            window.location.reload();
 	        });
@@ -314,12 +315,8 @@
 	});
 
 </script>
-	<script type="module"
-		src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-	<script nomodule
-		src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
-
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 
 </html>

@@ -1,5 +1,6 @@
 package com.kh.iag.main.controller;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +23,8 @@ import com.kh.iag.login.service.LoginService;
 import com.kh.iag.login.vo.CheckedVo;
 import com.kh.iag.resv.entity.ResvDto;
 import com.kh.iag.resv.service.ResvService;
+import com.kh.iag.sch.entity.SchDto;
+import com.kh.iag.sch.service.ScheduleService;
 import com.kh.iag.user.entity.UserDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +39,8 @@ public class MainController {
 	private LeaveService leaveService;
 	@Autowired
 	private ResvService resvService;
+	@Autowired
+	private ScheduleService scheduleService;
 	
 	// 로그인 화면
 	@GetMapping("login")
@@ -240,8 +245,43 @@ public class MainController {
 		if(myAssetResvList != null) {
 			model.addAttribute("myAssetResvList", myAssetResvList);
 		}
+//========================================================
+//=========================일정관련=========================
+//========================================================
 		
-		
+		// DB에 있는 일정 가져오기
+		List<SchDto> personalList = new ArrayList<SchDto>();
+		List<SchDto> deptList = new ArrayList<SchDto>();
+		List<SchDto> corpList = new ArrayList<SchDto>();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		// 개인일정 
+		personalList = scheduleService.getPersonalList(userNo);
+		for (SchDto schDto : personalList) {
+			String start = format.format(schDto.getSchStart());
+			String end = format.format(schDto.getSchEnd());
+			schDto.setSchStartStr(start);
+			schDto.setSchEndStr(end);
+		}
+		// 부서일정 
+		deptList = scheduleService.getDeptList(userNo);
+		for (SchDto schDto : deptList) {
+			String start = format.format(schDto.getSchStart());
+			String end = format.format(schDto.getSchEnd());
+			schDto.setSchStartStr(start);
+			schDto.setSchEndStr(end);
+		}
+		// 전사일정
+		corpList = scheduleService.getCorpList(userNo);
+		for (SchDto schDto : corpList) {
+			String start = format.format(schDto.getSchStart());
+			String end = format.format(schDto.getSchEnd());
+			schDto.setSchStartStr(start);
+			schDto.setSchEndStr(end);
+		}
+
+		model.addAttribute("personalList", personalList);
+		model.addAttribute("deptList", deptList);
+		model.addAttribute("corpList", corpList);
 		
 		return "mainPage";
 	}

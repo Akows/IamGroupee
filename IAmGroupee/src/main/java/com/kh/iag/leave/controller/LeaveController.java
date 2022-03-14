@@ -131,6 +131,7 @@ public class LeaveController {
 		
 		// 로그인한 사용자의 휴가사용내역
 		List<LvUsedListDto> lvUsedList =  service.getLvListCalen(userNo);
+		
 		if (lvUsedList != null) {
 			for (LvUsedListDto al : lvUsedList) {
 				String start = String.valueOf(al.getLvStart());
@@ -269,11 +270,13 @@ public class LeaveController {
 	public String alvUrge(HttpSession session, Model model) throws Exception {
 		Map<String, Object> duringDate = new HashMap<String, Object>();
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
-		System.out.println(loginUser.toString());
 		String userNo = loginUser.getUserNo();
 		UserDto user = service.getThisUser(userNo);
 		int alvTotalCount = user.getAlvCount() + user.getMlvCount() + user.getAlvAddCount();
 		user.setAlvTotalCount(alvTotalCount);	
+		//주민번호 앞자리
+		String birthday = loginUser.getResidentNo().split("-")[0];
+		loginUser.setResidentNo(birthday);
 		
 		duringDate = calDuringDate(userNo);
 		String startDate = (String) duringDate.get("startDate");

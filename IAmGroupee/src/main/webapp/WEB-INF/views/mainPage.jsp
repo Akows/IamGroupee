@@ -4,6 +4,7 @@
 <%@page import="java.util.List"%>
 <%@page import="com.kh.iag.leave.entity.LvUsedListDto"%>
 <%@page import="com.kh.iag.resv.entity.ResvDto"%>
+<%@page import="com.kh.iag.sch.entity.SchDto"%>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="en">
@@ -15,47 +16,17 @@
 <style type="text/css">
 #calendar .fc-day-sun {color: red;}
 #calendar .fc-day-sat {color: blue;}
-#fc-dom-1{
-    font-size: 1.5em;
-}
-#calendar .fc-header-toolbar{
-margin-top: -15px !important;
-margin-bottom: 5px !important;
-padding: 5px;
-margin: 0;
-}
-#calendar .fc-next-button, #calendar .fc-prev-button {
-width: 45px !important;
-height: 35px !important;
-}
-#calendar .fc-today-button{
-width: 55px !important;
-height: 35px !important;
-}
-.fc .fc-button {
-padding: 0px !important;
-}
-.test, .attendShortCut{
-width: 32.3%;
-float: left;
-padding: 20px;
-}
-.test{
-margin-right: 20px;
-}
-.allCalendar{
-height: 550px !important;
-}
-.announceBoard{
-padding: 0px !important;
-margin-right: 5px;
-}
-.first{
-height: 90% !important;
-}
-.second{
-margin-top: -10px !important;
-}
+#fc-dom-1{font-size: 1.5em;}
+#calendar .fc-header-toolbar{margin-top: -15px !important;margin-bottom: 5px !important;padding: 5px;margin: 0;}
+#calendar .fc-next-button, #calendar .fc-prev-button {width: 45px !important;height: 35px !important;}
+#calendar .fc-today-button{width: 55px !important;height: 35px !important;}
+.fc .fc-button {padding: 0px !important;}
+.attendShortCut{width: 41%;float: left;padding: 20px;}
+.test{margin-right: 21px;width: 57.5%;float: left;padding: 20px;}
+.allCalendar{height: 550px !important;}
+.announceBoard{padding: 0px !important;width: 99.5%;}
+.first{height: 90% !important;}
+.second{margin-top: -10px !important;}
 </style>
 <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
 <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
@@ -72,21 +43,6 @@ margin-top: -10px !important;
 			<div class="row stat-cards">
 				<div class="col-md-6 col-xl-12">
 				  <div class="first">
-					<article class="stat-cards-item test">
-						<div class="stat-cards-info">
-							<p class="stat-cards-info__num">무엇을 넣어야할까</p>
-							<pre>
-
-
-
-
-
-
-                  
-                           </pre>
-						</div>
-					</article>
-					
 					<article class="stat-cards-item test">
 						<div class="stat-cards-info">
 							<p class="stat-cards-info__num">무엇을 넣어야할까</p>
@@ -121,7 +77,7 @@ margin-top: -10px !important;
 			</div>	
 			
 			<div class="row stat-cards second">
-				<div class="col-md-6 col-xl-8">
+				<div class="col-md-6 col-xl-7">
 					<article class="stat-cards-item announceBoard">
 						<div class="stat-cards-info">
 							<p class="stat-cards-info__num">공지 게시판</p>
@@ -138,7 +94,7 @@ margin-top: -10px !important;
 					</article>
 				</div>
 				
-				<div class="col-md-6 col-xl-4">
+				<div class="col-md-6 col-xl-5">
 					<article class="stat-cards-item allCalendar" style="padding: 0px;">
 						<div id='calendar' style="width: 90%; text-align: center; margin: auto;"></div>
 					</article>
@@ -216,6 +172,36 @@ margin-top: -10px !important;
 	             		 },
 					<%}
 				  }%>
+				  <%List<SchDto> personalList = (List<SchDto>) request.getAttribute("personalList");%>
+					<%List<SchDto> deptList = (List<SchDto>) request.getAttribute("deptList");%>
+					<%List<SchDto> corpList = (List<SchDto>) request.getAttribute("corpList");%>
+	            	<%if (personalList != null || deptList != null || corpList != null) {%>
+	           			<%for (SchDto dto : personalList) {%>
+	           				 {
+	            				title : '<%=dto.getSchTitle()%>',
+	                			start : '<%=dto.getSchStartStr()%>',
+	               				end : '<%=dto.getSchEndStr()%>',
+	                			color : '#0581B6'
+	             			 },
+						<%}%>
+						<%for (SchDto dtoo : deptList) {%>
+		      				 {
+		            			title : '<%=dtoo.getSchTitle()%>',
+		                		start : '<%=dtoo.getSchStartStr()%>',
+		               			end : '<%=dtoo.getSchEndStr()%>',
+		           				color : '#0581B6'
+		        			 },
+						<%}%>
+		           		<%for (SchDto dtooo : corpList) {%>
+	          				 {
+		            			title : '<%=dtooo.getSchTitle()%>',
+		                		start : '<%=dtooo.getSchStartStr()%>',
+		               			end : '<%=dtooo.getSchEndStr()%>',
+	               				color : '#0581B6'
+	            			 },
+						<%}
+					}%>
+				  
 			]
         });
         calendar.render();
