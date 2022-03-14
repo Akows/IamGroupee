@@ -65,6 +65,7 @@
 		                    <th>출근시간</th>
 		                    <th>퇴근시간</th>
 		                    <th>정상근무여부</th>
+		                    <th>수정요청</th>
 		            	</tr>
 		            </thead>
 		       		<tbody>
@@ -99,7 +100,12 @@
 			            			<c:otherwise>
 			            				<td>근무정보없음</td>
 			            			</c:otherwise>
-			            		</c:choose>	
+			            		</c:choose>
+			            		
+			            		<td> 
+			            			<input type="hidden" name="attend_mod_num" value="${modlist.attend_mod_num}">			         
+			            			<button class="modreqBtn">요청</button>
+			            		</td>	
 			            				            		
 			            	</tr>
 			            				            	
@@ -183,30 +189,7 @@
         
     <hr>
     
-    <div class="row stat-cards">
-    	<div class="col-md-12 col-xl-6">
-            <article class="stat-cards-item">
-              <div class="stat-cards-info">
-                <p class="stat-cards-info__num">근무상황 수정요청</p>
-                <p class="stat-cards-info__title">천재지변/전산미숙/긴급업무처리 등의 이유로 정상출근 처리를 요청할 경우 사용</p>
-                <p class="stat-cards-info__title">사유서 혹은 진단서 등의 추가 자료가 있으면 반드시 첨부해주세요</p>
-                <p class="stat-cards-info__title">수정요청 시 상단 일일 근태조회 목록에서 수정을 요청할 대상을 체크한 뒤 내용작성하여 요청 바람</p>
-                <hr>
-                
-                	<textarea name="mod_reason" placeholder="내용작성하여 제출" style="width: 400px; height: 200px; resize: none;" required></textarea>
-                
-	                <br>
-	                
-	                <input type="file" name="file" multiple="multiple" accept=".jpg,.png">
-	                
-	                <hr>
-	                
-	                <input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="수정요청">
-                
-              </div>
-            </article>
-    	</div>       
-    </div>
+
     
     </form>    
 
@@ -240,6 +223,48 @@
 		}
 		  
 	}
+	
+	<!-- 수정요청 처리하는 스크립트 -->
+	let modreqbtn = document.getElementsByClassName("modreqBtn");
+	
+	$(modreqbtn).each(function(idx, element)
+	{
+		element.addEventListener('click', modreqbtnclickEventHandler);
+	
+	});
+	
+	function modreqbtnclickEventHandler(e) 
+	{		
+		var url = "http://127.0.0.1:8989/iag/attend/attendModReqForm?attend_mod_num=";
+		let no = e.currentTarget.previousSibling.previousSibling.value;
+		url += no;
+		
+		var name = "수정요청페이지";
+		var specs = "width=500, height=330, scrollbars=yes, menubar=no";
+
+		window.open(url, name, specs);
+    };
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	<!-- 체크된 값을 가져와서 ajax로 controller로 넘기는 스크립트 -->
 	<!-- 로직 변경으로 미사용 -->
