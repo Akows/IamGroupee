@@ -77,7 +77,7 @@
 		                </p>
 		                <hr>
 		                
-		    			<div id="calendar">dd</div>
+		    			<div id="calendar">달력</div>
 		                
 		                <hr>
 		              	</div>

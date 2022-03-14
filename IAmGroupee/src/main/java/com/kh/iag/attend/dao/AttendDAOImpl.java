@@ -24,7 +24,7 @@ public class AttendDAOImpl implements AttendDAO
 	//메인페이지
 		//근태 테이블 생성
 		@Override
-		public void attendtempdatainsert(AttendDTO attendDTO) 
+		public void attendtempdatainsert(AttendDTO attendDTO) throws Exception  
 		{
 			ss.insert("attend.attendtempdatainsert", attendDTO);	
 		}
@@ -36,7 +36,7 @@ public class AttendDAOImpl implements AttendDAO
 		}
 	
 		@Override
-		public void attendWTtempdatainsert(AttendWTDTO attendWTDTO) 
+		public void attendWTtempdatainsert(AttendWTDTO attendWTDTO) throws Exception  
 		{
 			ss.insert("attend.attendWTtempdatainsert", attendWTDTO);	
 		}
@@ -167,11 +167,16 @@ public class AttendDAOImpl implements AttendDAO
 			objectMap.put("startRow", startNum);
 			objectMap.put("endRow", endNum);
 			
+			
 			System.out.println("사번 : " + userNo);			
 			System.out.println("시작 번호 : " + startNum);
 			System.out.println("끝 번호 : " + endNum);
 			
-			return ss.selectList("attend.getWorktimeList", objectMap);
+			List<AttendWTDTO> x = ss.selectList("attend.getWorktimeList", objectMap); 
+			
+			System.out.println("dao >size : " + x.size());
+			
+			return x;
 		}
 		
 		//내 수정요청보기

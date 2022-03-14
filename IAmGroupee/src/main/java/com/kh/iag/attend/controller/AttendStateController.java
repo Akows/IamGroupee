@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.iag.attend.entity.AttendModDTO;
 import com.kh.iag.attend.entity.AttendPageDTO;
 import com.kh.iag.attend.entity.AttendWTDTO;
 import com.kh.iag.attend.service.attendService;
@@ -51,6 +53,11 @@ public class AttendStateController
 	
 		List<AttendWTDTO> attendWTList = service.getWorktimeList(AttendpageDTO, userNo);
 		
+		System.out.println(attendWTList.size());
+		for(AttendWTDTO x : attendWTList) {
+			System.out.println(x);
+		}
+		
 		model.addAttribute("WTInfo", attendWTList);
 		model.addAttribute("page", AttendpageDTO);
 
@@ -58,7 +65,7 @@ public class AttendStateController
 	}
 	
 	@PostMapping("attendstatesearch")
-	public String attendStateSearch(HttpServletRequest req)
+	public String attendStateSearch(Model model, HttpServletRequest req, @RequestParam("date") String date)
 	{
 		AttendWTDTO attendWTDTO = new AttendWTDTO();
 		

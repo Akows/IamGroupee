@@ -34,6 +34,9 @@ public class AttendModifyRejectController
 	@PostMapping("approvemanagenoneprocess")
 	public String approveManageNoneProcess(AttendModDTO attendModDTO) throws Exception
 	{
+		
+		System.out.println(attendModDTO);
+		
 		attendModDTO.setAttend_mod_num(keyNum);
 		
 		service.approveManageNone(attendModDTO);

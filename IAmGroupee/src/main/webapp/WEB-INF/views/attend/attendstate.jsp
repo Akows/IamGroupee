@@ -40,12 +40,13 @@
 		<br>
 		<hr>
 		
-		<form action="attendstatesearch" method="post">
-			<span>
-				<input type="date" name="date"> 		  
-				<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger; width: 150px" value="검색">	     					
-			</span>                		       							       				
-		</form>		
+	<form action="attendstatesearch" method="post">
+
+		<span style="width: 100px; height: 30px;">
+			<input type="hidden" style="font-size: small; width: 150px" value="검색">	
+		</span>
+			 		  			     											       				
+	</form>		
 	
 	<form action="attendmodify" method="post" enctype="multipart/form-data" onsubmit="return check()" name="modform">	
 
@@ -72,7 +73,7 @@
 			            	<tr>
 			            		<td>
 				                    <label class="users-table__checkbox">
-				                    	<input type="checkbox" name="modify_req_date" value="${wtinf.attend_date}" id="inputcheck">${wtinf.attend_date}
+				                    	<input type="radio" name="modify_req_date" value="${wtinf.attend_date}" id="inputcheck">${wtinf.attend_date}
 				                    </label>				                    			            		
 			            		</td>
 			            		<td>${wtinf.in_time}</td>
@@ -82,7 +83,7 @@
 			            			<c:when test="${wtinf.workcheck == '정상퇴근처리'}">
 										<td>
 											<div class="badge-active">
-												${wtin.workcheck}
+												${wtinf.workcheck}
 											</div>									
 										</td>
 			            			</c:when>
@@ -90,7 +91,7 @@
 			            			<c:when test="${wtinf.workcheck == '지각퇴근처리'}">
 										<td>
 											<div class="badge-pending">
-												${wtin.workcheck}
+												${wtinf.workcheck}
 											</div>
 										</td>
 			            			</c:when>
@@ -175,20 +176,7 @@
 			    </div>				
 							
 				<br>
-				
-				
-				
-				
-				
-				
 
-				
-
-				
-
-           
-			
-            
             </div>
           </div>
     </div>

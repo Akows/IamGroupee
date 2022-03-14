@@ -29,11 +29,7 @@
 
 <!-- 메인 메뉴바(좌측 사이드) -->
 <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
-
-<!-- Main -->
-		<%!
-			int a = 0;
-		%>
+<% int a = 1; %>
 
 <main class="main users chart-page" id="skip-target">
 	<div class="container">
@@ -50,13 +46,11 @@
 		
 		<!-- ===================================================================================================== -->
 		<!-- 근태 테이블 임시 칼럼 생성 -->
-		<c:if test="<%= a == 0 %>">
-			<div class="stat-cards-info" style="height: 40px; width: 130px;">	
-				<form action="attendtempdateinsert" method="get">
-					<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: small;" value="근태테이블생성">
-				</form>
-			</div>			
-		</c:if>
+		<div style="width: 150px; height: 30px;">
+			<form action="attendtempdateinsert" method="get" name="tempinsertForm" onsubmit="return insertTempTable()">
+				<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: small;" value="근태테이블생성" id="tempinsertBtn"/> <!-- onclick="insertTempTable(); this.onclick=''"; -->
+			</form>
+		</div>
 		
 		<br>
 
@@ -210,7 +204,7 @@
 							  <p class="stat-cards-info__title">
 							  	출근시간 : ${wtinfo.in_time}
 							  </p>
-							  <p class="stat-cards-info__title"> <a style="color: red;">출근 시간 경과하여 지각 처리되었습니다.</a> </p>
+							  <p class="stat-cards-info__title"> <a style="color: red;">지각 처리되었습니다.</a> </p>
 							  <p class="stat-cards-info__progress">
 								  <span class="stat-cards-info__profit danger">
 								  	<i data-feather="trending-down" aria-hidden="true"></i>재출근 처리됨
@@ -263,7 +257,7 @@
 							  <p class="stat-cards-info__title">
 							  	근무 종료
 							  </p>
-							  <p class="stat-cards-info__title"> <a style="color: red;">출근 시간 경과하여 지각 처리되었습니다.</a> </p>
+							  <p class="stat-cards-info__title"> <a style="color: red;">지각 처리되었습니다.</a> </p>
 							  <p class="stat-cards-info__progress">
 								  <span class="stat-cards-info__profit danger">
 								  	<i data-feather="trending-down" aria-hidden="true"></i>퇴근 처리됨
@@ -446,7 +440,7 @@
 							        	<fmt:formatNumber value="${208 - wtInfo2.total_work_time}" pattern=".00"/>시간 남음
 							        </p>
 							        <hr>
-							        이 위치에 직선형 그래프 배치하면 좋을듯?
+							        열심히 근무중입니다.
 						    	</div>
 							</article>
 			        	</div>
@@ -481,11 +475,16 @@
 		</c:forEach>
 		
 	</div>
+	
+	<input type="hidden" value="0" id="cnt">
+	
 </main>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 <script type="text/javascript">
+
+
 	let today = new Date();
 	let year = today.getFullYear(); 
 	let month = today.getMonth() + 1
@@ -493,6 +492,62 @@
 
 	document.getElementById("currentDate").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
 	document.getElementById("currentDate2").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
+	
+	<!-- 근태 테이블 임시 칼럼 생성 기능을 1번만 작동하도록 하는 스크립트 (미사용) -->
+	function insertTempTable()
+	{		
+		let cnt = $("#cnt").val();
+				
+		if(cnt > 0)
+		{
+			alert("이미 삽입이 완료되어있습니다.");
+			return false;
+		}
+		else
+		{
+			alert("데이터 삽입이 완료되었습니다.");
+			$("#cnt").val(1);
+			return true;
+		}
+	}
+	
+<!--	
+	
+	if(resultValue == 'null')
+	{
+		insertTempDataform.submit();
+		
+		resultValue = 'notnull';
+		
+		$.ajax
+		({
+	        url : "attendtempdateinsertcheck",
+	        type : 'GET',
+	        data : {'result' : resultValue},
+	        dataType:'text',
+	        success : function()
+	        {
+	            console.log("전달완료");
+	        },
+	        error : function()
+	        {
+	        	console.log("전달실패");
+	        }
+	    });	
+	
+	}
+	else
+	{
+		
+	}	
+	
+	-->
+
+	
+	
+	
+	
+	
 </script>
 
 	<!-- Custom scripts -->

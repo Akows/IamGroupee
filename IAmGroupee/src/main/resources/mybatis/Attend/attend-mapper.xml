@@ -397,20 +397,21 @@
 			FROM WORKTIME	
 		</select>
 		
-		<select id="getWorktimeList" resultType="attendancewt">
+		<select id="getWorktimeList" resultMap="attendwtrm">
 			SELECT * 
 			FROM
 			(
 			    SELECT ROWNUM RN, WT.* 
 			    FROM
 			    (
-			        SELECT 
+			        SELECT
+			        WORKTIME_NUM,
 			        REGEXP_REPLACE(TO_CHAR(ATTEND_DATE,'YYYYMMDD'), '(.{4})(.{2})(.{2})', '\1년 \2월 \3일') AS ATTEND_DATE, 
 			        REGEXP_REPLACE(IN_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS IN_TIME, 
 		            REGEXP_REPLACE(OUT_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS OUT_TIME,
 			        WORKCHECK
 			        FROM WORKTIME
-			        WHERE USER_NO = #{user_no}
+			        WHERE USER_NO = #{userNo}
 			        ORDER BY WORKTIME_NUM
 			    ) WT
 			)

@@ -44,15 +44,15 @@
 		<div class="col-lg-12">
             <div class="users-table table-wrapper">
             
-              <form action="attendModViewSearch" method="post">      
+              <form action="attendmodviewsearch" method="post">      
               	<div>
-	              	<select id="searchvalue">
+	              	<select id="searchvalue" name="searchKey">
 	              		<option value="처리중">처리중</option>
 	              		<option value="승인됨">승인됨</option>
 	              		<option value="반려됨">반려됨</option>
 	              	</select>
 	              	
-	              	<input type="button" class="searchBtn" name="search" id="search" value="검색">
+	              	<input type="submit" class="searchBtn" name="search" id="search" value="검색">
               	</div>
               </form>	
               
@@ -168,7 +168,7 @@
 		url += no;
 		
 		var name = "반려사유보기페이지";
-		var specs = "width=500, height=300, scrollbars=yes, menubar=no";
+		var specs = "width=500, height=330, scrollbars=yes, menubar=no";
 
 		window.open(url, name, specs);
     };
@@ -179,7 +179,7 @@
 	
 	$(searchbtn).each(function(idx, element)
 	{
-		element.addEventListener('click', searchbtnclickEventHandler);
+		//element.addEventListener('click', searchbtnclickEventHandler);
 			
 	});
 			
@@ -193,9 +193,12 @@
 		    url : "attendmodviewsearch",
 	        data : {'searchKey' : value},
 	        dataType : 'text',
-		    success : function()
+		    success : function(data)
 		    {
 		    	console.log("success!");
+		    	$(data).each(function(idx , elem){
+		    		 elem.req_date
+		    	});
 		    },
 		    error : function() 
 		    {

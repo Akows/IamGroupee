@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <title>반려사유 조회페이지</title>
 
   <!-- Favicon -->
@@ -32,9 +33,9 @@
 					</div>
 						<div class="stat-cards-info">
 						<p class="stat-cards-info__num"></p>
-						<p class="stat-cards-info__title">신청자 : ${Rreason.user_name}</p>
-						<p class="stat-cards-info__title">신청일 : ${Rreason.req_date}</p>
-						<p class="stat-cards-info__title">수정요청일자 : ${Rreason.modify_req_date}</p>
+						<p class="stat-cards-info__title"> <b style="color: black;"> 신청자 : </b> ${Rreason.user_name}</p>
+						<p class="stat-cards-info__title"> <b style="color: black;"> 신청일 : </b> ${Rreason.req_date}</p>
+						<p class="stat-cards-info__title"> <b style="color: black;"> 수정요청일자 : </b> ${Rreason.modify_req_date}</p>
 						<p class="stat-cards-info__progress">
 							<hr>
 							<span class="stat-cards-info__profit danger">
@@ -42,16 +43,34 @@
 							</span>
 							<hr>
 						</p>
-						<p class="stat-cards-info__title">반려사유 : <b>${Rreason.reject_reason}</b></p>
+						<p class="stat-cards-info__title"> <b style="color: black;"> 반려사유 :  </b> <b>${Rreason.reject_reason}</b></p>
 					</div>
 				</article>
 			</div>
+			
+			<br>
+			
+			<input type="button" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="확인" onclick="clickEventHandler();">
+			
 		</c:forEach>
 		</div> 
 	</div>
 	
 	<hr>
+	
+	
+	
+<script type="text/javascript">
 
+	function clickEventHandler()
+	{
+		window.close();
+	};
+
+</script>
+
+	<!-- Custom scripts -->
+	<script src="${root}/resources/js/script.js"></script>
 
 </body>
 </html>

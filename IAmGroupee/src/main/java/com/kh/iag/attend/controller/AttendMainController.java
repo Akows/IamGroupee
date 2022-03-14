@@ -1,5 +1,6 @@
 package com.kh.iag.attend.controller;
 
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.iag.attend.entity.AttendDTO;
 import com.kh.iag.attend.entity.AttendModDTO;
@@ -18,8 +21,11 @@ import com.kh.iag.attend.entity.AttendWTDTO;
 import com.kh.iag.attend.service.attendService;
 import com.kh.iag.user.entity.UserDto;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping("attend")
+@Slf4j
 public class AttendMainController 
 {
 	@Autowired
@@ -40,12 +46,20 @@ public class AttendMainController
 		attendDTO.setUser_name(userName);
 		attendWTDTO.setUser_no(userNo);
 
-		service.attendtempdatainsert(attendDTO);
-		service.attendWTtempdatainsert(attendWTDTO);
+		try 
+		{
+			service.attendWTtempdatainsert(attendWTDTO);
+			service.attendtempdatainsert(attendDTO);
+		}
+		catch(Exception e) 
+		{
+			log.error("error");
+		}
+		
 		
 		return "redirect:/attend/attendmain";
 	}
-	
+
 	@GetMapping("attendmain")
 	public String attendMain(Model model, HttpServletRequest req) throws Exception
 	{

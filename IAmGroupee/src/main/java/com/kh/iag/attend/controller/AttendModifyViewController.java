@@ -55,7 +55,11 @@ public class AttendModifyViewController
 		
 		model.addAttribute("atModList", attendModDTOList);
 		
-		return "attend/attendmodviewsearch";
+		for(AttendModDTO x : attendModDTOList) {
+			System.out.println(x);
+		}
+		
+		return "/attend/attendmodview";
 	}
 
 }

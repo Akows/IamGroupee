@@ -19,7 +19,7 @@ public class AttendModifyReqController
 	@Autowired
 	private attendService service;
 	
-	@RequestMapping(value = "/attendmodify", method = RequestMethod.POST)
+	@RequestMapping(value = "attendstate/attendmodify", method = RequestMethod.POST)
 	public String attendModifyReq(AttendModDTO attendmodDTO, HttpServletRequest req, MultipartFile file) throws Exception
 	{
 		UserDto loginUser = (UserDto) req.getSession().getAttribute("loginUser");

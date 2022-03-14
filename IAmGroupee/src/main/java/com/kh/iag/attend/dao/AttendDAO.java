@@ -13,9 +13,9 @@ public interface AttendDAO
 {
 	//메인페이지
 		//근태 테이블 생성
-		void attendtempdatainsert(AttendDTO attendDTO);
+		void attendtempdatainsert(AttendDTO attendDTO) throws Exception ;
 		int getAttendSeq() throws Exception;
-		void attendWTtempdatainsert(AttendWTDTO attendWTDTO);
+		void attendWTtempdatainsert(AttendWTDTO attendWTDTO) throws Exception ;
 	
 		//메인페이지 정보 출력
 		List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception;
