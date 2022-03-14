@@ -185,6 +185,13 @@ public class attendServiceImpl implements attendService
 		{
 			return attendDAO.getModListSearch(attendModDTO);
 		}
+		
+		//반려사유 보기
+		@Override
+		public List<AttendModDTO> getrejectReason(String attend_mod_num) throws Exception 
+		{
+			return attendDAO.getrejectReason(attend_mod_num);
+		}
 
 	
 	//근태관리 페이지
@@ -214,6 +221,7 @@ public class attendServiceImpl implements attendService
 		{
 			attendDAO.approveManageNone(attendModDTO);
 		}
+
 
 
 

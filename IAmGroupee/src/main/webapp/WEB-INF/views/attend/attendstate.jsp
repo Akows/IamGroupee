@@ -108,18 +108,10 @@
 	            
 				<br>
 				
-				<!-- style="background-color: red; border-radius: 20px 20px 20px 20px; width: 100px; height: 25px" -->
-				
-				
-				
-				
-				
-				
 			    <div class="row stat-cards" style="justify-content: center">
 
-			    	
 			    	<div class="col-md-3 col-xl-3">
-			            <article class="stat-cards-item" style="justify-content: center; background-color: #00D7FF;">
+			            <article class="stat-cards-item" style="justify-content: center; background-color: white;">
 			              <div class="stat-cards-info" style="background-color: #5AE0FF;"> 
 						              
 						    <c:choose>
@@ -139,10 +131,7 @@
 									</span>
 								</c:otherwise>
 						    </c:choose>          
-						              				              
-						              
-						              
-						              
+						              				                
 							<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
 								
 								<c:if test="${page.currentPage != i and i <= page.lastPage}">

@@ -93,7 +93,8 @@
 									
 									<c:otherwise>
 										<span class="badge-pending">
-											${modlist.approve_state}
+											<input type="hidden" name="attend_mod_num" value="${modlist.attend_mod_num}">
+											<input type="button" class="rejectReasonBtn" value="${modlist.approve_state}">	
 										</span>
 									</c:otherwise>
 								</c:choose>
@@ -149,6 +150,27 @@
 		window.open(url, name, specs);
 		
 		//document.getElementById('auform').submit(); 
+    };
+    
+	<!-- 반려사유 페이지로 이동하는 스크립트 -->
+	let rejectreasonbtn = document.getElementsByClassName("rejectReasonBtn");
+	
+	$(rejectreasonbtn).each(function(idx, element)
+	{
+		element.addEventListener('click', rejectreasonbtnclickEventHandler);
+	
+	});
+	
+	function rejectreasonbtnclickEventHandler(e) 
+	{		
+		var url = "http://127.0.0.1:8989/iag/attend/rejectreasonview?attend_mod_num=";
+		let no = e.currentTarget.previousSibling.previousSibling.value;
+		url += no;
+		
+		var name = "반려사유보기페이지";
+		var specs = "width=500, height=300, scrollbars=yes, menubar=no";
+
+		window.open(url, name, specs);
     };
 
     

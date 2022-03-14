@@ -51,6 +51,9 @@ public interface attendService
 		List<AttendModDTO> getMyModList(AttendModDTO attendModDTO) throws Exception;
 		List<AttendModDTO> getModListSearch(AttendModDTO attendModDTO) throws Exception;
 		
+		//반려사유 보기
+		List<AttendModDTO> getrejectReason(String attend_mod_num) throws Exception;
+		
 	//근태관리 페이지
 		//수정요청 조회
 		List<AttendModDTO> getModList() throws Exception;
@@ -61,6 +64,7 @@ public interface attendService
 		//수정요청처리
 		void approveManageOK(AttendModDTO attendModDTO) throws Exception;
 		void approveManageNone(AttendModDTO attendModDTO) throws Exception;
+
 
 
 

@@ -434,6 +434,13 @@
 			ORDER BY ATTEND_MOD_NUM
 		</select>
 
+		<!-- 반려사유보기 -->
+		<select id="getrejectReason" resultType="attendancemod" resultMap="attendmodrm">
+			SELECT USER_NAME, TO_CHAR(REQ_DATE,'YYYYMMDD') AS REQ_DATE, TO_CHAR(MODIFY_REQ_DATE,'YYYYMMDD') AS MODIFY_REQ_DATE, REJECT_REASON, APPROVE_STATE
+			FROM ATTENDANCEMODIFY
+			WHERE ATTEND_MOD_NUM = #{attend_mod_num}
+		</select>
+
 	  	<!-- =================================================================== -->
   		<!-- =================================================================== -->
   	

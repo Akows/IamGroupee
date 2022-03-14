@@ -51,7 +51,10 @@ public interface AttendDAO
 		//내 수정요청보기		
 		List<AttendModDTO> getMyModList(AttendModDTO attendModDTO) throws Exception;
 		List<AttendModDTO> getModListSearch(AttendModDTO attendModDTO) throws Exception;
-
+		
+		//반려사유 보기
+		List<AttendModDTO> getrejectReason(String attend_mod_num) throws Exception;
+		
 	//근태관리 페이지
 		//수정요청 조회
 		int getAttendModCnt() throws Exception;
@@ -64,6 +67,7 @@ public interface AttendDAO
 		//수정요청처리
 		void approveManageOK(AttendModDTO attendModDTO) throws Exception;
 		void approveManageNone(AttendModDTO attendModDTO) throws Exception;
+
 
 
 

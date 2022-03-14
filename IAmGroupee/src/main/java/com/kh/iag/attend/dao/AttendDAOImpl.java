@@ -187,6 +187,13 @@ public class AttendDAOImpl implements AttendDAO
 			return ss.selectList("attend.getModListSearch", attendModDTO);
 		}		
 		
+		//반려사유 보기
+		@Override
+		public List<AttendModDTO> getrejectReason(String attend_mod_num) throws Exception 
+		{
+			return ss.selectList("attend.getrejectReason", attend_mod_num);
+		}
+		
 	//근태관리 페이지
 		//수정요청 조회
 		@Override
@@ -228,6 +235,8 @@ public class AttendDAOImpl implements AttendDAO
 		{
 			ss.update("attend.approveManageNone", attendModDTO);						
 		}
+
+
 
 
 
