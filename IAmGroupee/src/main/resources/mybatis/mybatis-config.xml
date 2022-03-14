@@ -39,5 +39,6 @@
 		<typeAlias type="com.kh.iag.ps.admin.entity.jobDto" alias="job"/>
 		<typeAlias type="com.kh.iag.ps.admin.entity.positionDto" alias="posi"/>
 		<typeAlias type="com.kh.iag.ps.admin.entity.UserDto" alias="userDto"/>
+		<typeAlias type="com.kh.iag.mypage.entity.addressBookDto" alias="adbook"/>
 	</typeAliases>
 </configuration>

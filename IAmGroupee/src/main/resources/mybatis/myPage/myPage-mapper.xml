@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="myPage">
+	<select id="getUser" parameterType="userDto" resultType="userDto">
+		SELECT * 
+		FROM IAG_USER U
+		LEFT OUTER JOIN POSITION P ON (U.POSITION_NO = P.POSITION_NO)
+        LEFT OUTER JOIN DEPARTMENT D ON (D.DEPARTMENT_NO = U.DEPARTMENT_NO)
+        LEFT OUTER JOIN JOB J ON (J.JOB_NO = U.JOB_NO)
+		WHERE U.USER_NO = #{userNo}
+	</select>
+
+	<update id="updateUser">
+		UPDATE IAG_USER SET
+		NAME = #{name},
+		RESIDENT_NO = #{residentNo},
+		PHONE = #{phone},
+		EMAIL = #{email},
+		ADDRESS = #{address}
+		<if test="profile != null">
+			,PROFILE = #{profile}
+		</if>
+		<if test="pwd != null">
+			,PWD = #{pwd}
+		</if>
+		WHERE USER_NO = #{userNo}
+	</update>
+	
+	
+</mapper>

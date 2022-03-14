@@ -113,4 +113,29 @@ public class personnelDaoImpl implements personnelDao {
 		return ss.selectList("ps.deptManageList");
 	}
 
+	@Override
+	public int addDept(departmentDto dept) throws Exception {
+		return ss.insert("ps.addDept", dept);
+	}
+
+	@Override
+	public List<UserDto> getUserList() throws Exception {
+		return ss.selectList("ps.userList");
+	}
+
+	@Override
+	public int detpNameModi(departmentDto dept) throws Exception {
+		return ss.update("ps.deptNameModi", dept);
+	}
+
+	@Override
+	public int detpTopModi(departmentDto dept) throws Exception {
+		return ss.update("ps.deptTopModi", dept);
+	}
+
+	@Override
+	public int deptDel(departmentDto dept) throws Exception {
+		return ss.delete("ps.deptDelete", dept);
+	}
+
 }

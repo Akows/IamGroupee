@@ -1,18 +1,7 @@
 @charset "UTF-8";
-
 .back {
 	background-color: white;
 	border: 1px solid black;
-}
-
-.addLink {
-	padding-top : 10px;
-	color: blue;
-}
-
-.addLink:hover {
-	color: blue;
-	cursor: pointer;
 }
 
 .box {
@@ -27,6 +16,10 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.clickUser:hover{
+	cursor: pointer;
 }
 
 .info {

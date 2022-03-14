@@ -47,4 +47,14 @@ public interface personnelDao {
 	int modiJob(jobDto job) throws Exception;
 
 	List<departmentDto> deptManageList() throws Exception;
+
+	int addDept(departmentDto dept) throws Exception;
+
+	List<UserDto> getUserList() throws Exception;
+
+	int detpNameModi(departmentDto dept) throws Exception;
+
+	int detpTopModi(departmentDto dept) throws Exception;
+
+	int deptDel(departmentDto dept) throws Exception;
 }
