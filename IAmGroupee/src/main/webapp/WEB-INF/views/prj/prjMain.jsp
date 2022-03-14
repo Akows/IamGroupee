@@ -48,7 +48,7 @@
 	
 											<div class="form-group">
 												<label>프로젝트 관리자</label>
-												<input readonly class="form-control" name="name" value="${loginUser.name}">
+												<input readonly class="form-control" name="userNo" value="${loginUser.name}">
 											</div>
 											
 											<!-- Date range -->
@@ -89,7 +89,7 @@
 													<label class="custom-control-label" for="customSwitch1">공개</label>
 												</div>
 												<div class="custom-control custom-switch col-md-3">
-													<input type="checkbox" name="activeYn" class="custom-control-input" id="customSwitch2">
+													<input type="checkbox" name="activateYn" class="custom-control-input" id="customSwitch2">
 													<label class="custom-control-label" for="customSwitch2">활성화</label>
 												</div>
 												<div class="col-md-2"></div>
@@ -270,7 +270,18 @@
 			});
 			
 			//Date range picker
-			$('#reservation').daterangepicker()
+			let today = new Date(); 
+			$('#reservation').daterangepicker({
+				minDate: new Date(today),           // 이전시간 예약 불가.
+				locale: {
+					"separator": "~",               // 시작일시와 종료일시 구분자
+					"format": 'YYYY-MM-DD',         // 일시 노출 포맷
+					"applyLabel": "확인",            // 확인 버튼 텍스트
+					"cancelLabel": "취소",           // 취소 버튼 텍스트
+					"daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
+					"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+				}
+			})
 	
 		})
 

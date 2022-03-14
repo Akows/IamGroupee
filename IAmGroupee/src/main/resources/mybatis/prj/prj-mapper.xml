@@ -5,6 +5,11 @@
   
   <mapper namespace="prj">
   
+	<select id="getPrjList" resultType="prj">
+		SELECT * FROM PROJECT
+		WHERE DEPART_NO = #{departNo}
+	</select>  
+  
   	<insert id="createPrj">
   		INSERT INTO PROJECT(
   			  PRJ_NO
@@ -14,6 +19,9 @@
   			, OPEN_YN
   			, ACTIVATE_YN
   			, PERIOD
+  			, CREATE_DATE
+  			, START_DATE
+  			, END_DATE
   		)VALUES(
   			SEQ_PROJECT.NEXTVAL
   			, #{userNo}
@@ -22,7 +30,16 @@
   			, #{openYn}
   			, #{activateYn}
   			, #{period}
+  			, CURRENT_DATE
+  			, TO_DATE(#{startDate}, 'YYYY-MM-DD')
+	  		, TO_DATE(#{endDate}, 'YYYY-MM-DD')
   		)
   	</insert>
+  	
+  	<select id="getUserNo" resultType="string">
+  		SELECT USER_NO
+  		FROM IAG_USER
+  		WHERE NAME = #{name}
+  	</select>
   	
   </mapper>
