@@ -17,7 +17,7 @@
     <div id="chatUsers">
         <div>
             <a href="/iag/chat/users" style="border-right: 1px solid rgb(9, 137, 241);"><i class="fas fa-user-friends"></i></a>
-            <a href="/iag/chat/list" style="border-left: 1px solid rgb(9, 137, 241);"><i class="fab fa-rocketchat"></i></a>
+            <a href="/iag/chat/list" style="border-left: 1px solid rgb(9, 137, 241);"><i class="fab fa-rocketchat"></i>&nbsp;<span id="unread" style="font-size: 12px; color: navy; font-weight: 900;"></span></a>
         </div>
         <div>
         <c:forEach items="${deptValues}" var="dv">
@@ -31,15 +31,7 @@
                     <form action="/iag/chat/room" method="GET">
                         <span>${uv.name} ${uv.positionName}</span>
 
-                        <input type="hidden" name="fromId" value="${loginUserNo}">
                         <input type="hidden" name="toId" value="${uv.userNo}">
-
-                        <input type="hidden" name="name" value="${uv.name}">
-                        <input type="hidden" name="departmentNo" value="${uv.departmentNo}">
-                        <input type="hidden" name="departmentName" value="${uv.departmentName}">
-                        <input type="hidden" name="positionNo" value="${uv.positionNo}">
-                        <input type="hidden" name="positionName" value="${uv.positionName}">
-                        <input type="hidden" name="positionLevel" value="${uv.positionLevel}">
 
                         <input type="submit" value="💙">
                     </form>
@@ -50,5 +42,42 @@
         </c:forEach>
         </div>
     </div>
+
+    <script type="text/javascript">
+
+        // 읽지 않은 채팅수 업데이트
+        function getUnread() {
+            let userNo = '<c:out value="${loginUser.userNo}"/>';
+
+            $.ajax({
+                type: "POST",
+                url: "/iag/chat/unreadedChat",
+                data: {
+                    userNo: userNo
+                },
+                success: function(result) {
+                    if(result >= 1) {
+                        showUnread(result);
+                    } else {
+                        showUnread('');
+                    }
+                }
+            });
+        }
+        function getInfiniteUnread() {
+            setInterval(function() {
+                getUnread();
+            }, 1000);
+        }
+        function showUnread(result) {
+            $('#unread').html(result);
+        }
+
+        $(document).ready(function() {
+            getUnread();
+            getInfiniteUnread();
+        });
+
+    </script>
 </body>
 </html>

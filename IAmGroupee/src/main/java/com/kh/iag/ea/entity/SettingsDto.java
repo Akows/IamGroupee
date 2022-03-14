@@ -12,4 +12,6 @@ public class SettingsDto {
 	private String formatYear;
 	private String formatDept;
 	private String formatForm;
+	
+	
 }

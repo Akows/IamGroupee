@@ -10,6 +10,7 @@ import com.kh.iag.ea.entity.DeptDto;
 import com.kh.iag.ea.entity.DocsDto;
 import com.kh.iag.ea.entity.FormDto;
 import com.kh.iag.ea.entity.ProcessDto;
+import com.kh.iag.ea.entity.SecurityDto;
 import com.kh.iag.ea.entity.SignupDto;
 import com.kh.iag.ps.admin.entity.departmentDto;
 import com.kh.iag.ea.entity.EAUserDto;
@@ -105,6 +106,16 @@ public interface EAService {
 	List<DocsDto> apprListForFilter(String userNo);
 
 	List<DocsDto> refListForFilter(String userNo);
+
+	int updateDocumentStageWhenOne(ProcessDto resultDto);
+
+	int updateDocumentStageWhenFour(ProcessDto resultDto);
+
+	SecurityDto selectSecADetail();
+
+	SecurityDto selectSecBDetail();
+
+	int updateStageName(ProcessDto dto);
 
 	
 }

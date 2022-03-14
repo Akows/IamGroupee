@@ -31,6 +31,7 @@ import com.kh.iag.ea.entity.EAUserDto;
 import com.kh.iag.ea.entity.FormDto;
 import com.kh.iag.ea.entity.PageDto;
 import com.kh.iag.ea.entity.ProcessDto;
+import com.kh.iag.ea.entity.SecurityDto;
 import com.kh.iag.ea.entity.SignupDto;
 import com.kh.iag.ea.service.EAService;
 import com.kh.iag.ps.admin.entity.departmentDto;
@@ -73,6 +74,12 @@ public class EAController {
 		List<DeptDto> deptValues = service.deptValues();
 		model.addAttribute("deptValues", deptValues);
 		
+		// 문서보안등급 안내를 위한 데이터
+		SecurityDto asec = service.selectSecADetail();
+		SecurityDto bsec = service.selectSecBDetail();
+		model.addAttribute("asec", asec);
+		model.addAttribute("bsec", bsec);
+		
 		// 사원 목록 (사원 번호, 이름, 부서(번호,이름), 직급(번호,이름) 데이터 가져오기 - ACTIVITY_YN = 'Y'인 사원만)
 		// 로그인한 사용자를 제외한다.
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
@@ -89,6 +96,12 @@ public class EAController {
 		// 부서 목록 (부서 번호, 부서명)
 		List<DeptDto> deptValues = service.deptValues();
 		model.addAttribute("deptValues", deptValues);
+
+		// 문서보안등급 안내를 위한 데이터
+		SecurityDto asec = service.selectSecADetail();
+		SecurityDto bsec = service.selectSecBDetail();
+		model.addAttribute("asec", asec);
+		model.addAttribute("bsec", bsec);
 		
 		// 사원 목록 (사원 번호, 이름, 부서(번호,이름), 직급(번호,이름) 데이터 가져오기 - ACTIVITY_YN = 'Y'인 사원만)
 		// 로그인한 사용자를 제외한다.
@@ -108,6 +121,12 @@ public class EAController {
 		List<DeptDto> deptValues = service.deptValues();
 		model.addAttribute("deptValues", deptValues);
 
+		// 문서보안등급 안내를 위한 데이터
+		SecurityDto asec = service.selectSecADetail();
+		SecurityDto bsec = service.selectSecBDetail();
+		model.addAttribute("asec", asec);
+		model.addAttribute("bsec", bsec);
+
 		// 사원 목록 (사원 번호, 이름, 부서(번호,이름), 직급(번호,이름) 데이터 가져오기 - ACTIVITY_YN = 'Y'인 사원만)
 		// 로그인한 사용자를 제외한다.
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
@@ -121,8 +140,6 @@ public class EAController {
 	// 기안신청 (처리)
 	@PostMapping(value = "/write")
 	public String write(Model model, HttpSession session, @ModelAttribute SignupDto dto, String leavePeriod) throws Exception {
-		
-		log.info(dto.toString());
 		
 		// 결재선 번호 테이블 인서트(문서번호, 결재선번호)
 		int result1 = service.insertProcessNo(session, dto);
@@ -173,9 +190,11 @@ public class EAController {
 			int result3 = service.insertDocument(dto, pd);
 		}
 		
-		// 참조자 테이블 인서트 
-		if(dto.getReferNo().length > 0) {			
-			int result4 = service.insertRef(dto, pd);
+		// 참조자 테이블 인서트
+		if(dto.getReferNo() != null) {
+			if(dto.getReferNo().length > 0) {			
+				int result4 = service.insertRef(dto, pd);
+			}			
 		}
 		// addAttribute
 		// 문서 정보 문서 테이블
@@ -326,15 +345,13 @@ public class EAController {
 						}
 					}					
 				} 
-			} else if("1".equals(procSeq)) { // 수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정
-//				for(int i = 0; i < signupList.size(); i++) {
-//					for(int j = 0; j < processList.size(); j++) {
-//						if(processList.get(j).getDocNo().equals(signupList.get(i).getDocNo()) && processList.get(j).getProcSeq() != 2 && processList.get(j).getProcSeq() != 3) {
-//							list.add(signupList.get(i));
-//							log.info(signupList.get(i).toString());
-//						}
-//					}					
-//				} 
+			} else if("1".equals(procSeq)) {
+				for(int i = 0; i < signupList.size(); i++) {
+					if(signupList.get(i).getDocStagename().equals("대기")) {
+						list.add(signupList.get(i));
+						log.info(signupList.get(i).toString());
+					}				
+				} 
 			}
 		}
 		
@@ -448,7 +465,7 @@ public class EAController {
 	public int deleteSignupDoc(String docNo) throws Exception {
 		
 		// 이전 doc_sep ='Y'로 변경하는 메소드
-//		int oldVersion = service.deleteSignupDoc(docNo);
+		// int oldVersion = service.deleteSignupDoc(docNo);
 		
 		// ref 테이블 먼저 삭제
 		int result1 = adminService.deleteDocRef(docNo);
@@ -581,26 +598,28 @@ public class EAController {
 				Collections.sort(list, (d1, d2) -> d2.getDocClose().compareTo(d1.getDocClose()));
 		// 결재분류
 		} else if(procSeq != null) {
-//			if("1".equals(procSeq)) { 수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정
-//
-//				for(int i = 0; i < apprList.size(); i++) {
-//					for(int j = 0; j < processListForApprUser.size(); i++) {
-//						if(apprList.get(i).getDocNo().equals(processListForApprUser.get(j)) && processListForApprUser.get(i).getProcSep() != processListForApprUser.get(j).getProcCnt()) {
-//							list.add(apprList.get(i));
-//						}
-//					}
-//				}
-//				
-//			} else {
-//				
-//				for(int i = 0; i < apprList.size(); i++) {
-//					for(int j = 0; j < processListForApprUser.size(); i++) {
-//						if(apprList.get(i).getDocNo().equals(processListForApprUser.get(j)) && processListForApprUser.get(i).getProcSep() == processListForApprUser.get(j).getProcCnt()) {
-//							list.add(apprList.get(i));
-//						}
-//					}
-//				}
-//			}
+			if("1".equals(procSeq)) {
+				for(int i = 0; i < apprList.size(); i++) {
+					for(int j = 0; j < processListForApprUser.size(); j++) {
+						if(apprList.get(i).getDocNo().equals(processListForApprUser.get(j).getDocNo())) {
+							if(processListForApprUser.get(j).getProcSep() != processListForApprUser.get(j).getProcCnt()) {
+								list.add(apprList.get(i));								
+							}
+						}
+					}
+				}
+				
+			} else {
+				for(int i = 0; i < apprList.size(); i++) {
+					for(int j = 0; j < processListForApprUser.size(); j++) {
+						if(apprList.get(i).getDocNo().equals(processListForApprUser.get(j).getDocNo())) {
+							if(processListForApprUser.get(j).getProcSep() == processListForApprUser.get(j).getProcCnt()) {
+								list.add(apprList.get(i));
+							}
+						}
+					}
+				}
+			}
 		}
 		
 		for(DocsDto d : list) {
@@ -671,16 +690,30 @@ public class EAController {
 	public String apprlisApprved(String docNo, @ModelAttribute ProcessDto dto) throws Exception {
 		
 		// 결재선 테이블 업데이트
-		int result = service.updateProcessState(dto);
-		log.info("결재선테이블업데이트::::" + result);
+		int result1 = service.updateProcessState(dto);			
+		if(dto.getProcSeq() == 2 || dto.getProcSeq() == 3) {
+			int result2 = service.updateStageName(dto);
+		}
 		
 		// 결재업데이트한 행 가지고 와서 거기에 있는 procSep이랑 procCnt가 같고, procSeq이 1이거나 4이면 승인완료된 문서로 바꿔야함 DOC_SEP = 'Y'로
 		ProcessDto resultDto = service.checkingLastProcess(dto);
+		
+		// 문서테이블 문서단계 +1 (DEFAULT '1' -> 1차결재할 차례에서 승인일때는 +1 , 전결일때는 procCnt만큼 다 올리기)
+		// 반려나 협의요청일땐 ㄴㄴ
+		if(dto.getProcSeq() != 2 && dto.getProcSeq() != 3) {
+			// +1
+			if(dto.getProcSeq() == 1) {
+				int result3 = service.updateDocumentStageWhenOne(resultDto);
+			// proCnt + 1만큼 올리기
+			} else if(dto.getProcSeq() == 4) {
+				int result4 = service.updateDocumentStageWhenFour(resultDto);
+			}
+		}
+		// 결재업데이트한 행 가지고 와서 거기에 있는 procSep이랑 procCnt가 같고, procSeq이 1이거나 4이면 승인완료된 문서로 바꿔야함 DOC_SEP = 'Y'로
 		if((resultDto.getProcSep() == resultDto.getProcCnt()) || (resultDto.getProcSeq() == 4)) {
 			if(resultDto.getProcSeq() == 1 || resultDto.getProcSeq() == 4) {
 				// EA_DOCUMENT 테이블 문서 승인완료로 돌리기
-				int result1 = service.updateDocumentSep(resultDto);
-				log.info("문서테이블업데이트::::" + result1);
+				int result5 = service.updateDocumentSep(resultDto);
 			}
 		}
 		
@@ -797,15 +830,13 @@ public class EAController {
 						}
 					}					
 				} 
-			} else if("1".equals(procSeq)) { // 수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정수정
-//				for(int i = 0; i < refList.size(); i++) {
-//					for(int j = 0; j < processList.size(); j++) {
-//						if(processList.get(j).getDocNo().equals(refList.get(i).getDocNo()) && processList.get(j).getProcSeq() != 2 && processList.get(j).getProcSeq() != 3) {
-//							list.add(refList.get(i));
-//							log.info(refList.get(i).toString());
-//						}
-//					}					
-//				} 
+			} else if("1".equals(procSeq)) {
+				for(int i = 0; i < refList.size(); i++) {
+					if(refList.get(i).getDocStagename().equals("대기")) {
+						list.add(refList.get(i));
+						log.info(refList.get(i).toString());
+					}				
+				} 
 			}
 		}
 		

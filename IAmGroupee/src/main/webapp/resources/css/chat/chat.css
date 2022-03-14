@@ -130,9 +130,7 @@ body {
   font-size: 14px;
   font-weight: 600;
 }
-#chatList {
-  border-bottom: 2px solid gainsboro;
-}
+/* chatList */
 #chat textarea {
   margin: 5px;
   resize: none;
@@ -145,4 +143,28 @@ body {
   border-radius: 10px;
   border: 1px solid gainsboro;
   cursor: pointer;
+}
+#boxTable > ul {
+  padding: 5px;
+  margin: 0;
+  transition: 0.3s;
+}
+#boxTable > ul:hover {
+  background: darkblue;
+  color: #fff;
+  cursor: pointer;
+}
+#boxTable > ul > li {
+  list-style: none;
+}
+#boxTable > ul > li > span {
+  font-size: 13px;
+  color: darkblue;
+  padding: 5px;
+  border-radius: 50%;
+  float: right;
+  font-weight: 800;
+}
+#boxTable > ul:hover > li > span {
+  color: #fff;
 }

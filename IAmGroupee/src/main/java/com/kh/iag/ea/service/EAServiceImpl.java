@@ -19,6 +19,7 @@ import com.kh.iag.ea.entity.DocsDto;
 import com.kh.iag.ea.entity.FormDto;
 import com.kh.iag.ea.entity.ProcessDto;
 import com.kh.iag.ea.entity.RefDto;
+import com.kh.iag.ea.entity.SecurityDto;
 import com.kh.iag.ea.entity.SettingsDto;
 import com.kh.iag.ea.entity.SignupDto;
 import com.kh.iag.ps.admin.entity.departmentDto;
@@ -411,6 +412,31 @@ public class EAServiceImpl implements EAService {
 	@Override
 	public List<DocsDto> refListForFilter(String userNo) {
 		return dao.refListForFilter(userNo);
+	}
+
+	@Override
+	public int updateDocumentStageWhenOne(ProcessDto resultDto) {
+		return dao.updateDocumentStageWhenOne(resultDto);
+	}
+
+	@Override
+	public int updateDocumentStageWhenFour(ProcessDto resultDto) {
+		return dao.updateDocumentStageWhenFour(resultDto);
+	}
+
+	@Override
+	public SecurityDto selectSecADetail() {
+		return dao.selectSecADetail();
+	}
+
+	@Override
+	public SecurityDto selectSecBDetail() {
+		return dao.selectSecBDetail();
+	}
+
+	@Override
+	public int updateStageName(ProcessDto dto) {
+		return dao.updateStageName(dto);
 	}
 
 }

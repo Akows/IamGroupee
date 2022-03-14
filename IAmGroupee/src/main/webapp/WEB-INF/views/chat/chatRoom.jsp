@@ -9,8 +9,8 @@
 <title>❤︎ iamgroupe messenger ❤︎</title>
 
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chat/chat.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chat/chat.css">
 <script src="https://kit.fontawesome.com/77be500183.js" crossorigin="anonymous"></script>
 
 </head>
@@ -19,7 +19,7 @@
         
         <div>
             <a href="/iag/chat/users" style="border-right: 1px solid rgb(9, 137, 241);"><i class="fas fa-user-friends"></i></a>
-            <a href="/iag/chat/list" style="border-left: 1px solid rgb(9, 137, 241);"><i class="fab fa-rocketchat"></i></a>
+            <a href="/iag/chat/list" style="border-left: 1px solid rgb(9, 137, 241);"><i class="fab fa-rocketchat"></i>&nbsp;<span id="unread" style="font-size: 12px; color: navy; font-weight: 900;"></span></a>
         </div>
         <div>
             [${userValue.departmentName}] ${userValue.name} ${userValue.positionName}
@@ -42,7 +42,7 @@
 
     <script type="text/javascript">
         function submitFunction() {
-            let fromId = '<c:out value="${userValue.fromId}"/>';
+            let fromId = '<c:out value="${loginUser.userNo}"/>';
             let toId = '<c:out value="${userValue.toId}"/>';
             let chatContent = $("#chatContent").val();
             $.ajax({
@@ -71,7 +71,7 @@
     
         let lastId = 0;
         function chatListFunction(type) {
-            let fromId = '<c:out value="${userValue.fromId}"/>';
+            let fromId = '<c:out value="${loginUser.userNo}"/>';
             let toId = '<c:out value="${userValue.toId}"/>';
             $.ajax({
                 type: "POST",
@@ -97,7 +97,7 @@
             });
         }
         function addChat(chatName, chatContent, chatTime) {
-            let fromId = '<c:out value="${userValue.fromId}"/>';
+            let fromId = '<c:out value="${loginUser.userNo}"/>';
             let toId = '<c:out value="${userValue.toId}"/>';
 
             if(chatName == toId) {
@@ -134,9 +134,38 @@
                 chatListFunction(lastId);
             }, 3000);
         }
+        // 읽지 않은 채팅수 업데이트
+        function getUnread() {
+            let userNo = '<c:out value="${loginUser.userNo}"/>';
 
+            $.ajax({
+                type: "POST",
+                url: "/iag/chat/unreadedChat",
+                data: {
+                    userNo: userNo
+                },
+                success: function(result) {
+                    if(result >= 1) {
+                        showUnread(result);
+                    } else {
+                        showUnread('');
+                    }
+                }
+            });
+        }
+        function getInfiniteUnread() {
+            setInterval(function() {
+                getUnread();
+            }, 1000);
+        }
+        function showUnread(result) {
+            $('#unread').html(result);
+        }
+        
         $(document).ready(function() {
-            chatListFunction('ten');
+            getUnread();
+            chatListFunction('0');
+            getInfiniteUnread();
             getInfiniteChat();
         });
     </script>
