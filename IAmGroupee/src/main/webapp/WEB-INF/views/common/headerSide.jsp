@@ -414,6 +414,7 @@
         }
 
         $(document).ready(function() {
+            getUnread();
             getInfiniteUnread();
         });
 

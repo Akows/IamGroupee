@@ -18,6 +18,8 @@ public class DocsDto {
 	private Date docClose;		// 마감일
 	private Date docFinish;		// 승인일
 	private String docSep;		// 문서승인구분
+	private String docStage;	// 문서단계
+	private String docStagename;// 문서단계이름 '대기' '협의' 반려' '승인'
 	
 	// 더 필요할 것 같은 정보 - name, formTitle, 부서, 직급
 	private String name;		// 기안자 이름

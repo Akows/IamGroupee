@@ -13,6 +13,7 @@ import com.kh.iag.ea.entity.DocsDto;
 import com.kh.iag.ea.entity.FormDto;
 import com.kh.iag.ea.entity.ProcessDto;
 import com.kh.iag.ea.entity.RefDto;
+import com.kh.iag.ea.entity.SecurityDto;
 import com.kh.iag.ea.entity.SignupDto;
 import com.kh.iag.ps.admin.entity.departmentDto;
 import com.kh.iag.ea.entity.EAUserDto;
@@ -249,6 +250,31 @@ public class EADaoImpl implements EADao {
 	@Override
 	public List<DocsDto> refListForFilter(String userNo) {
 		return sqlSession.selectList("ea.refListForFilter", userNo);
+	}
+
+	@Override
+	public int updateDocumentStageWhenOne(ProcessDto resultDto) {
+		return sqlSession.update("ea.updateDocumentStageWhenOne", resultDto);
+	}
+
+	@Override
+	public int updateDocumentStageWhenFour(ProcessDto resultDto) {
+		return sqlSession.update("ea.updateDocumentStageWhenFour", resultDto);
+	}
+
+	@Override
+	public SecurityDto selectSecADetail() {
+		return sqlSession.selectOne("ea.selectSecADetail");
+	}
+
+	@Override
+	public SecurityDto selectSecBDetail() {
+		return sqlSession.selectOne("ea.selectSecBDetail");
+	}
+
+	@Override
+	public int updateStageName(ProcessDto dto) {
+		return sqlSession.update("ea.updateStageName", dto);
 	}
 
 

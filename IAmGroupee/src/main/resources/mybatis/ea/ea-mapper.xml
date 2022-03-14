@@ -178,6 +178,19 @@
 		ORDER BY P.POSITION_LEVEL
 	</select>
 	
+	<!-- 문서보안 데이터 A -->
+	<select id="selectSecADetail" resultType="com.kh.iag.ea.entity.SecurityDto">
+		SELECT * FROM EA_SEC_A S
+		JOIN POSITION P ON(P.POSITION_LEVEL = S.SEC_MIN)
+	</select>
+	
+	<!-- 문서보안 데이터 B -->
+	<select id="selectSecBDetail" resultType="com.kh.iag.ea.entity.SecurityDto">
+		SELECT * FROM EA_SEC_B S
+		JOIN POSITION P ON(P.POSITION_LEVEL = S.SEC_MIN)
+	</select>
+	
+	
 	<!-- 기안 신청시 결재선번호 테이블 인서트 -->
 	<insert id="insertProcessNo" parameterType="com.kh.iag.ea.entity.ProcessDto">
 		INSERT INTO EA_PROCESS_NO
@@ -513,7 +526,8 @@
 			DOC_TITLE = #{docTitle},
 			DOC_CONTENT = #{docContent},
 			DOC_MAKE = SYSDATE,
-			DOC_CLOSE = #{docClose}
+			DOC_CLOSE = #{docClose},
+			DOC_STAGENAME = '대기'
 		WHERE DOC_NO = #{docNo}
 	</update>
 	
@@ -524,6 +538,7 @@
 			DOC_TITLE = #{docTitle},
 			DOC_MAKE = SYSDATE,
 			DOC_CLOSE = #{docClose},
+			DOC_STAGENAME = '대기',
 			LV_CODE = #{lvCode},
 			ALV_APPLI = SYSDATE,
 			ALV_START = #{alvStart},
@@ -539,6 +554,7 @@
 			DOC_TITLE = #{docTitle},
 			DOC_MAKE = SYSDATE,
 			DOC_CLOSE = #{docClose},
+			DOC_STAGENAME = '대기',
 			LV_CODE = #{lvCode},
 			LV_APPLI = SYSDATE,
 			LV_START = #{lvStart},
@@ -652,6 +668,19 @@
 		WHERE PROC_NO = ${procNo} AND USER_NO = #{userNo}
 	</update>
 	
+	<!-- 반려/협의일시 EA_DOCUMENT DOC_STAGENAME UPDATE -->
+	<update id="updateStageName" parameterType="com.kh.iag.ea.entity.ProcessDto">
+		UPDATE EA_DOCUMENT
+		SET
+			<if test="procSeq == 2">
+			DOC_STAGENAME = '반려'
+			</if>
+			<if test="procSeq == 3">
+			DOC_STAGENAME = '협의'			
+			</if>			
+		WHERE PROC_NO = ${procNo}
+	</update>
+	
 	<!-- 업데이트한 결재선이 마지막 결재선인지 확인 -->
 	<select id="checkingLastProcess" parameterType="com.kh.iag.ea.entity.ProcessDto" resultType="com.kh.iag.ea.entity.ProcessDto">
 		SELECT * 
@@ -665,9 +694,27 @@
 		UPDATE EA_DOCUMENT
 		SET
 			DOC_FINISH = SYSDATE,
-			DOC_SEP = 'Y'
+			DOC_SEP = 'Y',
+			DOC_STAGENAME = '승인'
 		WHERE PROC_NO = ${procNo}
 	</update>
+	
+	<!-- 결재시 승인(1)이면 EA_DOCUMENT DOC_STAGE +1 -->
+	<update id="updateDocumentStageWhenOne" parameterType="com.kh.iag.ea.entity.ProcessDto">
+		UPDATE EA_DOCUMENT
+		SET
+			DOC_STAGE = DOC_STAGE + 1
+		WHERE PROC_NO = ${procNo}
+	</update>
+	
+	<!-- 결재시 전결(4)이면 EA_DOCUMENT DOC_STAGE EA_PROCESS PROC_CNT + 1 -->
+	<update id="updateDocumentStageWhenFour" parameterType="com.kh.iag.ea.entity.ProcessDto">
+		UPDATE EA_DOCUMENT
+		SET
+			DOC_STAGE = ${procCnt} + 1
+		WHERE PROC_NO = ${procNo}
+	</update>
+	
 
 <!-- 참조 #################################################################################################### -->
 	<!-- 참조문서조회 리스트 로우 개수 조회 -->

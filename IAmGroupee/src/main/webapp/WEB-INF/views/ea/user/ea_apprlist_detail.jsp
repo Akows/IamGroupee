@@ -88,9 +88,16 @@
                     <td><span id="stamp1">상신</span></td>
                     <c:forEach items="${processList}" var="pl" begin="0" step="1" end="${processList[0].procCnt}" varStatus="vs">
                     <c:if test="${(pl.procSeq eq 0) && (loginUserNo eq pl.userNo)}">
+                        <c:if test="${pl.procSep eq docInfo.docStage}">
+                            <td>
+                                <a id="processBtn" onclick="layer_open();">결재처리</a>
+                            </td>
+                        </c:if>
+                        <c:if test="${pl.procSep ne docInfo.docStage}">
                         <td>
-                            <a id="processBtn" onclick="layer_open();">결재처리</a>
+                            <span class="waitApprv">결재대기</span>
                         </td>
+                        </c:if>
                     </c:if>
                     <c:if test="${(pl.procSeq eq 0) && (loginUserNo ne pl.userNo)}">
                         <td>
@@ -158,7 +165,11 @@
             </div>
         </c:if>
         <div>
-            <a href="javascript:reuqestForm.submit()" onclick="return ea_appr_submit();">결재 진행</a>
+            <c:forEach items="${processList}" var="pl">
+            <c:if test="${(pl.procSeq eq 0) && (loginUserNo eq pl.userNo) && (pl.procSep eq docInfo.docStage)}">
+                <a href="javascript:reuqestForm.submit()" onclick="return ea_appr_submit();">결재 진행</a>
+            </c:if>
+            </c:forEach>
             <a href="/iag/ea/apprlist">목록으로</a>
         </div>
       </div>

@@ -86,7 +86,7 @@
                     <td><span id="stamp1">상신</span></td>
                     <c:forEach items="${processList}" var="pl" begin="0" step="1" end="${processList[0].procCnt}" varStatus="vs">
                     <c:if test="${pl.procSeq eq 0}">
-                    <td><span class="waitApprv">결재대기</span></td>                    
+                    <td><span class="waitApprv">전결처리</span></td>                    
                     </c:if>
                     <c:if test="${pl.procSeq eq 1}">
                     <td><span id="stamp2">승인</span></td>
@@ -96,6 +96,9 @@
                     </c:if>
                     <c:if test="${pl.procSeq eq 3}">
                     <td><span id="stamp4">협의</span></td>
+                    </c:if>
+                    <c:if test="${pl.procSeq eq 4}">
+                    <td><span id="stamp5">전결</span></td>
                     </c:if>
                     </c:forEach>
                 </tr>

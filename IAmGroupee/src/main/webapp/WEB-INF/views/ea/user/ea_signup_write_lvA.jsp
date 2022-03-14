@@ -53,9 +53,10 @@
 
             </li>
             <li>
-              <a>🔐&ensp;보안등급 선택</a>
+              <a>🔐&ensp;보안등급 선택
+                <span style="cursor: default;">최종 승인 후 [ S: 관련자만 / A: ${asec.positionName}(${asec.positionLevel}등급) 이상 / B: ${bsec.positionName}(${bsec.positionLevel}등급) 이상 / C: 모든 임직원 ] 열람 가능</span>
+              </a>
               <select name="securityLevel" id="securityLevel" required>
-                <option selected>등급 선택</option>
                 <option value="S">S등급</option>
                 <option value="A">A등급</option>
                 <option value="A">B등급</option>
@@ -66,7 +67,7 @@
               <a>📆&ensp;마감 날짜 선택</a>
 			        	<div class="form-group" style="width:200px; margin:5px;">
                     <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        <input type="text" name="deadlineDate" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                        <input required type="text" name="deadlineDate" class="form-control datetimepicker-input" data-target="#reservationdate"/>
                         <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -85,7 +86,7 @@
 
               <!-- 연차종류 value="ALV_XX" 연차코드 -->
               <p>🏖&ensp;연차 종류</p>
-              <select name="lvCode" onchange="halfBtn(this);">
+              <select name="lvCode" onchange="halfBtn(this);" required>
                 <option value="ALV_01">일차</option>
                 <option value="ALV_02">반차</option>
                 <option value="ALV_03">반반차</option>
@@ -109,7 +110,7 @@
               <p>⏰&ensp;날짜 및 일시</p>
               <div class="form-group" style="width:200px; margin:5px;">
                 <div class="input-group date" id="reservationdate1" data-target-input="nearest">
-                    <input type="text" name="alvStart" class="form-control datetimepicker-input" data-target="#reservationdate1"/>
+                    <input required type="text" name="alvStart" class="form-control datetimepicker-input" data-target="#reservationdate1"/>
                     <div class="input-group-append" data-target="#reservationdate1" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
@@ -118,7 +119,7 @@
 
               <!-- 사유 -->
               <p>😏&ensp;사유</p>
-              <textarea name="alvReason" cols="30" rows="3" placeholder="사유를 입력해주세요."></textarea>
+              <textarea required name="alvReason" cols="30" rows="3" placeholder="사유를 입력해주세요."></textarea>
 
 
             </div>
@@ -225,6 +226,14 @@
 
     function ea_write_submit() {
       if(confirm('작성하신 기안을 신청하시겠습니까?')) {
+        let apprArr = document.getElementsByClassName('hiddenAppr');
+
+        for(let i = 0; i < apprArr.length; i++) {
+          if(apprArr[i].value == "") {
+            alert('결재자를 지정해주세요.');
+            return false;
+          }
+        }
         return true;
       } else {
         return false;

@@ -53,9 +53,10 @@
 
             </li>
             <li>
-              <a>🔐&ensp;보안등급 선택</a>
+              <a>🔐&ensp;보안등급 선택
+                <span style="cursor: default;">최종 승인 후 [ S: 관련자만 / A: ${asec.positionName}(${asec.positionLevel}등급) 이상 / B: ${bsec.positionName}(${bsec.positionLevel}등급) 이상 / C: 모든 임직원 ] 열람 가능</span>
+              </a>
               <select name="securityLevel" id="securityLevel" required>
-                <option selected>등급 선택</option>
                 <option value="S">S등급</option>
                 <option value="A">A등급</option>
                 <option value="A">B등급</option>
@@ -66,7 +67,7 @@
               <a>📆&ensp;마감 날짜 선택</a>
 			        	<div class="form-group" style="width:200px; margin:5px;">
                     <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        <input type="text" name="deadlineDate" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                        <input required type="text" name="deadlineDate" class="form-control datetimepicker-input" data-target="#reservationdate"/>
                         <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -85,7 +86,7 @@
 
               <!-- 연차종류 value="ALV_XX" 연차코드 -->
               <p>🏖&ensp;휴가 종류</p>
-              <select name="lvCode" onchange="halfBtn(this);">
+              <select name="lvCode" onchange="halfBtn(this);" required>
                 <option value="LV_01">병가</option>
                 <option value="LV_02">경조사</option>
                 <option value="LV_03">여름휴가</option>
@@ -117,14 +118,14 @@
                       <i class="far fa-calendar-alt"></i>
                     </span>
                   </div>
-                  <input type="text" name="leavePeriod" class="form-control float-right" id="reservation">
+                  <input required type="text" name="leavePeriod" class="form-control float-right" id="reservation">
                 </div>
                 <!-- /.input group -->
               </div>
 
               <!-- 사유 -->
               <p>😏&ensp;사유</p>
-              <textarea name="lvReason" cols="30" rows="3" placeholder="사유를 입력해주세요."></textarea>
+              <textarea required name="lvReason" cols="30" rows="3" placeholder="사유를 입력해주세요."></textarea>
 
 
             </div>
@@ -232,6 +233,14 @@
 
     function ea_write_submit() {
       if(confirm('작성하신 기안을 신청하시겠습니까?')) {
+        let apprArr = document.getElementsByClassName('hiddenAppr');
+
+        for(let i = 0; i < apprArr.length; i++) {
+          if(apprArr[i].value == "") {
+            alert('결재자를 지정해주세요.');
+            return false;
+          }
+        }
         return true;
       } else {
         return false;
