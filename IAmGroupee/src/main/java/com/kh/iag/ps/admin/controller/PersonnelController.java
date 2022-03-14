@@ -56,10 +56,10 @@ public class PersonnelController {
 //	부서 관리
 	@GetMapping("/deptmanage")
 	public String deptmanage(Model model) throws Exception{
-		List<departmentDto> deptList = service.deptManageList();
-		int maxLevel = service.getMaxLevel(deptList);	
+		List<departmentDto> deptList = service.deptManageList();	
+		List<UserDto> userList = service.getUserList();
 		model.addAttribute("deptList", deptList);
-		model.addAttribute("maxLevel", maxLevel);
+		model.addAttribute("userList", userList);
 		return "ps/deptmanage";
 	}
 	
@@ -177,6 +177,51 @@ public class PersonnelController {
 		}else {
 			return "redirect:/admin/ps/main";
 		}
+	}
+	
+	@GetMapping("/addDept")
+	public String addDept(@ModelAttribute departmentDto dept) throws Exception {
+		int result = service.addDept(dept);
+		if(result>0) {
+			return "redirect:/admin/ps/deptmanage";
+		}else {
+			return "redirect:/admin/ps/main";
+		}
+		
+	}
+	
+	@GetMapping("/deptNameModi")
+	public String deptNameModi(@ModelAttribute departmentDto dept) throws Exception {
+		int result = service.deptNameModi(dept);
+		if(result>0) {
+			return "redirect:/admin/ps/deptmanage";
+		}else {
+			return "redirect:/admin/ps/main";
+		}
+		
+	}
+	
+	@GetMapping("/deptTopModi")
+	public String deptTopModi(@ModelAttribute departmentDto dept) throws Exception {
+		int result = service.deptTopModi(dept);
+		if(result>0) {
+			return "redirect:/admin/ps/deptmanage";
+		}else {
+			return "redirect:/admin/ps/main";
+		}
+		
+	}
+	
+	@GetMapping("/deptDelete")
+	@ResponseBody
+	public String deptDelete(@ModelAttribute departmentDto dept) throws Exception {
+		int result = service.deptDel(dept);
+		if(result>0) {
+			return "true";
+		}else {
+			return "false";
+		}
+		
 	}
 	
 }

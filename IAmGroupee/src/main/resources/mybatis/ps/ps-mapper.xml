@@ -66,6 +66,27 @@
 		)
 	</insert>
 	
+	<insert id="addDept">
+		INSERT INTO 
+		DEPARTMENT
+		(
+			DEPARTMENT_NO,
+			DEPARTMENT_NAME
+			<if test="topDepartment != 0">
+				, TOP_DEPARTMENT
+			</if>
+			
+		)
+		VALUES
+		(
+			SEQ_DEPARTMENT.NEXTVAL,
+			#{departmentName}
+			<if test="topDepartment != 0">
+				, #{topDepartment}
+			</if>
+		)
+	</insert>
+	
 	<select id="position" resultType="posi">
 		SELECT * FROM POSITION
 	</select>
@@ -112,7 +133,7 @@
 		WHERE USER_NO = #{userNo}
 	</select>
 	
-	<select id="getUserList" resultType="userDto">
+	<select id="getUserList" parameterType="userDto" resultType="userDto">
 		SELECT * FROM(
 			SELECT ROWNUM RN, A.* 
 			FROM
@@ -129,6 +150,15 @@
 				ORDER BY U.ENROLL_DATE
 			) A
 		) WHERE RN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<select id="userList" parameterType="userDto" resultType="userDto">
+		SELECT * 
+		FROM IAG_USER U
+		LEFT OUTER JOIN POSITION P ON (U.POSITION_NO = P.POSITION_NO)
+        LEFT OUTER JOIN DEPARTMENT D ON (D.DEPARTMENT_NO = U.DEPARTMENT_NO)
+        LEFT OUTER JOIN JOB J ON (J.JOB_NO = U.JOB_NO) 
+        WHERE END_DATE IS NULL
 	</select>
 	
 	<select id="deptManageList" resultType="dept">
@@ -181,6 +211,27 @@
 		WHERE USER_NO = #{userNo}
 	</update>
 	
+	<update id="deptNameModi">
+		UPDATE DEPARTMENT 
+		SET 
+		DEPARTMENT_NAME = #{departmentName} 
+		WHERE 
+		DEPARTMENT_NO = #{departmentNo}
+	</update>
+	
+	<update id="deptTopModi">
+		UPDATE DEPARTMENT 
+		SET 
+		<if test="topDepartment != 0">
+			TOP_DEPARTMENT = #{topDepartment}
+		</if>
+		<if test="topDepartment == 0">
+			TOP_DEPARTMENT = NULL
+		</if>
+		WHERE 
+		DEPARTMENT_NO = #{departmentNo}
+	</update>
+	
 	<delete id="deleteJob">
 		DELETE FROM JOB
 		WHERE JOB_NO = #{jobNo}
@@ -189,6 +240,11 @@
 	<delete id="deletePosi">
 		DELETE FROM POSITION
 		WHERE POSITION_NO = #{posiNo}
+	</delete>
+	
+	<delete id="deptDelete">
+		DELETE FROM DEPARTMENT 
+		WHERE DEPARTMENT_NO = #{departmentNo}
 	</delete>
 	
 	<insert id="addJob">
