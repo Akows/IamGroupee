@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +19,15 @@ public class AttendModifyReqController
 {
 	@Autowired
 	private attendService service;
+	
+	@RequestMapping(value = "attendModReqForm", method = RequestMethod.GET)
+	public String attendModReqForm(AttendModDTO attendmodDTO, HttpServletRequest req, Model model) throws Exception
+	{
+		String keyVaule = req.getParameter("attend_date");
+		
+		return "attend/attendModReqForm";
+	}
+
 	
 	@RequestMapping(value = "attendstate/attendmodify", method = RequestMethod.POST)
 	public String attendModifyReq(AttendModDTO attendmodDTO, HttpServletRequest req, MultipartFile file) throws Exception

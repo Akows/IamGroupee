@@ -103,7 +103,7 @@
 			            		</c:choose>
 			            		
 			            		<td> 
-			            			<input type="hidden" name="attend_mod_num" value="${modlist.attend_mod_num}">			         
+			            			<input type="hidden" name="attend_date" value="${wtinf.attend_date}">			         
 			            			<button class="modreqBtn">요청</button>
 			            		</td>	
 			            				            		
@@ -235,12 +235,12 @@
 	
 	function modreqbtnclickEventHandler(e) 
 	{		
-		var url = "http://127.0.0.1:8989/iag/attend/attendModReqForm?attend_mod_num=";
+		var url = "http://127.0.0.1:8989/iag/attend/attendModReqForm?worktime_num=";
 		let no = e.currentTarget.previousSibling.previousSibling.value;
 		url += no;
 		
 		var name = "수정요청페이지";
-		var specs = "width=500, height=330, scrollbars=yes, menubar=no";
+		var specs = "width=500, height=550, scrollbars=yes, menubar=no";
 
 		window.open(url, name, specs);
     };
