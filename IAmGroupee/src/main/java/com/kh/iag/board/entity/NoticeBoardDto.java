@@ -7,7 +7,9 @@ public class NoticeBoardDto {
 
 	private int noticeNum;
 	private String userNo;
-	private String noticeWriter;
 	private String noticeTitle;
 	private String noticeContent;
+	private String noticeDate;
+	private String noticeDel;
+	private int noticeViewCount;
 }

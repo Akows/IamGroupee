@@ -204,9 +204,6 @@
                           <a href="${root}/board/notice">공지사항</a>
                       </li>
                       <li>
-                          <a href="${root}/boarddeptBoard">부서 게시판</a>
-                      </li>
-                      <li>
                           <a href="${root}/board/freeBoard">자유 게시판</a>
                       </li>
                   </ul>
