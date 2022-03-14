@@ -6,14 +6,30 @@
 <head>
 <meta charset="UTF-8">
 <title>첨부파일 상세보기</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="../resources/img/svg/looo.png" type="image/x-icon">
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="../resources/css/style.min.css">
+
 </head>
 <body>
+
+	<br>
 	
-	<h1>첨부파일</h1>
+	<h1>첨부파일 상세보기</h1>
+	
+	<hr>
+	
+	<br>
+	
+	<h3>사용자가 첨부한 파일 :</h3>
+	
+	<br>
 
 	<div class="container">	
 		<div class="row stat-cards">
-			<div class="users-table table-wrapper">
+			<div>
 				<c:forEach items="${file}" var="f">
 	
 					<img alt="첨부파일이 없습니다." src="../resources/upload/files/${f.attach_file}">
@@ -23,8 +39,12 @@
 		</div> 
 	</div>
 	
+	<br>	
 	<hr>
+	<br>
 	
+	<div class="row stat-cards">		
+		
 	<c:forEach items="${file}" var="f">
 	
 		<form action="attachfiledownload/${f.attach_file}" method="get"> 
@@ -32,6 +52,11 @@
 		</form>
 
 	</c:forEach>
+
+	</div>
+	
+		
+
 
 
 </body>
