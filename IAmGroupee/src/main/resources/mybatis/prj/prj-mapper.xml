@@ -6,8 +6,26 @@
   <mapper namespace="prj">
   
 	<select id="getPrjList" resultType="prj">
-		SELECT * FROM PROJECT
-		WHERE DEPART_NO = #{departNo}
+		SELECT * FROM (
+			SELECT ROWNUM RN, MY.*
+			FROM(
+			SELECT 
+				  P.PRJ_NO
+				, P.USER_NO
+				, P.PRJ_NAME
+				, P.OPEN_YN
+				, P.ACTIVATE_YN
+				, P.PERIOD
+				, P.START_DATE
+				, TO_CHAR(P.START_DATE, 'YYYY-MM-DD')
+				, TO_CHAR(P.END_DATE, 'YYYY-MM-DD')
+				, D.DEPARTMENT_NAME 
+			FROM PROJECT P 
+			JOIN DEPARTMENT D ON (D.DEPARTMENT_NO = P.DEPART_NO)
+			WHERE DEPART_NO = #{departNo}
+			AND DELETE_YN = 'N'
+			) MY
+		) WHERE RN BETWEEN #{vo.startRow} AND #{vo.endRow}
 	</select>  
   
   	<insert id="createPrj">
@@ -36,10 +54,38 @@
   		)
   	</insert>
   	
+  	<select id="getMyPrjCnt" resultType="int">
+  		SELECT COUNT(*)
+  		FROM PROJECT
+  		WHERE DEPART_NO = #{departNo}
+  		AND DELETE_YN = 'N'
+  	</select>
+  	
   	<select id="getUserNo" resultType="string">
   		SELECT USER_NO
   		FROM IAG_USER
   		WHERE NAME = #{name}
+  	</select>
+  
+  
+  	<!-- 상세페이지 -->
+  	<select id="viewPrj" resultType="prj">
+		SELECT 
+			  P.PRJ_NO
+			, P.USER_NO
+			, U.NAME
+			, P.PRJ_NAME
+			, P.OPEN_YN
+			, P.ACTIVATE_YN
+			, P.PERIOD
+			, P.START_DATE
+			, TO_CHAR(P.START_DATE, 'YYYY-MM-DD')
+			, TO_CHAR(P.END_DATE, 'YYYY-MM-DD')
+			, D.DEPARTMENT_NAME 
+		FROM PROJECT P 
+		JOIN DEPARTMENT D ON (D.DEPARTMENT_NO = P.DEPART_NO)
+		JOIN IAG_USER U ON (U.USER_NO = P.USER_NO)
+		WHERE PRJ_NO = #{prjNo}
   	</select>
   	
   </mapper>

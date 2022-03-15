@@ -25,7 +25,7 @@
         		<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1>Project Report</h1>
+							<h1>${p.prjName}</h1>
 						</div>
 						
 						<div class="col-sm-6">
@@ -104,20 +104,14 @@
 							</div>
 
 							<div class="card-body">
-								<strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
-								<p class="text-muted">파이널 프로젝트</p>
-								
+								<strong><i class="fas fa-calendar-alt mr-1"></i> 프로젝트 기간</strong>
+								<p class="text-muted">${viewPrj.period}</p>
 								<hr>
-
-								<strong><i class="fas fa-calendar-alt mr-1"></i> Period</strong>
-								<p class="text-muted">
-									2022/01/01 ~ 2022/03/18
-								</p>
-				
+								<strong><i class="fas fa-users mr-1"></i> 참여 부서</strong>
+								<p class="text-muted">${viewPrj.departmentName}</p>
 								<hr>
-				
-								<strong><i class="fas fa-users mr-1"></i> Departments</strong>
-								<p class="text-muted"> ##부 , $$부</p>
+								<strong><i class="fas fa-user-cog"></i></i> 프로젝트 매니져</strong>
+								<p class="text-muted">${viewPrj.name}</p>
 							</div>
 
 							<div class="card-footer p-0">

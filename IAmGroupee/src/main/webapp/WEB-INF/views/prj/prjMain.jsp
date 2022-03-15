@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -120,7 +120,7 @@
 			<div class="container-fluid">
 				<div class="row">
 
-					<section class="col-lg-7 connectedSortable">
+					<section class="col-lg-6 connectedSortable">
 						<div class="card">
 							<div class="card-header">
 								<h3 class="card-title"> My Project List</h3>
@@ -136,66 +136,61 @@
 								</form>	
 							</div>
 							
-							<a href="http://127.0.0.1:8989/iag/prj/prjDetail">
-								<div class="card-body">
-									<div class="info-box bg-primary">
-										<span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
-						  
-										<div class="info-box-content">
-										  <span class="info-box-text">IAMGROUPE</span>
-										  <span class="info-box-number">%%부</span>
-						  
-										  <div class="progress">
-											<div class="progress-bar" style="width: 70%"></div>
-										  </div>
-										  <span class="progress-description">
-											70% Increase in 30 Days
-										  </span>
-										</div><!-- /.info-box-content -->
-									</div>
-								</div> 
-							</a>
+							<c:forEach items="${prjList}" var="p">
+								<a href="<%=request.getContextPath()%>/prj/prjDetail/${p.prjNo}">
+									<div class="card-body">
+										<div class="info-box bg-lightblue">
+											<span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
+							  
+											<div class="info-box-content">
+											  <span class="info-box-number">${p.prjName}</span>
+											  <span class="info-box-text">${p.departmentName}</span>
+							  
+											  <div class="progress">
+												<div class="progress-bar" style="width: 0%"></div>
+											  </div>
+											  <span class="progress-description">
+												기간 :  ${p.period}
+											  </span>
+											</div><!-- /.info-box-content -->
+										</div>
+									</div> 
+								</a>
+							</c:forEach>
 
-							<div class="card-body">
-									<div class="info-box bg-lightblue">
-										<span class="info-box-icon"><i class="far fa-bookmark"></i></span>
-						  
-										<div class="info-box-content">
-										  <span class="info-box-text">IAMGROUPE</span>
-										  <span class="info-box-number">##부</span>
-						  
-										  <div class="progress">
-											<div class="progress-bar" style="width: 70%"></div>
-										  </div>
-										  <span class="progress-description">
-											70% Increase in 30 Days
-										  </span>
-										</div><!-- /.info-box-content -->
-									</div>
-							</div> 
-
-							<div class="card-body">
-								<div class="info-box bg-info">
-									<span class="info-box-icon"><i class="far fa-clock"></i></span>
-					  
-									<div class="info-box-content">
-									  <span class="info-box-text">IAMGROUPE</span>
-									  <span class="info-box-number">@@부</span>
-					  
-									  <div class="progress">
-										<div class="progress-bar" style="width: 70%"></div>
-									  </div>
-									  <span class="progress-description">
-										70% Increase in 30 Days
-									  </span>
-									</div><!-- /.info-box-content -->
-								</div>
-						</div> 
-
+							<div class="card-footer">
+								<!-- paging start -->
+								<ul class="pagination pagination-sm">
+									<c:if test="${page.currentPage != 1}"> 
+										<li class="page-item"><a class="page-link" href="${root}/prj/prjMain/${page.currentPage - 1}">&laquo;</a></li>
+									</c:if>
+									<c:if test="${page.currentPage == 1}">
+										<li class="page-item disabled"><a class="page-link">&laquo;</a></li>&nbsp;
+									</c:if>
+									
+									<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+										<c:if test="${page.currentPage != i and i <= page.lastPage}">
+											<li class="page-item"><a class="page-link" href="${root}/prj/prjMain/${i}">${i}&nbsp;</a></li>
+										</c:if>
+										
+										<c:if test="${page.currentPage == i and i <= page.lastPage}">
+											<li class="page-item disabled"><a class="page-link">${i}&nbsp;</a></li>
+										</c:if>
+									</c:forEach>
+									
+									<c:if test="${page.currentPage < page.lastPage}"> 
+										<li class="page-item"><a class="page-link" href="${root}/prj/prjMain/${page.currentPage + 1}">&raquo;</a></li>
+									</c:if>
+									<c:if test="${!(page.currentPage < page.lastPage) || page.currentPage == page.lastPage}">
+										<li class="page-item disabled"><a class="page-link">&raquo;</a></li>
+									</c:if>
+								</ul>
+								<!-- paging end -->
+							</div>
 						</div> <!-- /.card -->
 					</section>  <!-- /. left row -->
 				
-					<section class="col-lg-5 connectedSortable">
+					<section class="col-lg-6 connectedSortable">
 						<!-- Calendar -->
 						<div class="card">
 							<div class="card-header border-0">
@@ -272,7 +267,7 @@
 			//Date range picker
 			let today = new Date(); 
 			$('#reservation').daterangepicker({
-				minDate: new Date(today),           // 이전시간 예약 불가.
+				// minDate: new Date(today),           // 이전시간 예약 불가.
 				locale: {
 					"separator": "~",               // 시작일시와 종료일시 구분자
 					"format": 'YYYY-MM-DD',         // 일시 노출 포맷
