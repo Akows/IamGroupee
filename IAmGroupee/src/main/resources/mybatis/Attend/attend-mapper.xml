@@ -205,8 +205,8 @@
 	   		IN_TIME = TO_CHAR(SYSDATE,'HH24MISS'),
 	   		WORKCHECK = 
 	   		CASE
-			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) <![CDATA[<]]> 080000 THEN '정상출근처리'
-			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) > 080000 THEN '지각출근처리'
+			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) <![CDATA[<]]> 090000 THEN '정상출근처리'
+			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) > 090000 THEN '지각출근처리'
 			END
 	   		WHERE WORKTIME_NUM = 0
 	  	</update>
@@ -216,8 +216,8 @@
 			SET 
 			NORMAL_CHECK =
 			CASE
-			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) <![CDATA[<]]> 080000 THEN '정상출근'
-			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) > 080000 THEN '지각'
+			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) <![CDATA[<]]> 090000 THEN 'Y'
+			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) > 090000 THEN 'N'
 			END
 			WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	  	</update>
@@ -226,25 +226,41 @@
 			SET 
 			IRREGULAR_REASON = 
 			CASE
-			     WHEN NORMAL_CHECK = '정상출근' THEN '이상없음'
-			     WHEN NORMAL_CHECK = '지각' THEN '이상근무(지각)'
+			     WHEN NORMAL_CHECK = 'Y' THEN '이상없음'
+			     WHEN NORMAL_CHECK = 'N' THEN '이상근무(지각)'
 			END
 			WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	  	</update>
 	  	
-	  	<update id="attendprocessOUT" parameterType="attendancewt">
+	  	<update id="attendprocessOUT1" parameterType="attendancewt">
 	   		UPDATE WORKTIME
 	   		SET 
 	   		OUT_TIME = TO_CHAR(SYSDATE,'HH24MISS'),
 	   		WORKCHECK =
 	   		CASE
-			     WHEN WORKCHECK = '정상출근처리' THEN '정상퇴근처리'
-			     WHEN WORKCHECK = '지각출근처리' THEN '지각퇴근처리'
+				WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) <![CDATA[<]]> 180000 THEN '정상퇴근'
+				WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) > 180000 THEN '초과근무퇴근'
 			END
 	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	   		AND
+	   		WORKCHECK = '정상출근처리'
 	  	</update>
 	  	
 	  	<update id="attendprocessOUT2" parameterType="attendancewt">
+	   		UPDATE WORKTIME
+	   		SET 
+	   		OUT_TIME = TO_CHAR(SYSDATE,'HH24MISS'),
+	   		WORKCHECK =
+	   		CASE
+				WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) <![CDATA[<]]> 180000 THEN '지각정상퇴근'
+				WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) > 180000 THEN '지각초과근무퇴근'
+			END
+	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	   		AND
+	   		WORKCHECK = '지각출근처리'
+	  	</update>
+	  	
+	  	<update id="attendprocessOUT3" parameterType="attendancewt">
 	   		UPDATE WORKTIME
 	   		SET 
 	   		TOTAL_WORK_TIME = 
@@ -273,8 +289,8 @@
 			SET 
 			NORMAL_CHECK = 
 			CASE
-			     WHEN NORMAL_CHECK = '정상출근' THEN '정상근무'
-			     WHEN NORMAL_CHECK = '지각' THEN '지각'
+			     WHEN NORMAL_CHECK = 'Y' THEN 'Y'
+			     WHEN NORMAL_CHECK = 'N' THEN 'N'
 			END
 			WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	  	</update>
@@ -284,8 +300,8 @@
 			SET
 			IRREGULAR_REASON = 
 			CASE
-			     WHEN NORMAL_CHECK = '정상근무' THEN '이상없음'
-			     WHEN NORMAL_CHECK = '지각' THEN '이상근무(지각)'
+			     WHEN NORMAL_CHECK = 'Y' THEN '이상없음'
+			     WHEN NORMAL_CHECK = 'N' THEN '이상근무(지각)'
 			END
 			WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	  	</update>
@@ -295,8 +311,10 @@
 	   		SET 
 	   		WORKCHECK = 
 	   		CASE
-			     WHEN WORKCHECK = '정상퇴근처리' THEN '정상출근처리(재)'
-			     WHEN WORKCHECK = '지각퇴근처리' THEN '지각출근처리(재)'
+	   			 WHEN WORKCHECK = '정상퇴근' THEN '정상출근(재)'
+			     WHEN WORKCHECK = '초과근무퇴근' THEN '정상출근(재)(초과)'
+			     WHEN WORKCHECK = '지각정상퇴근' THEN '지각출근(재)'
+			     WHEN WORKCHECK = '지각초과근무퇴근' THEN '지각출근(재)(초과)'
 			END
 	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD') 
 	  	</update>
@@ -307,8 +325,10 @@
 	   		OUT_TIME = TO_CHAR(SYSDATE,'HH24MISS'),
 	   		WORKCHECK = 
 	   		CASE
-			     WHEN WORKCHECK = '정상출근처리(재)' THEN '정상퇴근처리'
-			     WHEN WORKCHECK = '지각출근처리(재)' THEN '지각퇴근처리'
+				WHEN WORKCHECK = '정상출근(재)' THEN '정상퇴근'
+				WHEN WORKCHECK = '정상출근(재)(초과)' THEN '초과근무퇴근'
+				WHEN WORKCHECK = '지각출근(재)' THEN '지각정상퇴근'
+				WHEN WORKCHECK = '지각출근(재)(초과)' THEN '지각초과근무퇴근'
 			END,
 	   		TOTAL_WORK_TIME = 
 	   		(
@@ -366,7 +386,14 @@
 	  			'처리중'
 	  		)
 	  	</insert>
-	
+	  	
+	 	<select id="checkModReq" resultType="int">
+	 		SELECT COUNT(*)
+	 		FROM ATTENDANCEMODIFY
+	 		WHERE TO_CHAR(MODIFY_REQ_DATE,'YYYYMMDD') = CONCAT(CONCAT(SUBSTR(#{attend_date}, 1, 4), SUBSTR(#{attend_date}, 7, 2)), SUBSTR(#{attend_date}, 11, 2))
+	 		AND APPROVE_STATE != '승인됨'
+	  	</select>	  	
+	  	
 	  	<update id="modfilereq" parameterType="attendancemod">
 	  		UPDATE ATTENDANCEMODIFY
 	   		SET ATTACH_FILE = #{attach_file},
@@ -409,7 +436,8 @@
 			        REGEXP_REPLACE(TO_CHAR(ATTEND_DATE,'YYYYMMDD'), '(.{4})(.{2})(.{2})', '\1년 \2월 \3일') AS ATTEND_DATE, 
 			        REGEXP_REPLACE(IN_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS IN_TIME, 
 		            REGEXP_REPLACE(OUT_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS OUT_TIME,
-			        WORKCHECK
+			        WORKCHECK,
+			        ROUND((TOTAL_WORK_TIME / 3600), 3) AS TOTAL_WORK_TIME
 			        FROM WORKTIME
 			        WHERE USER_NO = #{userNo}
 			        ORDER BY WORKTIME_NUM

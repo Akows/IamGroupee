@@ -46,7 +46,7 @@
 			<input type="hidden" style="font-size: small; width: 150px" value="검색">	
 		</span>
 			 		  			     											       				
-	</form>		
+	</form>
 	
 	<form action="attendmodify" method="post" enctype="multipart/form-data" onsubmit="return check()" name="modform">	
 
@@ -55,6 +55,7 @@
             <div class="users-table table-wrapper">
 
 				<table class="posts-table">
+
 		            <thead>
 		            	<tr class="users-table-info">
 		                	<th>
@@ -64,8 +65,9 @@
 		                	</th>
 		                    <th>출근시간</th>
 		                    <th>퇴근시간</th>
+		                    <th>근무시간</th>
 		                    <th>정상근무여부</th>
-		                    <th>수정요청</th>
+
 		            	</tr>
 		            </thead>
 		       		<tbody>
@@ -78,10 +80,18 @@
 				                    </label>				                    			            		
 			            		</td>
 			            		<td>${wtinf.in_time}</td>
-			            		<td>${wtinf.out_time}</td>		            		
+			            		<td>${wtinf.out_time}</td>
+			            		<td>${wtinf.total_work_time} 시간</td>		            		
 			            		
 			            		<c:choose>
-			            			<c:when test="${wtinf.workcheck == '정상퇴근처리'}">
+			            			<c:when test="${wtinf.workcheck == '정상퇴근'}">
+										<td>
+											<div class="badge-active">
+												${wtinf.workcheck}
+											</div>									
+										</td>
+			            			</c:when>
+			            			<c:when test="${wtinf.workcheck == '초과근무퇴근'}">
 										<td>
 											<div class="badge-active">
 												${wtinf.workcheck}
@@ -89,27 +99,30 @@
 										</td>
 			            			</c:when>
 			            			
-			            			<c:when test="${wtinf.workcheck == '지각퇴근처리'}">
+			            			<c:when test="${wtinf.workcheck == '지각정상퇴근'}">
 										<td>
 											<div class="badge-pending">
 												${wtinf.workcheck}
 											</div>
 										</td>
 			            			</c:when>
-			            			
+			            			<c:when test="${wtinf.workcheck == '지각초과근무퇴근'}">
+										<td>
+											<div class="badge-pending">
+												${wtinf.workcheck}
+											</div>
+										</td>
+			            			</c:when>
+			            						            			
 			            			<c:otherwise>
 			            				<td>근무정보없음</td>
 			            			</c:otherwise>
 			            		</c:choose>
-			            		
-			            		<td> 
-			            			<input type="hidden" name="attend_date" value="${wtinf.attend_date}">			         
-			            			<button class="modreqBtn">요청</button>
-			            		</td>	
 			            				            		
 			            	</tr>
-			            				            	
+			            	          	
 		            	</c:forEach>
+
 		            </tbody>
 	            </table>
 	            
@@ -182,14 +195,37 @@
 			    </div>				
 							
 				<br>
+				
+	<div class="row stat-cards">
+        	<div class="col-md-12 col-xl-6">
+            <article class="stat-cards-item">
+              <div class="stat-cards-info">
+                <p class="stat-cards-info__num">근무상황 수정요청</p>
+                <p class="stat-cards-info__title">천재지변/전산미숙/긴급업무처리 등의 이유로 정상출근 처리를 요청할 경우 사용</p>
+                <p class="stat-cards-info__title">사유서 혹은 진단서 등의 추가 자료가 있으면 반드시 첨부해주세요</p>
+                <hr>
+                
+                    <textarea name="mod_reason" placeholder="내용작성하여 제출" style="width: 400px; height: 200px; resize: none;" required></textarea>
+                
+                    <br>
+                    
+                    <input type="file" name="file" multiple="multiple" accept=".jpg,.png">
+                    
+                    <hr>
+                    
+                    <input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="수정요청">
+                
+              </div>
+            </article>
+        </div>       
+    </div>
+				
 
             </div>
           </div>
     </div>
         
     <hr>
-    
-
     
     </form>    
 
@@ -221,21 +257,19 @@
 			
 			return false;
 		}
-		  
 	}
 	
-	<!-- 수정요청 처리하는 스크립트 -->
-	let modreqbtn = document.getElementsByClassName("modreqBtn");
+	<!-- 수정요청 처리하는 스크립트 
+	let modReqBtn = document.getElementsByClassName("modreqBtn");
 	
-	$(modreqbtn).each(function(idx, element)
+	$(modReqBtn).each(function(idx, element)
 	{
 		element.addEventListener('click', modreqbtnclickEventHandler);
-	
 	});
 	
 	function modreqbtnclickEventHandler(e) 
 	{		
-		var url = "http://127.0.0.1:8989/iag/attend/attendModReqForm?worktime_num=";
+		var url = "http://127.0.0.1:8989/iag/attend/attendModReqForm?attend_date=";
 		let no = e.currentTarget.previousSibling.previousSibling.value;
 		url += no;
 		
@@ -243,7 +277,7 @@
 		var specs = "width=500, height=550, scrollbars=yes, menubar=no";
 
 		window.open(url, name, specs);
-    };
+    };-->
 	
 	
 	

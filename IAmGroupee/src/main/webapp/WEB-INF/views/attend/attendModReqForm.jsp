@@ -38,11 +38,11 @@
 	                <p class="stat-cards-info__title">수정요청 시 상단 일일 근태조회 목록에서 수정을 요청할 대상을 체크한 뒤 내용작성하여 요청 바람</p>
 	                <hr>
 	                
-	                	<c:forEach items="${key}" var="k">
-	                		 <input type="hidden" value="${k.attend_date}" name="attend_date">
+	                	<c:forEach items="${keyvalue}" var="key">
+	                		 <input type="hidden" value="${key.attend_date}" name="modify_req_date">
 	                	</c:forEach>
 	                
-	                	<textarea name="mod_reason" placeholder="내용작성하여 제출" style="width: 400px; height: 200px; resize: none;" required></textarea>
+	                	<textarea id="mod_reason" name="mod_reason" placeholder="내용작성하여 제출" style="width: 400px; height: 200px; resize: none;" required></textarea>
 	                
 		                <br>
 		                
@@ -58,6 +58,42 @@
 	    </div>
 	
 	</form> 
+	
+	
+<script type="text/javascript">
+
+	function submitForm(){
+		
+		const reason = $("#mod_reason").val();
+		
+		$.ajax
+		({
+			url : 'attendmodify',
+			type : 'post',
+			data : 
+			{'mod_reason' : reason},
+			{'file' : file}
+			success : function(data)
+			{
+				alert("요청이 완료되었습니다.");
+				opener.parent.location="attendstate";
+				window.close();
+			},
+			error : function()
+			{
+				alert("ajax fail...");
+			},
+		});
+	}
+
+</script>
+	
+	
+	
+	
+	
+	
+	
 
 </body>
 </html>

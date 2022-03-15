@@ -48,16 +48,14 @@ public class AttendModifyViewController
 		attendModDTO.setUser_no(userno);
 		attendModDTO.setApprove_state(searchValue);
 		
-		System.out.println(userno);
-		System.out.println(searchValue);
-		
 		List<AttendModDTO> attendModDTOList = service.getModListSearch(attendModDTO);
 		
 		model.addAttribute("atModList", attendModDTOList);
 		
-		for(AttendModDTO x : attendModDTOList) {
-			System.out.println(x);
-		}
+//		for(AttendModDTO x : attendModDTOList) 
+//		{
+//			System.out.println(x);
+//		}
 		
 		return "/attend/attendmodview";
 	}

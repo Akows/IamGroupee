@@ -95,8 +95,9 @@ public class AttendDAOImpl implements AttendDAO
 		@Override
 		public void attendprocessOUT(AttendWTDTO attendWTDTO, HttpServletRequest req) 
 		{
-			ss.update("attend.attendprocessOUT", attendWTDTO);
+			ss.update("attend.attendprocessOUT1", attendWTDTO);
 			ss.update("attend.attendprocessOUT2", attendWTDTO);
+			ss.update("attend.attendprocessOUT3", attendWTDTO);
 			ss.update("attend.attendprocessOUTAttend", attendWTDTO);
 			ss.update("attend.attendprocessOUTAttend2", attendWTDTO);
 		}
@@ -166,16 +167,9 @@ public class AttendDAOImpl implements AttendDAO
 			objectMap.put("userNo", userNo);
 			objectMap.put("startRow", startNum);
 			objectMap.put("endRow", endNum);
-			
-			
-			System.out.println("사번 : " + userNo);			
-			System.out.println("시작 번호 : " + startNum);
-			System.out.println("끝 번호 : " + endNum);
-			
+
 			List<AttendWTDTO> x = ss.selectList("attend.getWorktimeList", objectMap); 
-			
-			System.out.println("dao >size : " + x.size());
-			
+
 			return x;
 		}
 		
@@ -190,7 +184,14 @@ public class AttendDAOImpl implements AttendDAO
 		public List<AttendModDTO> getModListSearch(AttendModDTO attendModDTO) throws Exception 
 		{
 			return ss.selectList("attend.getModListSearch", attendModDTO);
-		}		
+		}
+		
+		@Override
+		public int checkModReq(String attend_date) throws Exception
+		{
+			return ss.selectOne("attend.checkModReq", attend_date);
+		}
+		
 		
 		//반려사유 보기
 		@Override
@@ -240,6 +241,8 @@ public class AttendDAOImpl implements AttendDAO
 		{
 			ss.update("attend.approveManageNone", attendModDTO);						
 		}
+
+
 
 
 

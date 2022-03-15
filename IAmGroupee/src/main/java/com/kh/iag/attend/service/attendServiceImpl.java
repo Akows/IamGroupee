@@ -185,6 +185,13 @@ public class attendServiceImpl implements attendService
 		{
 			return attendDAO.getModListSearch(attendModDTO);
 		}
+		@Override
+		public int checkModReq(String attend_date) throws Exception 
+		{
+			return attendDAO.checkModReq(attend_date);
+		}
+
+		
 		
 		//반려사유 보기
 		@Override
@@ -221,6 +228,7 @@ public class attendServiceImpl implements attendService
 		{
 			attendDAO.approveManageNone(attendModDTO);
 		}
+
 
 
 

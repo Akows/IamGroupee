@@ -20,13 +20,17 @@ public class AttendModifyReqController
 	@Autowired
 	private attendService service;
 	
-	@RequestMapping(value = "attendModReqForm", method = RequestMethod.GET)
-	public String attendModReqForm(AttendModDTO attendmodDTO, HttpServletRequest req, Model model) throws Exception
-	{
-		String keyVaule = req.getParameter("attend_date");
-		
-		return "attend/attendModReqForm";
-	}
+//	@RequestMapping(value = "attendModReqForm", method = RequestMethod.POST)
+//	public String attendModReqForm(AttendModDTO attendmodDTO, HttpServletRequest req, Model model) throws Exception
+//	{
+//		String key = req.getParameter("attend_date");
+//		
+//		model.addAttribute("keyvalue", key);
+//		
+//		System.out.println("KEY!!!!! : " + key);
+//		
+//		return "attend/attendModReqForm";
+//	}
 
 	
 	@RequestMapping(value = "attendstate/attendmodify", method = RequestMethod.POST)
@@ -39,17 +43,17 @@ public class AttendModifyReqController
 		attendmodDTO.setUser_no(userno);
 		attendmodDTO.setUser_name(userName);
 		
-		int result = service.attendModify(attendmodDTO, req, file);
+		String attend_date = req.getParameter("modify_req_date");
+		int resultCheck = service.checkModReq(attend_date);
 		
-		if (result > 0)
+		if (resultCheck == 0)
 		{
+			service.attendModify(attendmodDTO, req, file);
 			return "redirect:/attend/attendstate";
 		}
 		else
 		{
 			return "redirect:/attend/attendstate";
 		}
-
 	}
-
 }

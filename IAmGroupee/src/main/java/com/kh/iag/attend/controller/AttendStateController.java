@@ -38,15 +38,7 @@ public class AttendStateController
 		int pageBtnCnt = 10; 
 		int totalRow = service.getAttendStateCnt();
 		
-		System.out.println("전체 컬럼 갯수 : " + totalRow);
-		
 		AttendPageDTO AttendpageDTO = new AttendPageDTO(page, cntPerPage, pageBtnCnt, totalRow);
-		
-		int aaaa = AttendpageDTO.getStartPage();
-		int bbbb = AttendpageDTO.getEndPage();
-		
-		System.out.println("시작 페이지 : " + aaaa);
-		System.out.println("끝 페이지 : " + bbbb);
 		
 		UserDto loginUser = (UserDto) req.getSession().getAttribute("loginUser");
 		String userNo = loginUser.getUserNo();
@@ -54,9 +46,11 @@ public class AttendStateController
 		List<AttendWTDTO> attendWTList = service.getWorktimeList(AttendpageDTO, userNo);
 		
 		System.out.println(attendWTList.size());
-		for(AttendWTDTO x : attendWTList) {
-			System.out.println(x);
-		}
+		
+//		for(AttendWTDTO x : attendWTList) 
+//		{
+//			System.out.println(x);
+//		}
 		
 		model.addAttribute("WTInfo", attendWTList);
 		model.addAttribute("page", AttendpageDTO);
