@@ -55,8 +55,7 @@
   	</insert>
   	
   	<select id="getMyPrjCnt" resultType="int">
-  		SELECT COUNT(*)
-  		FROM PROJECT
+  		SELECT COUNT(*) FROM PROJECT
   		WHERE DEPART_NO = #{departNo}
   		AND DELETE_YN = 'N'
   	</select>
@@ -87,5 +86,71 @@
 		JOIN IAG_USER U ON (U.USER_NO = P.USER_NO)
 		WHERE PRJ_NO = #{prjNo}
   	</select>
+  	
+  	<select id="getReportList" resultType="com.kh.iag.prj.entity.PrjReportDto">
+  		SELECT
+  			  P.REPORT_NO
+  			, P.PRJ_NO
+  			, P.USER_NO
+  			, U.NAME
+  			, U.PROFILE
+  			, P.REPORT_TYPE
+  			, P.REPORT_NAME
+  			, P.REPORT_CONTENT
+  			, TO_CHAR(P.CREATE_DATE, 'YYYY-MM-DD HH24:MI') CREATE_DATE
+  		FROM PRJ_REPORT P
+  		JOIN IAG_USER U ON (U.USER_NO = P.USER_NO)
+  		WHERE P.DELETE_YN = 'N' AND P.PRJ_NO = #{prjNo}
+  		ORDER BY P.CREATE_DATE DESC
+  	</select>
+  	
+  	<!-- 글작성 -->
+  	<insert id="post" parameterType="com.kh.iag.prj.entity.PrjReportDto">
+  		INSERT INTO PRJ_REPORT(
+  			  REPORT_NO
+  			, PRJ_NO
+  			, USER_NO
+  			, REPORT_TYPE
+  			, REPORT_NAME
+  			, REPORT_CONTENT
+  			, CREATE_DATE
+  		)VALUES(
+  			  SEQ_PRJ_REPORT.NEXTVAL
+  			, #{prjNo}
+  			, #{userNo}
+  			, #{reportType}
+  			, #{reportName}
+  			, #{reportContent}
+  			, CURRENT_DATE
+  		)
+  	</insert>
+  	
+  	<insert id="uploadFile" parameterType="com.kh.iag.prj.entity.PrjReportDto">
+  		INSERT INTO ATTACHMENT(
+  		 	  FILE_NO
+		    , PRJ_NO
+		    , CHANGE_NAME
+  		)VALUES(
+  			  SEQ_ATTACHMENT.NEXTVAL
+  			, #{prjNo}
+  			, #{changeName}
+  		)
+  	</insert>
+  	
+  	<insert id="insertComm" parameterType="com.kh.iag.prj.entity.CommDto">
+  		INSERT INTO PRJ_COMMENT(
+  			  COMM_NO
+  			, REPORT_NO
+  			, USER_NO
+  			, CONTENT
+  			, CREATE_DATE
+  		)VALUES(
+  			  SEQ_COMMENT.NEXTVAL
+  			, #{reportNo}
+  			, #{userNo}
+  			, #{content}
+  			, CURRENT_DATE
+  		)
+  	</insert>
   	
   </mapper>

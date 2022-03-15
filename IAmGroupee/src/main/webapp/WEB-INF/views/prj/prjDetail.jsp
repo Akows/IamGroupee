@@ -25,7 +25,7 @@
         		<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1>${p.prjName}</h1>
+							<h1>[&nbsp;${viewPrj.prjName}&nbsp;]</h1>
 						</div>
 						
 						<div class="col-sm-6">
@@ -35,72 +35,88 @@
 							</ol>
 						</div>
 					</div> <!--/.row -->
-	       		</div> <!--/.container-fluid -->
+				</div> <!--/.container-fluid -->
+				<hr>
 	    </section>
+		
 		
 		<section class="content">
 			<div class="container-fluid">
 				<div class="row">
 
 					<section class="col-lg-9 connectedSortable">
-					
-						<!-- Box Comment -->
+						<!-- reports -->
+						<c:forEach items="${reportList}" var="r">
 						<div class="card card-widget">
-							<div class="card-header">
-								<div class="user-block">
-								<img class="img-circle" src="${root}/resources/img/avatar/avatar-illustrated-01.png" alt="User Image">
-								<span class="username"><a href="#">이지은</a></span>
-								<span class="description">Shared publicly - 7:30 PM Today</span>
+								<div class="card-header">
+									<div class="row">
+										<div class="col-lg-9">
+											<h4><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;${r.reportName}</h4>
+										</div>
+
+										<div class="user-block col-lg-3">
+										<!-- <img class="img-circle" src="${r.profile}" alt="user"> -->
+										<span class="username">${r.name}</span>
+										<span class="description">${r.createDate}</span>
+										</div>
+									</div>
+								</div> <!-- /.card-header -->
+	
+								<div class="card-body">
+									<br>
+										${r.reportContent}
+									<br>
 								</div>
-							</div> <!-- /.card-header -->
-
-							<div class="card-body">
-								<img class="img-fluid pad" src="${root}/resources/dist/img/photo2.png" alt="Photo">
-								<p>&nbsp</p>
-								<p>I took this photo this morning. What do you guys think?</p>
-								<p>&nbsp</p>
-								<button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
-								<button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i> Like</button>
-								<span class="float-right text-muted">127 likes - 1 comments</span>
-							</div>
-
-							<!-- /.card-body -->
-							<div class="card-footer card-comments">
-								<div class="card-comment">
-									<!-- User image -->
-									<img class="img-circle img-sm" src="${root}/resources/dist/img/user3-128x128.jpg" alt="User Image">
-									<!-- /.comment-text -->
-									<div class="comment-text">
-										<span class="username">
-										Maria Gonzales
-										<span class="text-muted float-right">8:03 PM Today</span>
-										</span><!-- /.username -->
-										Good
+	
+								<!-- /.card-body -->
+								<div class="card-footer card-comments">
+									<div class="card-comment">
+										<!-- User image -->
+										<img class="img-circle img-sm" src="" alt="user">
+										<!-- /.comment-text -->
+										<div class="comment-text">
+											<span class="username">
+											Maria Gonzales
+											<span class="text-muted float-right"></span>
+											</span><!-- /.username -->
+											댓글
+										</div>
+									</div>
+								</div>
+	
+								<!-- /.card-footer -->
+								<div class="card-footer">
+									<!-- <img class="img-fluid img-circle img-sm" src="${loginUser.profile}" alt="Alt Text"> -->
+									<!-- .img-push is used to add margin to elements next to floating images -->
+									<div class="img-push">
+										<div class="row">
+											<div class="col-lg-11">
+												<input type="text" class="form-control form-control-sm" id="content" placeholder="댓글을 입력해주세요.">
+												<input style="display:none;" />
+											</div>
+											<div class="col-lg-1">
+												<button type="button" class="btn btn-outline-primary btn-sm" onclick="comment();">등록</button>
+											</div>
+										</div>
+										<input type="hidden" id="userNo" value="${loginUser.userNo}">
+										<input type="hidden" id="reportNo" value="${r.reportNo}">
 									</div>
 								</div>
 							</div>
-
-							<!-- /.card-footer -->
-							<div class="card-footer">
-								<form action="#" method="post">
-								<img class="img-fluid img-circle img-sm" src="${root}/resources/img/avatar/avatar-illustrated-01.png" alt="Alt Text">
-								<!-- .img-push is used to add margin to elements next to floating images -->
-								<div class="img-push">
-									<input type="text" class="form-control form-control-sm" placeholder="Press enter to post comment">
-								</div>
-								</form>
-							</div>
-
-						</div>
+						</c:forEach>
 					</section>  <!-- /. left row -->
 				
 					<section class="col-lg-3 connectedSortable">
 						
 						<!-- prj info -->
 						<div class="card card-widget widget-user-2">
-							<div class="widget-user-header bg-gradient-primary">
-							  <h4>IAMGROUPE</h4>
-							  <h7>%%부, $$부</h7>
+							<div class="card-header">
+								<div class="btn-group btn-block">
+									<button class="btn btn-outline-primary" data-toggle="modal" data-target="#noti">공지</button>
+									<button class="btn btn-outline-primary" data-toggle="modal" data-target="#sch">일정</button>
+									<button class="btn btn-outline-primary" data-toggle="modal" data-target="#todo">할일</button>
+									<button class="btn btn-outline-primary" data-toggle="modal" data-target="#work">업무</button>
+								</div>
 							</div>
 
 							<div class="card-body">
@@ -188,12 +204,130 @@
 	</div>
 	</main>    
 
+	<!-- 글 등록 모달 -->
+	<!-- 일반글 -->
+	<div class="modal fade" id="noti">
+		<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+			  <h4 class="modal-title">공지사항 등록</h4>
+			</div>
+				<div class="modal-body">
+					<div class="card-body">
+						<div class="form-group">
+							<label>글 제목</label>
+							<input type="text" class="form-control" id="reportName" placeholder="글 제목을 입력하세요." required>
+							
+							<input type="hidden" class="form-control" id="reportType" value="G">
+							<input type="hidden" class="form-control" id="userNo" value="${loginUser.userNo}">
+							<input type="hidden" class="form-control" id="prjNo" value="${viewPrj.prjNo}">
+						</div>
+
+						<textarea id="summernote" required></textarea>
+					</div>
+				</div> <!-- /.modal-body -->
+				<div class="modal-footer justify-content-between">
+					<input type="button" value="취소" class="btn btn-default" data-dismiss="modal">
+					<button type="button" onclick="upload();" class="btn btn-primary">생성</button>
+				</div>
+		</div> <!-- /.modal-content -->
+		</div> <!-- /.modal-dialog -->
+	</div>
+	<!-- modal 끝! -->
 
 	<script>
 		
 		$(function () {
+			//summernote
+			$("#summernote").summernote({
+				dropdownParent: $("#noti"), //모달 내부에서 오픈
+				lang: 'ko-KR',
+				height: 300,  
+				focus: true,
+				placeholder : '내용을 입력하세요',
+				callbacks: {	//여기 부분이 이미지를 첨부하는 부분
+					onImageUpload : function(files) {
+						uploadSummernoteImageFile(files[0],this);
+					},
+					onPaste: function (e) {
+						var clipboardData = e.originalEvent.clipboardData;
+						if (clipboardData && clipboardData.items && clipboardData.items.length) {
+							var item = clipboardData.items[0];
+							if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+								e.preventDefault();
+							}
+						}
+					}
+				}
+			});
+			
+			//이미지 파일 업로드
+			function uploadSummernoteImageFile(file, editor) {
+				data = new FormData();
+				data.append("file", file);
+				$.ajax({
+					data : data,
+					type : "POST",
+					url : "${root}/prj/file/${viewPrj.prjNo}",
+					contentType : false,
+					processData : false,
+					success : function(data) {
+						//항상 업로드된 파일의 url이 있어야 한다.
+						$(editor).summernote('insertImage', data.url);
+					}
+				});
+			};	
 
-		})
+			
+		});
+
+		function upload(){
+			let param = {
+				"reportName" : $('#reportName').val(),
+				"reportType" : $('#reportType').val(),
+				"reportContent" : $('#summernote').val(),
+				"userNo" : $('#userNo').val(),
+				"prjNo" : $('#prjNo').val(),
+			}
+
+			if(confirm("공지를 등록하시겠습니까?") == true){
+				$.ajax({
+					type : 'POST',
+					url : "${root}/prj/post",
+					data : param,
+					success : function(data){
+						alert("글이 정상적으로 등록되었습니다.");
+					},
+					error : function(e){
+						alert("글 등록에 실패하였습니다.");
+					},
+					complete : function(){
+						window.location.reload();
+					}
+				});
+			}else {
+				return false;
+			}
+		}
+
+		function comment(){
+			let param = {
+				"reportNo" : $('#reportNo').val(),
+				"content" : $('#content').val(),
+				"userNo" : $('#userNo').val(),
+			}
+			$.ajax({
+				type : 'POST',
+				url : "${root}/prj/comm",
+				data : param,
+				success : function(){
+					window.location.reload();
+				},
+				error : function(e){
+					alert("댓글 등록에 실패하였습니다.");
+				}
+			});
+		}
 
 	</script>
 
@@ -201,6 +335,12 @@
 
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
+
+	<!-- Summernote -->
+	<script src="${root}/resources/plugins/summernote/summernote-bs4.min.js"></script>	
+	<link rel="stylesheet" href="${root}/resources/plugins/summernote/summernote-bs4.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.js"></script>
 	
+
 </body>
 </html>

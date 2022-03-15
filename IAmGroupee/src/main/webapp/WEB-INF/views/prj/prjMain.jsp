@@ -254,12 +254,12 @@
 
 
 	<script>
-		//모달 내부 셀렉트 오픈
-
+		
 		$(function () {
 			
 			//Initialize Select2 Elements
 			$('.select2').select2()
+			//모달 내부 셀렉트 오픈
 			$("#select2insidemodal").select2({
 				dropdownParent: $("#createPrj")
 			});
@@ -267,7 +267,7 @@
 			//Date range picker
 			let today = new Date(); 
 			$('#reservation').daterangepicker({
-				// minDate: new Date(today),           // 이전시간 예약 불가.
+				minDate: new Date(today),           // 이전시간 예약 불가.
 				locale: {
 					"separator": "~",               // 시작일시와 종료일시 구분자
 					"format": 'YYYY-MM-DD',         // 일시 노출 포맷

@@ -13,9 +13,14 @@ public class PrjReportDto {
 	private String reportType;
 	private String reportName;
 	private String reportContent;
-	private Date createDate;
+	private String createDate;
 	private Date modDate;
 	private String deleteYn;
 	private int commNum;
 	private int checkNum;
+	
+	private String name;
+	private String profile;
+	private String start;
+	private String end;
 }

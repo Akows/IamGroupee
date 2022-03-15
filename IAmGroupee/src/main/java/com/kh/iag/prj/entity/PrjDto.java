@@ -24,6 +24,7 @@ public class PrjDto {
 	private int process; 
 	private String departmentName;
 	private String name;
+	private String commName;
 	
 	
 	public void calc(String startDate, String endDate) {
