@@ -56,9 +56,9 @@
 								</span>
 							</p>
 							<hr>
-							<form action="" method="">
-							  	<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="마이페이지">
-							</form>	
+
+							<button class="form-btn primary-default-btn transparent-btn" type="button" onclick="location.href='${root}/my/modiuser';"> 마이페이지 </button>
+
 						</div>
 					</article>
 				</div>

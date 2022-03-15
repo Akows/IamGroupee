@@ -63,16 +63,24 @@
 
 					<article class="stat-cards-item attendShortCut">
 						<div class="stat-cards-info">
-							<p class="stat-cards-info__num">출퇴근 숏컷</p>
-							<pre>
+							<div class="col-md-12 col-xl-12">
+								<article class="stat-cards-item">
+								<div class="stat-cards-icon success">
+									<i data-feather="bar-chart-2" aria-hidden="true"></i>
+								</div>
+								<div class="stat-cards-info">
+									<p class="stat-cards-info__num">근태 출퇴근</p>
+									<p class="stat-cards-info__title">모든 사용자는 출근 및 퇴근 처리를 반드시 잊지 말것.</p>
+									<p class="stat-cards-info__title">출퇴근 미처리로 발생하는 모든 불이익은 사용자의 몫입니다.</p>
+									<p class="stat-cards-info__title">출퇴근 관련된 문의는 인사팀으로 해주세요.</p>
 
-
-
-
-
-
-                  
-                           </pre>
+										<button class="form-btn primary-default-btn transparent-btn" type="button" onclick="location.href='${root}/attend/attendmain';"> 출퇴근처리 </button>
+										
+									<hr>
+									
+								</div>
+								</article>						
+							</div>
 						</div>
 					</article>
 				</div>
