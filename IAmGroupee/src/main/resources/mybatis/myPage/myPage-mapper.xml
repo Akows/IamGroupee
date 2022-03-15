@@ -4,6 +4,29 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="myPage">
+	<insert id="addBook">
+		INSERT INTO ADDRESSBOOK
+		VALUES(SEQ_ADDRESS.NEXTVAL,#{userNo},#{addressName})
+	</insert>
+	
+	<insert id="addBookData">
+		INSERT INTO ADDRESSBOOK_DATA 
+		VALUES
+		(
+		SEQ_ADDRESS.CURRVAL,
+		#{userNo}
+		)
+	</insert>
+	
+	<insert id="updateBookData">
+		INSERT INTO ADDRESSBOOK_DATA 
+		VALUES
+		(
+		#{addressNo},
+		#{user}
+		)
+	</insert>
+	
 	<select id="getUser" parameterType="userDto" resultType="userDto">
 		SELECT * 
 		FROM IAG_USER U
@@ -11,6 +34,29 @@
         LEFT OUTER JOIN DEPARTMENT D ON (D.DEPARTMENT_NO = U.DEPARTMENT_NO)
         LEFT OUTER JOIN JOB J ON (J.JOB_NO = U.JOB_NO)
 		WHERE U.USER_NO = #{userNo}
+	</select>
+	
+	<select id="getAdBook" resultType="adbook">
+		SELECT * FROM ADDRESSBOOK WHERE USER_NO = #{userNo}
+	</select>
+	
+	<select id="getBookUserList" resultType="userDto">
+		SELECT * FROM ADDRESSBOOK_DATA AD
+		JOIN IAG_USER U ON (AD.USER_NO = U.USER_NO)
+		LEFT OUTER JOIN POSITION P ON (U.POSITION_NO = P.POSITION_NO)
+		LEFT OUTER JOIN DEPARTMENT D ON (U.DEPARTMENT_NO = D.DEPARTMENT_NO)
+		LEFT OUTER JOIN JOB J ON (U.JOB_NO = J.JOB_NO)
+		WHERE AD.ADDRESS_NO = #{addressNo}
+	</select>
+	
+	<select id="userList" parameterType="userDto" resultType="userDto">
+		SELECT *
+		FROM IAG_USER U
+		LEFT OUTER JOIN POSITION P ON (U.POSITION_NO = P.POSITION_NO)
+        LEFT OUTER JOIN DEPARTMENT D ON (D.DEPARTMENT_NO = U.DEPARTMENT_NO)
+        LEFT OUTER JOIN JOB J ON (J.JOB_NO = U.JOB_NO)
+        WHERE U.END_DATE IS NULL
+        ORDER BY U.DEPARTMENT_NO
 	</select>
 
 	<update id="updateUser">
@@ -28,6 +74,20 @@
 		</if>
 		WHERE USER_NO = #{userNo}
 	</update>
+	
+	<update id="bookNameModi">
+		UPDATE ADDRESSBOOK SET
+		ADDRESS_NAME = #{addressName}
+		WHERE ADDRESS_NO = #{addressNo}
+	</update>
+	
+	<delete id="delBookData">
+		DELETE FROM ADDRESSBOOK_DATA WHERE ADDRESS_NO = #{addressNo}
+	</delete>
+	
+	<delete id="delBook">
+		DELETE FROM ADDRESSBOOK WHERE ADDRESS_NO = #{addressNo}
+	</delete>
 	
 	
 </mapper>

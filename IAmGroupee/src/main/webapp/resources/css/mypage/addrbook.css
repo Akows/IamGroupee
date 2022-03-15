@@ -1,5 +1,4 @@
 @charset "UTF-8";
-
 .back {
 	background-color: white;
 	border: 1px solid black;
@@ -15,19 +14,13 @@
 	cursor: pointer;
 }
 
-.overflow {
-	overflow-x:hidden; 
-	overflow-y:scroll; 
-	height:650px;
-}
-
 .box {
     width: 100px;
     height: 100px; 
     border-radius: 70%;
     overflow: hidden;
     background-color: #BDBDBD;
-    margin-left: 80px;
+    margin-left: 100px;
 }
 .profile {
     width: 100%;
@@ -35,8 +28,36 @@
     object-fit: cover;
 }
 
+.overflow {
+	overflow-x:hidden; 
+	overflow-y:scroll; 
+	height:650px;
+}
+
+.userList{
+	overflow-x:hidden; 
+	overflow-y:scroll; 
+	height: 250px;
+}
+
+.box1 {
+    width: 200px;
+    height: 200px; 
+    border-radius: 70%;
+    overflow: hidden;
+    background-color: #BDBDBD;
+    margin-left: 80px;
+}
+.clickUser:hover{
+	cursor: pointer;
+}
+
 .info {
 	font-size: 18px;
+}
+
+.textspan{
+	margin-left : 10px;
 }
 
 .hidden{
