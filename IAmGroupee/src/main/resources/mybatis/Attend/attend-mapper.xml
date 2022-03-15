@@ -238,8 +238,8 @@
 	   		OUT_TIME = TO_CHAR(SYSDATE,'HH24MISS'),
 	   		WORKCHECK =
 	   		CASE
-			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) <![CDATA[<]]> 080000 THEN '정상퇴근처리'
-			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) > 080000 THEN '지각퇴근처리'
+			     WHEN WORKCHECK = '정상출근처리' THEN '정상퇴근처리'
+			     WHEN WORKCHECK = '지각출근처리' THEN '지각퇴근처리'
 			END
 	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	  	</update>
