@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="freeBoard">
+  
+  	<select id="getFreeBoardList" resultType="freeBoard">
+  		SELECT * FROM BOARD_FREE
+  		WHERE FREE_DEL = 'N'
+  	</select>
+  
+  	<insert id="freeEnroll" parameterType = "freeBoard" >
+  		INSERT INTO BOARD_FREE
+  		VALUES
+  		(
+  			SEQ_BOARD_FREE.NEXTVAL,
+  			#{userNo},
+  			#{freeTitle},
+  			#{freeContent},
+  			DEFAULT,
+  			DEFAULT,
+  			DEFAULT
+  		)
+  	</insert>
+    
+    <select id="getThisBoardFreeNum" parameterType="hashmap" resultType="int">
+    	SELECT BOARD_FREE_NUM FROM BOARD_FREE
+    	WHERE USER_NO = #{userNo} AND FREE_TITLE = #{freeTitle} AND FREE_DEL = 'N'
+    </select>
+    
+    <select id="getFreeBoardDetail" resultType="freeBoard">
+    	SELECT * FROM BOARD_FREE
+    	WHERE BOARD_FREE_NUM = #{boardFreeNum} AND FREE_DEL = 'N'
+    </select>
+    
+    <update id="updateFreeUpdate" parameterType="freeBoard">
+    	UPDATE BOARD_FREE SET
+    	FREE_TITLE = #{freeTitle},
+    	FREE_CONTENT = #{freeContent},
+    	FREE_DATE = SYSDATE
+    	WHERE BOARD_FREE_NUM = #{boardFreeNum}
+    </update>
+    
+    <update id="freeDelete" parameterType="freeBoard">
+    	UPDATE BOARD_FREE SET
+    	FREE_DEL = 'Y'
+    	WHERE BOARD_FREE_NUM = #{boardFreeNum}
+    </update>
+    
+    <update id="plusFreeViewCount" parameterType="freeBoard">
+    	UPDATE BOARD_FREE SET
+    	FREE_VIEW_COUNT = FREE_VIEW_COUNT + 1
+    	WHERE BOARD_FREE_NUM = #{boardFreeNum}
+    </update>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </mapper>

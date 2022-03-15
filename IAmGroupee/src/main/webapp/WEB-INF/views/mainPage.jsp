@@ -27,6 +27,9 @@
 .announceBoard{padding: 0px !important;width: 99.5%;}
 .first{height: 90% !important;}
 .second{margin-top: -10px !important;}
+.board{width: 100%;}
+.more{width: 150px; padding-top: 15% !important;}
+.card-title{font-weight: bolder !important; font-size: larger !important;}
 </style>
 <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
 <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
@@ -79,17 +82,113 @@
 			<div class="row stat-cards second">
 				<div class="col-md-6 col-xl-7">
 					<article class="stat-cards-item announceBoard">
-						<div class="stat-cards-info">
-							<p class="stat-cards-info__num">공지 게시판</p>
-							<pre>
-
-
-
-
-
-
-                  
-                           </pre>
+						<div class="stat-cards-info board" style="margin-top: 15px;">
+							<div class="card board">
+				              <div class="card-header">
+				                <h3 class="card-title">공지사항</h3>
+				                <div class="card-tools">
+				                  <div class="input-group input-group-sm float-right more">
+				                      <a href="${root}/board/notice">더보기></a>
+				                  </div>
+				                </div>
+				              </div>
+				              <!-- /.card-header -->
+				              <div class="card-body table-responsive p-0 board">
+				                <table class="table table-hover text-nowrap">
+				                  <thead>
+				                    <tr>
+				                      <th>No</th>
+				                      <th>Title</th>
+				                      <th>User</th>
+				                      <th>Date</th>
+				                    </tr>
+				                  </thead>
+				                  <tbody>
+				                    <tr>
+				                      <td>183</td>
+				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
+				                      <td>John Doe</td>
+				                      <td>11-7-2014</td>
+				                    </tr>
+				                    <tr>
+				                      <td>219</td>
+				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
+				                      <td>Alexander Pierce</td>
+				                      <td>11-7-2014</td>
+				                    </tr>
+				                    <tr>
+				                      <td>657</td>
+				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
+				                      <td>Bob Doe</td>
+				                      <td>11-7-2014</td>
+				                    </tr>
+				                    <tr>
+				                      <td>175</td>
+				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
+				                      <td>Mike Doe</td>
+				                      <td>11-7-2014</td>
+				                    </tr>
+				                  </tbody>
+				                </table>
+				              </div>
+				              <!-- /.card-body -->
+				            </div>
+				            <!-- /.card -->
+						</div>
+						
+						<div class="stat-cards-info board">
+							<div class="card board">
+				              <div class="card-header">
+				                <h3 class="card-title">자유게시판</h3>
+				
+				                <div class="card-tools">
+				                  <div class="input-group input-group-sm float-right more">
+				                      <a href="${root}/board/freeBoard">더보기></a>
+				                  </div>
+				                </div>
+				              </div>
+				              <!-- /.card-header -->
+				              <div class="card-body table-responsive p-0 board">
+				                <table class="table table-hover text-nowrap">
+				                  <thead>
+				                    <tr>
+				                      <th>No</th>
+				                      <th>Title</th>
+				                      <th>User</th>
+				                      <th>Date</th>
+				                    </tr>
+				                  </thead>
+				                  <tbody>
+				                    <tr>
+				                      <td>183</td>
+				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
+				                      <td>John Doe</td>
+				                      <td>11-7-2014</td>
+				                    </tr>
+				                    <tr>
+				                      <td>219</td>
+				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
+				                      <td>Alexander Pierce</td>
+				                      <td>11-7-2014</td>
+				                    </tr>
+				                    <tr>
+				                      <td>657</td>
+				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
+				                      <td>Bob Doe</td>
+				                      <td>11-7-2014</td>
+				                    </tr>
+				                    <tr>
+				                      <td>175</td>
+				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
+				                      <td>Mike Doe</td>
+				                      <td>11-7-2014</td>
+				                    </tr>
+				                  </tbody>
+				                </table>
+				              </div>
+				              <!-- /.card-body -->
+				            </div>
+				            <!-- /.card -->
 						</div>
 					</article>
 				</div>
@@ -140,7 +239,7 @@
             				title : '<%=dto.getLvName()%>',
                 			start : '<%=dto.getLvStart()%>',
                				end : '<%=dto.getLvEnd()%>',
-                			color : '#4D3FCD'
+                			color : '#F9C46B'
              			 },
 					<%}%>
 	           		<%for (LvUsedListDto dtoo : lvUsedList) {%>
@@ -148,7 +247,7 @@
 	            			title : '<%=dtoo.getLvName()%>',
 	                		start : '<%=dtoo.getLvStart()%>',
 	               			end : '<%=dtoo.getLvEnd()%>',
-	                		color : '#4D3FCD'
+	                		color : '#F9C46B'
 	             		 },
 					<%}
 				  }%>
@@ -181,7 +280,7 @@
 	            				title : '<%=dto.getSchTitle()%>',
 	                			start : '<%=dto.getSchStartStr()%>',
 	               				end : '<%=dto.getSchEndStr()%>',
-	                			color : '#0581B6'
+	                			color : '#DAD873'
 	             			 },
 						<%}%>
 						<%for (SchDto dtoo : deptList) {%>
@@ -189,7 +288,7 @@
 		            			title : '<%=dtoo.getSchTitle()%>',
 		                		start : '<%=dtoo.getSchStartStr()%>',
 		               			end : '<%=dtoo.getSchEndStr()%>',
-		           				color : '#0581B6'
+		           				color : '#DAD873'
 		        			 },
 						<%}%>
 		           		<%for (SchDto dtooo : corpList) {%>
@@ -197,7 +296,7 @@
 		            			title : '<%=dtooo.getSchTitle()%>',
 		                		start : '<%=dtooo.getSchStartStr()%>',
 		               			end : '<%=dtooo.getSchEndStr()%>',
-	               				color : '#0581B6'
+	               				color : '#DAD873'
 	            			 },
 						<%}
 					}%>
