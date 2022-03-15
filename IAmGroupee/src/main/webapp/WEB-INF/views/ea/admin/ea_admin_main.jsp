@@ -226,7 +226,7 @@
 
         <!---------------------- 전체문서관리 탭 ---------------------->
         <div id="thirdDiv">
-          <button onclick="del();">선택 삭제</button>
+          <button onclick="del();">선택문서 삭제</button>
           <table>
             <thead>
               <tr>
@@ -563,15 +563,6 @@
             return true;
           }
         };
-        
-        // enter key process
-        // $('.container').on('keydown', 'input', function(e) {
-        //  if (e.keyCode === 13) {
-        //     e.preventDefault();
-        //     e.stopImmediatePropagation();
-        //     //Do your stuff...
-        //     }
-        // });
 
         // 문서관리 체크 버튼
         // 상단 체크박스 클릭하면, 전체 체크박스 클릭되도록

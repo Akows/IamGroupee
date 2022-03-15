@@ -101,21 +101,31 @@ public interface EAService {
 
 	DocsDto selectDocumentEntire(ProcessDto pd) throws Exception;
 
-	List<DocsDto> signupListForFilter(String userNo);
+	List<DocsDto> signupListForFilter(String userNo) throws Exception;
 
-	List<DocsDto> apprListForFilter(String userNo);
+	List<DocsDto> apprListForFilter(String userNo) throws Exception;
 
-	List<DocsDto> refListForFilter(String userNo);
+	List<DocsDto> refListForFilter(String userNo) throws Exception;
 
-	int updateDocumentStageWhenOne(ProcessDto resultDto);
+	int updateDocumentStageWhenOne(ProcessDto resultDto) throws Exception;
 
-	int updateDocumentStageWhenFour(ProcessDto resultDto);
+	int updateDocumentStageWhenFour(ProcessDto resultDto) throws Exception;
 
-	SecurityDto selectSecADetail();
+	SecurityDto selectSecADetail() throws Exception;
 
-	SecurityDto selectSecBDetail();
+	SecurityDto selectSecBDetail() throws Exception;
 
-	int updateStageName(ProcessDto dto);
+	int updateStageName(ProcessDto dto) throws Exception;
+
+	int countOfSignup(String userNo);
+
+	int countOfAppr(String userNo);
+
+	int countOfRefer(String userNo);
+
+	int countOfWait(String userNo);
+
+	int countOfProg(String userNo);
 
 	
 }
