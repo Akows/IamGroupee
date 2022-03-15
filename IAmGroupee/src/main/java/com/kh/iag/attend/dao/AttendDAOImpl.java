@@ -98,6 +98,7 @@ public class AttendDAOImpl implements AttendDAO
 			ss.update("attend.attendprocessOUT1", attendWTDTO);
 			ss.update("attend.attendprocessOUT2", attendWTDTO);
 			ss.update("attend.attendprocessOUT3", attendWTDTO);
+			ss.update("attend.attendprocessOUT4", attendWTDTO);
 			ss.update("attend.attendprocessOUTAttend", attendWTDTO);
 			ss.update("attend.attendprocessOUTAttend2", attendWTDTO);
 		}

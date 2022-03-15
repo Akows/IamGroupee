@@ -42,6 +42,8 @@
 				<result property="in_time" column="IN_TIME"/>
 				<result property="out_time" column="OUT_TIME"/>
 				<result property="workcheck" column="WORKCHECK"/>
+				<result property="normal_work_time" column="NORMAL_WORK_TIME"/>
+				<result property="overtime_work_time" column="OVERTIME_WORK_TIME"/>
 				<result property="total_work_time" column="TOTAL_WORK_TIME"/>
 			</resultMap>
 		
@@ -85,6 +87,8 @@
 			    IN_TIME,
 			    OUT_TIME,
 			    WORKCHECK,
+			    NORMAL_WORK_TIME,
+			    OVERTIME_WORK_TIME,
 			    TOTAL_WORK_TIME
 	  		)
 	  		VALUES
@@ -95,6 +99,8 @@
 	  			'0',
 	  			'0',
 	  			'근무정보없음',
+	  			'0',
+	  			'0',
 	  			'0'
 	  		)
 	  	</insert>
@@ -154,7 +160,9 @@
 	 	<select id="getWTTWTInfo" parameterType="attendancewt" resultType="attendancewt" resultMap="attendwtrm">
 			SELECT
 			TO_CHAR(ATTEND_DATE,'MM') AS ATTEND_DATE,
-			ROUND(SUM(TOTAL_WORK_TIME) / 3600, 3) AS TOTAL_WORK_TIME
+			ROUND(SUM(TOTAL_WORK_TIME) / 3600, 3) AS TOTAL_WORK_TIME,           			       
+            ROUND(SUM(NORMAL_WORK_TIME) / 3600, 3) AS NORMAL_WORK_TIME,
+            ROUND(SUM(OVERTIME_WORK_TIME) / 3600, 3) AS OVERTIME_WORK_TIME
 			FROM WORKTIME
 			WHERE USER_NO = #{user_no}
 			AND 
@@ -281,8 +289,93 @@
 				+
 				(SUBSTR(IN_TIME, 5, 2) * 1)
 			)
+            ,
+            NORMAL_WORK_TIME = 
+	   		(
+				(SUBSTR(OUT_TIME, 1, 2) * 3600)
+				+
+				(SUBSTR(OUT_TIME, 3, 2) * 60)
+				+
+				(SUBSTR(OUT_TIME, 5, 2) * 1)
+			)
+			
+			-
+			
+			(
+				(SUBSTR(IN_TIME, 1, 2) * 3600)
+				+
+				(SUBSTR(IN_TIME, 3, 2) * 60)
+				+
+				(SUBSTR(IN_TIME, 5, 2) * 1)
+			)
+            ,
+            OVERTIME_WORK_TIME = '0'
 	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+            AND TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) <![CDATA[<]]> 175959
 	  	</update>
+	  	
+		<update id="attendprocessOUT4" parameterType="attendancewt">
+	   		UPDATE WORKTIME
+	   		SET 
+	   		TOTAL_WORK_TIME = 
+	   		(
+				(SUBSTR(OUT_TIME, 1, 2) * 3600)
+				+
+				(SUBSTR(OUT_TIME, 3, 2) * 60)
+				+
+				(SUBSTR(OUT_TIME, 5, 2) * 1)
+			)
+			
+			-
+			
+			(
+				(SUBSTR(IN_TIME, 1, 2) * 3600)
+				+
+				(SUBSTR(IN_TIME, 3, 2) * 60)
+				+
+				(SUBSTR(IN_TIME, 5, 2) * 1)
+			)
+            ,
+            NORMAL_WORK_TIME = 
+	   		(
+				(SUBSTR(OUT_TIME, 1, 2) * 3600)
+				+
+				(SUBSTR(OUT_TIME, 3, 2) * 60)
+				+
+				(SUBSTR(OUT_TIME, 5, 2) * 1)
+			)
+			
+			-
+			
+			(
+				(17 * 3600)
+				+
+				(59 * 60)
+				+
+				(59 * 1)
+			)
+            ,
+            OVERTIME_WORK_TIME = 
+		   	(
+				(18 * 3600)
+				+
+				(0 * 60)
+				+
+				(0 * 1)
+			)
+			
+			-
+			
+			(
+				(SUBSTR(IN_TIME, 1, 2) * 3600)
+				+
+				(SUBSTR(IN_TIME, 3, 2) * 60)
+				+
+				(SUBSTR(IN_TIME, 5, 2) * 1)
+			)
+	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+            AND TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) >= 180000
+	  	</update>	  	
 	  	
 	  	<update id="attendprocessOUTAttend" parameterType="attendancewt">
 	   		UPDATE ATTENDANCE
@@ -437,7 +530,9 @@
 			        REGEXP_REPLACE(IN_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS IN_TIME, 
 		            REGEXP_REPLACE(OUT_TIME, '(.{2})(.{2})(.{2})', '\1시 \2분 \3초') AS OUT_TIME,
 			        WORKCHECK,
-			        ROUND((TOTAL_WORK_TIME / 3600), 3) AS TOTAL_WORK_TIME
+			        ROUND((TOTAL_WORK_TIME / 3600), 3) AS TOTAL_WORK_TIME,
+                    ROUND((NORMAL_WORK_TIME / 3600), 3) AS NORMAL_WORK_TIME,
+                    ROUND((OVERTIME_WORK_TIME / 3600), 3) AS OVERTIME_WORK_TIME
 			        FROM WORKTIME
 			        WHERE USER_NO = #{userNo}
 			        ORDER BY WORKTIME_NUM

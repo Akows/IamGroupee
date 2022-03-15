@@ -538,7 +538,9 @@
 						        </div>
 						        <div class="stat-cards-info">
 							    	<p class="stat-cards-info__num">이번달 근무상황</p>
-							        <p class="stat-cards-info__title">총 근무시간 : ${wtInfo2.total_work_time}시간</p>
+							        <p class="stat-cards-info__title">근무시간 총합산: <b>${wtInfo2.total_work_time}시간</b></p>
+							        <p class="stat-cards-info__title">통상근무시간 합산 : <b>${wtInfo2.normal_work_time}시간</b></p>
+							        <p class="stat-cards-info__title">초과근무시간 합산 : <b>${wtInfo2.overtime_work_time}시간</b></p>
 							        <p class="stat-cards-info__progress">
 							        <span class="stat-cards-info__profit success">
 							        	<i data-feather="trending-up" aria-hidden="true"></i>잔여근무시간 있음

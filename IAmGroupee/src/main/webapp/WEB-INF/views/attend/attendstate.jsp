@@ -65,7 +65,9 @@
 		                	</th>
 		                    <th>출근시간</th>
 		                    <th>퇴근시간</th>
-		                    <th>근무시간</th>
+		                    <th>일근무시간</th>
+		                    <th>통상근무시간</th>
+		                    <th>초과근무시간</th>
 		                    <th>정상근무여부</th>
 
 		            	</tr>
@@ -81,7 +83,9 @@
 			            		</td>
 			            		<td>${wtinf.in_time}</td>
 			            		<td>${wtinf.out_time}</td>
-			            		<td>${wtinf.total_work_time} 시간</td>		            		
+			            		<td>${wtinf.total_work_time} 시간</td>		            	
+			            		<td>${wtinf.normal_work_time} 시간</td>	
+			            		<td>${wtinf.overtime_work_time} 시간</td>		
 			            		
 			            		<c:choose>
 			            			<c:when test="${wtinf.workcheck == '정상퇴근'}">
