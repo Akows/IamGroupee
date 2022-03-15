@@ -1,18 +1,23 @@
 package com.kh.iag.mypage.service;
 
 import java.io.File;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.iag.mypage.dao.myPageDao;
+import com.kh.iag.mypage.entity.addressBookDto;
+import com.kh.iag.mypage.entity.updateAddress;
 import com.kh.iag.ps.admin.entity.UserDto;
 
 @Service
+@Transactional
 public class myPageServiceImpl implements myPageService {
 
 	@Autowired
@@ -51,5 +56,54 @@ public class myPageServiceImpl implements myPageService {
 		
 		return result;
 	}
+
+	@Override
+	public List<addressBookDto> getAdBook(String userNo) throws Exception {
+		List<addressBookDto> bookList = dao.getAdBook(userNo);
+		for(addressBookDto dto : bookList) {
+			List<UserDto> userList = dao.getBookUserList(dto.getAddressNo());
+			dto.setUserList(userList);
+		}
+		return bookList;
+	}
+
+	@Override
+	public List<UserDto> getAllUser() throws Exception {
+		return dao.getAllUser();
+	}
+
+	@Override
+	public int addBook(addressBookDto book) throws Exception {
+		int result = dao.addBook(book);
+		for(String user: book.getUser()) {
+			dao.addBookData(user);
+		}
+		return result;
+	}
+
+	@Override
+	public int delBook(int addressNo) throws Exception {
+		dao.delBookData(addressNo);
+		return dao.delBook(addressNo);
+	}
+
+	@Override
+	public int bookNameModi(addressBookDto book) throws Exception {
+		return dao.bookNameModi(book);
+	}
+
+	@Override
+	public int bookUserModi(addressBookDto book) throws Exception {
+		int result = 0;
+		for(String user: book.getUser()) {
+			updateAddress uBook = new updateAddress();
+			uBook.setAddressNo(book.getAddressNo());
+			uBook.setUser(user);
+			result += dao.updateBookData(uBook);
+		}
+		return result;
+	}
+
+
 
 }

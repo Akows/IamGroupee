@@ -11,4 +11,6 @@ public class addressBookDto {
 	private int addressNo;
 	private String addressName;
 	private List<UserDto> userList;
+	private String[] user;
+	private String userNo;
 }

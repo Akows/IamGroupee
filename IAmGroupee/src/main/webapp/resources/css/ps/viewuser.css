@@ -10,12 +10,30 @@
     border-radius: 70%;
     overflow: hidden;
     background-color: #BDBDBD;
-    margin-left: 80px;
+    margin-left: 100px;
 }
+
+
 .profile {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.box1 {
+    width: 200px;
+    height: 200px; 
+    border-radius: 70%;
+    overflow: hidden;
+    background-color: #BDBDBD;
+    margin-left: 80px;
+}
+
+
+.overflow {
+	overflow-x:hidden; 
+	overflow-y:scroll; 
+	height:650px;
 }
 
 .clickUser:hover{
@@ -24,6 +42,10 @@
 
 .info {
 	font-size: 18px;
+}
+
+.textspan{
+	margin-left : 10px;
 }
 
 .hidden{

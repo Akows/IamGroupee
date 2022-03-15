@@ -41,7 +41,7 @@
           <div class="col-8">
         		<div class="row">
         			<div class="col-12">
-        				<div class="card">
+        				<div class="card overflow">
               				<div class="card-header">
               					<span class="hidden" id="deptNo">${deptList[0].departmentNo}</span>
                 				<h2 class="card-title" id="deptName">${deptList[0].departmentName}</h2>
@@ -159,7 +159,7 @@
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">부서 추가</h4>
+              <h4 class="modal-title">상위 부서 변경</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
