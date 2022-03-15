@@ -858,4 +858,33 @@
 		JOIN DEPARTMENT DP ON(U.DEPARTMENT_NO = DP.DEPARTMENT_NO)
 		JOIN EA_FORM F ON(D.FORM_NO = F.FORM_NO)
 	</select>
+	
+<!-- etc ####################################################################################################-->
+	<!-- 메인화면 상신한 문서 개수 -->
+	<select id="countOfSignup" parameterType="string" resultType="int">
+		SELECT COUNT(DOC_NO) FROM EA_DOCUMENT WHERE USER_NO = #{userNo}
+	</select>
+	<!-- 메인화면 결재할 문서 개수 -->
+	<select id="countOfAppr" parameterType="string" resultType="int">
+		SELECT COUNT(PROC_NO) FROM EA_PROCESS WHERE USER_NO = #{userNo}
+	</select>
+	<!-- 메인화면 참조할 문서 개수 -->
+	<select id="countOfRefer" parameterType="string" resultType="int">
+		SELECT COUNT(DOC_NO) FROM EA_REF WHERE REF_NO = #{userNo}
+	</select>
+	<!-- 메인화면 대기중인 문서 개수 -->
+	<select id="countOfWait" parameterType="string" resultType="int">
+		SELECT COUNT(DOC_NO) FROM EA_DOCUMENT
+		WHERE USER_NO = #{userNo}
+		  AND DOC_SEP = 'N' 
+		  AND DOC_STAGE = 1
+	</select>
+	<!-- 메인화면 진행중인 문서 개수 -->
+	<select id="countOfProg" parameterType="string" resultType="int">
+		SELECT COUNT(DOC_NO) FROM EA_DOCUMENT
+		WHERE USER_NO = #{userNo}
+		  AND DOC_SEP = 'N' 
+		  AND DOC_STAGE > 1
+	</select>
+	
 </mapper>

@@ -55,7 +55,7 @@
                 },
                 success: function(result) {
                     if(result == 1) {
-                        alert('메시지 전송 성공');
+                        console.log('메시지 전송 성공');
                     } else if(reuslt == 0) {
                         alert('메시지 전송 실패');
                     } else {
@@ -86,9 +86,9 @@
                     let parsed = JSON.parse(data);
                     let result = parsed.result;
                     for(let i = 0; i < result.length; i++) {
-                        if(result[i][0].value == fromId) {
-                            result[i][0].value = '나';
-                        }
+                        // if(result[i][0].value == fromId) {
+                        //     result[i][0].value = '나';
+                        // }
                         addChat(result[i][0].value, result[i][2].value, result[i][3].value);
                     }
                     lastId = Number(parsed.last);
@@ -168,6 +168,15 @@
             getInfiniteUnread();
             getInfiniteChat();
         });
+        
+        // enter key process
+        // $('.container').on('keydown', 'input', function(e) {
+        //  if (e.keyCode === 13) {
+        //     e.preventDefault();
+        //     e.stopImmediatePropagation();
+        //     //Do your stuff...
+        //     }
+        // });
     </script>
 </body>
 </html>

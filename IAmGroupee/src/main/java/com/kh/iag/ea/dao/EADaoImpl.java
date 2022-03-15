@@ -238,43 +238,68 @@ public class EADaoImpl implements EADao {
 	}
 
 	@Override
-	public List<DocsDto> signupListForFilter(String userNo) {
+	public List<DocsDto> signupListForFilter(String userNo) throws Exception {
 		return sqlSession.selectList("ea.signupListForFilter", userNo);
 	}
 
 	@Override
-	public List<DocsDto> apprListForFilter(String userNo) {
+	public List<DocsDto> apprListForFilter(String userNo) throws Exception {
 		return sqlSession.selectList("ea.apprListForFilter", userNo);
 	}
 
 	@Override
-	public List<DocsDto> refListForFilter(String userNo) {
+	public List<DocsDto> refListForFilter(String userNo) throws Exception {
 		return sqlSession.selectList("ea.refListForFilter", userNo);
 	}
 
 	@Override
-	public int updateDocumentStageWhenOne(ProcessDto resultDto) {
+	public int updateDocumentStageWhenOne(ProcessDto resultDto) throws Exception {
 		return sqlSession.update("ea.updateDocumentStageWhenOne", resultDto);
 	}
 
 	@Override
-	public int updateDocumentStageWhenFour(ProcessDto resultDto) {
+	public int updateDocumentStageWhenFour(ProcessDto resultDto) throws Exception {
 		return sqlSession.update("ea.updateDocumentStageWhenFour", resultDto);
 	}
 
 	@Override
-	public SecurityDto selectSecADetail() {
+	public SecurityDto selectSecADetail() throws Exception {
 		return sqlSession.selectOne("ea.selectSecADetail");
 	}
 
 	@Override
-	public SecurityDto selectSecBDetail() {
+	public SecurityDto selectSecBDetail() throws Exception {
 		return sqlSession.selectOne("ea.selectSecBDetail");
 	}
 
 	@Override
-	public int updateStageName(ProcessDto dto) {
+	public int updateStageName(ProcessDto dto) throws Exception {
 		return sqlSession.update("ea.updateStageName", dto);
+	}
+
+	@Override
+	public int countOfSignup(String userNo) {
+		return sqlSession.selectOne("ea.countOfSignup", userNo);
+	}
+
+	@Override
+	public int countOfAppr(String userNo) {
+		return sqlSession.selectOne("ea.countOfAppr", userNo);
+	}
+
+	@Override
+	public int countOfRefer(String userNo) {
+		return sqlSession.selectOne("ea.countOfRefer", userNo);
+	}
+
+	@Override
+	public int countOfWait(String userNo) {
+		return sqlSession.selectOne("ea.countOfWait", userNo);
+	}
+
+	@Override
+	public int countOfProg(String userNo) {
+		return sqlSession.selectOne("ea.countOfProg", userNo);
 	}
 
 

@@ -192,9 +192,12 @@
             </div>
         </c:if>
 
-
         <div>
+            <a href="/iag/ea/signuplist" onclick="return deleteSignupDoc();" style="margin-right: 10px;">삭제하기</a>
             <a href="/iag/ea/signuplist">목록으로</a>
+
+            <input type="hidden" name="procNo" value="${docInfo.procNo}">
+            <input type="hidden" name="docNo" value="${docInfo.docNo}">
         </div>
       </div>
     </div>
@@ -207,5 +210,30 @@
 <!-- Custom scripts -->
 <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
 
+<script >
+    // 문서 삭제
+    function deleteSignupDoc() {
+        if(confirm('문서를 삭제하시겠습니까?')) {
+
+            $.ajax({
+                url : "${root}/ea/deleteSignupDoc",
+                method : "GET",
+                data : {
+                    docNo : '<c:out value="${docInfo.docNo}"/>'
+                },
+                succcess : function(result) {
+                    console.log(result);
+                },
+                error : function(e) {
+                    console.log(e);
+                }
+            });
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
 </body>
 </html>

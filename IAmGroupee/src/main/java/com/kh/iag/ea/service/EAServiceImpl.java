@@ -400,43 +400,68 @@ public class EAServiceImpl implements EAService {
 	}
 
 	@Override
-	public List<DocsDto> signupListForFilter(String userNo) {
+	public List<DocsDto> signupListForFilter(String userNo) throws Exception {
 		return dao.signupListForFilter(userNo);
 	}
 
 	@Override
-	public List<DocsDto> apprListForFilter(String userNo) {
+	public List<DocsDto> apprListForFilter(String userNo) throws Exception {
 		return dao.apprListForFilter(userNo);
 	}
 
 	@Override
-	public List<DocsDto> refListForFilter(String userNo) {
+	public List<DocsDto> refListForFilter(String userNo) throws Exception {
 		return dao.refListForFilter(userNo);
 	}
 
 	@Override
-	public int updateDocumentStageWhenOne(ProcessDto resultDto) {
+	public int updateDocumentStageWhenOne(ProcessDto resultDto) throws Exception {
 		return dao.updateDocumentStageWhenOne(resultDto);
 	}
 
 	@Override
-	public int updateDocumentStageWhenFour(ProcessDto resultDto) {
+	public int updateDocumentStageWhenFour(ProcessDto resultDto) throws Exception {
 		return dao.updateDocumentStageWhenFour(resultDto);
 	}
 
 	@Override
-	public SecurityDto selectSecADetail() {
+	public SecurityDto selectSecADetail() throws Exception {
 		return dao.selectSecADetail();
 	}
 
 	@Override
-	public SecurityDto selectSecBDetail() {
+	public SecurityDto selectSecBDetail() throws Exception {
 		return dao.selectSecBDetail();
 	}
 
 	@Override
-	public int updateStageName(ProcessDto dto) {
+	public int updateStageName(ProcessDto dto) throws Exception {
 		return dao.updateStageName(dto);
+	}
+
+	@Override
+	public int countOfSignup(String userNo) {
+		return dao.countOfSignup(userNo);
+	}
+
+	@Override
+	public int countOfAppr(String userNo) {
+		return dao.countOfAppr(userNo);
+	}
+
+	@Override
+	public int countOfRefer(String userNo) {
+		return dao.countOfRefer(userNo);
+	}
+
+	@Override
+	public int countOfWait(String userNo) {
+		return dao.countOfWait(userNo);
+	}
+
+	@Override
+	public int countOfProg(String userNo) {
+		return dao.countOfProg(userNo);
 	}
 
 }
