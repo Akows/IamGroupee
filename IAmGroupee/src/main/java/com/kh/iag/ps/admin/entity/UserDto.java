@@ -51,15 +51,18 @@ public class UserDto {
 	}
 	
 	public void setEndDateStr(String endDateStr) {
-		this.endDateStr = endDateStr;
-		SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
-	    Date date1 = null;
-		try {
-			date1 = sdf1.parse(endDateStr);
-		} catch (ParseException e) {
-			e.printStackTrace();
+		if (endDateStr != null && endDateStr =="") {
+			this.endDateStr = endDateStr;
+			SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
+		    Date date1 = null;
+			try {
+				date1 = sdf1.parse(endDateStr);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			this.endDate = date1;
 		}
-		this.endDate = date1;
+
 	}
 	
 	public String enrollDateToString() {

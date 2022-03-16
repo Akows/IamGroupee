@@ -1,6 +1,7 @@
 package com.kh.iag.mypage.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -95,13 +96,61 @@ public class myPageServiceImpl implements myPageService {
 	@Override
 	public int bookUserModi(addressBookDto book) throws Exception {
 		int result = 0;
+		int result1 = 0;
+		updateAddress updateUser;
+		List<updateAddress> addUserList = new ArrayList<updateAddress>();
+		List<updateAddress> delUserList = new ArrayList<updateAddress>();
+		int addressNo = book.getAddressNo();
+		List<UserDto> userList = dao.getBookUserList(addressNo);
 		for(String user: book.getUser()) {
-			updateAddress uBook = new updateAddress();
-			uBook.setAddressNo(book.getAddressNo());
-			uBook.setUser(user);
-			result += dao.updateBookData(uBook);
+			boolean isEquals = true;
+			for(UserDto userDto : userList) {	
+				if(userDto.getUserNo().equals(user)) {
+					isEquals=false;
+				}
+			}
+			if(isEquals) {
+				updateUser = new updateAddress();
+				updateUser.setAddressNo(addressNo);
+				updateUser.setUser(user);
+				addUserList.add(updateUser);
+			}
 		}
-		return result;
+		
+		for(UserDto userDto : userList) {	
+			boolean isEquals = true;
+			for(String user: book.getUser()) {
+				if(userDto.getUserNo().equals(user)) {
+					
+					isEquals=false;
+				}
+			}
+			if(isEquals) {
+				updateUser = new updateAddress();
+				updateUser.setAddressNo(addressNo);
+				updateUser.setUser(userDto.getUserNo());
+				delUserList.add(updateUser);
+			}
+		}
+	
+		
+		for(updateAddress adduser : addUserList ) {
+			result += dao.updateBookData(adduser);
+		}
+		
+		for(updateAddress deluser : delUserList ) {
+			result += dao.delBookDataUser(deluser);
+		}
+		
+		int val = addUserList.size();
+		val += delUserList.size();
+		if(result == val) {
+			result1 = 1;
+		}else {
+			result1 = 0;
+		}
+		
+		return result1;
 	}
 
 

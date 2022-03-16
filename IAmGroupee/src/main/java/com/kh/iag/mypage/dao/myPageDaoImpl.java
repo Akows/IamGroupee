@@ -72,4 +72,9 @@ public class myPageDaoImpl implements myPageDao {
 		return ss.insert("myPage.updateBookData", uBook);
 	}
 
+	@Override
+	public int delBookDataUser(updateAddress deluser) throws Exception {
+		return ss.delete("myPage.delBookUser", deluser);
+	}
+
 }
