@@ -1,5 +1,6 @@
 package com.kh.iag.mypage.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -93,11 +94,20 @@ public class myPageController {
 	@GetMapping("/bookUserModi")
 	public String bookUserModi(@ModelAttribute addressBookDto book) throws Exception {
 		int result = service.bookUserModi(book);
-		int val = book.getUser().length;
-		if(result==val) {
+		if(result>0) {
 			return "redirect:/my/addrbook";
 		}else {
 			return "redirect:/main";
 		}
+	}
+	
+	@GetMapping("/profile")
+	public String profile(HttpSession session, Model model) throws Exception {
+		com.kh.iag.user.entity.UserDto loginUser = (com.kh.iag.user.entity.UserDto) session.getAttribute("loginUser");
+		String userNo = loginUser.getUserNo();
+		UserDto userDto = service.getUser(userNo);
+		model.addAttribute("user", userDto);
+		
+		return "mypage/userProfile";
 	}
 }

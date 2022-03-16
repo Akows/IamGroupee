@@ -1,15 +1,4 @@
 @charset "UTF-8";
-.userAddLink {
-	color : blue;
-}
-
-.userAddLink:hover {
-	color : blue;
-}
-
-.textInput{
-	border: 1px solid black;
-}
 
 .box {
     width: 200px;
@@ -17,6 +6,7 @@
     border-radius: 70%;
     overflow: hidden;
     background-color: #BDBDBD;
+    margin-left: 100px;
 }
 .profile {
     width: 100%;
@@ -24,14 +14,6 @@
     object-fit: cover;
 }
 
-#file {
-	display :none;
-}
-
-#fileUpload {
-	display: none;
-}
-
-#profile:hover {
-	cursor: pointer;
+.textspan{
+	margin-left : 10px;
 }

@@ -30,4 +30,6 @@ public interface myPageDao {
 
 	int updateBookData(updateAddress uBook) throws Exception;
 
+	int delBookDataUser(updateAddress deluser) throws Exception;
+
 }

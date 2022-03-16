@@ -246,6 +246,9 @@
                       </span>
                   </a>
                   <ul class="cat-sub-menu">
+                  	  <li>
+                          <a href="${root}/my/profile">프로필</a>
+                      </li>
                       <li>
                           <a href="${root}/my/addrbook">주소록</a>
                       </li>
@@ -259,9 +262,9 @@
     </div>
     <br>
     <div class="sidebar-footer">
-        <a href="##" class="sidebar-user">
+        <a href="${root}/my/profile" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="${root}/resources/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="${root}/resources/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><img src="${root}/resources/img/ps/profile/${loginUser.profile}" alt="User name"></picture>
             </span>
             <div class="sidebar-user-info">
                 <span class="sidebar-user__title">${loginUser.name}</span>
@@ -337,15 +340,15 @@
         <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
           <span class="sr-only">My profile</span>
           <span class="nav-user-img">
-            <picture><source srcset="${root}/resources/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="${root}/resources/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
+            <picture><img src="${root}/resources/img/ps/profile/${loginUser.profile}" alt="User name"></picture>
           </span>
         </button>
         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-          <li><a href="##">
+          <li><a href="${root}/my/profile">
               <i data-feather="user" aria-hidden="true"></i>
               <span>Profile</span>
             </a></li>
-          <li><a href="##">
+          <li><a href="${root}/my/modiuser">
               <i data-feather="settings" aria-hidden="true"></i>
               <span>Account settings</span>
             </a></li>

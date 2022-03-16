@@ -89,5 +89,8 @@
 		DELETE FROM ADDRESSBOOK WHERE ADDRESS_NO = #{addressNo}
 	</delete>
 	
+	<delete id="delBookUser">
+		DELETE FROM ADDRESSBOOK_DATA WHERE ADDRESS_NO = #{addressNo} AND USER_NO= #{user}
+	</delete>
 	
 </mapper>
