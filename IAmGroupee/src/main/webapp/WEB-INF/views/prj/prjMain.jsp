@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.kh.iag.prj.entity.PrjReportDto"%>
+<% 
+	List<PrjReportDto> eventList = (List<PrjReportDto>)request.getAttribute("eventList");	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +17,10 @@
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
 
+	<!-- FullCalendar -->
+	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.3.0/main.min.js"></script>
+	
 	
 </head>
 <body>
@@ -68,21 +77,46 @@
 											<!-- 참여부서 -->
 											<div class="form-group">
 												<label>참여 부서</label>
-												<div class="select2-blue">
-													<select id="select2insidemodal" class="select2" name="departNo" multiple="multiple" data-placeholder="참여할 부서를 클릭해주세요." style="width: 100%;" required>
-														<option value="1">홍보팀</option>
-														<option value="2">인사팀</option>
-														<option value="3">총무팀</option>
-														<option value="4">회계팀</option>
-														<option value="5">영업팀</option>
-														<option value="6">기획팀</option>
-													</select>
+												<div class="row">
+													<div class="col-sm-2"></div>
+													<div class="col-sm-4">
+														<div class="custom-checkbox">
+															<input class="custom-control-input" type="checkbox" id="customCheckbox1" value="1" name="departNo">
+															<label for="customCheckbox1" class="custom-control-label">홍보팀</label><br>
+														</div>
+														<div class="custom-checkbox">
+															<input class="custom-control-input" type="checkbox" id="customCheckbox2" value="2" name="departNo">
+															<label for="customCheckbox2" class="custom-control-label">인사팀</label><br>
+														</div>
+														<div class="custom-checkbox">
+															<input class="custom-control-input" type="checkbox" id="customCheckbox3" value="3" name="departNo">
+															<label for="customCheckbox3" class="custom-control-label">총무팀</label>
+														</div>
+													</div>	
+													<div class="col-sm-6">
+														<div class="custom-control custom-checkbox">
+															<div class="custom-checkbox">
+																<input class="custom-control-input" type="checkbox" id="customCheckbox4" value="4" name="departNo">
+																<label for="customCheckbox4" class="custom-control-label">회계팀</label><br>
+															</div>
+															<div class="custom-checkbox">
+																<input class="custom-control-input" type="checkbox" id="customCheckbox5" value="5" name="departNo">
+																<label for="customCheckbox5" class="custom-control-label">영업팀</label><br>
+															</div>
+															<div class="custom-checkbox">
+																<input class="custom-control-input" type="checkbox" id="customCheckbox6" value="6" name="departNo">
+																<label for="customCheckbox6" class="custom-control-label">기획팀</label>
+															</div>
+														</div>
+													</div>
+													
 												</div>
 											</div>
 	
 											<!-- 권한 toggle -->
-											<br>
+											<hr>
 											<div class="form-group row">
+												<label>권한</label>
 												<div class="col-md-3"></div>
 												<div class="custom-control custom-switch col-md-4">
 													<input type="checkbox" name="openYn" class="custom-control-input" id="customSwitch1">
@@ -124,16 +158,6 @@
 						<div class="card">
 							<div class="card-header">
 								<h3 class="card-title"> My Project List</h3>
-								<form action="simple-results.html">
-									<div class="input-group">
-										<input type="search" class="form-control form-control-lg" placeholder="Type your keywords here">
-										<div class="input-group-append">
-											<button type="submit" class="btn btn-lg btn-default">
-												<i class="fa fa-search"></i>
-											</button>
-										</div>
-									</div>
-								</form>	
 							</div>
 							
 							<c:forEach items="${prjList}" var="p">
@@ -200,51 +224,7 @@
 								<div id="calendar"></div>
 							</div>
 						</div> 
-						
-						<!-- TO DO -->
-						<div class="card">
-							<div class="card-header">
-								<h3 class="card-title">To Do List</h3>
-							</div>
-							<div class="card-body">
-								<ul class="todo-list" data-widget="todo-list">
-									<li>
-										<!-- checkbox -->
-										<div  class="icheck-primary d-inline ml-2">
-											<input type="checkbox" value="" name="todo1" id="todoCheck1">
-											<label for="todoCheck1"></label>
-										</div>
-										<!-- todo text -->
-										<span class="text">IAMGROUPE</span>
-										<!-- Emphasis label -->
-										<small class="badge badge-danger"><i class="far fa-clock"></i> 3 days</small>
-									</li>
-									<li>
-										<!-- checkbox -->
-										<div  class="icheck-primary d-inline ml-2">
-											<input type="checkbox" value="" name="todo1" id="todoCheck1">
-											<label for="todoCheck1"></label>
-										</div>
-										<!-- todo text -->
-										<span class="text">IAMGROUPE</span>
-										<!-- Emphasis label -->
-										<small class="badge badge-danger"><i class="far fa-clock"></i> 3 days</small>
-									</li>
-									<li>
-										<!-- checkbox -->
-										<div  class="icheck-primary d-inline ml-2">
-											<input type="checkbox" value="" name="todo1" id="todoCheck1">
-											<label for="todoCheck1"></label>
-										</div>
-										<!-- todo text -->
-										<span class="text">IAMGROUPE</span>
-										<!-- Emphasis label -->
-										<small class="badge badge-danger"><i class="far fa-clock"></i> 3 days</small>
-									</li>
-								</ul>
-							</div>
-						</div> <!-- /.card -->
-					</section> <!-- /.col -->
+					</section>
 					
 				</div> <!-- /.row -->
 			</div> <!-- /.container-fluid -->
@@ -256,6 +236,8 @@
 	<script>
 		
 		$(function () {
+			//select 다중선택
+			var form = $("form").serialize();
 			
 			//Initialize Select2 Elements
 			$('.select2').select2()
@@ -281,11 +263,44 @@
 		})
 
 		document.addEventListener('DOMContentLoaded', function() {
-		  var calendarEl = document.getElementById('calendar');
-		  var calendar = new FullCalendar.Calendar(calendarEl, {
-			initialView: 'dayGridMonth'
-		  });
-		  calendar.render();
+			var calendarEl = document.getElementById('calendar');
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				googleCalendarApiKey: 'AIzaSyAs1UZKO49dOGkrpX3qeYNU0wZx_vbq1Co',
+				eventSources:{
+					googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+					className: '대한민국의 휴일',
+					color : '#DD5246'
+				},
+				headerToolbar: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'dayGridMonth,timeGridWeek,timeGridDay'
+				},
+				slotMinTime: '08:00', // Day 캘린더에서 시작 시간
+				slotMaxTime: '20:00', // Day 캘린더에서 종료 시간
+				initialView: 'dayGridMonth',
+				navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+				selectable: true, // 달력 일자 드래그 설정가능
+				nowIndicator: true, // 현재 시간 마크
+				dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+				locale: 'ko', // 한국어 설정
+				height: 690,
+				events : 
+				[ 
+					<%if (eventList != null) {%>
+						<%for (PrjReportDto r : eventList) {%>
+							{
+							title : '<%=r.getReportName()%>',
+							start : '<%=r.getStartDate()%>',
+							end : '<%=r.getEndDate()%>',
+							color : '#2D82D7'
+							},
+						<%}
+					}%>
+				]
+			});
+			calendar.render();
+	
 		});
 
 	</script>
@@ -308,9 +323,6 @@
 	
 	<!-- FullCalendar -->
 	<link rel="stylesheet" href="${root}/resources/plugins/fullcalendar/main.css">
-	<script src="${root}/resources/plugins/moment/moment.min.js"></script>
-	<script src="${root}/resources/plugins/fullcalendar/main.js"></script>
-
 	
 </body>
 </html>

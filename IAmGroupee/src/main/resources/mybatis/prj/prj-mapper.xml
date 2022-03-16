@@ -98,6 +98,10 @@
   			, P.REPORT_NAME
   			, P.REPORT_CONTENT
   			, TO_CHAR(P.CREATE_DATE, 'YYYY-MM-DD HH24:MI') CREATE_DATE
+  			, TO_CHAR(P.START_DATE, 'YYYY-MM-DD"T"HH24:MI') START_DATE
+  			, TO_CHAR(P.END_DATE, 'YYYY-MM-DD"T"HH24:MI') END_DATE
+  			, P.PERIOD
+  			, P.LOCATION
   		FROM PRJ_REPORT P
   		JOIN IAG_USER U ON (U.USER_NO = P.USER_NO)
   		WHERE P.DELETE_YN = 'N' AND P.PRJ_NO = #{prjNo}
@@ -122,6 +126,34 @@
   			, #{reportName}
   			, #{reportContent}
   			, CURRENT_DATE
+  		)
+  	</insert>
+  	
+  	<insert id="postS" parameterType="com.kh.iag.prj.entity.PrjReportDto">
+  		INSERT INTO PRJ_REPORT(
+  			  REPORT_NO
+  			, PRJ_NO
+  			, USER_NO
+  			, REPORT_TYPE
+  			, REPORT_NAME
+  			, REPORT_CONTENT
+  			, CREATE_DATE
+  			, START_DATE
+  			, END_DATE
+  			, PERIOD
+  			, LOCATION
+  		)VALUES(
+  			  SEQ_PRJ_REPORT.NEXTVAL
+  			, #{prjNo}
+  			, #{userNo}
+  			, #{reportType}
+  			, #{reportName}
+  			, #{reportContent}
+  			, CURRENT_DATE
+  			, TO_DATE(#{startDate}, 'YYYY-MM-DD HH24:MI')
+			, TO_DATE(#{endDate}, 'YYYY-MM-DD HH24:MI')
+			, #{period}
+			, #{location}
   		)
   	</insert>
   	
@@ -152,5 +184,66 @@
   			, CURRENT_DATE
   		)
   	</insert>
+  	
+  	<select id="gCnt" resultType="int">
+  		SELECT COUNT(*) FROM PRJ_REPORT
+  		WHERE PRJ_NO = #{prjNo}
+  		AND REPORT_TYPE = 'G'
+  		AND DELETE_YN = 'N'
+  	</select>
+  	
+  	<select id="cCnt" resultType="int">
+  		SELECT COUNT(*) FROM PRJ_REPORT
+  		WHERE PRJ_NO = #{prjNo}
+  		AND REPORT_TYPE = 'C'
+  		AND DELETE_YN = 'N'
+  	</select>
+  	
+  	<select id="wCnt" resultType="int">
+  		SELECT COUNT(*) FROM PRJ_REPORT
+  		WHERE PRJ_NO = #{prjNo}
+  		AND REPORT_TYPE = 'W'
+  		AND DELETE_YN = 'N'
+  	</select>
+  	
+  	<select id="allCnt" resultType="int">
+  		SELECT COUNT(*) FROM PRJ_REPORT
+  		WHERE PRJ_NO = #{prjNo}
+  		AND DELETE_YN = 'N'
+  	</select>
+  	
+  	<select id="selectList" resultType="com.kh.iag.prj.entity.PrjReportDto">
+  		SELECT
+  			  P.REPORT_NO
+  			, P.PRJ_NO
+  			, P.USER_NO
+  			, U.NAME
+  			, U.PROFILE
+  			, P.REPORT_TYPE
+  			, P.REPORT_NAME
+  			, P.REPORT_CONTENT
+  			, TO_CHAR(P.CREATE_DATE, 'YYYY-MM-DD HH24:MI') CREATE_DATE
+  			, TO_CHAR(P.START_DATE, 'YYYY-MM-DD"T"HH24:MI') START_DATE
+  			, TO_CHAR(P.END_DATE, 'YYYY-MM-DD"T"HH24:MI') END_DATE
+  			, P.PERIOD
+  			, P.LOCATION
+  		FROM PRJ_REPORT P
+  		JOIN IAG_USER U ON (U.USER_NO = P.USER_NO)
+  		WHERE P.DELETE_YN = 'N' 
+  		AND P.PRJ_NO = #{prjNo}
+  		AND P.REPORT_TYPE = #{reportType}
+  		ORDER BY P.CREATE_DATE DESC
+  	</select>
+  	
+  	<select id="eventList" resultType="com.kh.iag.prj.entity.PrjReportDto">
+  		SELECT
+			 PR.REPORT_NAME
+			, TO_CHAR(PR.START_DATE, 'YYYY-MM-DD"T"HH24:MI') START_DATE
+			, TO_CHAR(PR.END_DATE, 'YYYY-MM-DD"T"HH24:MI') END_DATE
+		FROM PRJ_REPORT PR
+		JOIN PROJECT P ON (P.PRJ_NO = PR.PRJ_NO)
+		WHERE P.DELETE_YN = 'N' 
+		AND P.DEPART_NO = #{departNo}
+  	</select>
   	
   </mapper>

@@ -25,9 +25,26 @@ public interface PrjDao {
 	//글 작성
 	int post(PrjReportDto dto) throws Exception;
 
+	Object postS(PrjReportDto dto);
+	
 	void uploadFile(FileDto dto) throws Exception;
 
 	int insertComm(CommDto dto) throws Exception;
+
+	int gCnt(int prjNo) throws Exception;
+
+	int cCnt(int prjNo) throws Exception;
+
+	int wCnt(int prjNo) throws Exception;
+
+	int allCnt(int prjNo) throws Exception;
+	
+	List<PrjReportDto> selectList(int prjNo, String reportType) throws Exception;
+
+	List<PrjReportDto> eventList(int departNo) throws Exception;
+
+
+
 
 
 }

@@ -21,6 +21,8 @@ public class PrjReportDto {
 	
 	private String name;
 	private String profile;
-	private String start;
-	private String end;
+	private String period;
+	private String startDate;
+	private String endDate;
+	private String location;
 }

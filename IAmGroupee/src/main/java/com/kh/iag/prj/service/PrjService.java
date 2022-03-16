@@ -27,9 +27,24 @@ public interface PrjService {
 	//업로드
 	int post(PrjReportDto dto) throws Exception;
 	
+	Object postS(PrjReportDto dto) throws Exception;
+	
 	void uploadFile(FileDto dto) throws Exception;
 
 	int insertComm(CommDto dto) throws Exception;
+
+	int gCnt(int prjNo) throws Exception;
+
+	int cCNt(int prjNo) throws Exception;
+
+	int wCnt(int prjNo) throws Exception;
+
+	int allCnt(int prjNo) throws Exception;
+	
+	List<PrjReportDto> selectList(int prjNo, String reportType) throws Exception;
+
+	List<PrjReportDto> eventList(int departNo) throws Exception;
+
 
 	
 

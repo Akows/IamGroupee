@@ -75,6 +75,11 @@ public class PrjServiceImpl implements PrjService{
 	}
 
 	@Override
+	public Object postS(PrjReportDto dto) throws Exception {
+		return dao.postS(dto);
+	}
+	
+	@Override
 	public void uploadFile(FileDto dto) throws Exception {
 		dao.uploadFile(dto);
 	}
@@ -82,6 +87,36 @@ public class PrjServiceImpl implements PrjService{
 	@Override
 	public int insertComm(CommDto dto) throws Exception {
 		return dao.insertComm(dto);
+	}
+
+	@Override
+	public int gCnt(int prjNo) throws Exception {
+		return dao.gCnt(prjNo);
+	}
+
+	@Override
+	public int cCNt(int prjNo) throws Exception {
+		return dao.cCnt(prjNo);
+	}
+
+	@Override
+	public int wCnt(int prjNo) throws Exception {
+		return dao.wCnt(prjNo);
+	}
+
+	@Override
+	public int allCnt(int prjNo) throws Exception {
+		return dao.allCnt(prjNo);
+	}
+	
+	@Override
+	public List<PrjReportDto> selectList(int prjNo, String reportType) throws Exception {
+		return dao.selectList(prjNo, reportType);
+	}
+
+	@Override
+	public List<PrjReportDto> eventList(int departNo) throws Exception {
+		return dao.eventList(departNo);
 	}
 
 
