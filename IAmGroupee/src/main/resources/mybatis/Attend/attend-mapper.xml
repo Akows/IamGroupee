@@ -233,7 +233,7 @@
 			NORMAL_CHECK =
 			CASE
 				 WHEN TO_CHAR(SYSDATE, 'dy') = '토' THEN 'Y'
-				 WHEN TO_CHAR(SYSDATE, 'dy') = '토' THEN 'Y'
+				 WHEN TO_CHAR(SYSDATE, 'dy') = '일' THEN 'Y'
 			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) <![CDATA[<]]> 090000 THEN 'Y'
 			     WHEN TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) > 090000 THEN 'N'
 			END
@@ -400,10 +400,59 @@
 			)
 	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
             AND TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) >= 180000
+            AND TO_NUMBER(IN_TIME) <![CDATA[<]]> 180000
             AND WORKCHECK != '휴일퇴근'
 	  	</update>
 	  	
 	  	<update id="attendprocessOUT6" parameterType="attendancewt">
+	   		UPDATE WORKTIME
+	   		SET 
+	   		TOTAL_WORK_TIME = 
+	   		(
+				(SUBSTR(OUT_TIME, 1, 2) * 3600)
+				+
+				(SUBSTR(OUT_TIME, 3, 2) * 60)
+				+
+				(SUBSTR(OUT_TIME, 5, 2) * 1)
+			)
+			
+			-
+			
+			(
+				(SUBSTR(IN_TIME, 1, 2) * 3600)
+				+
+				(SUBSTR(IN_TIME, 3, 2) * 60)
+				+
+				(SUBSTR(IN_TIME, 5, 2) * 1)
+			)
+            ,
+            NORMAL_WORK_TIME = 0
+            ,
+            OVERTIME_WORK_TIME = 
+		   	(
+				(SUBSTR(OUT_TIME, 1, 2) * 3600)
+				+
+				(SUBSTR(OUT_TIME, 3, 2) * 60)
+				+
+				(SUBSTR(OUT_TIME, 5, 2) * 1)
+			)
+			
+			-
+			
+			(
+				(SUBSTR(IN_TIME, 1, 2) * 3600)
+				+
+				(SUBSTR(IN_TIME, 3, 2) * 60)
+				+
+				(SUBSTR(IN_TIME, 5, 2) * 1)
+			)
+	   		WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+            AND TO_NUMBER(TO_CHAR(SYSDATE,'HH24MISS')) >= 180000
+            AND TO_NUMBER(IN_TIME) >= 180000
+            AND WORKCHECK != '휴일퇴근'
+	  	</update>
+	  	
+	  	<update id="attendprocessOUT7" parameterType="attendancewt">
 	   		UPDATE WORKTIME
 	   		SET 
 	   		TOTAL_WORK_TIME = 	   		
