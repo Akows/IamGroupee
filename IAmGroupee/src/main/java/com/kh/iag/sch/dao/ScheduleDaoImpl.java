@@ -38,6 +38,11 @@ public class ScheduleDaoImpl implements ScheduleDao{
 	public void modifySch(SchDto modSchDto) throws Exception {
 		session.update("sch.modifySch", modSchDto);
 	}
+
+	@Override
+	public void deleteSch(int schNo) throws Exception {
+		session.delete("sch.deleteSch", schNo);
+	}
 	
 	
 

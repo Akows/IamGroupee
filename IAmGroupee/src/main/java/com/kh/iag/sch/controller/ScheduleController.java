@@ -79,6 +79,16 @@ public class ScheduleController {
 		
 		return "redirect:/sch/mySch2";
 	}
+	// 일정 삭제하기
+	@PostMapping("delSch")
+	public String delSch(String schNum) throws Exception {
+		System.out.println(schNum);
+		int schNo = Integer.parseInt(schNum);
+		
+		service.deleteSch(schNo);
+		
+		return "redirect:/sch/mySch2";
+	}
 	
 	
 	

@@ -41,4 +41,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 		dao.modifySch(modSchDto);
 	}
 
+	@Override //일정삭제
+	public void deleteSch(int schNo) throws Exception {
+		dao.deleteSch(schNo);
+	}
+
 }
