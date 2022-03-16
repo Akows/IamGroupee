@@ -52,15 +52,14 @@ public class BoardController {
 	@GetMapping("noticeBoardDetail/{noticeNum}") // 공지사항 상세보기
 	public String noticeBoardDetail(@PathVariable int noticeNum, Model model, HttpSession session) throws Exception {
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
-		String useNo = loginUser.getUserNo();
+		String boardRight = loginUser.getBoardRight();
 		
 		// 조회수 올리기
 		service.plusNoticeViewCount(noticeNum);
 		
 		NoticeBoardDto noticeBoardDetail = service.getNoticeBoardDetail(noticeNum);
 		
-		session.setAttribute("useNo", useNo);
-		session.setAttribute("userNo", noticeBoardDetail.getUserNo());
+		session.setAttribute("boardRight", boardRight);
 		model.addAttribute("noticeBoardDetail", noticeBoardDetail);
 		
 		return "board/noticeDetail";

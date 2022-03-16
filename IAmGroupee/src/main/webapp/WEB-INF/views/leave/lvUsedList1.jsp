@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="java.util.List"%>
 <%@page import="com.kh.iag.leave.entity.LvUsedListDto"%>
+<%@page import="com.kh.iag.leave.entity.PageVo"%>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,6 +43,9 @@
 								</tr>
 							</thead>
 							<tbody>
+							
+							<%List<LvUsedListDto> alvUsedList = (List<LvUsedListDto>)request.getAttribute("alvUsedListIf");%>
+							<%if (alvUsedList != null) {%>
 								<c:forEach items="${alvUsedListIf}" var="alv">
 									<tr>
 										<td>${alv.lvName}</td>
@@ -50,10 +54,13 @@
 										<td>${alv.lvReason}</td>
 									</tr>
 								</c:forEach>
+							<%}%>
 							</tbody>
 						</table>
 					</div>
 					<!-- 페이징 -->
+					<%PageVo pageVo = (PageVo)request.getAttribute("pageVoAlv");%>
+					<%if (pageVo != null) {%>
 					<div class="card-footer clearfix"
 						style="width: 100%; margin: 0; text-align: center; height: 45px; padding: 0px;">
 						<nav aria-label="Page navigation example"
@@ -99,6 +106,7 @@
 							</ul>
 						</nav>
 					</div>
+					<%} %>
 				</div>
 			</div>
 		</div>
