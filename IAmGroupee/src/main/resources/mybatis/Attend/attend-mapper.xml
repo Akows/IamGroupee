@@ -108,12 +108,12 @@
   		<!-- =================================================================== -->			
   
   		<!-- 메인페이지 정보 출력 -->
-  		<!-- 미승인 수정요청 건수 데이터를 조회하는 SQL문 -->
+  		<!-- 비정상처리된 근무일을 조회하는 SQL문 -->
 	  	<select id="getAttendInfo" parameterType="attendance" resultType="attendance" resultMap="attendrm">
 			SELECT COUNT(ATTEND_NUM) AS "ATTEND_NUM"
 			FROM ATTENDANCE
 			WHERE USER_NO = #{user_no}
-			AND NORMAL_CHECK != '정상근무'
+			AND NORMAL_CHECK != 'Y'
 	 	</select>
 	 	
 	 	<!-- 사용자 이름과 사번 데이터를 조회하는 SQL문 -->
@@ -484,7 +484,7 @@
 	 		SELECT COUNT(*)
 	 		FROM ATTENDANCEMODIFY
 	 		WHERE TO_CHAR(MODIFY_REQ_DATE,'YYYYMMDD') = CONCAT(CONCAT(SUBSTR(#{attend_date}, 1, 4), SUBSTR(#{attend_date}, 7, 2)), SUBSTR(#{attend_date}, 11, 2))
-	 		AND APPROVE_STATE != '승인됨'
+	 		AND APPROVE_STATE != '반려됨'
 	  	</select>	  	
 	  	
 	  	<update id="modfilereq" parameterType="attendancemod">
@@ -535,7 +535,7 @@
                     ROUND((OVERTIME_WORK_TIME / 3600), 3) AS OVERTIME_WORK_TIME
 			        FROM WORKTIME
 			        WHERE USER_NO = #{userNo}
-			        ORDER BY WORKTIME_NUM
+			        ORDER BY WORKTIME_NUM DESC
 			    ) WT
 			)
 			WHERE RN BETWEEN #{startRow} AND #{endRow}			

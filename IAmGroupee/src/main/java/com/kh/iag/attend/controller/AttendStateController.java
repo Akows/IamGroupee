@@ -45,7 +45,7 @@ public class AttendStateController
 	
 		List<AttendWTDTO> attendWTList = service.getWorktimeList(AttendpageDTO, userNo);
 		
-		System.out.println(attendWTList.size());
+//		System.out.println(attendWTList.size());
 		
 //		for(AttendWTDTO x : attendWTList) 
 //		{

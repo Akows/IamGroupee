@@ -34,7 +34,7 @@ public class AttendModifyReqController
 
 	
 	@RequestMapping(value = "attendstate/attendmodify", method = RequestMethod.POST)
-	public String attendModifyReq(AttendModDTO attendmodDTO, HttpServletRequest req, MultipartFile file) throws Exception
+	public String attendModifyReq(AttendModDTO attendmodDTO, HttpServletRequest req, MultipartFile file, Model model) throws Exception
 	{
 		UserDto loginUser = (UserDto) req.getSession().getAttribute("loginUser");
 		String userno = loginUser.getUserNo();
@@ -45,6 +45,7 @@ public class AttendModifyReqController
 		
 		String attend_date = req.getParameter("modify_req_date");
 		int resultCheck = service.checkModReq(attend_date);
+		
 		
 		if (resultCheck == 0)
 		{
