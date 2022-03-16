@@ -40,12 +40,9 @@
 		<br>
 		<hr>
 		
-		<p> 
+		<input type="button" class="mbtn" style="font-size: larger;" value="설명서" style="width: 100px; height: 30px;">		
 		
-			<input type="button" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="설명서" onclick="clickEventHandler();">
-		
-		</p>
-		
+		<br>
 		<hr>
 	
 	<form action="attendmodify" method="post" enctype="multipart/form-data" onsubmit="return check()" name="modform">	
@@ -104,7 +101,7 @@
 			            			</c:when>
 			            			<c:when test="${wtinf.workcheck == '초과근무퇴근'}">
 										<td>
-											<div class="badge-active" style="color: green">
+											<div class="badge-active" style="color: blue">
 												${wtinf.workcheck}
 											</div>									
 										</td>
@@ -112,14 +109,14 @@
 			            			
 			            			<c:when test="${wtinf.workcheck == '지각정상퇴근'}">
 										<td>
-											<div class="badge-pending" style="color: yellow">
+											<div class="badge-pending" style="color: orange">
 												${wtinf.workcheck}
 											</div>
 										</td>
 			            			</c:when>
 			            			<c:when test="${wtinf.workcheck == '지각초과근무퇴근'}">
 										<td>
-											<div class="badge-pending" style="color: green">
+											<div class="badge-pending" style="color: blue">
 												${wtinf.workcheck}
 											</div>
 										</td>
@@ -208,7 +205,7 @@
 				<br>
 				
 	<div class="row stat-cards">
-        	<div class="col-md-12 col-xl-6">
+        <div class="col-md-12 col-xl-6">
             <article class="stat-cards-item">
               <div class="stat-cards-info">
                 <p class="stat-cards-info__num">근무상황 수정요청</p>
@@ -226,6 +223,24 @@
                     
                     <input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="수정요청">
                 
+              </div>
+            </article>
+        </div>
+        
+        <div class="col-md-12 col-xl-6">
+            <article class="stat-cards-item">
+              <div class="stat-cards-info">
+                 <p class="stat-cards-info__num">조회페이지 사용설명서</p>
+				 <p class="stat-cards-info__title">조회페이지를 참고하는데 도움이 되는 설명들입니다.</p>
+				 <p class="stat-cards-info__title">추가적인 문의사항은 인사팀에 연락해주세요.</p>
+				 
+				 <hr>
+				                
+				 <p class="stat-cards-info__title">* 근무시간은 오전 9시 ~ 오후 6시입니다.</p>
+				 <p class="stat-cards-info__title">* 9시 이후 줄근은 무조건 지각처리됩니다.</p>
+				 <p class="stat-cards-info__title">* 부득이한 이유로 지각처리되었을 경우 수정요청을 보내주세요</p>		
+				 <p class="stat-cards-info__title">* 오후 6시 이후 근무시간은 초과근무로 처리됩니다.</p>				                
+				 <p class="stat-cards-info__title">* 휴일에는 모든 근무시간이 초과근무시간으로 처리됩니다.</p>		
               </div>
             </article>
         </div>       
@@ -254,8 +269,16 @@
 	let day = today.getDate();
 	
 	document.getElementById("currentDate").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
-
+	document.getElementById("currentDate2").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
+	
 	<!-- 조회페이지 설명서 띄우는 스크립트 -->
+	let mBtn = document.getElementsByClassName("mbtn");
+	
+	$(mBtn).each(function(idx, element)
+	{
+		element.addEventListener('click', clickEventHandler);
+	});
+
 	function clickEventHandler()
 	{
 		var url = "http://127.0.0.1:8989/iag/attend/attendstatemanual";
