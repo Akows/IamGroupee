@@ -66,6 +66,7 @@ public class AttendManageAttachFileController
 		
 		System.out.println("=====");
 		System.out.println(attach_file);
+		
 		attach_file += ".JPG";
 		
 		AttendModDTO attendModDTO = Attenddao.downloadFile(attach_file);
