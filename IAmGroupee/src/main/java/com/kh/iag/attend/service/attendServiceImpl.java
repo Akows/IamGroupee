@@ -40,6 +40,12 @@ public class attendServiceImpl implements attendService
 		{
 			attendDAO.attendWTtempdatainsert(attendWTDTO);
 		}
+		
+		@Override
+		public int attendDataCnt(AttendDTO attendDTO) throws Exception 
+		{
+			return attendDAO.attendDataCnt(attendDTO);
+		}
 	
 		//메인페이지 정보 출력
 		@Override
@@ -148,6 +154,13 @@ public class attendServiceImpl implements attendService
 			return attendDAO.getAttendModCnt();
 		}
 		
+		@Override
+		public String getWorkCheck(String attend_date) throws Exception 
+		{
+			return attendDAO.getWorkCheck(attend_date);
+		}
+
+		
 		//일일 근태현황조회	
 		@Override
 		public List<AttendDTO> getAllAttendINfo(AttendDTO attendDTO) throws Exception 
@@ -228,6 +241,9 @@ public class attendServiceImpl implements attendService
 		{
 			attendDAO.approveManageNone(attendModDTO);
 		}
+
+
+
 
 
 

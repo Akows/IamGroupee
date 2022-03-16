@@ -29,7 +29,6 @@
 
 <!-- 메인 메뉴바(좌측 사이드) -->
 <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
-<% int a = 1; %>
 
 <main class="main users chart-page" id="skip-target">
 	<div class="container">
@@ -51,7 +50,7 @@
 				<input type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: small;" value="근태테이블생성" id="tempinsertBtn"/> <!-- onclick="insertTempTable(); this.onclick=''"; -->
 			</form>
 		</div>
-		
+
 		<br>
 
 		<!-- ===================================================================================================== -->

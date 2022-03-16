@@ -62,6 +62,7 @@
                     <th>신청일</th>
                     <th>신청자</th>
                     <th>신청사유</th>
+                    <th>수정요청일</th>
                     <th>첨부파일</th>
                     <th>현재상태</th>
                   </tr>
@@ -73,6 +74,7 @@
 							<td>${modlist.req_date}</td>
 							<td>${modlist.user_name}</td>
 							<td>${modlist.mod_reason}</td>
+							<td>${modlist.modify_req_date}</td>
 							<td>
 								<input type="hidden" id="xxx" name="attend_mod_num" value="${modlist.attend_mod_num}">
 								<input type="button" class="tempBtn" name="attach_file" id="filepage" value="${modlist.attach_file}">

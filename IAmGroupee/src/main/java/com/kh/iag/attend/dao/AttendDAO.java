@@ -13,9 +13,10 @@ public interface AttendDAO
 {
 	//메인페이지
 		//근태 테이블 생성
-		void attendtempdatainsert(AttendDTO attendDTO) throws Exception ;
+		void attendtempdatainsert(AttendDTO attendDTO) throws Exception;
 		int getAttendSeq() throws Exception;
-		void attendWTtempdatainsert(AttendWTDTO attendWTDTO) throws Exception ;
+		void attendWTtempdatainsert(AttendWTDTO attendWTDTO) throws Exception;
+		int attendDataCnt(AttendDTO attendDTO) throws Exception;
 	
 		//메인페이지 정보 출력
 		List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception;
@@ -39,6 +40,8 @@ public interface AttendDAO
 		int getAttendmodSeq() throws Exception;
 		int insertattendmodify(AttendModDTO attendmodDTO) throws Exception;
 		void uploadfile(AttendModDTO attendmodDTO) throws Exception;
+		String getWorkCheck(String attend_date) throws Exception;
+
 	
 		//일일 근태현황조회
 		List<AttendDTO> getAllAttendINfo(AttendDTO attendDTO) throws Exception;
@@ -68,6 +71,7 @@ public interface AttendDAO
 		//수정요청처리
 		void approveManageOK(AttendModDTO attendModDTO) throws Exception;
 		void approveManageNone(AttendModDTO attendModDTO) throws Exception;
+
 
 
 

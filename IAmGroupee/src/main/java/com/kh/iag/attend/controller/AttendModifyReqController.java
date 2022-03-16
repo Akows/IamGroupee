@@ -46,11 +46,26 @@ public class AttendModifyReqController
 		String attend_date = req.getParameter("modify_req_date");
 		int resultCheck = service.checkModReq(attend_date);
 		
+		String workcheck = String.valueOf(service.getWorkCheck(attend_date));
+		
+		System.out.println("attend_date : " + attend_date);
+		System.out.println("workcheck : " + workcheck);
 		
 		if (resultCheck == 0)
 		{
-			service.attendModify(attendmodDTO, req, file);
-			return "redirect:/attend/attendstate";
+			if (workcheck == "정상퇴근")
+			{
+				return "redirect:/attend/attendstate";
+			}
+			else if (workcheck == "초과근무퇴근") 
+			{
+				return "redirect:/attend/attendstate";
+			}
+			else
+			{
+				service.attendModify(attendmodDTO, req, file);
+				return "redirect:/attend/attendstate";
+			}
 		}
 		else
 		{

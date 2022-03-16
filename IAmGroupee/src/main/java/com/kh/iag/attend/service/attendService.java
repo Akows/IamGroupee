@@ -17,6 +17,7 @@ public interface attendService
 		//근태 테이블 생성
 		void attendtempdatainsert(AttendDTO attendDTO) throws Exception;
 		void attendWTtempdatainsert(AttendWTDTO attendWTDTO) throws Exception;
+		int attendDataCnt(AttendDTO attendDTO) throws Exception;
 
 		//메인페이지 정보 출력
 		List<AttendDTO> getAttendInfo(AttendDTO attendDTO) throws Exception;
@@ -38,6 +39,7 @@ public interface attendService
 		//근태수정요청
 		int attendModify(AttendModDTO attendmodDTO, HttpServletRequest req, MultipartFile file) throws Exception;
 		int getAttendModCnt() throws Exception;
+		String getWorkCheck(String attend_date) throws Exception;
 		
 		//일일 근태현황조회
 		List<AttendDTO> getAllAttendINfo(AttendDTO attendDTO) throws Exception;
@@ -65,6 +67,7 @@ public interface attendService
 		//수정요청처리
 		void approveManageOK(AttendModDTO attendModDTO) throws Exception;
 		void approveManageNone(AttendModDTO attendModDTO) throws Exception;
+
 
 
 

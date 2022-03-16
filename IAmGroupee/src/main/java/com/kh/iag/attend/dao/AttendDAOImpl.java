@@ -40,6 +40,12 @@ public class AttendDAOImpl implements AttendDAO
 		{
 			ss.insert("attend.attendWTtempdatainsert", attendWTDTO);	
 		}
+		
+		@Override
+		public int attendDataCnt(AttendDTO attendDTO) throws Exception 
+		{
+			return ss.selectOne("attend.attendDataCnt", attendDTO);			
+		}
 
 		//메인페이지 정보 출력
 		@Override
@@ -137,6 +143,12 @@ public class AttendDAOImpl implements AttendDAO
 		{
 			ss.update("attend.modfilereq", attendmodDTO);		
 		}
+		@Override
+		public String getWorkCheck(String attend_date) throws Exception 
+		{
+			return ss.selectOne("attend.getWorkCheck", attend_date);
+		}
+
 		
 		//일일 근태현황조회	
 		@Override
@@ -235,6 +247,7 @@ public class AttendDAOImpl implements AttendDAO
 			ss.update("attend.approveManageOK", attendModDTO);
 			ss.update("attend.approveManageOKAT", attendModDTO);
 			ss.update("attend.approveManageOKWT", attendModDTO);
+			ss.update("attend.approveManageOKWT2", attendModDTO);			
 		}
 	
 		@Override
@@ -242,6 +255,8 @@ public class AttendDAOImpl implements AttendDAO
 		{
 			ss.update("attend.approveManageNone", attendModDTO);						
 		}
+
+
 
 
 

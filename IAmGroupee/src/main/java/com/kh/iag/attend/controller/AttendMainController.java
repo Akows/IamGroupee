@@ -45,19 +45,19 @@ public class AttendMainController
 		attendDTO.setUser_no(userNo);
 		attendDTO.setUser_name(userName);
 		attendWTDTO.setUser_no(userNo);
-
-		try 
+		
+		int check = service.attendDataCnt(attendDTO);
+		
+		if (check == 0)
 		{
 			service.attendWTtempdatainsert(attendWTDTO);
 			service.attendtempdatainsert(attendDTO);
+			return "redirect:/attend/attendmain";
 		}
-		catch(Exception e) 
+		else
 		{
-			log.error("error");
-		}
-		
-		
-		return "redirect:/attend/attendmain";
+			return "redirect:/attend/attendmain";
+		}	
 	}
 
 	@GetMapping("attendmain")

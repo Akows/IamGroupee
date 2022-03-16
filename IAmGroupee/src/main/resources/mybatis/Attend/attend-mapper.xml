@@ -104,7 +104,13 @@
 	  			'0'
 	  		)
 	  	</insert>
-	  		
+	  	
+	  	<select id="attendDataCnt" resultType="int">
+			SELECT COUNT(*)
+			FROM ATTENDANCE
+			WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	  	</select>	  	
+	  	
   		<!-- =================================================================== -->			
   
   		<!-- 메인페이지 정보 출력 -->
@@ -494,6 +500,12 @@
 	   		WHERE ATTEND_MOD_NUM = #{attend_mod_num}
 	  	</update>
 	  	
+	 	<select id="getWorkCheck" resultType="String">		  	
+			SELECT WORKCHECK
+			FROM WORKTIME
+			WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = CONCAT(CONCAT(SUBSTR(#{attend_date}, 1, 4), SUBSTR(#{attend_date}, 7, 2)), SUBSTR(#{attend_date}, 11, 2))
+	  	</select>	  	
+
 	  	<!-- 일일 근태현황조회 -->
 	  	<select id="getAllAttendINfo" parameterType="attendance" resultType="attendance" resultMap="attendrm">
 			SELECT USER_NO, USER_NAME
@@ -607,7 +619,7 @@
 	  	<update id="approveManageOKAT" parameterType="attendance">
 			UPDATE ATTENDANCE
 			SET
-			NORMAL_CHECK = '정상근무',
+			NORMAL_CHECK = 'Y',
 			IRREGULAR_REASON = '이상없음'
 			WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = #{modify_req_date}
 	  	</update>
@@ -615,8 +627,17 @@
 	  	<update id="approveManageOKWT" parameterType="attendancewt">
 			UPDATE WORKTIME
 			SET
- 			WORKCHECK = '정상퇴근처리'
+ 			WORKCHECK = '정상퇴근'
 			WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = #{modify_req_date}
+			AND WORKCHECK = '지각정상퇴근'
+	  	</update>
+	  	
+	  	<update id="approveManageOKWT2" parameterType="attendancewt">
+			UPDATE WORKTIME
+			SET
+ 			WORKCHECK = '초과근무퇴근'
+			WHERE TO_CHAR(ATTEND_DATE,'YYYYMMDD') = #{modify_req_date}
+			AND WORKCHECK = '지각초과근무퇴근'
 	  	</update>
 	  	
 	  	<update id="approveManageNone" parameterType="attendancemod">
