@@ -33,10 +33,10 @@
 				<form id="noticeWriteAD" method="post">
 		            <div class="card-body p-0">
 		              <div class="mailbox-read-info" style="margin-left: 10px; margin-right: 10px;">
-		                <input type="text" placeholder="제목을 입력해주세요." id="lvbTitle" name="lvbTitle" style="border: 1px solid lightgray; width: 100%;">
+		                <input type="text" placeholder="제목을 입력해주세요." id="noticeTitle" name="noticeTitle" style="border: 1px solid lightgray; width: 100%;">
 		              </div>
 		              <div class="mailbox-read-message" style="text-align: center; width: 90%; margin: auto; margin-bottom: 10px;">
-						<textarea name="lvbContent" id="lvbContent" rows="10" cols="100" style="width:100%; height:412px; margin: auto;"></textarea>
+						<textarea name="noticeContent" id="noticeContent" rows="10" cols="100" style="width:100%; height:412px; margin: auto;"></textarea>
 		              </div>
 		            </div>
 				  <div class="card-footer clearfix" style="width: 100%; margin: auto;">
@@ -49,7 +49,7 @@
 						 </c:if>
 			                <input type="button" onclick="history.go(-1);" value="취소" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white; margin-right: 6px; float: left;">
 			          </div>
-			          <input type="hidden" name="lvbNo" value="${thisLvbData.lvbNo}">
+			          <input type="hidden" name="noticeNum" value="${thisNoticeData.noticeNum}">
                   </div>
                 </form>
                 
@@ -66,32 +66,32 @@
 		var oEditors = [];
 			nhn.husky.EZCreator.createInIFrame({
 			oAppRef: oEditors,
-			elPlaceHolder: document.getElementById('lvbContent'), // html editor가 들어갈 textarea id
+			elPlaceHolder: document.getElementById('noticeContent'), // html editor가 들어갈 textarea id
 			sSkinURI: "${root}/resources/smarteditor2/SmartEditor2Skin.html",  // html editor가 skin url
 			fOnAppLoad: function () { 
-		        //수정모드를 구현할 때 사용할 부분. 로딩이 끝난 후 값이 체워지게 하는 구현을 하면 된다.
-		         var lvbTitle = '${thisLvbData.lvbTitle}';               
-		         var lvbContent = '${thisLvbData.lvbContent}';         //db에서 불러온 값을 여기에서 체워넣으면 됨.
-		         document.getElementById("lvbTitle").value = lvbTitle;     
-		         oEditors.getById["lvbContent"].exec("PASTE_HTML", [lvbContent]); //로딩이 끝나면 contents를 txtContent에 넣음
+		        //수정모드를 구현할 때 사용할 부분. 로딩이 끝난 후 값이 채워지게 하는 구현을 하면 된다.
+		         var noticeTitle = '${thisNoticeData.noticeTitle}';               
+		         var noticeContent = '${thisNoticeData.noticeContent}';         //db에서 불러온 값을 여기에서 체워넣으면 됨.
+		         document.getElementById("noticeTitle").value = noticeTitle;     
+		         oEditors.getById["noticeContent"].exec("PASTE_HTML", [noticeContent]); //로딩이 끝나면 contents를 txtContent에 넣음
 		     },
 		     fCreator: "createSEditor2"
 		 });
 		var onWrite = function(){
-			oEditors.getById["lvbContent"].exec("UPDATE_CONTENTS_FIELD", []); // 에디터의 내용이 textarea에 적용됨
+			oEditors.getById["noticeContent"].exec("UPDATE_CONTENTS_FIELD", []); // 에디터의 내용이 textarea에 적용됨
 			var noticeWriteAD = document.getElementById("noticeWriteAD");  
-			noticeWriteAD.action ="lvbEnroll";              
+			noticeWriteAD.action ="noticeEnroll";              
 			noticeWriteAD.submit();  
 		};
 		var onModify = function(){
-			oEditors.getById["lvbContent"].exec("UPDATE_CONTENTS_FIELD", []); // 에디터의 내용이 textarea에 적용됨
-			var lvbWriteForm = document.getElementById("noticeWriteAD");  
-			noticeWriteAD.action ="lvbUpdate";              
+			oEditors.getById["noticeContent"].exec("UPDATE_CONTENTS_FIELD", []); // 에디터의 내용이 textarea에 적용됨
+			var noticeWriteAD = document.getElementById("noticeWriteAD");  
+			noticeWriteAD.action ="noticeUpdate";              
 			noticeWriteAD.submit();  
 		};
 		var pasteHTML = function(filename){
 		    var sHTML = '<img src="${pageContext.request.contextPath}/resources/upload/leave'+filename+'">';
-		    oEditors.getById["lvbContent"].exec("PASTE_HTML", [sHTML]);
+		    oEditors.getById["noticeContent"].exec("PASTE_HTML", [sHTML]);
 		};
 	</script>
 	<!-- Custom scripts -->

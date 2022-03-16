@@ -43,4 +43,9 @@
     	WHERE SCH_NUM = #{schNum}
 	</update>
 	
+	<delete id="deleteSch" parameterType="int">
+		DELETE ENROLL_SCHEDULE
+		WHERE SCH_NUM = ${schNo}
+	</delete>
+	
 </mapper>

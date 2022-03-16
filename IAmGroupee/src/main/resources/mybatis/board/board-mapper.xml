@@ -3,12 +3,26 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  <mapper namespace="freeBoard">
-  
-  	<select id="getFreeBoardList" resultType="freeBoard">
-  		SELECT * FROM BOARD_FREE
-  		WHERE FREE_DEL = 'N'
-  	</select>
+  <mapper namespace="board">
+
+	<select id="getFreeBoardList" parameterType="com.kh.iag.board.entity.PageVo" resultType="freeBoard">
+	SELECT * FROM	
+		(
+			SELECT ROWNUM RN, B.* 
+			FROM
+			(
+				SELECT * FROM BOARD_FREE
+				WHERE FREE_DEL = 'N'
+				ORDER BY FREE_DATE DESC
+			) B
+		) WHERE RN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<select id="getFreeRowCnt" resultType="int">
+    	SELECT COUNT(*)
+    	FROM BOARD_FREE
+    	WHERE FREE_DEL = 'N'
+	</select>
   
   	<insert id="freeEnroll" parameterType = "freeBoard" >
   		INSERT INTO BOARD_FREE
@@ -48,34 +62,105 @@
     	WHERE BOARD_FREE_NUM = #{boardFreeNum}
     </update>
     
-    <update id="plusFreeViewCount" parameterType="freeBoard">
+    <update id="plusFreeViewCount" parameterType="int">
     	UPDATE BOARD_FREE SET
     	FREE_VIEW_COUNT = FREE_VIEW_COUNT + 1
     	WHERE BOARD_FREE_NUM = #{boardFreeNum}
     </update>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    <select id="getMainFreeBoardList" resultType="freeBoard">
+    	SELECT * FROM BOARD_FREE 
+    	WHERE ROWNUM &lt; 5 AND FREE_DEL = 'N'
+    	ORDER BY FREE_DATE DESC
+    </select>
+<!-- //////////////////////////////////////////////////////////////////// -->
+
+	<select id="getNoticeBoardList" parameterType="com.kh.iag.board.entity.PageVo" resultType="noticeBoard">
+	SELECT * FROM	
+		(
+			SELECT ROWNUM RN, B.* 
+			FROM
+			(
+				SELECT * FROM BOARD_NOTICE
+				WHERE NOTICE_DEL = 'N'
+				ORDER BY NOTICE_DATE DESC
+			) B
+		) WHERE RN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<select id="getNoticeRowCnt" resultType="int">
+    	SELECT COUNT(*)
+    	FROM BOARD_NOTICE
+    	WHERE NOTICE_DEL = 'N'
+	</select>
+
+	<update id="plusNoticeViewCount" parameterType="int">
+		UPDATE BOARD_NOTICE SET
+		NOTICE_VIEW_COUNT = NOTICE_VIEW_COUNT + 1
+		WHERE NOTICE_NUM = #{noticeNum}
+	</update>
+
+	<select id="getNoticeBoardDetail" resultType="noticeBoard">
+		SELECT * FROM BOARD_NOTICE
+		WHERE NOTICE_NUM = #{noticeNum}
+		AND NOTICE_DEL = 'N'
+	</select>
+
+	<insert id="noticeEnroll" parameterType="noticeBoard">
+  		INSERT INTO BOARD_NOTICE
+  		VALUES
+  		(
+  			SEQ_BOARD_NOTICE.NEXTVAL,
+  			#{userNo},
+  			DEFAULT,
+  			#{noticeTitle},
+  			#{noticeContent},
+  			DEFAULT,
+  			DEFAULT,
+  			DEFAULT
+  		)
+	</insert>
+
+	<select id="getThisBoardNoticeNum" parameterType="hashmap" resultType="int">
+		SELECT NOTICE_NUM FROM BOARD_NOTICE
+		WHERE NOTICE_TITLE = #{noticeTitle}
+		AND USER_NO = #{userNo} AND NOTICE_DEL = 'N'
+	</select>
+
+	<update id="updateNoticeUpdate" parameterType="noticeBoard">
+    	UPDATE BOARD_NOTICE SET
+    	NOTICE_TITLE = #{noticeTitle},
+    	NOTICE_CONTENT = #{noticeContent},
+    	NOTICE_DATE = SYSDATE
+    	WHERE NOTICE_NUM = #{noticeNum}
+	</update>
+
+	<update id="noticeDelete" parameterType="int">
+    	UPDATE BOARD_NOTICE SET
+    	NOTICE_DEL = 'Y'
+    	WHERE NOTICE_NUM = #{noticeNum}
+	</update>
+
+	<select id="getMainNoticeBoardList" resultType="noticeBoard">
+    	SELECT * FROM BOARD_NOTICE 
+    	WHERE ROWNUM &lt; 5 AND NOTICE_DEL = 'N'
+    	ORDER BY NOTICE_DATE DESC
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   </mapper>

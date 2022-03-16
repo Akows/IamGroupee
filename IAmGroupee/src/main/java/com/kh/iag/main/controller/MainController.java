@@ -1,5 +1,6 @@
 package com.kh.iag.main.controller;
 
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -17,6 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.kh.iag.board.entity.FreeBoardDto;
+import com.kh.iag.board.entity.NoticeBoardDto;
+import com.kh.iag.board.service.BoardService;
 import com.kh.iag.leave.entity.LvUsedListDto;
 import com.kh.iag.leave.service.LeaveService;
 import com.kh.iag.login.service.LoginService;
@@ -41,16 +45,17 @@ public class MainController {
 	private ResvService resvService;
 	@Autowired
 	private ScheduleService scheduleService;
+	@Autowired
+	private BoardService boardService;
 	
 	// 로그인 화면
 	@GetMapping("login")
-	public String login(HttpServletRequest request) {
+	public String login() {
 		return "login";
 	}
-	
 	// 로그인 처리
 	@PostMapping("login")
-	public String login(UserDto dto, HttpSession session, HttpServletResponse response, HttpServletRequest request, CheckedVo checkedVo) throws Exception {
+	public String login(UserDto dto, HttpSession session, HttpServletResponse response, HttpServletRequest request, CheckedVo checkedVo, Model model) throws Exception {
 
 			// 세션에 담기 전에 세션 초기화
 			if ( session.getAttribute("loginUser") != null ){
@@ -153,9 +158,15 @@ public class MainController {
 				}
 			} 
 				//실패
-			return "redirect:/login";
-//			return "login";
-			
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+
+			out.println("<script language='javascript'>");
+			out.println("alert('로그인에 실패하셨습니다.')");
+			out.println("</script>");
+
+			out.flush();
+			return "login";
 		}
 
 	
@@ -191,6 +202,30 @@ public class MainController {
 	// 메인으로
 	@GetMapping("main")
 	public String main(HttpSession session, Model model) throws Exception {
+//========================================================
+//========================전자결재관련========================
+//========================================================
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 //========================================================
 //=========================연차관련=========================
 //========================================================
@@ -282,6 +317,16 @@ public class MainController {
 		model.addAttribute("personalList", personalList);
 		model.addAttribute("deptList", deptList);
 		model.addAttribute("corpList", corpList);
+//========================================================
+//=========================게시판관련=========================
+//========================================================
+		List<FreeBoardDto> freeBoardList = boardService.getMainFreeBoardList();
+		
+		model.addAttribute("freeBoardList", freeBoardList);
+		
+		List<NoticeBoardDto> noticeBoardList = boardService.getMainNoticeBoardList();
+		
+		model.addAttribute("noticeBoardList", noticeBoardList);
 		
 		return "mainPage";
 	}

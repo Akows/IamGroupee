@@ -30,6 +30,7 @@
 .board{width: 100%;}
 .more{width: 150px; padding-top: 15% !important;}
 .card-title{font-weight: bolder !important; font-size: larger !important;}
+#new{color: red; font-weight: bolder;}
 </style>
 <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
 <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
@@ -97,37 +98,19 @@
 				                <table class="table table-hover text-nowrap">
 				                  <thead>
 				                    <tr>
-				                      <th>No</th>
-				                      <th>Title</th>
-				                      <th>User</th>
-				                      <th>Date</th>
+				                      <th>제목</th>
+				                      <th>작성자</th>
+				                      <th>작성날짜</th>
 				                    </tr>
 				                  </thead>
 				                  <tbody>
+				                   <c:forEach items="${noticeBoardList}" var="nbl">
 				                    <tr>
-				                      <td>183</td>
-				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
-				                      <td>John Doe</td>
-				                      <td>11-7-2014</td>
+				                      <td><a href="${root}/board/noticeBoardDetail/${nbl.noticeNum}">${nbl.noticeTitle}</a></td>
+				                      <td><a href="${root}/board/noticeBoardDetail/${nbl.noticeNum}">관리자</a></td>
+				                      <td><a href="${root}/board/noticeBoardDetail/${nbl.noticeNum}">${nbl.noticeDate} &nbsp;&nbsp;<span id="new">New!</span></a></td>
 				                    </tr>
-				                    <tr>
-				                      <td>219</td>
-				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
-				                      <td>Alexander Pierce</td>
-				                      <td>11-7-2014</td>
-				                    </tr>
-				                    <tr>
-				                      <td>657</td>
-				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
-				                      <td>Bob Doe</td>
-				                      <td>11-7-2014</td>
-				                    </tr>
-				                    <tr>
-				                      <td>175</td>
-				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
-				                      <td>Mike Doe</td>
-				                      <td>11-7-2014</td>
-				                    </tr>
+				                   </c:forEach>
 				                  </tbody>
 				                </table>
 				              </div>
@@ -152,37 +135,19 @@
 				                <table class="table table-hover text-nowrap">
 				                  <thead>
 				                    <tr>
-				                      <th>No</th>
-				                      <th>Title</th>
-				                      <th>User</th>
-				                      <th>Date</th>
+				                      <th>제목</th>
+				                      <th>작성자</th>
+				                      <th>작성날짜</th>
 				                    </tr>
 				                  </thead>
 				                  <tbody>
+				                   <c:forEach items="${freeBoardList}" var="fbl">
 				                    <tr>
-				                      <td>183</td>
-				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
-				                      <td>John Doe</td>
-				                      <td>11-7-2014</td>
+				                      <td><a href="${root}/board/freeBoardDetail/${fbl.boardFreeNum}">${fbl.freeTitle}</a></td>
+				                      <td><a href="${root}/board/freeBoardDetail/${fbl.boardFreeNum}">익명</a></td>
+				                      <td><a href="${root}/board/freeBoardDetail/${fbl.boardFreeNum}">${fbl.freeDate} &nbsp;&nbsp;<span id="new">New!</span></a></td>
 				                    </tr>
-				                    <tr>
-				                      <td>219</td>
-				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
-				                      <td>Alexander Pierce</td>
-				                      <td>11-7-2014</td>
-				                    </tr>
-				                    <tr>
-				                      <td>657</td>
-				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
-				                      <td>Bob Doe</td>
-				                      <td>11-7-2014</td>
-				                    </tr>
-				                    <tr>
-				                      <td>175</td>
-				                      <td>Bacon ipsum dolor sit amet salami flank fatback doner.</td>
-				                      <td>Mike Doe</td>
-				                      <td>11-7-2014</td>
-				                    </tr>
+				                   </c:forEach>
 				                  </tbody>
 				                </table>
 				              </div>

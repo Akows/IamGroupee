@@ -15,5 +15,7 @@ public interface ScheduleService {
 	List<SchDto> getCorpList(String userNo) throws Exception;
 
 	void modifySch(SchDto modSchDto) throws Exception;
+
+	void deleteSch(int schNo) throws Exception;
 	
 }

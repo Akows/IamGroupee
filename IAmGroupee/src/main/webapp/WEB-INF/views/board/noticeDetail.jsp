@@ -30,13 +30,14 @@
 	
 			            <div class="card-body p-0">
 			              <div class="mailbox-read-info" style="margin-left: 10px; margin-right: 10px;">
-			                <h2 style="margin-bottom: 15px;" id="lvbTitle">${lvInfoDetail.lvbTitle}</h2>
-			                <h6>${lvInfoDetail.lvbWriter}
-			                  <span class="mailbox-read-time float-right" style="font-size: 16px;">${lvInfoDetail.lvbDate}</span></h6>
+			                <h2 style="margin-bottom: 15px;" id="lvbTitle">${noticeBoardDetail.noticeTitle}
+			                <span class="mailbox-read-time float-right" style="font-size: 16px;">조회수 ${noticeBoardDetail.noticeViewCount}</span></h2>
+			                <h6>관리자
+			                  <span class="mailbox-read-time float-right" style="font-size: 16px;">${noticeBoardDetail.noticeDate}</span></h6>
 			              </div>
 			              <div class="mailbox-read-message" style="text-align: center; width: 90%; margin: auto; margin-bottom: 10px;">
 			                <p>
-			                	${lvInfoDetail.lvbContent}
+			                	${noticeBoardDetail.noticeContent}
 			                </p>
 			              </div>
 			            </div>
@@ -77,15 +78,14 @@
     
     <script type="text/javascript">
 		var modNotice = function(){
-			var lvbTitle = document.getElementById("lvbTitle").innerHTML;
 			var form =  $('#boardModDel')[0]; 
 			var obj;
 		    obj = document.createElement('input');
 		    obj.setAttribute('type', 'hidden');
-		    obj.setAttribute('name', 'lvbTitle');
-		    obj.setAttribute('value', lvbTitle);
+		    obj.setAttribute('name', 'noticeNum');
+		    obj.setAttribute('value', '${noticeBoardDetail.noticeNum}');
 			form.appendChild(obj);
-			form.action="${root}/admin/leave/lvbModify";
+			form.action="${root}/admin/board/noticeModify";
 			form.submit();
 		};
 		var delNotice = function(){
@@ -93,10 +93,10 @@
 			var obj2;
 		    obj2 = document.createElement('input');
 		    obj2.setAttribute('type', 'hidden');
-		    obj2.setAttribute('name', 'lvbNo');
-		    obj2.setAttribute('value', '${lvInfoDetail.lvbNo}');
+		    obj2.setAttribute('name', 'noticeNum');
+		    obj2.setAttribute('value', '${noticeBoardDetail.noticeNum}');
 			form2.appendChild(obj2);
-			form2.action ="${root}/admin/leave/lvbDelete";
+			form2.action ="${root}/admin/board/noticeDelete";
 			form2.submit();
 		};
 		var goList = function(){

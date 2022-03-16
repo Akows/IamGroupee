@@ -426,11 +426,4 @@
     	WHERE USER_NO = #{userNo}
   	</update>
     
-    
-    
-    
-    
-    
-    
-    
   </mapper>

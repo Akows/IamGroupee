@@ -89,6 +89,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="submit" class="btn btn-primary modSch" id="modSch">수정</button>
+								<button type="submit" class="btn btn-primary delSch" id="delSch">삭제</button>
 								<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="close_modal();">닫기</button>
 							</div>
 						</div>
@@ -234,8 +235,40 @@
   	            console.log('완료');
   	        });
   	    });
-  	});
-      
+	});
+  	  
+      // 일정 삭제
+  	  $(function() {
+    	    $('.delSch').click(function() {
+    	        var schNum = $('.schNum').val();  
+    	            
+    	        // ajax 호출을 위한 정보 기입
+    	        var request = $.ajax({
+    	            url: "${root}/sch/delSch", // 호출 url
+    	            method: "POST", // 전송방식
+    	            data: {schNum}, // 파라미터
+    	            dataType: "text" 
+    	        });
+    	             
+    	        // 호출 정상일 시 실행되는 메서드
+    	        request.done(function( data ) {
+    	            console.log(data);
+    	            alert( "일정이 삭제되었습니다.");
+    	          	close_modal();
+    	            window.location.reload();
+    	        });
+    	 
+    	        // 호출 에러일 시 실행되는 메서드
+    	        request.fail(function() {
+    	            alert( "일정이 삭제되지않았습니다.");
+    	        });
+    	 
+    	        // 호출 정상 또는 에러 상관없이 실행
+    	        request.always(function() {
+    	            console.log('완료');
+    	        });
+    	    });
+	    });
      </script>
 
 </body>

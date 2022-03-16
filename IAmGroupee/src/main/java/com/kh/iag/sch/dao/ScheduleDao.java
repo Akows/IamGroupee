@@ -17,4 +17,6 @@ public interface ScheduleDao {
 
 	void modifySch(SchDto modSchDto) throws Exception;
 
+	void deleteSch(int schNo) throws Exception;
+
 }

@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leave Info</title>
+<title>Notice Board</title>
   <!-- Theme style -->
   <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
   <!-- Favicon -->
@@ -62,22 +62,63 @@
 	                    </tr>
 	                  </thead>
 	                  <tbody>
-	                  <c:forEach items="${lvInfoList}" var="lil">
+	                  <c:forEach items="${noticeBoardList}" var="nbl">
 	                    <tr>
-	                      <td><a href="${root}/leave/lvInfoDetail/${lil.lvbNo}">${lil.lvbNo}</a></td>
-	                      <td><a href="${root}/leave/lvInfoDetail/${lil.lvbNo}">${lil.lvbTitle}</a></td>
-	                      <td><a href="${root}/leave/lvInfoDetail/${lil.lvbNo}">${lil.lvbWriter}</a></td>
-	                      <td><a href="${root}/leave/lvInfoDetail/${lil.lvbNo}">${lil.lvbDate}</a></td>
-	                      <td><a href="${root}/leave/lvInfoDetail/${lil.lvbNo}">${lil.lvbDate}</a></td>
+	                      <td><a href="${root}/board/noticeBoardDetail/${nbl.noticeNum}">${nbl.noticeNum}</a></td>
+	                      <td><a href="${root}/board/noticeBoardDetail/${nbl.noticeNum}">${nbl.noticeTitle}</a></td>
+	                      <td><a href="${root}/board/noticeBoardDetail/${nbl.noticeNum}">관리자</a></td>
+	                      <td><a href="${root}/board/noticeBoardDetail/${nbl.noticeNum}">${nbl.noticeDate}</a></td>
+	                      <td><a href="${root}/board/noticeBoardDetail/${nbl.noticeNum}">${nbl.noticeViewCount}</a></td>
 	                    </tr>
 	                  </c:forEach>
 	                  </tbody>
 	                </table>
 	              </div>
-				  <div class="card-footer clearfix" style="width: 88%; margin: auto; margin-top: 5px">
-	                <ul class="pagination pagination-m m-2" style="padding-left: 40%; color: black;">
-	                </ul>
-                  </div>
+				  <div class="card-footer clearfix"
+						style="width: 100%; margin: 0; text-align: center; height: 45px; padding: 0px;">
+						<nav aria-label="Page navigation example"
+							style="width: 100%; text-align: center; height: 100%;">
+							<ul class="pagination pagination-m"
+								style="margin-top: 3px; padding: 0px; color: black; padding-left: 40%; padding-right: 40%; height: 40px;">
+								<c:if test="${page.currentPage == 1}">
+									<li class="page-item disabled"><a class="page-link">Previous</a>
+									</li>
+								</c:if>
+								<c:if test="${page.currentPage != 1}">
+									<li class="page-item"><a class="page-link"
+										href="${root}/board/notice/${page.currentPage - 1}">Previous</a>
+									</li>&nbsp;
+							    </c:if>
+
+								<c:forEach var="i" begin="${page.startPage}"
+									end="${page.endPage}">
+									<c:if test="${page.currentPage != i and i <= page.lastPage}">
+										<li class="page-item"><a class="page-link"
+											href="${root}/board/notice/${i}"
+											style="color: rgb(14, 104, 225);">${i}</a>&nbsp</li>
+									</c:if>
+
+									<c:if test="${page.currentPage == i and i <= page.lastPage}">
+										<li class="page-item"><a class="page-link"
+											href="${root}/board/notice/${i}"
+											style="color: rgb(14, 104, 225);"> ${i}</a>&nbsp</li>
+									</c:if>
+								</c:forEach>
+
+								<c:if test="${page.currentPage < page.lastPage}">
+									<li class="page-item ">
+										<a class="page-link" href="${root}/board/notice/${page.currentPage + 1}">Next</a>
+									</li>
+								</c:if>
+
+								<c:if test="${page.currentPage > page.lastPage || page.currentPage == page.lastPage}">
+									<li class="page-item disabled">
+										<a class="page-link"">Next</a>
+									</li>
+								</c:if>
+							</ul>
+						</nav>
+					</div>
               </div>
             </article>
             
