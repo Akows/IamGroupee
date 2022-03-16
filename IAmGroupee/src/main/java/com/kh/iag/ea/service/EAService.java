@@ -117,15 +117,15 @@ public interface EAService {
 
 	int updateStageName(ProcessDto dto) throws Exception;
 
-	int countOfSignup(String userNo);
+	int countOfSignup(String userNo) throws Exception;
 
-	int countOfAppr(String userNo);
+	int countOfAppr(String userNo) throws Exception;
 
-	int countOfRefer(String userNo);
+	int countOfRefer(String userNo) throws Exception;
 
-	int countOfWait(String userNo);
+	int countOfWait(String userNo) throws Exception;
 
-	int countOfProg(String userNo);
+	int countOfProg(String userNo) throws Exception;
 
 	
 }

@@ -440,27 +440,27 @@ public class EAServiceImpl implements EAService {
 	}
 
 	@Override
-	public int countOfSignup(String userNo) {
+	public int countOfSignup(String userNo) throws Exception {
 		return dao.countOfSignup(userNo);
 	}
 
 	@Override
-	public int countOfAppr(String userNo) {
+	public int countOfAppr(String userNo) throws Exception {
 		return dao.countOfAppr(userNo);
 	}
 
 	@Override
-	public int countOfRefer(String userNo) {
+	public int countOfRefer(String userNo) throws Exception {
 		return dao.countOfRefer(userNo);
 	}
 
 	@Override
-	public int countOfWait(String userNo) {
+	public int countOfWait(String userNo) throws Exception {
 		return dao.countOfWait(userNo);
 	}
 
 	@Override
-	public int countOfProg(String userNo) {
+	public int countOfProg(String userNo) throws Exception {
 		return dao.countOfProg(userNo);
 	}
 

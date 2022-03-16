@@ -124,17 +124,17 @@ public class AdminEADaoImpl implements AdminEADao {
 	}
 
 	@Override
-	public List<DocsDto> preservedDocs() {
+	public List<DocsDto> preservedDocs() throws Exception {
 		return sqlSession.selectList("ea.preservedDocs");
 	}
 
 	@Override
-	public int deleteDocRef(String s) {
+	public int deleteDocRef(String s) throws Exception {
 		return sqlSession.delete("ea.deleteDocRef", s);
 	}
 
 	@Override
-	public int deleteDoc(String s) {
+	public int deleteDoc(String s) throws Exception {
 		return sqlSession.delete("ea.deleteDoc", s);
 	}
 

@@ -79,7 +79,7 @@ public class AdminEAServiceImpl implements AdminEAService {
 	}
 
 	@Override
-	public CategoryDto selecLatestFormCategory() throws Exception {
+	public CategoryDto selectLatestFormCategory() throws Exception {
 		return dao.selectLatestFormCategory();
 	}
 
@@ -124,18 +124,17 @@ public class AdminEAServiceImpl implements AdminEAService {
 	}
 
 	@Override
-	public List<DocsDto> preservedDocs() {
+	public List<DocsDto> preservedDocs() throws Exception {
 		return dao.preservedDocs();
 	}
 
 	@Override
-	public int deleteDocRef(String s) {
+	public int deleteDocRef(String s) throws Exception {
 		return dao.deleteDocRef(s);
 	}
 
 	@Override
-	public int deleteDoc(String s) {
+	public int deleteDoc(String s) throws Exception {
 		return dao.deleteDoc(s);
 	}
-
 }
