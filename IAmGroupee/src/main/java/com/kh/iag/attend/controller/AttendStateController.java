@@ -75,4 +75,10 @@ public class AttendStateController
 		
 		return "attend/attendstate";
 	}
+	
+	@PostMapping("attendstatemanual")
+	public String attendStateManual()
+	{
+		return "attend/attendstatemanual";
+	}
 }

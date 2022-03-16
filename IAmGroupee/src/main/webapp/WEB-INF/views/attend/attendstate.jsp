@@ -40,13 +40,13 @@
 		<br>
 		<hr>
 		
-	<form action="attendstatesearch" method="post">
-
-		<span style="width: 100px; height: 30px;">
-			<input type="hidden" style="font-size: small; width: 150px" value="검색">	
-		</span>
-			 		  			     											       				
-	</form>
+		<p> 
+		
+			<input type="button" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;" value="설명서" onclick="clickEventHandler();">
+		
+		</p>
+		
+		<hr>
 	
 	<form action="attendmodify" method="post" enctype="multipart/form-data" onsubmit="return check()" name="modform">	
 
@@ -90,21 +90,21 @@
 			            		<c:choose>
 			            			<c:when test="${wtinf.workcheck == '휴일퇴근'}">
 										<td>
-											<div class="badge-active">
+											<div class="badge-active" style="color: red">
 												${wtinf.workcheck}
 											</div>									
 										</td>
 			            			</c:when>
 			            			<c:when test="${wtinf.workcheck == '정상퇴근'}">
 										<td>
-											<div class="badge-active">
+											<div class="badge-active" style="color: black">
 												${wtinf.workcheck}
 											</div>									
 										</td>
 			            			</c:when>
 			            			<c:when test="${wtinf.workcheck == '초과근무퇴근'}">
 										<td>
-											<div class="badge-active">
+											<div class="badge-active" style="color: green">
 												${wtinf.workcheck}
 											</div>									
 										</td>
@@ -112,21 +112,21 @@
 			            			
 			            			<c:when test="${wtinf.workcheck == '지각정상퇴근'}">
 										<td>
-											<div class="badge-pending">
+											<div class="badge-pending" style="color: yellow">
 												${wtinf.workcheck}
 											</div>
 										</td>
 			            			</c:when>
 			            			<c:when test="${wtinf.workcheck == '지각초과근무퇴근'}">
 										<td>
-											<div class="badge-pending">
+											<div class="badge-pending" style="color: green">
 												${wtinf.workcheck}
 											</div>
 										</td>
 			            			</c:when>
 			            						            			
 			            			<c:otherwise>
-			            				<td>근무정보없음</td>
+			            				<td>퇴근정보없음</td>
 			            			</c:otherwise>
 			            		</c:choose>
 			            				            		
@@ -255,6 +255,21 @@
 	
 	document.getElementById("currentDate").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
 
+	<!-- 조회페이지 설명서 띄우는 스크립트 -->
+	function clickEventHandler()
+	{
+		var url = "http://127.0.0.1:8989/iag/attend/attendstatemanual";
+
+		var name = "조회페이지 설명서";
+		var specs = "width=1000, height=1000, scrollbars=yes, menubar=no";
+
+		window.open(url, name, specs);
+	};
+
+	
+	
+	
+	
 	<!-- 날짜 선택이 되어있지 않으면 경고문 출력과 submit를 막는 스크립트 -->
 	function check()
 	{
