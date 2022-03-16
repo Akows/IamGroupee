@@ -1005,10 +1005,9 @@ public class EAController {
 	}
 	// 필터링
 	@RequestMapping(value = "/entirelistByFilter")
-	public String entirelistByFilter(HttpSession session, Model model, String formNo, String make, String close, String departmentName) throws Exception {
+	public String entirelistByFilter(HttpSession session, Model model, String formNo, String make, String close, String departmentName, String keyword) throws Exception {
 		
 		List<DocsDto> entireList = entireCap(session);
-		
 		List<DocsDto> list = new ArrayList<>();
 		
 		// 양식
@@ -1043,6 +1042,13 @@ public class EAController {
 			for(int i = 0; i < entireList.size(); i++) {
 				if(entireList.get(i).getDepartmentName().equals(departmentName)) {
 					list.add(entireList.get(i));
+				}
+			}
+		// 검색
+		} else if(keyword != null) {
+			for(DocsDto d : entireList) {
+				if(d.getDocNo().contains(keyword) || d.getDocTitle().contains(keyword)) {
+					list.add(d);
 				}
 			}
 		}

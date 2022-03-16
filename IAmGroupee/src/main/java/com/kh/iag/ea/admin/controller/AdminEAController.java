@@ -1,9 +1,17 @@
 package com.kh.iag.ea.admin.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +44,7 @@ public class AdminEAController {
 	// 전자결재 관리자 메인 페이지
 	@GetMapping(value = "/main")
 	public String main(@ModelAttribute SettingsDto dto, Model model) throws Exception {
+		
 		// 초기 설정
 		// 초기 값 있는지 확인하고 없으면 insert 있으면 update
 		SettingsDto initialValues = service.checkInitialSettings();
@@ -84,7 +93,7 @@ public class AdminEAController {
 		int result = service.insertFormCategory();
 		CategoryDto dto = null;
 		if(result > 0)
-			dto = service.selecLatestFormCategory();
+			dto = service.selectLatestFormCategory();
 		
 		String formNo = String.valueOf(dto.getCategoryNo());
 		return formNo;
@@ -171,7 +180,7 @@ public class AdminEAController {
 	
 	@PostMapping(value = "/delete")
 	@ResponseBody
-	public int delete(String str) {
+	public int delete(String str) throws Exception {
 		
 		String[] strArr = str.split(",");
 		
@@ -184,7 +193,6 @@ public class AdminEAController {
 			// doc 테이브 삭제
 			result2 = service.deleteDoc(s);
 		}
-		
 		return result1 + result2;
 	}
 }

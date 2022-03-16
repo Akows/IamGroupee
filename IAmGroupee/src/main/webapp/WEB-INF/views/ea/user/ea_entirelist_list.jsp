@@ -27,6 +27,18 @@
         <span>전체문서조회 (리스트)</span>
       </div>
       <div class="ea_entirelist_list_contents">
+        <form action="${root}/ea/entirelistByFilter" method="POST" id="searchForm">
+          <div style="width: 25%; float: right; margin: 15px; 
+          border: 1px solid gainsboro; border-radius: 5px;" class="input-group input-group-sm">
+            <input type="text" class="form-control" placeholder="문서 번호/제목을 입력해주세요.">
+            <span class="input-group-append">
+              <button type="submit" style="background: rgb(107, 177, 238); color: #fff;  
+              border: 1px;" type="button" class="btn btn-info btn-flat">
+                <i class="fa fa-search"></i>
+              </button>
+            </span>
+          </div>
+        </form>
         <!-- 제목 누르면 그냥 문서번호만 보내서 처리 -->
         <table>
           <thead>
@@ -173,6 +185,16 @@
       name: "docNo",
       value : docNo
     }).appendTo('form[name="requestForm"]');
+  });
+
+  // 문서번호/제목 검색
+  $('#searchForm').submit(function() {
+    let keyword = $('#searchForm input').val();
+    $('<input>', {
+      type : "hidden",
+      name: "keyword",
+      value : keyword
+    }).appendTo(this);
   });
 
 

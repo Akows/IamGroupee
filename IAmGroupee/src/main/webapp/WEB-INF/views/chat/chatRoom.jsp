@@ -34,7 +34,7 @@
                     <textarea style="height: 40px;" id="chatContent" placeholder="메시지를 입력하세요." maxlength="100"></textarea>
                 </div>
                 <div>
-                    <button type="button" onclick="submitFunction();">💌</button>
+                    <button type="button" id="submitBtn" onclick="submitFunction();">💌</button>
                 </div>
             </div>
         </div>
@@ -132,7 +132,7 @@
             setInterval(function() {
                 $('#chatList').children().remove();
                 chatListFunction(lastId);
-            }, 3000);
+            }, 2000);
         }
         // 읽지 않은 채팅수 업데이트
         function getUnread() {
@@ -170,13 +170,12 @@
         });
         
         // enter key process
-        // $('.container').on('keydown', 'input', function(e) {
-        //  if (e.keyCode === 13) {
-        //     e.preventDefault();
-        //     e.stopImmediatePropagation();
-        //     //Do your stuff...
-        //     }
-        // });
+        document.getElementById('chatContent').addEventListener('keydown',function(event){
+            if(event.keyCode ==13){
+                event.preventDefault();
+                document.getElementById('submitBtn').click();
+            }
+        });
     </script>
 </body>
 </html>

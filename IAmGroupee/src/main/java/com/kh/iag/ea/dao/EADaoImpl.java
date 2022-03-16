@@ -278,27 +278,27 @@ public class EADaoImpl implements EADao {
 	}
 
 	@Override
-	public int countOfSignup(String userNo) {
+	public int countOfSignup(String userNo) throws Exception {
 		return sqlSession.selectOne("ea.countOfSignup", userNo);
 	}
 
 	@Override
-	public int countOfAppr(String userNo) {
+	public int countOfAppr(String userNo) throws Exception {
 		return sqlSession.selectOne("ea.countOfAppr", userNo);
 	}
 
 	@Override
-	public int countOfRefer(String userNo) {
+	public int countOfRefer(String userNo) throws Exception {
 		return sqlSession.selectOne("ea.countOfRefer", userNo);
 	}
 
 	@Override
-	public int countOfWait(String userNo) {
+	public int countOfWait(String userNo) throws Exception {
 		return sqlSession.selectOne("ea.countOfWait", userNo);
 	}
 
 	@Override
-	public int countOfProg(String userNo) {
+	public int countOfProg(String userNo) throws Exception {
 		return sqlSession.selectOne("ea.countOfProg", userNo);
 	}
 

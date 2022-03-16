@@ -152,6 +152,14 @@
 		DELETE FROM EA_DOCUMENT
 		WHERE DOC_NO = #{s}
 	</select>
+	
+	<!-- 마감문서 DOC_SEP 'Y' 변경 -->
+	<update id="updateCloseDoc">
+		UPDATE EA_DOCUMENT
+		SET
+		    DOC_SEP = 'Y'
+		WHERE SYSDATE > DOC_CLOSE 
+	</update>
 <!-- 사용자 -->
 <!-- 기안 #################################################################################################### -->
 	<!-- 기안 작성 페이지 양식 데이터 -->

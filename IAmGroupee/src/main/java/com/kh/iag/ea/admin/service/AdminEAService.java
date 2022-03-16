@@ -34,7 +34,7 @@ public interface AdminEAService {
 
 	int insertFormCategory() throws Exception;
 
-	CategoryDto selecLatestFormCategory() throws Exception;
+	CategoryDto selectLatestFormCategory() throws Exception;
 
 	int deleteFormCategory(String categoryNo) throws Exception;
 
@@ -52,11 +52,10 @@ public interface AdminEAService {
 
 	int editForm(FormDto dto) throws Exception;
 
-	List<DocsDto> preservedDocs();
+	List<DocsDto> preservedDocs() throws Exception;
 
-	int deleteDocRef(String s);
+	int deleteDocRef(String s) throws Exception;
 
-	int deleteDoc(String s);
+	int deleteDoc(String s) throws Exception;
 
-	
 }
