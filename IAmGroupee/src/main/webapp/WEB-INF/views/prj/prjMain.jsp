@@ -46,7 +46,8 @@
 								<div class="modal-header">
 								  <h4 class="modal-title">새 프로젝트 생성</h4>
 								</div>
-								
+							
+								<form action="" method="post">
 									<div class="modal-body">
 										<div class="card-body">
 											<div class="form-group">
@@ -131,13 +132,16 @@
 									</div> <!-- /.modal-body -->
 									<div class="modal-footer justify-content-between">
 										<input type="button" value="취소" class="btn btn-default" data-dismiss="modal">
-										<input type="submit" value="생성" class="btn btn-primary">
+										<button type="submit" class="btn btn-primary">생성</button>
 									</div>
-								</form>
+								</form>	
+								
 							</div> <!-- /.modal-content -->
 							</div> <!-- /.modal-dialog -->
 						</div>
 						<!-- modal 끝! -->
+
+								</form>
 						
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
@@ -235,9 +239,6 @@
 	<script>
 		
 		$(function () {
-			//select 다중선택
-			var form = $("form").serialize();
-			
 			//Initialize Select2 Elements
 			$('.select2').select2()
 			//모달 내부 셀렉트 오픈
@@ -284,6 +285,12 @@
 				dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 				locale: 'ko', // 한국어 설정
 				height: 690,
+				eventClick: function(info) {
+					var start = moment(info.event.start).format("YYYY-MM-DD HH:mm");
+					var end = moment(info.start).format("YYYY-MM-DD HH:mm");
+
+					alert(info.event.title+' :::::::: ' + start + ' ~ '+ end);
+				},
 				events : 
 				[ 
 					<%if (eventList != null) {%>

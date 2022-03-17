@@ -180,6 +180,12 @@
 				dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 				locale: 'ko', // 한국어 설정
 				height: 690,
+				eventClick: function(info) {
+					var start = moment(info.event.start).format("YYYY-MM-DD HH:mm");
+					var end = moment(info.start).format("YYYY-MM-DD HH:mm");
+
+					alert(info.event.title+' :::::::: ' + start + ' ~ '+ end);
+				},
 				events : 
 				[ 
 					<%if (eventList != null) {%>
