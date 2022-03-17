@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.kh.iag.board.entity.FreeBoardDto;
 import com.kh.iag.board.entity.NoticeBoardDto;
 import com.kh.iag.board.service.BoardService;
+import com.kh.iag.ea.entity.DocsDto;
+import com.kh.iag.ea.service.EAService;
 import com.kh.iag.leave.entity.LvUsedListDto;
 import com.kh.iag.leave.service.LeaveService;
 import com.kh.iag.login.service.LoginService;
@@ -47,6 +49,8 @@ public class MainController {
 	private ScheduleService scheduleService;
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private EAService eaService;
 	
 	// 로그인 화면
 	@GetMapping("login")
@@ -206,25 +210,28 @@ public class MainController {
 //========================전자결재관련========================
 //========================================================
 		
+		UserDto ealoginUser = (UserDto) session.getAttribute("loginUser");
+		String eauserNo = ealoginUser.getUserNo();
 		
+		// 상신한 문서수
+		int countOfSignup = eaService.countOfSignup(eauserNo);
+		model.addAttribute("countOfSignup", countOfSignup);
+		// 대기 문서수(아직 상신만된 상태)
+		int countOfWait = eaService.countOfWait(eauserNo);
+		model.addAttribute("countOfWait", countOfWait);
+		// 진행 문서수(1차결재 이상 진행된 상태)
+		int countOfProg = eaService.countOfProg(eauserNo);
+		model.addAttribute("countOfProg", countOfProg);
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		// 결재할 문서수
+		int countOfAppr = eaService.countOfAppr(eauserNo);
+		model.addAttribute("countOfAppr", countOfAppr);
+		// 참조 문서수
+		int countOfRefer = eaService.countOfRefer(eauserNo);
+		model.addAttribute("countOfRefer", countOfRefer);
+		// 전체 문서수
+		int countOfEntire = entireCap(session).size();
+		model.addAttribute("countOfEntire", countOfEntire);
 		
 //========================================================
 //=========================연차관련=========================
@@ -339,5 +346,50 @@ public class MainController {
 //		return "common/error/wrongRight";
 		return returnUrl;
 	}
+
+//============================전자결재데이터로쓰이는메소드=====================================
+	public List<DocsDto> entireCap(HttpSession session) throws Exception {
+		
+		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+		String userNo = loginUser.getUserNo();
+		long positionNo = loginUser.getPositionNo();
+		
+		// SEC_A, SEC_B 설정정보
+		int secA = eaService.selectSecA();
+		int secB = eaService.selectSecB();
+		
+		
+		// 로그인한 유저의 기안문서, 결재문서, 참고문서 데이터 (S등급)
+		List<DocsDto> relatedDocs = eaService.selectRelatedDocs(userNo);
+		
+		// 로그인한 유저와 관련없는(기안, 결재, 참고하지 않은) 문서들 (보안등급 필터링 필요)
+		List<DocsDto> notRelatedDocs = eaService.selectNotRelatedDocs(userNo);
+		
+		// 화면으로 보낼 문서 리스트
+		List<DocsDto> entireList = new ArrayList<>();
+		
+		// S등급
+		relatedDocs.stream()
+				   .forEach(d -> entireList.add(d));
+		
+		// C등급 문서 처리
+		notRelatedDocs.stream()
+					  .filter(d -> d.getDocSlv().equals("C"))
+					  .forEach(d -> entireList.add(d));
+		
+		// B등급 문서 처리
+		notRelatedDocs.stream()
+					  .filter(d -> d.getDocSlv().equals("B") && positionNo <= secB)
+					  .forEach(d -> entireList.add(d));
+		
+		// A등급 문서 처리
+		notRelatedDocs.stream()
+					  .filter(d -> d.getDocSlv().equals("A") && positionNo <= secA)
+					  .forEach(d -> entireList.add(d));
+		
+		
+		return entireList;
+	}
+//===================================================================================
 	
 }
