@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.iag.board.entity.FreeBoardDto;
 import com.kh.iag.board.entity.NoticeBoardDto;
@@ -391,5 +392,29 @@ public class MainController {
 		return entireList;
 	}
 //===================================================================================
+	
+	@GetMapping("findpwd")
+	public String findpwd() {
+		return "common/findPwd";
+	}
+	
+	@PostMapping(value = "/findpwd", produces = "application/text; charset=utf8")
+	public String findpwd(String userNo, Model model) throws Exception {
+		UserDto findUser = service.getFindUser(userNo);
+		if(findUser != null) {
+			String changePwd = service.changePwd(userNo);
+			if(changePwd !=null) {
+				findUser.setPwd(changePwd);
+				service.sendMail(findUser);
+				String str = findUser.getEmail() + "<br> 변경된 임시 비밀번호가 전송되었습니다.";
+				model.addAttribute("msg", str);
+			} else {
+				model.addAttribute("msg", "비밀번호 변경에 실패했습니다. 다시 시도해 주세요.");
+			}
+		} else {
+			model.addAttribute("msg", "없는 사원번호입니다. 다시 확인해 주세요.");
+		}
+		return "common/resultFindPwd";
+	}
 	
 }

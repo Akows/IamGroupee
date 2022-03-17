@@ -114,7 +114,11 @@ public class PersonnelController {
 	@PostMapping("/userModi")
 	public String userModi(@ModelAttribute UserDto user,HttpServletRequest req) throws Exception {
 		int result = service.userUpdate(user, req);
-		return "redirect:/admin/ps/userlist";
+		if(result > 0) {
+			return "redirect:/admin/ps/userlist";
+		}else {
+			return "redirect:/main";
+		}	
 	}
 	
 	@GetMapping("/jobdelete")

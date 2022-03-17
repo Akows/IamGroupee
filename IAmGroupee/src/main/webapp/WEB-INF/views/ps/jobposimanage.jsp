@@ -290,6 +290,10 @@
 				$("#modal-posi").modal();
 			});
 			
+			$(document).on("click",".jobAdd", function(){
+				$("#modal-job").modal();
+			});
+
 			$(document).on("click",".posi-modi", function(){
 				let value = $(this).next().val();
 				console.log(value);

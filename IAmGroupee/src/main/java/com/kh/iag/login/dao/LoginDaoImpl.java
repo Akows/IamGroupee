@@ -41,6 +41,16 @@ public class LoginDaoImpl implements LoginDao {
 	public UserDto checkUserBySsKey(String sessionKey) throws Exception {
 		return session.selectOne("login.checkUserBySsKey", sessionKey);
 	}
+
+	@Override
+	public UserDto getFindUser(String userNo) throws Exception {
+		return session.selectOne("login.getUserByNo", userNo);
+	}
+
+	@Override
+	public int setChangePwd(UserDto user) throws Exception {
+		return session.update("login.setChangePwd", user);
+	}
 	
 }
 

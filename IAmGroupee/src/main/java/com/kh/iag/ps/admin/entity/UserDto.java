@@ -51,7 +51,9 @@ public class UserDto {
 	}
 	
 	public void setEndDateStr(String endDateStr) {
-		if (endDateStr != null && endDateStr =="") {
+		if (endDateStr == null || endDateStr =="") {
+			
+		} else {
 			this.endDateStr = endDateStr;
 			SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
 		    Date date1 = null;
