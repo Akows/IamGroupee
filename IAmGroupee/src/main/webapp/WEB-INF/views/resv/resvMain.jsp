@@ -67,7 +67,7 @@ pageEncoding="UTF-8"%>
 	        <div class="container-fluid">
 				<div class="row">
 
-					<section class="col-lg-4 connectedSortable">
+					<section class="col-lg-5 connectedSortable">
 						<!-- 예약 신청 -->
 						<div class="card">
 							<div class="card-header">
@@ -134,7 +134,7 @@ pageEncoding="UTF-8"%>
 												<th></th>
 												<th>항목</th>
 												<th>기간</th>
-												<th>상태</th>
+												<th>반납</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -217,7 +217,7 @@ pageEncoding="UTF-8"%>
 						</div>
 					</section>
 	
-					<section class="col-lg-8 connectedSortable">
+					<section class="col-lg-7 connectedSortable">
 						<div class="card">
 							<div class="card-body p-3">
 								<!-- THE CALENDAR -->
@@ -386,7 +386,12 @@ pageEncoding="UTF-8"%>
 				nowIndicator: true, // 현재 시간 마크
 				dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 				locale: 'ko', // 한국어 설정
-				
+				eventClick: function(info) {
+					var start = moment(info.event.start).format("YYYY-MM-DD HH:mm");
+					var end = moment(info.start).format("YYYY-MM-DD HH:mm");
+
+					alert(info.event.title+' :::::::: ' + start + ' ~ '+ end);
+				},
 				events : 
 				[ 
 					<%if (myRoomResvList != null || myAssetResvList != null) {%>
@@ -414,6 +419,7 @@ pageEncoding="UTF-8"%>
 			calendar.render();
 	
 		});
+		
 	</script>
 
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
@@ -431,6 +437,5 @@ pageEncoding="UTF-8"%>
 	
 	<!-- FullCalendar -->
 	<link rel="stylesheet" href="${root}/resources/plugins/fullcalendar/main.css">
-	
 </body>
 </html>

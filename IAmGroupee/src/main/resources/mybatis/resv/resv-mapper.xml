@@ -7,7 +7,16 @@
   
   		<!-- 예약관리 -->
   		<select id="getRoomList" parameterType="map" resultType="room">
-  			SELECT * FROM MEETING_ROOM
+  			SELECT 
+  				  ROOM_NO
+  				, ROOM_NAME
+  				, ACTIVATE_YN
+  				, CREATE_DATE
+  				, MOD_DATE
+  				, DELETE_YN
+  				, DETAIL
+  				, RESERVED
+  			FROM MEETING_ROOM
   			WHERE DELETE_YN = 'N'
   		</select>
   		
@@ -192,6 +201,9 @@
 			FROM RESERVATION R
 			JOIN MEETING_ROOM M ON (R.ROOM_NO = M.ROOM_NO)
 			WHERE R.DELETE_YN = 'N'
+			<if test="roomNo != null">
+			AND M.ROOM_NO = #{roomNo}
+			</if>
   		</select>
   		
   		<select id="getAllAssetResvList" resultType="resv">
@@ -209,6 +221,9 @@
 			FROM RESERVATION R
 			JOIN ASSET A ON (R.ASSET_NO = A.ASSET_NO)
 			WHERE R.DELETE_YN = 'N'
+			<if test="assetNo != null">
+			AND A.ASSET_NO = #{assetNo}
+			</if>
   		</select>
   		
   		<select id="getSelectRoomResvList" resultType="resv">

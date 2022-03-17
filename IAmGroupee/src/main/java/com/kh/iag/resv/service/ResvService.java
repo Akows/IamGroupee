@@ -18,9 +18,9 @@ public interface ResvService {
 	List<ResvDto> getAllAssetResvList() throws Exception;
 	
 	//셀렉트조회
-	List<ResvDto> getSelectRoomResvList(int resvNo) throws Exception;
+	List<ResvDto> getSelectRoomResvList(int roomNo) throws Exception;
 	
-	List<ResvDto> getSelectAssetResvList(int resvNo) throws Exception;
+	List<ResvDto> getSelectAssetResvList(int assetNo) throws Exception;
 
 	//내예약현황
 	List<ResvDto> getMyResvList(String userNo, PageVo vo) throws Exception;

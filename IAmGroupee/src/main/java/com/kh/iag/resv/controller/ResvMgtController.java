@@ -45,6 +45,7 @@ public class ResvMgtController {
 		try{
 			result.setStatus("ok");
 			result.setData(service.getRoomList(filter));
+			System.out.println(service.getRoomList(filter));
 		}catch(Exception e){
 			    e.printStackTrace();
 		}finally{
@@ -73,7 +74,6 @@ public class ResvMgtController {
     @RequestMapping(value = "/room", produces = "application/json", method = RequestMethod.POST)
     public Object insertRoom(Model model, @RequestBody RoomDto dto) throws Exception {
 		JsonResult result =  new JsonResult();
-
 		try{
 			service.insertRoom(dto);
 			result.setStatus("ok");
@@ -87,7 +87,7 @@ public class ResvMgtController {
     @PostMapping(value = "/asset", produces = "application/json")
     public Object insertAsset(Model model, @RequestBody AssetDto dto) throws Exception {
 		JsonResult result =  new JsonResult();
-		
+		System.out.println(dto);
 		try{
 			service.insertAsset(dto);
 			result.setStatus("ok");

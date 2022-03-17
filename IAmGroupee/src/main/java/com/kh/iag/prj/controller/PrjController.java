@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -69,15 +71,17 @@ public class PrjController {
 	//프로젝트 생성
 	@PostMapping(value = {"/prjMain/{page}", "prjMain"})
 	public String createPrj(PrjDto dto, HttpServletRequest req) throws Exception {
-		System.out.println(req.getParameter("departNo"));
 		
-		String name = dto.getUserNo();
-		String userNo = service.getUserNo(name);
-		dto.setUserNo(userNo);
-		
-		System.out.println(dto);
-		int result = service.createPrj(dto);
-		
+		int no = Integer.parseInt(req.getParameter("departNo"));
+		dto.setDepartNo(no);
+    	
+		String userNo = service.getUserNo(dto.getUserNo());
+    	dto.setUserNo(userNo);
+    	
+    	System.out.println(dto);
+    	int result = service.createPrj(dto);
+    
+        
 		return "redirect:/prj/prjMain";
 	}
 	
