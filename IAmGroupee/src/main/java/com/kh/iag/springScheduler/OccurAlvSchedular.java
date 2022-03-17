@@ -58,7 +58,7 @@ public class OccurAlvSchedular {
 			
 			// 입사일의 년월일
 			String enrollDate = String.valueOf(format.format(userDto.getEnrollDate()));// 입사 날짜"yyyy-MM-dd"
-			String enrollYear = enrollDate.split("-")[0]; // 입사연도"YYYY"
+//			String enrollYear = enrollDate.split("-")[0]; // 입사연도"YYYY"
 			String enrollMonth = enrollDate.split("-")[1]; // 입사월"MM"
 			int enMonth = Integer.parseInt(enrollMonth); // 입사월"MM"
 			String enrollDay = enrollDate.split("-")[2]; // 입사일"dd"
@@ -180,7 +180,8 @@ public class OccurAlvSchedular {
 				}
 			}
 		}
-	}
+		System.out.println("실행됨ㅁㅁㅁ");
+	}//=========================================================createAnnualLeave끝
 
 //== 조건2. 연차조건
 	public int conditionAlv(String todayDate, String todayMonthDate, String enrollMonthDate, String userNo, int createAlvCount) throws Exception {

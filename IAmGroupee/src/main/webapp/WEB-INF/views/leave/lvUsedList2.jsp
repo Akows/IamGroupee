@@ -4,6 +4,7 @@
 <%@page import="java.util.List"%>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
 <%@page import="com.kh.iag.leave.entity.LvUsedListDto"%>
+<%@page import="com.kh.iag.leave.entity.PageVo"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,6 +47,9 @@
 								</tr>
 							</thead>
 							<tbody>
+							
+							<%List<LvUsedListDto> lvUsedList = (List<LvUsedListDto>)request.getAttribute("lvUsedListIf");%>
+							<%if (lvUsedList != null) {%>
 								<c:forEach items="${lvUsedListIf}" var="lv">
 									<tr>
 										<td>${lv.lvName}</td>
@@ -53,10 +57,13 @@
 										<td>${lv.lvReason}</td>
 									</tr>
 								</c:forEach>
+							<%}%>
 							</tbody>
 						</table>
 					</div>
 					<!-- 페이징 -->
+					<%PageVo pageVo = (PageVo)request.getAttribute("pageVoLv");%>
+					<%if (pageVo != null) {%>
 					<div class="card-footer clearfix"
 						style="width: 100%; margin: 0; text-align: center; height: 45px; padding: 0px;">
 						<nav aria-label="Page navigation example"
@@ -103,6 +110,7 @@
 							</ul>
 						</nav>
 					</div>
+					<%} %>
 				</div>
 			</div>
 		</div>

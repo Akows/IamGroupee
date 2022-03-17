@@ -158,19 +158,21 @@ public class LeaveController {
 		int cntPerPage = 4; // 한 페이지 당 14개씩 보여주기
 		int pageBtnCnt = 2; // 한 번에 보여줄 버튼 개수
 		int totalAlvRow = service.getAlvRowCnt(userNo); // 디비에 있는 모든 연차사용내역 데이터개수
-		PageVo pageVoAlv = new PageVo(page, cntPerPage, pageBtnCnt, totalAlvRow);
+		if (totalAlvRow != 0) {
+			PageVo pageVoAlv = new PageVo(page, cntPerPage, pageBtnCnt, totalAlvRow);
+			List<LvUsedListDto> alvUsedListIf = service.getAlvList(userNo, pageVoAlv);
+			if (alvUsedListIf != null) {
+				
+				for (LvUsedListDto al : alvUsedListIf) {
+					String start = String.valueOf(al.getLvStart());
+					String end =  String.valueOf(al.getLvEnd());
+					al.setDuring(start + " ~ " + end);
+				}
+				// 로그인한 사용자의 연차사용내역
+				model.addAttribute("alvUsedListIf", alvUsedListIf);
+				model.addAttribute("page", pageVoAlv);
+		}
 			
-		// 로그인한 사용자의 연차사용내역
-		List<LvUsedListDto> alvUsedListIf = service.getAlvList(userNo, pageVoAlv);
-		if (alvUsedListIf != null) {
-			
-			for (LvUsedListDto al : alvUsedListIf) {
-				String start = String.valueOf(al.getLvStart());
-				String end =  String.valueOf(al.getLvEnd());
-				al.setDuring(start + " ~ " + end);
-			}
-			model.addAttribute("alvUsedListIf", alvUsedListIf);
-			model.addAttribute("page", pageVoAlv);
 		}
 
 		return "leave/lvUsedList1";
@@ -210,10 +212,15 @@ public class LeaveController {
 	
 	@GetMapping("alvCal") // 연차 정산
 	public String alvCal(HttpSession session, Model model) throws Exception {
-		// 발생시작일자 고민해보기
+		Map<String, Object> duringDate = new HashMap<String, Object>();
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
 		String userNo = loginUser.getUserNo();
 		UserDto user = service.getThisUser(userNo);
+		duringDate = calDuringDate(userNo);
+		String startDate = (String) duringDate.get("startDate");
+		String endDate = (String) duringDate.get("endDate");
+		
+		String during = startDate + "~" + endDate;
 		
 		// 로그인한 사용자의 연차사용내역
 		List<LvUsedListDto> alvUsageCalList = service.getAlvUsageCal(userNo);
@@ -233,6 +240,7 @@ public class LeaveController {
 		int size = alvUsageCalList.size();
 		model.addAttribute("size", size);
 		model.addAttribute("alvUsageCalList", alvUsageCalList);
+		model.addAttribute("during",during);
 		model.addAttribute("user", user);
 		return "leave/alvCal";
 	}

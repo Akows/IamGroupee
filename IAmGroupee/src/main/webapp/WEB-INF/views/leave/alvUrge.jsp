@@ -75,7 +75,7 @@
        
 		          <div style="width: 70%; height: 100%; margin-left: 5%;">
 		        	<h4 style="color: rgb(94, 94, 94); font-weight: 600; margin-left: 14px;">연차 세부 내용</h4>
-					<pre style="color: rgb(94, 94, 94); font-weight: 700; font-size: 15px; margin-left: 4px; margin-bottom: 0px;">본 자료는 OOOO - OO - OO까지 상신된 내역을 기초로 작성된 것이므로,
+					<pre style="color: rgb(94, 94, 94); font-weight: 700; font-size: 15px; margin-left: 4px; margin-bottom: 0px;">본 자료는 <span id="now"></span>까지 상신된 내역을 기초로 작성된 것이므로,
 예정된 휴무에 의거한 연차는 반영되지 않았을 수도 있습니다.</pre>
 				  </div>
 				  
@@ -117,7 +117,14 @@
     <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
+	<script type="text/javascript">
+	let today = new Date();
+	let year = today.getFullYear(); 
+	let month = today.getMonth() + 1
+	let day = today.getDate();
 
+	document.getElementById("now").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
+	</script>
 </body>
 
 </html>
