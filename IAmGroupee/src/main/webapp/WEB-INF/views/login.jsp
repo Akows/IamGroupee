@@ -15,6 +15,7 @@
   <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
   <!-- Custom styles -->
   <link rel="stylesheet" href="${root}/resources/css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -37,7 +38,7 @@
 		      
 		      <input type="checkbox" name="checked" value="num" id="no"><i style="color: rgb(94, 94, 94); font-size: 14px; font-weight: 500;"> Save Number &nbsp; </i>
 		      <input type="checkbox" checked name="checked" value="login" id="logined"><i style="color: rgb(94, 94, 94); font-size: 14px; font-weight: 500;"> Stay Signed in &nbsp; </i><br>
-		      <a class="link-info forget-link" href="##">Forgot your password?</a><br>
+		      <a class="link-info forget-link forgotPassword" href="#">Forgot your password?</a><br>
 		      <p style="color: red;">${msg}</p>
 		      <button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">Login</button>
 		    </form>
@@ -55,7 +56,7 @@
 		      
 		      <input type="checkbox" checked name="checked" value="num" id="no"><i style="color: rgb(94, 94, 94); font-size: 14px; font-weight: 500;"> Save Number &nbsp; </i>
 		      <input type="checkbox" checked name="checked" value="login" id="logined"><i style="color: rgb(94, 94, 94); font-size: 14px; font-weight: 500;"> Stay Signed in &nbsp; </i><br>
-		      <a class="link-info forget-link" href="##">Forgot your password?</a><br>
+		      <a class="link-info forget-link forgotPassword"  href="#">Forgot your password?</a><br>
 		      <p style="color: red;">${msg}</p>
 		      <button type="submit" class="form-btn primary-default-btn transparent-btn" style="font-size: larger;">Login</button>
 		    </form>
@@ -65,6 +66,7 @@
     
   </article>
 </main>
+    
 	<script type="text/javascript">
 		function name() {
 			var login =  document.getElementById("logined");
@@ -76,6 +78,11 @@
 				no.checked = false;
 			}
 		}
+		$(function(){
+			$(document).on("click",".forgotPassword", function(){
+				window.open('${root}/findpwd', 'windowPop', 'width=600, height=300, left=650, top=350, resizable = no, location=no')
+			});
+		});
 	</script>
 
 

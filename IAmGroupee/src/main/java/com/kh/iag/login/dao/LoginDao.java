@@ -11,5 +11,9 @@ public interface LoginDao {
 	int savedLoginCookie(String userNo, String sessionId, Date sessionLimit) throws Exception;
 
 	UserDto checkUserBySsKey(String sessionKey) throws Exception;
+
+	UserDto getFindUser(String userNo) throws Exception;
+
+	int setChangePwd(UserDto user) throws Exception;
 	
 }

@@ -25,4 +25,10 @@
     	WHERE SESSIONKEY = #{sessionKey} AND SESSIONLIMIT > SYSDATE
     </select>
     
+    <update id="setChangePwd">
+    	UPDATE IAG_USER SET
+    	PWD = #{pwd}
+    	WHERE USER_NO = #{userNo}
+    </update>
+    
   </mapper>
