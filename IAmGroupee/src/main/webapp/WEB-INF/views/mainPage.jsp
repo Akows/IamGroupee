@@ -5,6 +5,7 @@
 <%@page import="com.kh.iag.leave.entity.LvUsedListDto"%>
 <%@page import="com.kh.iag.resv.entity.ResvDto"%>
 <%@page import="com.kh.iag.sch.entity.SchDto"%>
+<%@page import="com.kh.iag.user.entity.UserDto"%>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="en">
@@ -14,6 +15,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>I am groupe Dashboard</title>
 <style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+.container * {font-family: 'Noto Sans KR', sans-serif; /*font-family: 'Nanum Gothic', sans-serif;*/}
 #calendar .fc-day-sun {color: red;}
 #calendar .fc-day-sat {color: blue;}
 #fc-dom-1{font-size: 1.5em;}
@@ -31,6 +34,28 @@
 .more{width: 150px; padding-top: 15% !important;}
 .card-title{font-weight: bolder !important; font-size: larger !important;}
 #new{color: red; font-weight: bolder;}
+/* ---------------------------------------------------------------------------------------------------------- */
+#halfHorizon{width: 100%; height: 250px; margin-bottom: 30px;}
+#halfHorizon > div:nth-child(1){width:57.5%; height:100%; float: left; border-radius: 10px;}
+#halfHorizon > div:nth-child(2){width: 40.5%; height: 100%; background: #fff; float: right; border-radius: 10px;}
+#mainProfile{width: 48%; height: 100%; background: #a1d7fc; float: left; border-radius: 10px;}
+#mainAttend{width: 48%; height: 100%; background: cornflowerblue; float: right; border-radius: 10px;}
+#mainProfile > div:nth-child(1){width: 100%; height: 40%; position: relative;}
+#mainProfile > div:nth-child(1) > span{position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; border: 2px solid rgb(31, 111, 230);}
+#mainProfile > div:nth-child(2){width: 100%; height: 60%; padding: 10px; background: #fff; border: 1px solid gainsboro; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px;}
+#mainProfile > div:nth-child(2) > table{text-align: center; height: 100%; margin: auto; font-size: 14px; font-weight: 600; color: dimgray;}
+#mainAttend > * {text-align: center;}
+#mainAttend > div:nth-child(1){height: 20%; font-size: 21px; line-height: 2.5; font-weight: 700; color: #fff; text-shadow: 1px 1px 1px #262626;}
+#mainAttend > div:nth-child(2){height: 60%; width: 95%; margin: auto; border-radius: 5px; background-color: #fff;}
+#mainAttend > div:nth-child(2) > ul{height: 100%; width: 100%; text-align: left; font-size: 13px;}
+#mainAttend > div:nth-child(2) > ul > li{height: 20%; padding: 5px; color: #666565;}
+#mainAttend > div:nth-child(3){height: 20%; font-size: 20px; line-height: 2.5;}
+#mainAttend > div:nth-child(3) > button{width: 150px; font-weight: 500; color: #fff; background: rgb(31, 111, 230); padding: 5px; border-radius: 5px;}
+#mainAttend > div:nth-child(3) > button:hover{background: rgba(0, 0, 0, .4);}
+#mainEA{width: 100%; height: 100%;}
+#mainEA > div:nth-child(1){width: 100%; height: 40%; background: darkblue; border-top-right-radius: 10px; border-top-left-radius: 10px;}
+#mainEA > div:nth-child(2){width: 100%; height: 60%; position: relative; border: 1px solid gainsboro; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px;}
+#mainEA > div:nth-child(2) a:hover{font-size: 22px; color: royalblue; text-shadow: 1px 1px 2px #262626;}
 </style>
 <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
 <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
@@ -38,60 +63,118 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
+<script src="https://kit.fontawesome.com/77be500183.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<%@ include file="common/headerSide.jsp"%>
 	<main class="main users chart-page" id="skip-target">
 		<div class="container">
-			<h2 class="main-title">Iag Groupware</h2>
-			<div class="row stat-cards">
-				<div class="col-md-6 col-xl-12">
-				  <div class="first">
-					<article class="stat-cards-item test">
-						<div class="stat-cards-info">
-							<p class="stat-cards-info__num">무엇을 넣어야할까</p>
-							<pre>
-
-
-
-
-
-
-                  
-                           </pre>
+			<div id="halfHorizon">
+				<div>
+					<div id="mainProfile">
+						<div>
+							<span class="sidebar-user-img">
+								<picture><img src="${root}/resources/img/ps/profile/${loginUser.profile}" alt="User name"></picture>
+							</span>
 						</div>
-					</article>
+						<div>
+							<% UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+								String residentNo = loginUser.getResidentNo();
+								String month = residentNo.substring(2, 4);
+								String date = residentNo.substring(4, 6);
+								String birthday = month + ". " + date;
+							%>
+							<table>
+								<tr style="color: #262626;">
+									<td colspan="2" style="font-size: 18px; font-weight: 900; 
+									color: darkblue;
+									text-shadow: 2px 2px 1px gainsboro;">${loginUser.name} ${loginUser.positionName}</td>
+								</tr>
+								<tr>
+									<td><i class="fas fa-user-friends"></i></td>
+									<td>${loginUser.departmentName}</td>
+								</tr>
+								<tr>
+									<td><i class="fas fa-birthday-cake"></i></td>
+									<td><%=birthday%></td>
+								</tr>
+								<tr>
+									<td><i class="fas fa-mobile-alt"></i></td>
+									<td>${loginUser.phone}</td>
+								</tr>
+								<tr>
+									<td><i class="fas fa-envelope"></i> </td>
+									<td>${loginUser.email}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div id="mainAttend">
+						<div>
+							<i class="fas fa-address-card"></i> 근태출퇴근
+						</div>
+						<div>
+							<ul>
+								<li><i class="far fa-check-circle"></i> 모든 사원은 출근 및 퇴근 처리를 반드시 잊지 말아주세요.</li>
+								<li><i class="far fa-check-circle"></i> 출퇴근 미처리로 발생하는 모든 불이익은 당사자에게 있습니다.</li>
+								<li><i class="far fa-check-circle"></i> 출퇴근 처리 실수, 오류시 근태수정요청이 가능합니다.</li>
+								<li><i class="far fa-check-circle"></i> 근태 현황을 수시 체크하여 불이익이 없도록 주의 부탁드립니다.</li>
+								<li><i class="far fa-check-circle"></i> 출퇴근 관련 문의는 인사팀으로 부탁드립니다.</li>
+							</ul>
+						</div>
+						<div>
+							<button onclick="location.href='${root}/attend/attendmain';">출퇴근처리</button>
+						</div>
+					</div>
+				</div>
 
-					<article class="stat-cards-item attendShortCut">
-						<div class="stat-cards-info">
-							<div class="col-md-12 col-xl-12">
-								<article class="stat-cards-item">
-								<div class="stat-cards-icon success">
-									<i data-feather="bar-chart-2" aria-hidden="true"></i>
-								</div>
-								<div class="stat-cards-info">
-									<p class="stat-cards-info__num">근태 출퇴근</p>
-									<p class="stat-cards-info__title">모든 사용자는 출근 및 퇴근 처리를 반드시 잊지 말것.</p>
-									<p class="stat-cards-info__title">출퇴근 미처리로 발생하는 모든 불이익은 사용자의 몫입니다.</p>
-									<p class="stat-cards-info__title">출퇴근 관련된 문의는 인사팀으로 해주세요.</p>
-
-										<button class="form-btn primary-default-btn transparent-btn" type="button" onclick="location.href='${root}/attend/attendmain';"> 출퇴근처리 </button>
-										
-									<hr>
-									
-								</div>
-								</article>						
+				<div>
+					<div id="mainEA">
+						<div>
+							<div style="width: 40%; height: 100%; position: relative; float: left;">
+								<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: #fff; font-size: 21px; font-weight: 700; text-shadow: 1px 1px 1px #262626;">
+									<i class="far fa-file-alt"></i> 결재현황
+								</span>
+							</div>
+							<div style="width: 60%; height: 100%; position: relative; float: left;">
+								<table style="width: 75%; text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: #fff; font-size: 21px; font-weight: 700; text-shadow: 1px 1px 1px #262626;">
+									<tr style="font-size: 17px;">
+										<th>대기</th>
+										<th>진행</th>
+										<th>전체</th>
+									</tr>
+									<tr>
+										<td>${countOfWait}</td>
+										<td>${countOfProg}</td>
+										<td>${countOfSignup}</td>
+									</tr>
+								</table>
 							</div>
 						</div>
-					</article>
+						<div>
+							<table style="width: 80%; height: 70%; text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 20px;">
+								<tr>
+									<th><a href="${root}/ea/signuplist">기안문서</a></th>
+									<th><a href="${root}/ea/apprlist">결재문서</a></th>
+									<th><a href="${root}/ea/reflist">참조문서</a></th>
+									<th><a href="${root}/ea/entirelist">완료문서</a></th>
+								</tr>
+								<tr>
+									<td>${countOfSignup}</td>
+									<td>${countOfAppr}</td>
+									<td>${countOfRefer}</td>
+									<td>${countOfEntire}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
 				</div>
-			  </div>	
-			</div>	
+			</div>
 			
 			<div class="row stat-cards second">
 				<div class="col-md-6 col-xl-7">
 					<article class="stat-cards-item announceBoard">
-						<div class="stat-cards-info board" style="margin-top: 15px;">
+						<div class="stat-cards-info board" style="width: 97%; margin: 15px auto;">
 							<div class="card board">
 				              <div class="card-header">
 				                <h3 class="card-title">공지사항</h3>
@@ -127,7 +210,7 @@
 				            <!-- /.card -->
 						</div>
 						
-						<div class="stat-cards-info board">
+						<div class="stat-cards-info board" style="width: 97%; margin: 15px auto;">
 							<div class="card board">
 				              <div class="card-header">
 				                <h3 class="card-title">자유게시판</h3>

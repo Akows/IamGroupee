@@ -53,31 +53,12 @@ public class EAController {
 	// 기안신청 (양식선택)
 	@GetMapping(value = "/signup")
 	public String signUp(Model model, HttpSession session) throws Exception {
-		
 		// 양식 카테고리 데이터
 		List<CategoryDto> categoryValues = adminService.categoryValues();
 		model.addAttribute("categoryValues", categoryValues);
 		// 양식 데이터
 		List<FormDto> formValues = adminService.formValues();
 		model.addAttribute("formValues", formValues);
-		
-		
-		// 메인화면에 들어갈 데이터 임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시
-		UserDto loginUser = (UserDto) session.getAttribute("loginUser");
-		String userNo = loginUser.getUserNo();
-		
-		// 상신한 문서수
-		int countOfSignup = service.countOfSignup(userNo);
-		// 결재할 문서수
-		int countOfAppr = service.countOfAppr(userNo);
-		// 참조 문서수
-		int countOfRefer = service.countOfRefer(userNo);
-		// 대기 문서수(아직 상신만된 상태)
-		int countOfWait = service.countOfWait(userNo);
-		// 진행 문서수(1차결재 이상 진행된 상태)
-		int countOfProg = service.countOfProg(userNo);
-		// 전체 문서수
-		int countOfEntire = entireCap(session).size();
 		
 		return "ea/user/ea_signup_form";
 	}

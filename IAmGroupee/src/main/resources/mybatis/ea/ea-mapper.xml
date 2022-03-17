@@ -64,7 +64,7 @@
 	
 	<!-- 새로 추가한 카테고리 정보 가져오기 -->
 	<select id="selectLatestFormCategory" resultType="com.kh.iag.ea.entity.CategoryDto">
-		SELECT * FROM (SELECT ROWNUM AS RNUM, c.* FROM (SELECT * FROM EA_CATEGORY ORDER BY CATEGORY_NO DESC) c) WHERE RNUM = 1
+		SELECT * FROM (SELECT ROWNUM AS RNUM, c.* FROM (SELECT * FROM EA_CATEGORY WHERE CATEGORY_NO != 9999 ORDER BY CATEGORY_NO DESC) c) WHERE RNUM = 1
 	</select>
 	
 	<!-- 카테고리 삭제 -->
@@ -158,7 +158,7 @@
 		UPDATE EA_DOCUMENT
 		SET
 		    DOC_SEP = 'Y'
-		WHERE SYSDATE > DOC_CLOSE 
+		WHERE SYSDATE > DOC_CLOSE + 1
 	</update>
 <!-- 사용자 -->
 <!-- 기안 #################################################################################################### -->
@@ -870,15 +870,25 @@
 <!-- etc ####################################################################################################-->
 	<!-- 메인화면 상신한 문서 개수 -->
 	<select id="countOfSignup" parameterType="string" resultType="int">
-		SELECT COUNT(DOC_NO) FROM EA_DOCUMENT WHERE USER_NO = #{userNo}
+		SELECT COUNT(DOC_NO) FROM EA_DOCUMENT WHERE USER_NO = #{userNo} AND DOC_SEP = 'N'
 	</select>
 	<!-- 메인화면 결재할 문서 개수 -->
 	<select id="countOfAppr" parameterType="string" resultType="int">
-		SELECT COUNT(PROC_NO) FROM EA_PROCESS WHERE USER_NO = #{userNo}
+		SELECT COUNT(PROC_NO) 
+		FROM EA_PROCESS 
+		WHERE USER_NO = #{userNo} 
+		  AND PROC_NO = (
+		  					SELECT PROC_NO 
+		  					FROM EA_PROCESS_NO 
+		  					WHERE DOC_NO = (SELECT DOC_NO FROM EA_DOCUMENT WHERE DOC_SEP = 'N')
+	  					)
 	</select>
 	<!-- 메인화면 참조할 문서 개수 -->
 	<select id="countOfRefer" parameterType="string" resultType="int">
-		SELECT COUNT(DOC_NO) FROM EA_REF WHERE REF_NO = #{userNo}
+		SELECT COUNT(DOC_NO) 
+		FROM EA_REF 
+		WHERE REF_NO = #{userNo} 
+		  AND DOC_NO = (SELECT DOC_NO FROM EA_DOCUMENT WHERE DOC_SEP = 'N')
 	</select>
 	<!-- 메인화면 대기중인 문서 개수 -->
 	<select id="countOfWait" parameterType="string" resultType="int">
