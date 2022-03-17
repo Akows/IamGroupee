@@ -47,7 +47,6 @@
 								  <h4 class="modal-title">새 프로젝트 생성</h4>
 								</div>
 								
-								<form action="" method="post">
 									<div class="modal-body">
 										<div class="card-body">
 											<div class="form-group">

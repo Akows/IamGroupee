@@ -15,9 +15,9 @@ public interface ResvDao {
 	
 	List<ResvDto> getAllAssetResvList() throws Exception;
 	
-	List<ResvDto> getSelectRoomResvList(int resvNo) throws Exception;
+	List<ResvDto> getSelectRoomResvList(int roomNo) throws Exception;
 	
-	List<ResvDto> getSelectAssetResvList(int resvNo) throws Exception;
+	List<ResvDto> getSelectAssetResvList(int assetNo) throws Exception;
 	
 	List<ResvDto> getMyResvList(String userNo, PageVo vo) throws Exception;
 	

@@ -184,7 +184,7 @@
   			, CURRENT_DATE
   		)
   	</insert>
-  	
+  
   	<select id="gCnt" resultType="int">
   		SELECT COUNT(*) FROM PRJ_REPORT
   		WHERE PRJ_NO = #{prjNo}

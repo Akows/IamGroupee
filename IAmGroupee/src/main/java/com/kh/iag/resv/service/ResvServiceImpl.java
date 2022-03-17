@@ -36,13 +36,13 @@ public class ResvServiceImpl implements ResvService{
 	}
 	
 	@Override
-	public List<ResvDto> getSelectRoomResvList(int resvNo) throws Exception {
-		return dao.getSelectRoomResvList(resvNo);
+	public List<ResvDto> getSelectRoomResvList(int roomNo) throws Exception {
+		return dao.getSelectRoomResvList(roomNo);
 	}
 	
 	@Override
-	public List<ResvDto> getSelectAssetResvList(int resvNo) throws Exception {
-		return dao.getSelectAssetResvList(resvNo);
+	public List<ResvDto> getSelectAssetResvList(int assetNo) throws Exception {
+		return dao.getSelectAssetResvList(assetNo);
 	}
 	
 

@@ -65,9 +65,11 @@
 							</div>
 							<div class="card-body">
 								<c:forEach items="${roomList}" var="r">
-									<button type="button" onclick="searchRoom();" id="roomName" value="${r.roomName}" class="btn btn-block btn-outline-primary">
-										${r.roomName}
-									</button>
+									<form action="${root}/resv/resvAsset/r" method="get">
+										<button type="submit" name="roomNo" value="${r.roomNo}" class="btn btn-block btn-outline-primary">
+											${r.roomName}
+										</button>
+									</form>
 								</c:forEach>
 							</div> <!-- /.card-body -->
 						</div>
@@ -75,9 +77,11 @@
 							<div class="card-header"><h3 class="card-title">자산 목록</h3></div>
 							<div class="card-body">
 								<c:forEach items="${assetList}" var="a">
-									<button type="button" onclick="searchAsset();" id="assetNo" value="${r.assetNo}" class="btn btn-block btn-outline-primary">
-										${a.assetName}
-									</button>
+									<form action="${root}/resv/resvAsset/a" method="get">
+										<button type="submit" name="assetNo" value="${a.assetNo}" class="btn btn-block btn-outline-primary">
+											${a.assetName}
+										</button>
+									</form>
 								</c:forEach>
 							</div>
 						</div>
@@ -101,28 +105,11 @@
 	
 	
 	<script>
-		function searchRoom(){
-			var no = document.getElementById("roomName").value;
-			console.log(no);
-			$.ajax({
-					type:"",
-					url:'${root}/resv/resvAsset/r',
-					data:{"no" : no},
-					dataType : "text",
-					error : function(e){
-						alert("선택한 회의실의 예약내역이 존재하지 않습니다.");
-					},
-					complete : function(){
-						window.location.reload();
-					}
-				})
-
-			}
 
 		document.addEventListener('DOMContentLoaded', function() {
-		  var calendarEl = document.getElementById('calendar');
-		  var calendar = new FullCalendar.Calendar(calendarEl, {
-			googleCalendarApiKey: 'AIzaSyAs1UZKO49dOGkrpX3qeYNU0wZx_vbq1Co',
+			var calendarEl = document.getElementById('calendar');
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				googleCalendarApiKey: 'AIzaSyAs1UZKO49dOGkrpX3qeYNU0wZx_vbq1Co',
 				eventSources:{
 					googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
 					className: '대한민국의 휴일',
@@ -141,10 +128,10 @@
 				nowIndicator: true, // 현재 시간 마크
 				dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 				locale: 'ko', // 한국어 설정
-
+				
 				events : 
 				[ 
-					<%if (allRoomResvList != null || allAssetResvList != null) {%>
+					<%if (allRoomResvList != null) {%>
 						<%for (ResvDto r : allRoomResvList) {%>
 							{
 							title : '<%=r.getRoomName()%>',
@@ -152,7 +139,9 @@
 							end : '<%=r.getResvEnd()%>',
 							color : '#2D82D7'
 							},
-						<%}%>	
+						<%}	
+					}%>
+					<%if (allAssetResvList != null) {%>
 						<%for (ResvDto a : allAssetResvList) {%>
 							{
 							title : '<%=a.getAssetName()%>',
@@ -163,13 +152,13 @@
 						<%}
 					}%>
 				]
-
-		  });
-		  calendar.render();
+				
+			
+			});
+			calendar.render();
+	
 		});
-
 	</script>
-
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 	<!-- Custom scripts -->

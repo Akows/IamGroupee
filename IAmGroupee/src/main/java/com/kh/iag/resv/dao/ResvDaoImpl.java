@@ -38,13 +38,13 @@ public class ResvDaoImpl implements ResvDao {
 	}
 	
 	@Override
-	public List<ResvDto> getSelectRoomResvList(int resvNo) throws Exception {
-		return ss.selectList("resv.getAllRoomResvList", resvNo);
+	public List<ResvDto> getSelectRoomResvList(int roomNo) throws Exception {
+		return ss.selectList("resv.getAllRoomResvList", roomNo);
 	}
 	
 	@Override
-	public List<ResvDto> getSelectAssetResvList(int resvNo) throws Exception {
-		return ss.selectList("resv.getAllAssetResvList", resvNo);
+	public List<ResvDto> getSelectAssetResvList(int assetNo) throws Exception {
+		return ss.selectList("resv.getAllAssetResvList", assetNo);
 	}
 	
 	@Override

@@ -5,7 +5,6 @@ import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class RoomDto {
@@ -23,7 +22,6 @@ public class RoomDto {
 	
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date modDate;
-	
 	
 	
 }

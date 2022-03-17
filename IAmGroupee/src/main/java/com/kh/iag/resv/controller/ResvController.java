@@ -1,8 +1,10 @@
 package com.kh.iag.resv.controller;
 
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,36 +175,61 @@ public class ResvController {
 	}
 	
 	//자산별 예약조회
-	@GetMapping(value = "resvAsset/r")
-	public String searchRoomResv(Model model, HttpServletRequest req) throws Exception{
+	@GetMapping(value ="resvAsset/r")
+	public String searchRoomResv( Model model, HttpServletRequest req, HttpServletResponse resp) throws Exception{
+		//자산별 option
+		List<ResvDto> roomList = service.getRoomList();
+		List<ResvDto> assetList = service.getAssetList();
+		model.addAttribute("roomList", roomList);
+		model.addAttribute("assetList", assetList);
 		
-//		String no = req.getParameter(no);
-//		int roomNo = Integer.parseInt(no);
-//		int resvNo = service.getRoomResvNo(roomNo);
-//		System.out.println(resvNo);
-//		//회의실별 예약현황
-//		List<ResvDto> allRoomResvList = service.getSelectRoomResvList(resvNo);
-//		
-//		try {
-//			model.addAttribute("allRoomResvList", allRoomResvList);
-//		} catch (Exception e) {
-//	
-//		}
-		return "redirect:resv/resvAsset";
-	}
-	
-	@PostMapping(value = "resvAsset/a{assetNo}")
-	public String searchAssetResv(Model model, @PathVariable int assetNo) throws Exception{
-		
-		int resvNo = service.getAssetResvNo(assetNo);
-		
-		//비품별 전체 예약현황
-		List<ResvDto> allAssetResvList = service.getSelectAssetResvList(resvNo);
-		
-		if(allAssetResvList != null) {
-			model.addAttribute("selectAssetResvList", allAssetResvList);
+		try {
+			int roomNo = Integer.parseInt(req.getParameter("roomNo"));
+			
+			//회의실별 예약현황
+			List<ResvDto> allRoomResvList = service.getSelectRoomResvList(roomNo);
+			
+			if(allRoomResvList.isEmpty() == false) {
+				model.addAttribute("allRoomResvList", allRoomResvList);
+			}else {
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				out.println("<script>alert('예약내역이 존재하지 않습니다.'); location.href='/iag/resv/resvAsset';</script>");
+				out.flush();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return "resv/resvAsset";
-}
+	}
+	
+	@GetMapping(value = "resvAsset/a")
+	public String searchAssetResv(Model model, HttpServletRequest req, HttpServletResponse resp) throws Exception{
+		
+		//자산별 option
+		List<ResvDto> roomList = service.getRoomList();
+		List<ResvDto> assetList = service.getAssetList();
+		model.addAttribute("roomList", roomList);
+		model.addAttribute("assetList", assetList);
+		
+		try {
+			int assetNo = Integer.parseInt(req.getParameter("assetNo"));
+			
+			//회의실별 예약현황
+			List<ResvDto> allAssetResvList = service.getSelectAssetResvList(assetNo);
+			
+			if(allAssetResvList.isEmpty() == false) {
+				model.addAttribute("allAssetResvList", allAssetResvList);
+			}else {
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				out.println("<script>alert('예약내역이 존재하지 않습니다.'); location.href='/iag/resv/resvAsset';</script>");
+				out.flush();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "resv/resvAsset";
+	}
 
 }
