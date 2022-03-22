@@ -88,6 +88,13 @@
 			            		<td><b style="color: red"> ${wtinf.overtime_work_time} 시간</b></td>		
 			            		
 			            		<c:choose>
+			            			<c:when test="${wtinf.workcheck == '휴일퇴근'}">
+										<td>
+											<div class="badge-active">
+												${wtinf.workcheck}
+											</div>									
+										</td>
+			            			</c:when>
 			            			<c:when test="${wtinf.workcheck == '정상퇴근'}">
 										<td>
 											<div class="badge-active">
