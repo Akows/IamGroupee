@@ -17,13 +17,9 @@
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
-
-<!-- Favicon -->
 <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png"
 	type="image/x-icon">
-<!-- Theme style -->
 <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
-
 </head>
 
 <body>
@@ -62,7 +58,7 @@
 						</table>
 					</div>
 					<!-- 페이징 -->
-					<%PageVo pageVo = (PageVo)request.getAttribute("pageVoLv");%>
+					<%PageVo pageVo = (PageVo)request.getAttribute("page2");%>
 					<%if (pageVo != null) {%>
 					<div class="card-footer clearfix"
 						style="width: 100%; margin: 0; text-align: center; height: 45px; padding: 0px;">

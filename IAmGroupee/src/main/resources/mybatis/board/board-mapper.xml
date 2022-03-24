@@ -69,9 +69,16 @@
     </update>
     
     <select id="getMainFreeBoardList" resultType="freeBoard">
-    	SELECT * FROM BOARD_FREE 
-    	WHERE ROWNUM &lt; 5 AND FREE_DEL = 'N'
-    	ORDER BY FREE_DATE DESC
+    SELECT * FROM	
+		(
+			SELECT ROWNUM RN, B.* 
+			FROM
+			(
+				SELECT * FROM BOARD_FREE
+				WHERE FREE_DEL = 'N'
+				ORDER BY FREE_DATE DESC
+			) B
+		) WHERE RN &lt; 5
     </select>
 <!-- //////////////////////////////////////////////////////////////////// -->
 
@@ -142,9 +149,16 @@
 	</update>
 
 	<select id="getMainNoticeBoardList" resultType="noticeBoard">
-    	SELECT * FROM BOARD_NOTICE 
-    	WHERE ROWNUM &lt; 5 AND NOTICE_DEL = 'N'
-    	ORDER BY NOTICE_DATE DESC
+    SELECT * FROM	
+		(
+			SELECT ROWNUM RN, B.* 
+			FROM
+			(
+				SELECT * FROM BOARD_NOTICE
+				WHERE NOTICE_DEL = 'N'
+				ORDER BY NOTICE_DATE DESC
+			) B
+		) WHERE RN &lt; 5
 	</select>
 
 

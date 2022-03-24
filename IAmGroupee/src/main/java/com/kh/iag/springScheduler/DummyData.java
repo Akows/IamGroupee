@@ -61,8 +61,8 @@ public class DummyData {
 		for(int i = 0; i < workDay80PerOfYear + 20; i++){
 			String strAttendDate = AddDate("yyyy-MM-dd", "2021-03-18", 0, 0, i);
 			attendDTO.setAttend_date(strAttendDate);
-			attendDTO.setUser_no("2222");
-			attendDTO.setUser_name("연차관리자");
+			attendDTO.setUser_no("1616");
+			attendDTO.setUser_name("사원2");
 			sqlSession.insert("leave.attendtempInsert", attendDTO);
 			count1++;
 		}
@@ -71,8 +71,8 @@ public class DummyData {
 		for(int i = 0; i < workDay80PerOfYear - 20; i++){
 			String strAttendDate = AddDate("yyyy-MM-dd", "2021-03-18", 0, 0, i);
 			attendDTO.setAttend_date(strAttendDate);
-			attendDTO.setUser_no("3333");
-			attendDTO.setUser_name("김다혜");
+			attendDTO.setUser_no("1717");
+			attendDTO.setUser_name("사원3");
 			sqlSession.insert("leave.attendtempInsert", attendDTO);
 			count2++;
 		}
@@ -85,8 +85,8 @@ public class DummyData {
 		for(int i = 0; i < workDayOfLastMonth1; i++){
 			String strAttendDate = AddDate("yyyy-MM-dd", "2022-03-18", 0, 0, i);
 			attendDTO.setAttend_date(strAttendDate);
-			attendDTO.setUser_no("3333");
-			attendDTO.setUser_name("김다혜");
+			attendDTO.setUser_no("1717");
+			attendDTO.setUser_name("사원3");
 			sqlSession.insert("leave.attendtempInsert", attendDTO);
 			count3++;
 		}
@@ -96,8 +96,8 @@ public class DummyData {
 		for(int i = 0; i < workDayOfLastMonth1 - 5; i++){
 			String strAttendDate = AddDate("yyyy-MM-dd", "2022-03-18", 0, 0, i);
 			attendDTO.setAttend_date(strAttendDate);
-			attendDTO.setUser_no("4444");
-			attendDTO.setUser_name("코코미뇽");
+			attendDTO.setUser_no("1818");
+			attendDTO.setUser_name("사원4");
 			sqlSession.insert("leave.attendtempInsert", attendDTO);
 			count4++;
 		}

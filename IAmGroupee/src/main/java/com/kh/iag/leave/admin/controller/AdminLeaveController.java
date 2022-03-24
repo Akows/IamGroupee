@@ -1,6 +1,8 @@
 package com.kh.iag.leave.admin.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,23 +63,36 @@ public class AdminLeaveController {
 		if (dept != null && !dept.equals("--부서별--")) {
 			// 해당부서의 사원정보 불러오기
 			allUserList = service.getThisDeptUserAD(dept);
+			// 총연차개수 set해주기
+			for (UserDto userDto : allUserList) {
+				int alvTotalCount = userDto.getAlvCount() + userDto.getAlvAddCount() + userDto.getMlvCount();
+				userDto.setAlvTotalCount(alvTotalCount);
+			}
 		} else if (searchByUserNo != null && dept.equals("--부서별--")) {
 			// 해당 사원의 정보 불러오기
 			allUserList = service.getThisUserAD(searchByUserNo);
+			System.out.println(allUserList.toString());
 			// 총연차개수 set해주기
 			for (UserDto userDto : allUserList) {
-				int alvTotalCount = userDto.getAlvCount() + userDto.getAlvAddCount();
+				int alvTotalCount = userDto.getAlvCount() + userDto.getAlvAddCount() + userDto.getMlvCount();
 				userDto.setAlvTotalCount(alvTotalCount);
 			}
 		} else {
 			return "redirect:main/1";
 		}
+		// 현재날짜
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar today = Calendar.getInstance(); 
+		String todayDate = format.format(today.getTime());
+		model.addAttribute("todayDate", todayDate);
 		model.addAttribute("allUserList", allUserList);
 		return "leave/lvAdmin/adminLeaveMain";
 	}	
 	
 	@PostMapping("alvAddUpdate") // 조정연차 부여
 	public String alvAddUpdate(String alvAddCount, String userNo, String alvOccurReason) throws Exception {
+		
+		
 		// iag_user addAlvCount에 update +=
 		int iagResult = service.iagAddAlvCount(alvAddCount,userNo);
 		// alv_occur_history에 insert

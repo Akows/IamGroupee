@@ -6,10 +6,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leave Info</title>
-  <!-- Theme style -->
+<title>FreeBoard</title>
   <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
-  <!-- Favicon -->
   <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
 </head>
 
@@ -17,7 +15,6 @@
 
     <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 
-    <!-- ! Main -->
     <main class="main users chart-page" id="skip-target">
      <div class="container">
         
@@ -122,7 +119,6 @@
 
     <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
-	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
 </body>
 

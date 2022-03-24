@@ -39,6 +39,7 @@ public class LeaveController {
 	public String leaveMain(HttpSession session, Model model) throws Exception {	
 		UserDto loginUser = (UserDto) session.getAttribute("loginUser");	
 		String userNo = loginUser.getUserNo();
+
 		Map<String, Object> duringDate = calDuringDate(userNo);
 		String startDate = (String) duringDate.get("startDate");
 		String endDate = (String) duringDate.get("endDate");
@@ -55,8 +56,10 @@ public class LeaveController {
 			
 		// 사용연차개수 update해주기
 			float alvUsedCount = service.getAlvUsedCount(userNo);
+			System.out.println("alvUsedCount : " + alvUsedCount);
 			service.updateAlvUsedCount(userNo, alvUsedCount);
 		
+		float leftAlv = loginUser.getAlvLeftCount();
 			
 //		사용내역
 		List<LvUsedListDto> allUsedList = service.getAllUsage(userNo);
@@ -93,7 +96,43 @@ public class LeaveController {
 		}
 //		발생내역
 		List<AlvOccurHistoryDto> lvHistoryList = service.getOccurHistory(userNo);
+		
+//		촉구서 보이기
+		// 현재날짜
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar today = Calendar.getInstance(); 
+		String todayDate = format.format(today.getTime());
+		
+		// 시작날짜 6개월 전 날짜 10일 AddDate(String strDate, int year, int month, int day)
+		String showDate1 = AddDate(endDate, 0, -6, 0);
+		String showDate2 = AddDate(showDate1, 0, 0, 1);
+		String showDate3 = AddDate(showDate1, 0, 0, 2);
+		String showDate4 = AddDate(showDate1, 0, 0, 3);
+		String showDate5 = AddDate(showDate1, 0, 0, 4);
+		String showDate6 = AddDate(showDate1, 0, 0, 5);
+		String showDate7 = AddDate(showDate1, 0, 0, 6);
+		String showDate8 = AddDate(showDate1, 0, 0, 7);
+		String showDate9 = AddDate(showDate1, 0, 0, 8);
+		String showDate10 = AddDate(showDate1, 0, 0, 9);
+		
 
+		System.out.println("todayDate" + todayDate);
+		System.out.println("endDate" + endDate);
+		System.out.println("showDate1" + showDate1);
+		System.out.println("showDate10" + showDate10);
+
+		model.addAttribute("todayDate", todayDate);
+		model.addAttribute("showDate1", showDate1);
+		model.addAttribute("showDate2", showDate2);
+		model.addAttribute("showDate3", showDate3);
+		model.addAttribute("showDate4", showDate4);
+		model.addAttribute("showDate5", showDate5);
+		model.addAttribute("showDate6", showDate6);
+		model.addAttribute("showDate7", showDate7);
+		model.addAttribute("showDate8", showDate8);
+		model.addAttribute("showDate9", showDate9);
+		model.addAttribute("showDate10", showDate10);
+		model.addAttribute("leftAlv", leftAlv);
 		model.addAttribute("stDate", stDate);
 		model.addAttribute("allUsedAlv", allUsedAlv);
 		model.addAttribute("allUseList", allUseList);
@@ -293,11 +332,11 @@ public class LeaveController {
 		String during = startDate + "~" + endDate;
 		
 		model.addAttribute("during",during);
-		model.addAttribute("loginUser",loginUser);
+		model.addAttribute("user",user);
 		
 		return "leave/alvUrge";
 	}
-	
+	// 정산일 기간 계산 메소드
 	public Map<String, Object> calDuringDate(String userNo) throws Exception { 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd");
@@ -340,7 +379,7 @@ public class LeaveController {
 		return duringDate;
 	}	
 
-	// 1씩 증가/감소하는 날짜 (리터타입 : String)
+	// 1씩 증가/감소하는 날짜
 	public String AddDate(String strDate, int year, int month, int day) throws Exception { 
 		SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd"); 
 		Calendar cal = Calendar.getInstance(); 

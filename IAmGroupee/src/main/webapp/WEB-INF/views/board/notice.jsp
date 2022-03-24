@@ -7,9 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Notice Board</title>
-  <!-- Theme style -->
   <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
-  <!-- Favicon -->
   <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
 </head>
 
@@ -17,7 +15,6 @@
 
     <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 
-    <!-- ! Main -->
     <main class="main users chart-page" id="skip-target">
      <div class="container">
         
@@ -129,25 +126,6 @@
     </main>
 
     <%@ include file="/WEB-INF/views/common/footer.jsp" %>
-  </div>
-</div>
-
-<script type="text/javascript">
-	let today = new Date();
-	let year = today.getFullYear(); 
-	let month = today.getMonth() + 1
-	let day = today.getDate();
-
-	document.getElementById("currentDate").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
-	document.getElementById("currentDate2").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
-
-	
-	$(function() {
-		
-	}
-</script>
-
-	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
 </body>
 

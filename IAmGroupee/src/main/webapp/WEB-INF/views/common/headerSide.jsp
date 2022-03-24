@@ -290,52 +290,6 @@
         <i class="fas fa-comment" aria-hidden="true"></i>
         <span class="badge badge-danger navbar-badge" style="top: 0; right: 0; font-size: 8px;" id="unread"></span>
       </a>
-      <div class="notification-wrapper">
-        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">
-          <span class="sr-only">To messages</span>
-          <span class="icon notification active" aria-hidden="true"></span>
-        </button>
-        <ul class="users-item-dropdown notification-dropdown dropdown">
-          <li>
-            <a href="##">
-              <div class="notification-dropdown-icon info">
-                <i data-feather="check"></i>
-              </div>
-              <div class="notification-dropdown-text">
-                <span class="notification-dropdown__title">System just updated</span>
-                <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more
-                  here.</span>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="##">
-              <div class="notification-dropdown-icon danger">
-                <i data-feather="info" aria-hidden="true"></i>
-              </div>
-              <div class="notification-dropdown-text">
-                <span class="notification-dropdown__title">The cache is full!</span>
-                <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and
-                  interfere ...</span>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="##">
-              <div class="notification-dropdown-icon info">
-                <i data-feather="check" aria-hidden="true"></i>
-              </div>
-              <div class="notification-dropdown-text">
-                <span class="notification-dropdown__title">New Subscriber here!</span>
-                <span class="notification-dropdown__subtitle">A new subscriber has subscribed.</span>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a class="link-to-page" href="##">Go to Notifications page</a>
-          </li>
-        </ul>
-      </div>
       <div class="nav-user-wrapper">
         <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
           <span class="sr-only">My profile</span>

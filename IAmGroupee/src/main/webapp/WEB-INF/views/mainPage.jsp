@@ -34,7 +34,6 @@
 .more{width: 150px; padding-top: 15% !important;}
 .card-title{font-weight: bolder !important; font-size: larger !important;}
 #new{color: red; font-weight: bolder;}
-/* ---------------------------------------------------------------------------------------------------------- */
 #halfHorizon{width: 100%; height: 250px; margin-bottom: 30px;}
 #halfHorizon > div:nth-child(1){width:57.5%; height:100%; float: left; border-radius: 10px;}
 #halfHorizon > div:nth-child(2){width: 40.5%; height: 100%; background: #fff; float: right; border-radius: 10px;}
@@ -184,7 +183,6 @@
 				                  </div>
 				                </div>
 				              </div>
-				              <!-- /.card-header -->
 				              <div class="card-body table-responsive p-0 board">
 				                <table class="table table-hover text-nowrap">
 				                  <thead>
@@ -205,9 +203,7 @@
 				                  </tbody>
 				                </table>
 				              </div>
-				              <!-- /.card-body -->
 				            </div>
-				            <!-- /.card -->
 						</div>
 						
 						<div class="stat-cards-info board" style="width: 97%; margin: 15px auto;">
@@ -221,7 +217,6 @@
 				                  </div>
 				                </div>
 				              </div>
-				              <!-- /.card-header -->
 				              <div class="card-body table-responsive p-0 board">
 				                <table class="table table-hover text-nowrap">
 				                  <thead>
@@ -242,9 +237,7 @@
 				                  </tbody>
 				                </table>
 				              </div>
-				              <!-- /.card-body -->
 				            </div>
-				            <!-- /.card -->
 						</div>
 					</article>
 				</div>
@@ -260,14 +253,15 @@
 	</main>
 	<%@ include file="common/footer.jsp"%>
 	<script src="${root}/resources/js/script.js"></script>
-	<script>
+	
+	<script>	
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
         	height: '500px',
-            initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
+            initialView: 'dayGridMonth', 
             googleCalendarApiKey: 'AIzaSyDYMx36O77hSRC2wnwmpzWJ6M2BJ_F8fek',
-			headerToolbar : { // 헤더에 표시할 툴 바
+			headerToolbar : {
 				start : 'today',
 				center : 'title',
 				end : 'prev next'
@@ -275,8 +269,7 @@
 			titleFormat : function(date) {
 				return date.date.year + '년 ' + (parseInt(date.date.month) + 1) + '월';
 			},
-			//initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
-			selectable : true, // 달력 일자 드래그 설정가능
+			selectable : true, 
 			droppable : true,
 			editable : true,
             locale: 'ko',

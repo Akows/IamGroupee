@@ -9,11 +9,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LeaveMain Page</title>
-  <!-- Theme style -->
   <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
-  <!-- Favicon -->
   <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
-  <!-- Toastr -->
   <link rel="stylesheet" href="${root}/resources/plugins/toastr/toastr.min.css">
 </head>
 
@@ -21,12 +18,11 @@
 
     <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 
-    <!-- ! Main -->
     <main class="main users chart-page" id="skip-target">
      <div class="container">
        
         <div style="height: 40px; text-align: center;">
-        	<h1 style="color: rgb(50, 48, 48); font-weight: 600;" id="currentDate"></h1>
+        	<h1 style="color: rgb(50, 48, 48); font-weight: 600;">${todayDate}</h1>
         </div>
         
         <br>
@@ -42,7 +38,7 @@
 								$('.toastsDefaultDefault').click(function() {
 									$(document).Toasts('create', {
 										title : '연차 발생을 위한 정보',
-										body : '1년이상근무여부/전년도근무일수(80이상여부)/저번달개근여부'
+										body : '${nYearEmployeeStr} / ${enrollDateStr} <br> ${attandLastStr} / ${alvOrLvStr} <br> ${alvOrLvCountStr} / ${OccurDateStr} / '
 									})
 								});
 							</script>
@@ -107,12 +103,31 @@
         	<div style="width: 25%; height: 100%; float: left;">
         		<p style=" color: rgb(94, 94, 94); font-weight: 600; font-size: large; margin-top: 10px; float: left;">${stDate}</p>
         		<p style=" color: rgb(94, 94, 94); font-weight: 600; font-size: large; margin-top: 10px; float: left;">&nbsp~&nbsp</p>
-        		<p style=" color: rgb(94, 94, 94); font-weight: 600; font-size: large; margin-top: 10px; float: left;" id="currentDate2"></p>
+        		<p style=" color: rgb(94, 94, 94); font-weight: 600; font-size: large; margin-top: 10px; float: left;">${todayDate}</p>
 			</div>
         	<div style="width: 45%; height: 100%; float: left;"></div>
         	<div style="width: 30%; height: 100%; float: left; text-align: right;">
+        		<%String todayDate = (String)request.getAttribute("todayDate"); %>
+        		<%String showDate1 = (String)request.getAttribute("showDate1"); %>
+        		<%String showDate2 = (String)request.getAttribute("showDate2"); %>
+        		<%String showDate3 = (String)request.getAttribute("showDate3"); %>
+        		<%String showDate4 = (String)request.getAttribute("showDate4"); %>
+        		<%String showDate5 = (String)request.getAttribute("showDate5"); %>
+        		<%String showDate6 = (String)request.getAttribute("showDate6"); %>
+        		<%String showDate7 = (String)request.getAttribute("showDate7"); %>
+        		<%String showDate8 = (String)request.getAttribute("showDate8"); %>
+        		<%String showDate9 = (String)request.getAttribute("showDate9"); %>
+        		<%String showDate10 = (String)request.getAttribute("showDate10"); %>
+        		<%if(todayDate.equals(showDate1) || todayDate.equals(showDate2) || todayDate.equals(showDate3) || todayDate.equals(showDate4) || todayDate.equals(showDate5) || todayDate.equals(showDate6) || todayDate.equals(showDate7) || todayDate.equals(showDate8) || todayDate.equals(showDate9) || todayDate.equals(showDate10)) {%>
+        		<input type="button" onclick="location.href='${root}/leave/alvUrge'" value="사용 촉구서" style="background-color: #D70000; margin-right: 6px; font-weight: bold; color: white;">
+        		<%} %>
         		<!-- 사용가능한 연차가 없을 시 알림창 띄우고 leaveMain으로 돌아오기 -->
+        		<%float leftAlv = (float)request.getAttribute("leftAlv"); %>
+				<%if(leftAlv != 0) {%>
         		<input type="button" onclick="location.href='${root}/ea/write_lvA'" value="연차 신청" style="background-color: rgb(14, 104, 225); margin-right: 6px; font-weight: bold; color: white;">
+        		<%} else {%>
+        		<input type="button" onclick="cannot();" value="연차 신청" style="background-color: rgb(14, 104, 225); margin-right: 6px; font-weight: bold; color: white;">
+        		<%} %>
         		<input type="button" onclick="location.href='${root}/ea/write_lvB'" value="휴가 신청" style="background-color: rgb(14, 104, 225); font-weight: bold; color: white;">
         	</div>
         </div>
@@ -240,6 +255,8 @@
           </div>
         </div>
       </div>
+      
+      
     </main>
 
     <%@ include file="/WEB-INF/views/common/footer.jsp" %>
@@ -252,6 +269,10 @@
 
 	document.getElementById("currentDate").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
 	document.getElementById("currentDate2").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
+	
+	function cannot() {
+		alert("사용가능한 연차가 없습니다.");
+	}
 </script>
 
 	<!-- Custom scripts -->
