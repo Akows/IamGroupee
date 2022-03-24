@@ -4,8 +4,10 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -88,7 +90,7 @@ public class MainController {
 							int hour = now.getHour();
 							int minute = now.getMinute();
 							int second = now.getSecond();
-							int savedTime = 60 * 60 * 24;
+							int savedTime = (60 * 60 * 24 * 15);
 							savedLoginCookie.setMaxAge(savedTime);
 							
 							Date sessionLimit = new Date(System.currentTimeMillis() + (1000 * savedTime));
@@ -135,7 +137,7 @@ public class MainController {
 							int hour = now.getHour();
 							int minute = now.getMinute();
 							int second = now.getSecond();
-							int savedTime = 60 * 60 * 24;
+							int savedTime = (60 * 60 * 24 * 15);
 							savedLoginCookie.setMaxAge(savedTime);
 							
 							Date sessionLimit = new Date(System.currentTimeMillis() + (1000 * savedTime));
@@ -208,33 +210,6 @@ public class MainController {
 	@GetMapping("main")
 	public String main(HttpSession session, Model model) throws Exception {
 //========================================================
-//========================전자결재관련========================
-//========================================================
-		
-		UserDto ealoginUser = (UserDto) session.getAttribute("loginUser");
-		String eauserNo = ealoginUser.getUserNo();
-		
-		// 상신한 문서수
-		int countOfSignup = eaService.countOfSignup(eauserNo);
-		model.addAttribute("countOfSignup", countOfSignup);
-		// 대기 문서수(아직 상신만된 상태)
-		int countOfWait = eaService.countOfWait(eauserNo);
-		model.addAttribute("countOfWait", countOfWait);
-		// 진행 문서수(1차결재 이상 진행된 상태)
-		int countOfProg = eaService.countOfProg(eauserNo);
-		model.addAttribute("countOfProg", countOfProg);
-		
-		// 결재할 문서수
-		int countOfAppr = eaService.countOfAppr(eauserNo);
-		model.addAttribute("countOfAppr", countOfAppr);
-		// 참조 문서수
-		int countOfRefer = eaService.countOfRefer(eauserNo);
-		model.addAttribute("countOfRefer", countOfRefer);
-		// 전체 문서수
-		int countOfEntire = entireCap(session).size();
-		model.addAttribute("countOfEntire", countOfEntire);
-		
-//========================================================
 //=========================연차관련=========================
 //========================================================
 		List<UserDto> allUserList = new ArrayList<UserDto>();
@@ -288,6 +263,34 @@ public class MainController {
 		if(myAssetResvList != null) {
 			model.addAttribute("myAssetResvList", myAssetResvList);
 		}
+
+//========================================================
+//========================전자결재관련========================
+//========================================================
+		
+		UserDto ealoginUser = (UserDto) session.getAttribute("loginUser");
+		String eauserNo = ealoginUser.getUserNo();
+		
+		// 상신한 문서수
+		int countOfSignup = eaService.countOfSignup(eauserNo);
+		model.addAttribute("countOfSignup", countOfSignup);
+		// 대기 문서수(아직 상신만된 상태)
+		int countOfWait = eaService.countOfWait(eauserNo);
+		model.addAttribute("countOfWait", countOfWait);
+		// 진행 문서수(1차결재 이상 진행된 상태)
+		int countOfProg = eaService.countOfProg(eauserNo);
+		model.addAttribute("countOfProg", countOfProg);
+		
+		// 결재할 문서수
+		int countOfAppr = eaService.countOfAppr(eauserNo);
+		model.addAttribute("countOfAppr", countOfAppr);
+		// 참조 문서수
+		int countOfRefer = eaService.countOfRefer(eauserNo);
+		model.addAttribute("countOfRefer", countOfRefer);
+		// 전체 문서수
+		int countOfEntire = entireCap(session).size();
+		model.addAttribute("countOfEntire", countOfEntire);
+		
 //========================================================
 //=========================일정관련=========================
 //========================================================
@@ -416,5 +419,5 @@ public class MainController {
 		}
 		return "common/resultFindPwd";
 	}
-	
+
 }

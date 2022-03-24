@@ -10,24 +10,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LeaveMain Page</title>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
-<link rel="shortcut icon" href="${root}/resources/img/svg/looo.png"
-	type="image/x-icon">
+<link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
 </head>
 
 <body>
 
 	<%@ include file="/WEB-INF/views/common/headerSide.jsp"%>
 
-	<!-- ! Main -->
 	<main class="main users chart-page" id="skip-target">
 		<div class="container">
 
 			<div style="height: 40px; text-align: center;">
-				<h1 style="color: rgb(50, 48, 48); font-weight: 600;"
-					id="currentDate"></h1>
+				<h1 style="color: rgb(50, 48, 48); font-weight: 600;">${todayDate}</h1>
 			</div>
 
 			<br>
@@ -43,9 +39,7 @@
 						<div
 							style="float: left; width: 68%; margin-left: 30px; margin-top: 10px; margin-bottom: 13px;">
 							<a href="${root}/admin/leave/lvModiAD">
-								<p
-									style="color: rgb(94, 94, 94); font-size: x-large; font-weight: bold;">휴가
-									발생 관리</p>
+								<p style="color: rgb(94, 94, 94); font-size: x-large; font-weight: bold;">휴가 발생 관리</p>
 							</a>
 						</div>
 					</div>
@@ -61,9 +55,7 @@
 						<div
 							style="float: left; width: 68%; margin-left: 30px; margin-top: 10px; margin-bottom: 13px;">
 							<a href="${root}/leave/lvInfo">
-								<p
-									style="color: rgb(94, 94, 94); font-size: x-large; font-weight: bold;">연차
-									및 휴가 정보 게시판 관리</p>
+								<p style="color: rgb(94, 94, 94); font-size: x-large; font-weight: bold;">연차 및 휴가 정보 게시판 관리</p>
 							</a>
 						</div>
 					</div>
@@ -234,7 +226,7 @@
 
 									<c:if test="${!(page.currentPage < page.lastPage) || page.currentPage == page.lastPage}">
 										<li class="page-item disabled">
-											<a class="page-link"">Next</a>
+											<a class="page-link">Next</a>
 										</li>
 									</c:if>
 								</ul>
@@ -251,24 +243,14 @@
 	</main>
 
 	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
-	</div>
-	</div>
 
 
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
 
 	<script type="text/javascript">
-	let today = new Date();
-	let year = today.getFullYear(); 
-	let month = today.getMonth() + 1
-	let day = today.getDate();
-	document.getElementById("currentDate").innerHTML = year + '-' + (("00"+month.toString()).slice(-2)) + '-' + (("00"+day.toString()).slice(-2));
-
 		//팝업 show 기능
 		function show_pop(userNo) {
-			//show_pop 호출시 넘겨준 값을 이용하여 ajax 등을 통해 modal 을 띄울때 동적으로 바뀌어야 하는 값을 얻어온다.  
-			//$("#title").html("ajax를 통해 얻어온 id에 해당하는 값");
 			$(".userNo").html(userNo);
 			console.log(userNo);
 		     $('.modal').show();
@@ -286,15 +268,15 @@
 	        var userNo = $('.userNo').text();      
 	        var alvOccurReason = $('.alvOccurReason').val();    
 	            
-	        // ajax 호출을 위한 정보 기입
+	        console.log(alvOccurReason);
+	        
 	        var request = $.ajax({
-	            url: "${root}/admin/leave/alvAddUpdate", // 호출 url
-	            method: "POST", // 전송방식
-	            data: {alvAddCount, userNo, alvOccurReason}, // 파라미터
+	            url: "${root}/admin/leave/alvAddUpdate",
+	            method: "POST",
+	            data: {alvAddCount, userNo, alvOccurReason},
 	            dataType: "text" 
 	        });
 	             
-	        // 호출 정상일 시 실행되는 메서드
 	        request.done(function( data ) {
 	            console.log(data);
   	            alert( "조정연차가 추가되었습니다.");
@@ -302,12 +284,10 @@
 	            window.location.reload();
 	        });
 	 
-	        // 호출 에러일 시 실행되는 메서드
 	        request.fail(function() {
 	            alert( "조정연차가 추가되지않았습니다.");
 	        });
 	 
-	        // 호출 정상 또는 에러 상관없이 실행
 	        request.always(function() {
 	            console.log('완료');
 	        });

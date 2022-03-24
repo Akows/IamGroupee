@@ -9,9 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LeaveInfoWrite</title>
-  <!-- Theme style -->
   <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
-  <!-- Favicon -->
   <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
   <script type="text/javascript" src="${root}/resources/smarteditor2/js/HuskyEZCreator.js" charset="utf-8"></script>
   <script type="text/javascript" src="${root}/resources/smarteditor2/js/jindo.min.js" charset="utf-8" ></script>
@@ -21,7 +19,6 @@
 
     <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 
-    <!-- ! Main -->
     <main class="main users chart-page" id="skip-target">
       <div class="container">
        <div class="row stat-cards">
@@ -66,25 +63,24 @@
 		var oEditors = [];
 			nhn.husky.EZCreator.createInIFrame({
 			oAppRef: oEditors,
-			elPlaceHolder: document.getElementById('noticeContent'), // html editor가 들어갈 textarea id
-			sSkinURI: "${root}/resources/smarteditor2/SmartEditor2Skin.html",  // html editor가 skin url
+			elPlaceHolder: document.getElementById('noticeContent'),
+			sSkinURI: "${root}/resources/smarteditor2/SmartEditor2Skin.html",
 			fOnAppLoad: function () { 
-		        //수정모드를 구현할 때 사용할 부분. 로딩이 끝난 후 값이 채워지게 하는 구현을 하면 된다.
 		         var noticeTitle = '${thisNoticeData.noticeTitle}';               
-		         var noticeContent = '${thisNoticeData.noticeContent}';         //db에서 불러온 값을 여기에서 체워넣으면 됨.
+		         var noticeContent = '${thisNoticeData.noticeContent}';  
 		         document.getElementById("noticeTitle").value = noticeTitle;     
-		         oEditors.getById["noticeContent"].exec("PASTE_HTML", [noticeContent]); //로딩이 끝나면 contents를 txtContent에 넣음
+		         oEditors.getById["noticeContent"].exec("PASTE_HTML", [noticeContent]);
 		     },
 		     fCreator: "createSEditor2"
 		 });
 		var onWrite = function(){
-			oEditors.getById["noticeContent"].exec("UPDATE_CONTENTS_FIELD", []); // 에디터의 내용이 textarea에 적용됨
+			oEditors.getById["noticeContent"].exec("UPDATE_CONTENTS_FIELD", []);
 			var noticeWriteAD = document.getElementById("noticeWriteAD");  
 			noticeWriteAD.action ="noticeEnroll";              
 			noticeWriteAD.submit();  
 		};
 		var onModify = function(){
-			oEditors.getById["noticeContent"].exec("UPDATE_CONTENTS_FIELD", []); // 에디터의 내용이 textarea에 적용됨
+			oEditors.getById["noticeContent"].exec("UPDATE_CONTENTS_FIELD", []);
 			var noticeWriteAD = document.getElementById("noticeWriteAD");  
 			noticeWriteAD.action ="noticeUpdate";              
 			noticeWriteAD.submit();  

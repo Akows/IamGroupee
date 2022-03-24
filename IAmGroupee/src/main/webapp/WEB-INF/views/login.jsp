@@ -11,9 +11,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>I am Groupe Login</title>
-  <!-- Favicon -->
   <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
-  <!-- Custom styles -->
   <link rel="stylesheet" href="${root}/resources/css/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
@@ -86,9 +84,7 @@
 	</script>
 
 
-	<!-- Icons library -->
 	<script src="${root}/resources/plugins/feather.min.js"></script>
-	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
 </body>
 

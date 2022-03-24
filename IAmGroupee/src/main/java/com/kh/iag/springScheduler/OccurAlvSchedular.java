@@ -6,18 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import com.kh.iag.attend.entity.AttendDTO;
 import com.kh.iag.leave.service.LeaveService;
 import com.kh.iag.user.entity.UserDto;
 
@@ -29,15 +20,11 @@ public class OccurAlvSchedular {
 	
 	// 전체 사원목록 구하기
 	public List<UserDto> getAllUserInfo() throws Exception {
-
 		List<UserDto> allUserInfo = service.getAllUserInfo();
-
 		return allUserInfo;
 	}
 
-
-//	@Scheduled(cron = "0 0 0 * * *")
-//	@Scheduled(fixedRate = 3000)
+	@Scheduled(cron = "0 0 0 * * *")
 	public void createAnnualLeave() throws Exception {
 
 		List<UserDto> allUserInfo = getAllUserInfo();
@@ -58,13 +45,10 @@ public class OccurAlvSchedular {
 			
 			// 입사일의 년월일
 			String enrollDate = String.valueOf(format.format(userDto.getEnrollDate()));// 입사 날짜"yyyy-MM-dd"
-//			String enrollYear = enrollDate.split("-")[0]; // 입사연도"YYYY"
 			String enrollMonth = enrollDate.split("-")[1]; // 입사월"MM"
 			int enMonth = Integer.parseInt(enrollMonth); // 입사월"MM"
 			String enrollDay = enrollDate.split("-")[2]; // 입사일"dd"
 			String enrollMonthDate = enrollMonth + "-" + enrollDay; // 입사 월일"MM-dd"
-			
-
 //==============연차발생로직 시작==============
 			
 //--------- 조건1. 현재날짜 - 입사일 ==> 1년 미만/이상
@@ -82,7 +66,6 @@ public class OccurAlvSchedular {
 			long diffYears = ((todayCal.getTimeInMillis() - enrollCal.getTimeInMillis()) / 1000) / (24*60*60*30*12);
 			//일자수 차이
 			long diffDays = ((todayCal.getTimeInMillis() - enrollCal.getTimeInMillis()) / 1000) / (24*60*60);
-
 
 			switch (Long.valueOf(Optional.ofNullable(diffYears).orElse(0L)).intValue()) {
 			case 1: case 2: case 3:
@@ -135,15 +118,9 @@ public class OccurAlvSchedular {
 			// 조건2. 연차조건
 					isValidate = conditionAlv(todayDate, todayMonthDate, enrollMonthDate, userNo, createAlvCount);
 					if (isValidate == 1) {
-						System.out.println("------");
 						System.out.println(userNo);
-						System.out.println("연차 생성 성공");
-						System.out.println("------");
 					} else if (isValidate == 0) {
-						System.out.println("------");
 						System.out.println(userNo);
-						System.out.println("근무연수 1년 이상 연차 생성 조건에 부합하지 않는다.139");
-						System.out.println("------");
 					}
 					
 //--------- 전년도 근속일수 80% 미만 -> 조건3 (월차)							
@@ -151,15 +128,9 @@ public class OccurAlvSchedular {
 			// 조건3. 월차조건
 					isValidate = conditionMlv(enrollMonthDate, todayMonthDate, todayDate, enrollDay, userNo, enMonth, enrollDate);
 					if (isValidate == 1) {
-						System.out.println("------");
 						System.out.println(userNo);
-						System.out.println("월차 생성 성공");
-						System.out.println("------");
 					} else if (isValidate == 0) {
-						System.out.println("------");
 						System.out.println(userNo);
-						System.out.println("근무연수 1년 이상 월차 생성 조건에 부합하지 않는다.149");
-						System.out.println("------");
 					}
 				}
 				
@@ -168,21 +139,16 @@ public class OccurAlvSchedular {
 			// 조건3. 월차조건
 				isValidate = conditionMlv(enrollMonthDate, todayMonthDate, todayDate, enrollDay, userNo, enMonth, enrollDate);
 				if (isValidate == 1) {
-					System.out.println("------");
 					System.out.println(userNo);
-					System.out.println("월차 생성 성공");
-					System.out.println("------");
 				} else if (isValidate == 0) {
-					System.out.println("------");
 					System.out.println(userNo);
-					System.out.println("근무연수 1년 미만 월차 생성 조건에 부합하지 않는다.160");
-					System.out.println("------");
 				}
 			}
 		}
-		System.out.println("실행됨ㅁㅁㅁ");
 	}//=========================================================createAnnualLeave끝
-
+	
+	
+//==========================연차 생성 시 호출할 메소드==========================
 //== 조건2. 연차조건
 	public int conditionAlv(String todayDate, String todayMonthDate, String enrollMonthDate, String userNo, int createAlvCount) throws Exception {
 		int isValidate= 0;
@@ -293,7 +259,6 @@ public class OccurAlvSchedular {
 		}
 		return isValidate;
 	}
-
 	
 //  월차가 발생할 수 있는 조건인지 체크해주는 메소드
 	public int checkMlvPossibility(String dueDate, String todayMonthDate, String todayDate, String userNo, String enrollDate) throws Exception {
@@ -304,7 +269,6 @@ public class OccurAlvSchedular {
 			System.out.println("workingDays : " + workingDays);
 			// 리셋
 			resetAlvData(todayDate, userNo);
-			System.out.println("303리셋됨");
 			// 오늘 발생한 월차가 있는지 (없어야한다)
 			int occurToday = service.checkOccurMlvToday(userNo, todayDate);
 			// 이전 달에 개근을 했는지 (했어야한다) -- NORMAL_CHECK가 'Y'인 컬럼의 수가 평일 수와 같아야한다
@@ -323,7 +287,6 @@ public class OccurAlvSchedular {
 				}
 			}
 		}
-		System.out.println("월차생성 isValidate : " + isValidate);
 		return isValidate;
 	}
 	
@@ -349,7 +312,6 @@ public class OccurAlvSchedular {
 		
 	}
 
-
 	// 평일 수 구하기
 	public int checkWorkingDays(String startDate, String endDate) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -371,7 +333,7 @@ public class OccurAlvSchedular {
 		return workingDays; 
 	}
 
-	// 1씩 증가/감소하는 날짜 (리터타입 : String)
+	// 지정한 수만큼씩 증가/감소하는 날짜
 	public String AddDate(String strFormat, String strDate, int year, int month, int day) throws Exception { 
 		SimpleDateFormat dtFormat = new SimpleDateFormat(strFormat); 
 		Calendar cal = Calendar.getInstance(); 

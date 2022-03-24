@@ -11,13 +11,9 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Custom styles -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
   integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  
-  <!-- Favicon -->
   <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
-  <!-- Theme style -->
   <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
 </head>
 
@@ -59,7 +55,7 @@
 						</table>
 					</div>
 					<!-- 페이징 -->
-					<%PageVo pageVo = (PageVo)request.getAttribute("pageVoAlv");%>
+					<%PageVo pageVo = (PageVo)request.getAttribute("page");%>
 					<%if (pageVo != null) {%>
 					<div class="card-footer clearfix"
 						style="width: 100%; margin: 0; text-align: center; height: 45px; padding: 0px;">

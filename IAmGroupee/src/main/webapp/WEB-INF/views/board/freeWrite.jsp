@@ -8,10 +8,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LeaveInfoWrite</title>
-  <!-- Theme style -->
+<title>FreeBoard</title>
   <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
-  <!-- Favicon -->
   <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
   <script type="text/javascript" src="${root}/resources/smarteditor2/js/HuskyEZCreator.js" charset="utf-8"></script>
   <script type="text/javascript" src="${root}/resources/smarteditor2/js/jindo.min.js" charset="utf-8" ></script>
@@ -21,7 +19,6 @@
 
     <%@ include file="/WEB-INF/views/common/headerSide.jsp" %>
 
-    <!-- ! Main -->
     <main class="main users chart-page" id="skip-target">
       <div class="container">
        <div class="row stat-cards">
@@ -66,25 +63,24 @@
 		var oEditors = [];
 			nhn.husky.EZCreator.createInIFrame({
 			oAppRef: oEditors,
-			elPlaceHolder: document.getElementById('freeContent'), // html editor가 들어갈 textarea id
-			sSkinURI: "${root}/resources/smarteditor2/SmartEditor2Skin.html",  // html editor가 skin url
+			elPlaceHolder: document.getElementById('freeContent'), 
+			sSkinURI: "${root}/resources/smarteditor2/SmartEditor2Skin.html", 
 			fOnAppLoad: function () { 
-		        //수정모드를 구현할 때 사용할 부분. 로딩이 끝난 후 값이 체워지게 하는 구현을 하면 된다.
 		         var freeTitle = '${thisFreeData.freeTitle}';               
-		         var freeContent = '${thisFreeData.freeContent}';         //db에서 불러온 값을 여기에서 체워넣으면 됨.
+		         var freeContent = '${thisFreeData.freeContent}';   
 		         document.getElementById("freeTitle").value = freeTitle;     
-		         oEditors.getById["freeContent"].exec("PASTE_HTML", [freeContent]); //로딩이 끝나면 contents를 txtContent에 넣음
+		         oEditors.getById["freeContent"].exec("PASTE_HTML", [freeContent]); 
 		     },
 		     fCreator: "createSEditor2"
 		 });
 		var onWrite = function(){
-			oEditors.getById["freeContent"].exec("UPDATE_CONTENTS_FIELD", []); // 에디터의 내용이 textarea에 적용됨
+			oEditors.getById["freeContent"].exec("UPDATE_CONTENTS_FIELD", []); 
 			var freeWrite = document.getElementById("freeWrite");  
 			freeWrite.action ="freeEnroll";              
 			freeWrite.submit();  
 		};
 		var onModify = function(){
-			oEditors.getById["freeContent"].exec("UPDATE_CONTENTS_FIELD", []); // 에디터의 내용이 textarea에 적용됨
+			oEditors.getById["freeContent"].exec("UPDATE_CONTENTS_FIELD", []); 
 			var freeWrite = document.getElementById("freeWrite");  
 			freeWrite.action ="freeUpdate";              
 			freeWrite.submit();  
@@ -94,7 +90,6 @@
 		    oEditors.getById["freeContent"].exec("PASTE_HTML", [sHTML]);
 		};
 	</script>
-	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
 </body>
 

@@ -12,19 +12,11 @@
 <title>UsedLeaveList</title>
 
 <style type="text/css">
-#calendar .fc-day-sun {
-	color: red;
-}
-
-#calendar .fc-day-sat {
-	color: blue;
-}
+#calendar .fc-day-sun { color: red; }
+#calendar .fc-day-sat { color: blue; }
 </style> 
-<!-- Favicon -->
 <link rel="shortcut icon" href="${root}/resources/img/svg/looo.png" type="image/x-icon">
-<!-- Theme style -->
 <link rel="stylesheet" href="${root}/resources/dist/css/adminlte.css">
-<!-- FullCalendar -->
 <link rel='stylesheet' href='${root}/resources/css/sch/fullcalendar.min.css' />
 <link rel='stylesheet' href='${root}/resources/css/sch/bootstrap.min.css' />
 <link rel='stylesheet' href='${root}/resources/css/sch/select2.min.css' />
@@ -40,7 +32,6 @@
 
 	<%@ include file="/WEB-INF/views/common/headerSide.jsp"%>
 
-	<!-- ! Main -->
 	<main class="main users chart-page" id="skip-target">
 
 		<div class="container" style="margin-top: 3.5%; margin-left: 5%;">
@@ -104,7 +95,7 @@
 	<!-- Custom scripts -->
 	<script src="${root}/resources/js/script.js"></script>
 
-	<script type="text/javascript">	//팝업 show 기능
+	<script type="text/javascript">
 	function show_modal(schNum, schTitle, schStart, schEnd, schContent) {
 		var schEnroll = '';
 		if (schEnd === 'Invalid date') {
@@ -118,7 +109,6 @@
 		$(".schContent").text(schContent);
 	    $('.modal').show();
 	};
-	//팝업 Close 기능
 	function close_modal() {
 	     $('.modal').hide();
 	};
@@ -126,9 +116,9 @@
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
+            initialView: 'dayGridMonth', 
             googleCalendarApiKey: 'AIzaSyDYMx36O77hSRC2wnwmpzWJ6M2BJ_F8fek',
-			headerToolbar : { // 헤더에 표시할 툴 바
+			headerToolbar : { 
 				start : 'today',
 				center : 'title',
 				end : 'prev next'
@@ -209,15 +199,13 @@
   	        var schEnroll = $('.schEnroll').val();    
   	        var schContent = $('.schContent').val();    
   	            
-  	        // ajax 호출을 위한 정보 기입
   	        var request = $.ajax({
-  	            url: "${root}/sch/modSch", // 호출 url
-  	            method: "POST", // 전송방식
-  	            data: {schNum, schTitle, schEnroll, schContent}, // 파라미터
+  	            url: "${root}/sch/modSch",
+  	            method: "POST",
+  	            data: {schNum, schTitle, schEnroll, schContent}, 
   	            dataType: "text" 
   	        });
   	             
-  	        // 호출 정상일 시 실행되는 메서드
   	        request.done(function( data ) {
   	            console.log(data);
   	            alert( "일정이 수정되었습니다.");
@@ -225,12 +213,10 @@
   	            window.location.reload();
   	        });
   	 
-  	        // 호출 에러일 시 실행되는 메서드
   	        request.fail(function() {
   	            alert( "일정이 수정되지않았습니다.");
   	        });
   	 
-  	        // 호출 정상 또는 에러 상관없이 실행
   	        request.always(function() {
   	            console.log('완료');
   	        });
@@ -242,28 +228,24 @@
     	    $('.delSch').click(function() {
     	        var schNum = $('.schNum').val();  
     	            
-    	        // ajax 호출을 위한 정보 기입
     	        var request = $.ajax({
-    	            url: "${root}/sch/delSch", // 호출 url
-    	            method: "POST", // 전송방식
-    	            data: {schNum}, // 파라미터
+    	            url: "${root}/sch/delSch",
+    	            method: "POST",
+    	            data: {schNum},
     	            dataType: "text" 
     	        });
     	             
-    	        // 호출 정상일 시 실행되는 메서드
     	        request.done(function( data ) {
     	            console.log(data);
     	            alert( "일정이 삭제되었습니다.");
     	          	close_modal();
     	            window.location.reload();
     	        });
-    	 
-    	        // 호출 에러일 시 실행되는 메서드
+
     	        request.fail(function() {
     	            alert( "일정이 삭제되지않았습니다.");
     	        });
     	 
-    	        // 호출 정상 또는 에러 상관없이 실행
     	        request.always(function() {
     	            console.log('완료');
     	        });

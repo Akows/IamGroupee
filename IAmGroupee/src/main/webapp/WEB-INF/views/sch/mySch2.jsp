@@ -45,8 +45,8 @@
 								<div class="form-group">
 									<div class="input-group">
 										<div class="input-group-prepend">
-											<span class="input-group-text"> <i
-												class="far fa-calendar-alt"></i>
+											<span class="input-group-text"> 
+												<i class="far fa-calendar-alt"></i>
 											</span>
 										</div>
 										<input type="text" class="form-control float-right" name="schEnroll" id="reservation">
@@ -79,11 +79,10 @@
 	<script type="text/javascript">
     	$(function () {
       	  	$('#reservation').daterangepicker();
-    	    //Date picker
     	    $('#reservationdate').datetimepicker({
     	        format: 'L'
     	    });
-    	    moment.locale('ko'); //언어를 한국어로 설정함!
+    	    moment.locale('ko');
     	    $('#reservation').daterangepicker(
     	      {
     	        timePicker: false,
